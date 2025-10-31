@@ -1,16 +1,17 @@
-// script.js - CÓDIGO COMPLETO REVISADO (IDÊNTICO À ÚLTIMA VERSÃO FUNCIONAL)
+// script.js - CÓDIGO COMPLETO REVISADO
 
-// VARIÁVEIS GLOBAIS (Serão preenchidas após o fetch)
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
 let estadoUsuario = JSON.parse(localStorage.getItem('trilhasDeMinasStatus')) || {};
-let scrollPosition = 0; // Armazena a posição do scroll antes de abrir a área secundária
+let scrollPosition = 0;
+let deferredPrompt; // Variável para o prompt de instalação do PWA
 
 function salvarEstado() {
     localStorage.setItem('trilhasDeMinasStatus', JSON.stringify(estadoUsuario));
 }
 
-// --- PWA/OFFLINE: Service Worker Registration ---
+// --- PWA/OFFLINE: Service Worker Registration e Instalação ---
+
 function registrarServiceWorker() {
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('./sw.js')
@@ -19,117 +20,140 @@ function registrarServiceWorker() {
     }
 }
 
-// --- FUNÇÕES DE UX E NAVEGAÇÃO ---
-
-/**
- * Inicia o vídeo e a lógica de transição.
- */
-function iniciarApp() {
-    const intro = document.getElementById('video-intro');
-    const video = document.getElementById('intro-video-element');
-
-    // Reprodução do vídeo
-    video.play().catch(error => {
-        console.warn("Reprodução automática bloqueada. Iniciando app após 2s.");
-        setTimeout(fecharIntro, 2000);
+// Lógica do Prompt de Instalação (Mostra uma mensagem amigável para instalar o PWA)
+function setupPwaInstallPrompt() {
+    window.addEventListener('beforeinstallprompt', (e) => {
+        // Previne o prompt padrão do Chrome
+        e.preventDefault();
+        // Salva o evento para ser disparado depois
+        deferredPrompt = e;
+        
+        // Se o usuário nunca foi solicitado e não está instalado, mostra a mensagem
+        if (!window.matchMedia('(display-mode: standalone)').matches && localStorage.getItem('pwa_prompt_shown') !== 'true') {
+            document.getElementById('install-prompt').style.display = 'block';
+        }
     });
 
-    // Função para fechar a introdução
-    function fecharIntro() {
-        intro.classList.add('fade-out');
-        document.getElementById('app-container').style.display = 'flex'; // Exibe o app
-        setTimeout(() => {
-            intro.style.display = 'none';
-        }, 1000); // 1s (tempo da transição CSS)
+    document.getElementById('install-btn').addEventListener('click', () => {
+        document.getElementById('install-prompt').style.display = 'none';
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+                console.log('Escolha do usuário:', choiceResult.outcome);
+                localStorage.setItem('pwa_prompt_shown', 'true');
+                deferredPrompt = null;
+            });
+        }
+    });
+
+    document.getElementById('close-prompt').addEventListener('click', () => {
+        document.getElementById('install-prompt').style.display = 'none';
+        localStorage.setItem('pwa_prompt_shown', 'true');
+    });
+}
+
+// --- FLUXO DE CHECK-IN VIA QR CODE ---
+
+/**
+ * Funções para simular a chegada do usuário via QR Code (URL externa).
+ * Exemplo de URL no QR Code: https://seurepositorio.github.io/?checkin=ibitipoca-janela
+ * * Se o usuário escanear e cair nesta URL, o script irá:
+ * 1. Desbloquear o badge.
+ * 2. Redirecionar para a Área de Check-ins (Badges).
+ */
+function processarCheckinQR() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const checkin = urlParams.get('checkin');
+
+    if (checkin) {
+        const [parqueId, atividadeId] = checkin.split('-');
+        
+        if (parqueId && atividadeId) {
+            
+            // Simula o sucesso do check-in
+            if (estadoUsuario[parqueId] && !estadoUsuario[parqueId][atividadeId]) {
+                estadoUsuario[parqueId][atividadeId] = true;
+                salvarEstado();
+                alert(`Badge "${atividadeId}" desbloqueado em ${parqueId}! Vá para a área de Check-ins para enviar sua foto.`);
+                
+            } else if (!estadoUsuario[parqueId]) {
+                 // Caso o estado não exista (usuário novo), inicializa e salva
+                 if (ATIVIDADES_PARQUES[parqueId]) {
+                    estadoUsuario[parqueId] = ATIVIDADES_PARQUES[parqueId].reduce((acc, a) => ({ ...acc, [a.id]: false }), {});
+                    estadoUsuario[parqueId][atividadeId] = true;
+                    salvarEstado();
+                    alert(`Bem-vindo ao app! Badge "${atividadeId}" desbloqueado. Envie sua foto!`);
+                 }
+            } else {
+                 alert(`Badge "${atividadeId}" já estava desbloqueado!`);
+            }
+            
+            // Limpa a URL e redireciona para a área de Check-ins
+            window.history.replaceState({}, document.title, window.location.pathname);
+            window.location.hash = 'premiacao';
+            return true;
+        }
     }
-
-    // Evento de 'ended' ou 'timeupdate'
-    video.onended = fecharIntro;
-    video.ontimeupdate = function() {
-        // Tempo de transição de 3 segundos
-        if (video.currentTime >= 3 && !intro.classList.contains('fade-out')) { 
-            fecharIntro(); // Garante o fechamento após 3s se estiver sendo reproduzido
-        }
-    };
+    return false;
 }
 
-/**
- * Carrega os botões (incluindo Premiação) no grid.
- */
-function carregarBotoesParques() {
-    const container = document.getElementById('botoes-parques');
-    container.innerHTML = '';
-    
-    DADOS_PARQUES.forEach(parque => {
-        const btn = document.createElement('a');
-        btn.href = `#${parque.id}`;
-        btn.className = 'botao-parque';
-        btn.dataset.parqueId = parque.id;
 
-        if (parque.is_premio) {
-            btn.id = 'btn-premiacao';
-        }
-        
-        const iconeMarca = `<i class="icone-parque fas ${parque.icone_fundo}"></i>`;
-        const iconePrincipal = `<i class="icone-parque-principal fas ${parque.icone_principal}"></i>`;
-        const nome = `<span class="nome-parque">${parque.nome.replace('PE ', '')}</span>`;
-
-        btn.innerHTML = iconeMarca + iconePrincipal + nome;
-        
-        // Adiciona evento para mudar o hash da URL
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.hash = parque.id; // Isso dispara o evento 'hashchange'
-        });
-        
-        container.appendChild(btn);
-    });
-}
+// --- FUNÇÕES DE NAVEGAÇÃO E EXIBIÇÃO ---
 
 /**
- * Exibe a área detalhada do Parque ou a Área de Premiação baseada no ID.
+ * Exibe a área detalhada do Parque ou a Área de Check-ins.
  */
 function mostrarArea(id) {
     const areaSecundaria = document.getElementById('area-secundaria');
     const parqueDetail = document.getElementById('conteudo-parque-detalhe');
     const areaPremiacao = document.getElementById('conteudo-premios');
+    const areaEnvioFoto = document.getElementById('area-envio-foto'); // Nova área
     const titulo = document.getElementById('secundaria-titulo');
 
-    // Salva a posição do scroll da página principal
+    // Oculta todas as áreas de conteúdo da área secundária
+    parqueDetail.style.display = 'none';
+    areaPremiacao.style.display = 'none';
+    areaEnvioFoto.style.display = 'none';
+
     scrollPosition = window.pageYOffset;
-    
     areaSecundaria.classList.add('aberto');
     
     if (id === 'premiacao') {
-        titulo.textContent = 'Área de Premiação';
-        parqueDetail.style.display = 'none';
+        titulo.textContent = 'Check-ins';
         areaPremiacao.style.display = 'block';
         carregarPremios(); 
+    } else if (id.startsWith('upload-')) {
+        // Fluxo de upload de foto
+        const [,, parqueId, atividadeId] = id.split('-'); // Espera 'upload-parqueId-atividadeId'
+        
+        titulo.textContent = `Enviar Foto (${atividadeId})`;
+        areaEnvioFoto.style.display = 'block';
+        
+        // Simulação de lógica de upload: (Você desenvolverá isso no futuro)
+        document.getElementById('badge-upload-titulo').textContent = `Enviar Foto para Badge: ${parqueId.toUpperCase()} - ${atividadeId.toUpperCase()}`;
+    
     } else {
         const parque = DADOS_PARQUES.find(p => p.id === id);
         if (!parque) return;
 
         titulo.textContent = parque.nome;
         parqueDetail.style.display = 'block';
-        areaPremiacao.style.display = 'none';
 
-        // Preenche detalhes do parque
         document.getElementById('parque-imagem').style.backgroundImage = parque.imagem;
         document.getElementById('parque-descricao').textContent = parque.descricao || `Bem-vindo ao ${parque.nome}! Prepare-se para explorar e completar as atividades gamificadas!`;
 
         carregarAtividades(parque);
-        areaSecundaria.scrollTo(0, 0); // Garante que a área secundária comece no topo
     }
+    areaSecundaria.scrollTo(0, 0);
 }
 
 /**
- * Carrega todos os ícones de atividades (apagados ou desbloqueados) na área de prêmios.
+ * Carrega todos os Badges (apagados ou desbloqueados) na área de Check-ins.
  */
 function carregarPremios() {
     const listaPremios = document.getElementById('lista-icones-premios');
     listaPremios.innerHTML = '';
-    let totalAtividades = 0;
-    let concluidasCount = 0;
+    let totalBadges = 0;
 
     for (const parqueId in ATIVIDADES_PARQUES) {
         const atividades = ATIVIDADES_PARQUES[parqueId];
@@ -140,139 +164,52 @@ function carregarPremios() {
         }
 
         atividades.forEach(atividade => {
-            totalAtividades++;
+            totalBadges++;
             const isConcluida = estadoUsuario[parqueId] && estadoUsuario[parqueId][atividade.id];
-            
-            if (isConcluida) {
-                concluidasCount++;
-            }
 
             const card = document.createElement('div');
             card.className = `icone-premio ${isConcluida ? 'desbloqueado' : ''}`;
-
+            card.dataset.parqueId = parqueId;
+            card.dataset.atividadeId = atividade.id;
+            
             card.innerHTML = `
                 <i class="fas ${atividade.icone}"></i>
                 <span>${atividade.nome}</span>
             `;
             listaPremios.appendChild(card);
+            
+            // Torna o badge desbloqueado clicável para ir à área de upload
+            if (isConcluida) {
+                 card.addEventListener('click', () => {
+                    window.location.hash = `upload-${parqueId}-${atividade.id}`;
+                 });
+            }
         });
     }
-
-    const msg = document.getElementById('msg-sem-premios');
-    if (totalAtividades === 0 || concluidasCount === 0) {
-        msg.style.display = 'block';
-    } else {
-        msg.style.display = 'none';
-    }
 }
 
-/**
- * Carrega a lista de atividades para o parque selecionado.
- */
-function carregarAtividades(parque) {
-    const lista = document.getElementById('lista-atividades');
-    lista.innerHTML = '';
-    const atividades = ATIVIDADES_PARQUES[parque.id] || [];
-
-    if (!estadoUsuario[parque.id]) {
-        estadoUsuario[parque.id] = atividades.reduce((acc, a) => ({ ...acc, [a.id]: false }), {});
-        salvarEstado();
-    }
-
-    atividades.forEach(atividade => {
-        const isConcluida = estadoUsuario[parque.id] && estadoUsuario[parque.id][atividade.id];
-        const card = document.createElement('div');
-        card.className = 'atividade-card';
-        card.dataset.atividadeId = atividade.id;
-
-        const statusClass = isConcluida ? 'concluida' : '';
-        const statusIcon = isConcluida ? '<i class="fas fa-check"></i>' : '<i class="fas fa-lock"></i>';
-        
-        card.innerHTML = `
-            <div class="atividade-info">
-                <div class="atividade-nome">${atividade.nome}</div>
-                <div class="atividade-descricao">Leia o QR Code para registrar sua presença.</div>
-            </div>
-            <button class="qrcode-btn" data-parque-id="${parque.id}" data-atividade-id="${atividade.id}" ${isConcluida ? 'disabled' : ''}>
-                ${isConcluida ? 'Concluído' : 'Ler QR Code'}
-            </button>
-            <div class="atividade-status ${statusClass}" id="status-${parque.id}-${atividade.id}">
-                ${statusIcon}
-            </div>
-        `;
-        lista.appendChild(card);
-    });
-    
-    if (atividades.length === 0) {
-         lista.innerHTML = '<p style="color: #666; font-style: italic;">Informações de atividades não disponíveis. Em breve!</p>';
-    }
-
-    // Adicionar listener aos botões QR Code
-    document.querySelectorAll('.qrcode-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            simularLeituraQR(this.dataset.parqueId, this.dataset.atividadeId);
-        });
-    });
-}
-
-/**
- * Simula a leitura de um QR Code e o desbloqueio da atividade.
- */
-function simularLeituraQR(parqueId, atividadeId) {
-    // A simulação de sucesso é mantida. Em um ambiente real, esta função faria o acesso à câmera.
-    const chaveEsperada = `${parqueId}-${atividadeId}-sucesso`; 
-    const chaveLida = chaveEsperada; // Simulação de leitura bem-sucedida
-
-    if (chaveLida === chaveEsperada) {
-        if (estadoUsuario[parqueId] && !estadoUsuario[parqueId][atividadeId]) {
-            estadoUsuario[parqueId][atividadeId] = true;
-            salvarEstado();
-            
-            // Atualiza a interface (melhoria de UX)
-            const statusDiv = document.getElementById(`status-${parqueId}-${atividadeId}`);
-            const qrcodeBtn = document.querySelector(`.qrcode-btn[data-parque-id="${parqueId}"][data-atividade-id="${atividadeId}"]`);
-            
-            if (statusDiv) {
-                statusDiv.classList.add('concluida');
-                statusDiv.innerHTML = '<i class="fas fa-check"></i>';
-            }
-            if (qrcodeBtn) {
-                qrcodeBtn.textContent = 'Concluído';
-                qrcodeBtn.disabled = true;
-            }
-
-            alert(`Parabéns! Atividade concluída! Ícone de conquista desbloqueado!`);
-
-        } else if (estadoUsuario[parqueId] && estadoUsuario[parqueId][atividadeId]) {
-            alert('Esta atividade já foi concluída!');
-        }
-    } else {
-        alert('Chave inválida. Tente novamente no local da atividade!');
-    }
-}
-
-// --- CONTROLE DE NAVEGAÇÃO E HASH ---
 
 /**
  * Lida com a mudança do hash da URL.
  */
 function lidarComHash() {
-    const hash = window.location.hash.substring(1); // Remove o '#'
+    const hash = window.location.hash.substring(1);
     if (hash) {
         mostrarArea(hash);
     } else {
-        // Se o hash estiver vazio (página principal)
         document.getElementById('area-secundaria').classList.remove('aberto');
         document.getElementById('app-container').scrollIntoView();
-        window.scrollTo(0, scrollPosition); // Volta para a posição anterior do scroll
+        window.scrollTo(0, scrollPosition);
     }
 }
+
 
 // --- FUNÇÃO DE INICIALIZAÇÃO PRINCIPAL ---
 
 async function inicializarApp() {
     // 1. Registro do Service Worker (para PWA/Offline)
     registrarServiceWorker();
+    setupPwaInstallPrompt(); // Configura o prompt de instalação
 
     // 2. Carrega os Dados do JSON
     try {
@@ -281,30 +218,34 @@ async function inicializarApp() {
         DADOS_PARQUES = dados.DADOS_PARQUES;
         ATIVIDADES_PARQUES = dados.ATIVIDADES_PARQUES;
 
-        // 3. Inicializa o App
+        // 3. Processa check-in de QR Code (se houver na URL)
+        const checkinProcessado = processarCheckinQR();
+        
+        // 4. Inicializa o App
         carregarBotoesParques();
-        iniciarApp();
-        lidarComHash(); // Lida com a URL atual
 
+        if (!checkinProcessado) {
+             iniciarApp(); // Inicia o vídeo de abertura se não for um check-in direto
+             lidarComHash(); // Lida com a URL atual
+        }
+        
     } catch (error) {
         console.error('Erro ao carregar dados ou inicializar:', error);
-        // Exibe um erro amigável se o fetch falhar
         document.getElementById('app-container').innerHTML = '<p style="text-align: center; color: red;">Não foi possível carregar os dados dos parques. Verifique sua conexão ou se o arquivo parques.json está correto.</p>';
         document.getElementById('video-intro').style.display = 'none';
         document.getElementById('app-container').style.display = 'flex';
     }
 
-    // 4. Event Listeners
-    // O botão no HTML foi escondido, mas a função de voltar no histórico é mantida aqui.
+    // 5. Event Listeners (Mantidos no JS, escondidos no CSS)
     document.getElementById('btn-voltar').addEventListener('click', () => {
-        window.history.back(); // Usa a API de histórico do navegador
+        window.history.back();
     });
-
-    // 5. Listener para o botão Voltar do Navegador (incluindo swipe no mobile)
     window.addEventListener('hashchange', lidarComHash);
+
+    // Adicionar listener ao botão de envio de foto (futura implementação)
+    document.getElementById('btn-enviar-foto').addEventListener('click', () => {
+        alert('Funcionalidade de processamento de foto será implementada aqui.');
+    });
 }
 
-// ------------------
-// INICIALIZAÇÃO
-// ------------------
 document.addEventListener('DOMContentLoaded', inicializarApp);
