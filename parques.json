@@ -1,6 +1,6 @@
 {
     "DADOS_PARQUES": [
-        { "id": "premiacao", "nome": "Área de Premiação", "icone_principal": "fa-medal", "icone_fundo": "fa-trophy", "imagem": null, "is_premio": true },
+        { "id": "premiacao", "nome": "Check-ins", "icone_principal": "fa-medal", "icone_fundo": "fa-trophy", "imagem": null, "is_premio": true },
         { "id": "ibitipoca", "nome": "PE Ibitipoca", "icone_principal": "fa-tree", "icone_fundo": "fa-mountain", "imagem": "url(https://source.unsplash.com/random/400x200?ibitipoca,nature,mg)", "descricao": "O Parque Estadual do Ibitipoca é famoso por suas grutas e paisagens de tirar o fôlego. Não perca a Janela do Céu!" },
         { "id": "rolamoca", "nome": "PE Serra Rola Moça", "icone_principal": "fa-mountain", "icone_fundo": "fa-road", "imagem": "url(https://source.unsplash.com/random/400x200?mountain,minas-gerais)", "descricao": "Um dos maiores parques urbanos do Brasil, com vistas panorâmicas da região metropolitana de Belo Horizonte." },
         { "id": "riodoce", "nome": "PE Rio Doce", "icone_principal": "fa-water", "icone_fundo": "fa-ship", "imagem": "url(https://source.unsplash.com/random/400x200?lake,minas-gerais)", "descricao": "Conhecido por suas vastas áreas de Mata Atlântica e seu sistema de lagos, ideal para observação da vida selvagem." },
