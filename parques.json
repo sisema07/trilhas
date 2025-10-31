@@ -1,0 +1,102 @@
+{
+    "DADOS_PARQUES": [
+        { "id": "premiacao", "nome": "Área de Premiação", "icone_principal": "fa-medal", "icone_fundo": "fa-trophy", "imagem": null, "is_premio": true },
+        { "id": "ibitipoca", "nome": "PE Ibitipoca", "icone_principal": "fa-tree", "icone_fundo": "fa-mountain", "imagem": "url(https://source.unsplash.com/random/400x200?ibitipoca,nature,mg)", "descricao": "O Parque Estadual do Ibitipoca é famoso por suas grutas e paisagens de tirar o fôlego. Não perca a Janela do Céu!" },
+        { "id": "rolamoca", "nome": "PE Serra Rola Moça", "icone_principal": "fa-mountain", "icone_fundo": "fa-road", "imagem": "url(https://source.unsplash.com/random/400x200?mountain,minas-gerais)", "descricao": "Um dos maiores parques urbanos do Brasil, com vistas panorâmicas da região metropolitana de Belo Horizonte." },
+        { "id": "riodoce", "nome": "PE Rio Doce", "icone_principal": "fa-water", "icone_fundo": "fa-ship", "imagem": "url(https://source.unsplash.com/random/400x200?lake,minas-gerais)", "descricao": "Conhecido por suas vastas áreas de Mata Atlântica e seu sistema de lagos, ideal para observação da vida selvagem." },
+        { "id": "sumidouro", "nome": "PE Sumidouro", "icone_principal": "fa-gem", "icone_fundo": "fa-cave", "imagem": "url(https://source.unsplash.com/random/400x200?cave,minas-gerais)", "descricao": "Famoso pela Gruta da Lapinha e por sítios arqueológicos com vestígios pré-históricos de Minas Gerais." },
+        { "id": "biribiri", "nome": "PE Biribiri", "icone_principal": "fa-campground", "icone_fundo": "fa-river", "imagem": "url(https://source.unsplash.com/random/400x200?river,minas-gerais)", "descricao": "Um local com um vilarejo histórico desativado e cachoeiras de águas cristalinas para um bom banho." },
+        { "id": "lapa", "nome": "PE Lapa Grande", "icone_principal": "fa-globe-americas", "icone_fundo": "fa-rock", "imagem": "url(https://source.unsplash.com/random/400x200?rock,minas-gerais)", "descricao": "Abriga a Gruta da Lapa Grande, um dos maiores complexos de cavernas da região de Montes Claros." },
+        { "id": "itacolomi", "nome": "PE Itacolomi", "icone_principal": "fa-cloud-sun", "icone_fundo": "fa-eye", "imagem": "url(https://source.unsplash.com/random/400x200?view,minas-gerais)", "descricao": "Localizado entre Ouro Preto e Mariana, seu pico imponente é um marco da região e oferece vistas espetaculares." },
+        { "id": "caminhos", "nome": "PE Caminhos Gerais", "icone_principal": "fa-compass", "icone_fundo": "fa-route", "imagem": "url(https://source.unsplash.com/random/400x200?trail,minas-gerais)", "descricao": "Uma unidade de conservação que protege a Serra do Espinhaço com diversas trilhas de longo percurso." },
+        { "id": "serranova", "nome": "PE Serra Nova", "icone_principal": "fa-hiking", "icone_fundo": "fa-gorge", "imagem": "url(https://source.unsplash.com/random/400x200?canyon,minas-gerais)", "descricao": "Conhecido por seus cânions profundos, vegetação de campos rupestres e rica biodiversidade." },
+        { "id": "picoitambe", "nome": "PE Pico do Itambé", "icone_principal": "fa-fire", "icone_fundo": "fa-mountain-sun", "imagem": "url(https://source.unsplash.com/random/400x200?peak,minas-gerais)", "descricao": "O ponto mais alto da Serra do Espinhaço em Minas Gerais, um desafio para os amantes de trekking." },
+        { "id": "verde", "nome": "PE Serra Verde", "icone_principal": "fa-leaf", "icone_fundo": "fa-forest", "imagem": "url(https://source.unsplash.com/random/400x200?forest,minas-gerais)", "descricao": "Uma área de preservação com vasta cobertura florestal e rica em nascentes de água pura." },
+        { "id": "alto", "nome": "PE Alto Cariri", "icone_principal": "fa-paw", "icone_fundo": "fa-cat", "imagem": "url(https://source.unsplash.com/random/400x200?wildlife,minas-gerais)", "descricao": "Protege um importante remanescente de Mata Atlântica e é refúgio de diversas espécies ameaçadas." },
+        { "id": "veredas", "nome": "PE Veredas Peruaçu", "icone_principal": "fa-seedling", "icone_fundo": "fa-bridge", "imagem": "url(https://source.unsplash.com/random/400x200?campo,minas-gerais)", "descricao": "Famoso por suas grandes cavernas e pela flora de veredas, com o Buriti como marca registrada." },
+        { "id": "brigadeiro", "nome": "PE Serra Brigadeiro", "icone_principal": "fa-feather-alt", "icone_fundo": "fa-crow", "imagem": "url(https://source.unsplash.com/random/400x200?bird,minas-gerais)", "descricao": "Excelente local para observação de aves e trilhas pela Mata Atlântica de altitude." },
+        { "id": "campos", "nome": "PE Campos Altos", "icone_principal": "fa-map-marked-alt", "icone_fundo": "fa-panorama", "imagem": "url(https://source.unsplash.com/random/400x200?vista,minas-gerais)", "descricao": "Caracterizado pela vegetação de campos de altitude e amplas vistas da paisagem mineira." },
+        { "id": "riopreto", "nome": "PE Rio Preto", "icone_principal": "fa-umbrella-beach", "icone_fundo": "fa-swimming-pool", "imagem": "url(https://source.unsplash.com/random/400x200?beach,river,minas-gerais)", "descricao": "Com águas escuras e cristalinas, oferece poços naturais e praias fluviais para descanso e banho." },
+        { "id": "serradaararas", "nome": "PE Serra das Araras", "icone_principal": "fa-camera", "icone_fundo": "fa-scroll", "imagem": "url(https://source.unsplash.com/random/400x200?viewpoint,minas-gerais)", "descricao": "Localizada no Noroeste de Minas, possui belezas cênicas e importância histórica na rota de tropeiros." },
+        { "id": "novabaden", "nome": "PE Nova Baden", "icone_principal": "fa-bug", "icone_fundo": "fa-spider", "imagem": "url(https://source.unsplash.com/random/400x200?insect,minas-gerais)", "descricao": "Um remanescente de floresta ombrófila mista, com grande diversidade de fauna e flora." },
+        { "id": "intedente", "nome": "PE Serra Intendente", "icone_principal": "fa-road", "icone_fundo": "fa-map", "imagem": "url(https://source.unsplash.com/random/400x200?road,minas-gerais)", "descricao": "Parque com diversas trilhas e cachoeiras, com destaque para a região da Cachoeira do Intendente." }
+    ],
+    "ATIVIDADES_PARQUES": {
+        "ibitipoca": [
+            { "id": "janela", "nome": "Janela do Céu", "icone": "fa-cloud-meatball" },
+            { "id": "pico", "nome": "Pico do Pião", "icone": "fa-mountain" }
+        ],
+        "rolamoca": [
+            { "id": "trilha1", "nome": "Trilha Morro Veados", "icone": "fa-deer" },
+            { "id": "mirante", "nome": "Mirante Cachoeiras", "icone": "fa-water" }
+        ],
+        "riodoce": [
+            { "id": "canoagem", "nome": "Canoagem no Rio", "icone": "fa-ship" },
+            { "id": "observacao", "nome": "Observação de Aves", "icone": "fa-dove" }
+        ],
+        "sumidouro": [
+            { "id": "gruta", "nome": "Gruta da Lapinha", "icone": "fa-cave" },
+            { "id": "lagoa", "nome": "Trilha da Lagoa", "icone": "fa-fish-fins" }
+        ],
+        "biribiri": [
+            { "id": "vilarejo", "nome": "Vilarejo Histórico", "icone": "fa-building-columns" },
+            { "id": "cachoeira", "nome": "Cachoeira Sentinela", "icone": "fa-water" }
+        ],
+        "lapa": [
+            { "id": "pedra", "nome": "Trilha da Pedra", "icone": "fa-chess-rook" },
+            { "id": "arte", "nome": "Arte Rupestre", "icone": "fa-brush" }
+        ],
+        "itacolomi": [
+            { "id": "pico-itacolomi", "nome": "Pico do Itacolomi", "icone": "fa-arrow-up-long" },
+            { "id": "pomar", "nome": "Antigo Pomar", "icone": "fa-apple-whole" }
+        ],
+        "caminhos": [
+            { "id": "fazenda", "nome": "Trilha da Fazenda", "icone": "fa-tractor" },
+            { "id": "cipo", "nome": "Trilha do Cipó", "icone": "fa-vine-fork" }
+        ],
+        "serranova": [
+            { "id": "canion", "nome": "Canyon do Talhado", "icone": "fa-gorge" },
+            { "id": "mirante-sn", "nome": "Mirante Serra Nova", "icone": "fa-binoculars" }
+        ],
+        "picoitambe": [
+            { "id": "subida", "nome": "Subida ao Pico", "icone": "fa-climber" },
+            { "id": "nascente", "nome": "Nascentes Itambé", "icone": "fa-hand-holding-water" }
+        ],
+        "verde": [
+            { "id": "floresta", "nome": "Trilha da Floresta", "icone": "fa-forest" },
+            { "id": "arvore", "nome": "Árvore Monumental", "icone": "fa-tree" }
+        ],
+        "alto": [
+            { "id": "onca", "nome": "Trilha da Onça", "icone": "fa-cat" },
+            { "id": "orquidario", "nome": "Orquidário Natural", "icone": "fa-orchid" }
+        ],
+        "veredas": [
+            { "id": "passarela", "nome": "Passarela Peruaçu", "icone": "fa-bridge" },
+            { "id": "arte-rup", "nome": "Sítio Arqueológico", "icone": "fa-skull-crossbones" }
+        ],
+        "brigadeiro": [
+            { "id": "passaro", "nome": "Observatório Aves", "icone": "fa-crow" },
+            { "id": "cachoeira-bg", "nome": "Cachoeira Paredão", "icone": "fa-water" }
+        ],
+        "campos": [
+            { "id": "mirante-ca", "nome": "Mirante dos Campos", "icone": "fa-panorama" },
+            { "id": "flora", "nome": "Trilha da Flora", "icone": "fa-seedling" }
+        ],
+        "riopreto": [
+            { "id": "praia", "nome": "Praia do Rio", "icone": "fa-umbrella-beach" },
+            { "id": "remanso", "nome": "Poço do Remanso", "icone": "fa-swimming-pool" }
+        ],
+        "serradaararas": [
+            { "id": "placa", "nome": "Placa Histórica", "icone": "fa-scroll" },
+            { "id": "mirante-sa", "nome": "Mirante da Serra", "icone": "fa-mountain-sun" }
+        ],
+        "novabaden": [
+            { "id": "trilha-nb", "nome": "Trilha da Mata", "icone": "fa-road" },
+            { "id": "mirante-nb", "nome": "Mirante da Paz", "icone": "fa-handshake" }
+        ],
+        "intedente": [
+            { "id": "cachoeira-int", "nome": "Cachoeira do Intendente", "icone": "fa-water" },
+            { "id": "trilha-int", "nome": "Trilha da Pedreira", "icone": "fa-road" }
+        ]
+    }
+}

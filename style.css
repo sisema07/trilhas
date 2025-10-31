@@ -1,0 +1,343 @@
+/* Variáveis de Cores e Estilos */
+:root {
+    --cor-fundo: #ebf5ee; /* Verde/Bege claro, ideal para Neumorfismo */
+    --cor-principal: #4CAF50; /* Verde vibrante */
+    --cor-secundaria: #8BC34A; /* Verde mais suave para destaque */
+    --cor-texto: #333;
+    --cor-texto-claro: #f0f0f0;
+    --cor-sombra-clara: #ffffff;
+    --cor-sombra-escura: #a3b1c6;
+    /* Sombras Aprimoradas */
+    --sombra-neumorfismo-interna: inset 4px 4px 8px 0 #a3b1c6, inset -4px -4px 8px 0 var(--cor-sombra-clara);
+    --sombra-neumorfismo-externa: 8px 8px 16px 0 rgba(0,0,0,0.1), -8px -8px 16px 0 var(--cor-sombra-clara);
+    --sombra-neumorfismo-ativa: inset 3px 3px 6px 0 #a3b1c6, inset -3px -3px 6px 0 var(--cor-sombra-clara); /* Aumentado */
+    --sombra-neumorfismo-card: 4px 4px 8px 0 #a3b1c6, -4px -4px 8px 0 var(--cor-sombra-clara);
+}
+
+/* Reset Básico e Fundo */
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Open Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fonte legível para o corpo */
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+    overflow-x: hidden;
+    touch-action: manipulation;
+}
+
+/* --- Tela de Introdução (Com Vídeo) --- */
+#video-intro {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    text-align: center;
+    transition: opacity 1s ease-out, visibility 1s;
+    z-index: 9999;
+    opacity: 1;
+    visibility: visible;
+}
+
+.overlay-intro {
+    position: relative; /* Para manter o conteúdo acima do vídeo */
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+}
+
+#video-intro.fade-out {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* --- Container Principal (Design para Mobile) --- */
+#app-container {
+    max-width: 450px;
+    margin: 0 auto;
+    padding: 10px 10px 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Header: Título Estilizado --- */
+header {
+    text-align: center;
+    padding: 5px 0 10px;
+}
+
+header h1 {
+    font-family: 'Bebas Neue', sans-serif; /* Fonte estilizada */
+    font-size: 3.2rem;
+    color: var(--cor-principal);
+    text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+    letter-spacing: 2px;
+    margin: 0;
+    line-height: 1;
+}
+
+header p {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 5px 0 15px 0;
+}
+
+/* --- Grid de Botões (Neumorfismo) --- */
+#botoes-parques {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 0;
+}
+
+/* Media Queries mantidas */
+@media (min-width: 380px) {
+    #botoes-parques { grid-template-columns: repeat(3, 1fr); }
+}
+@media (min-width: 768px) {
+    #botoes-parques {
+        max-width: 700px;
+        margin: 0 auto;
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+ 
+/* Botões em Geral: Tamanho Uniforme */
+.botao-parque {
+    background-color: var(--cor-fundo);
+    border-radius: 20px;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 8px;
+    box-shadow: var(--sombra-neumorfismo-externa);
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--cor-texto);
+    position: relative;
+    overflow: hidden;
+    height: auto; 
+}
+
+.botao-parque:active {
+    box-shadow: var(--sombra-neumorfismo-ativa);
+    transform: scale(0.98);
+}
+
+/* Ícone Principal (Melhor Legibilidade) */
+.icone-parque-principal {
+    font-size: 1.4rem; /* Um pouco maior */
+    color: var(--cor-principal);
+    margin-bottom: 3px;
+    z-index: 2;
+    position: relative;
+}
+ 
+.nome-parque {
+    font-size: 0.85rem; /* Aumentado para melhor leitura */
+    font-weight: 600;
+    z-index: 2;
+    position: relative;
+    line-height: 1.2;
+}
+
+/* Estilo Botão Premiação */
+#btn-premiacao {
+    background-color: var(--cor-secundaria); 
+    color: white;
+    box-shadow: 6px 6px 10px 0 rgba(139, 195, 74, 0.4), -6px -6px 10px 0 var(--cor-sombra-clara);
+}
+
+/* --- Área Secundária (Park Detail/Premiação) --- */
+#area-secundaria {
+    /* ... (Estilos de posicionamento mantidos) ... */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    max-width: 450px;
+    margin: 0 auto;
+    background-color: var(--cor-fundo);
+    z-index: 1000;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    padding: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid #ccc;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+}
+
+#area-secundaria.aberto {
+    transform: translateX(0);
+}
+
+.secundaria-header {
+    /* ... (Estilos mantidos) ... */
+    display: flex;
+    align-items: center;
+    padding: 15px 10px;
+    background-color: var(--cor-principal);
+    color: white;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+/* ... (Estilos btn-voltar e titulo mantidos) ... */
+
+#parque-imagem {
+    width: 100%;
+    height: 200px;
+    background-color: #ddd;
+    background-size: cover;
+    background-position: center;
+    box-shadow: var(--sombra-neumorfismo-externa);
+    margin-bottom: 20px;
+}
+
+#parque-conteudo {
+    padding: 10px 20px 20px;
+}
+
+/* Estilos de Card de Atividade (Aprimorado) */
+.atividade-card {
+    background-color: var(--cor-fundo);
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: var(--sombra-neumorfismo-card); /* Sombra externa mais suave */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.atividade-info {
+    flex-grow: 1;
+}
+.atividade-nome {
+    font-weight: 700;
+    color: var(--cor-principal);
+    margin-bottom: 3px;
+}
+.atividade-descricao {
+    font-size: 0.8rem;
+    color: #888;
+}
+
+.qrcode-btn {
+    background-color: var(--cor-principal);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 3px 3px 6px rgba(0,0,0,0.2);
+    transition: all 0.2s;
+    white-space: nowrap; /* Não quebrar o texto do botão */
+}
+.qrcode-btn:hover {
+    background-color: #388E3C;
+}
+.qrcode-btn:disabled {
+    background-color: var(--cor-secundaria); /* Cor de conclusão */
+    cursor: not-allowed;
+    box-shadow: var(--sombra-neumorfismo-ativa); /* Efeito de "pressionado" para concluído */
+}
+
+.atividade-status {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1rem;
+    color: #999;
+    box-shadow: var(--sombra-neumorfismo-externa);
+}
+
+.atividade-status.concluida {
+    background-color: var(--cor-principal); /* Fundo com a cor principal */
+    color: var(--cor-texto-claro); /* Ícone branco */
+    box-shadow: var(--sombra-neumorfismo-interna); /* Efeito de concavidade */
+}
+
+/* --- Estilos da Área de Premiação --- */
+/* ... (Estilos de prêmios mantidos) ... */
+#conteudo-premios {
+    padding: 20px;
+    text-align: center;
+}
+
+.premios-titulo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: var(--cor-principal);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 15px;
+}
+
+#lista-icones-premios {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+    padding: 10px;
+}
+
+.icone-premio {
+    background-color: var(--cor-fundo);
+    border-radius: 15px;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: var(--sombra-neumorfismo-externa);
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    padding: 10px;
+    color: #ccc;
+    opacity: 0.5;
+    font-style: italic;
+}
+.icone-premio.desbloqueado {
+    box-shadow: var(--sombra-neumorfismo-interna);
+    color: var(--cor-secundaria); 
+    opacity: 1.0;
+    font-style: normal;
+}
+
+.icone-premio i {
+    font-size: 2.5rem;
+    margin-bottom: 5px;
+}
+.icone-premio span {
+    font-size: 0.7rem;
+    text-align: center;
+    font-weight: 500;
+    line-height: 1.1;
+}
