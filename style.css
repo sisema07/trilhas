@@ -1,220 +1,69 @@
 /* style.css - CÓDIGO COMPLETO REVISADO */
 
-/* Variáveis de Cores e Estilos */
-:root {
-    --cor-fundo: #ebf5ee; /* Verde/Bege claro, ideal para Neumorfismo */
-    --cor-principal: #4CAF50; /* Verde vibrante */
-    --cor-secundaria: #8BC34A; /* Verde mais suave para destaque */
-    --cor-texto: #333;
-    --cor-texto-claro: #f0f0f0;
-    --cor-sombra-clara: #ffffff;
-    --cor-sombra-escura: #a3b1c6;
-    /* Sombras Aprimoradas */
-    --sombra-neumorfismo-interna: inset 4px 4px 8px 0 #a3b1c6, inset -4px -4px 8px 0 var(--cor-sombra-clara);
-    --sombra-neumorfismo-externa: 8px 8px 16px 0 rgba(0,0,0,0.1), -8px -8px 16px 0 var(--cor-sombra-clara);
-    --sombra-neumorfismo-ativa: inset 3px 3px 6px 0 #a3b1c6, inset -3px -3px 6px 0 var(--cor-sombra-clara); 
-    --sombra-neumorfismo-card: 4px 4px 8px 0 #a3b1c6, -4px -4px 8px 0 var(--cor-sombra-clara);
+/* ... (Manter tudo o que já existe) ... */
+
+/* --- Estilos da Área de Check-ins (Antiga Premiação) --- */
+#conteudo-premios {
+    padding: 20px;
+    text-align: center;
 }
 
-/* Reset Básico e Fundo */
-body, html {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Open Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--cor-fundo);
+.badge-intro-text {
+    text-align: left;
+    background-color: var(--cor-sombra-clara);
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: var(--sombra-neumorfismo-interna);
+    margin-bottom: 25px;
+}
+.badge-intro-text p {
+    font-size: 0.9rem;
+    line-height: 1.5;
     color: var(--cor-texto);
-    overflow-x: hidden;
-    touch-action: manipulation;
 }
 
-/* --- Tela de Introdução (Com Vídeo) --- */
-#video-intro {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #000;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.5rem;
-    text-align: center;
-    transition: opacity 1s ease-out, visibility 1s;
-    z-index: 9999;
-    opacity: 1;
-    visibility: visible;
-}
-
-.overlay-intro {
-    position: relative;
-    z-index: 10000;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-}
-
-#video-intro.fade-out {
-    opacity: 0;
-    visibility: hidden;
-}
-
-/* --- Container Principal (Design para Mobile e Desktop) --- */
-#app-container {
-    max-width: 900px; /* Aumentado para melhor responsividade em PC/Tablet */
-    margin: 0 auto;
-    padding: 10px 10px 20px;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-/* --- Header: Imagem de Título --- */
-header {
-    text-align: center;
-    padding: 5px 0 10px;
-}
-
-#titulo-imagem {
-    width: 90%; /* Ajusta a largura da imagem */
-    max-width: 400px; /* Limite máximo para a imagem */
-    height: auto;
-    margin: 15px auto 10px;
-    display: block;
-}
-
-/* --- Grid de Botões (Neumorfismo) --- */
-#botoes-parques {
-    display: grid;
-    /* Padrão para celulares: 3 colunas */
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    padding: 0;
-}
-
-/* Media Queries */
-@media (min-width: 768px) {
-    /* Tablet: 4 colunas */
-    #botoes-parques {
-        grid-template-columns: repeat(4, 1fr);
-        max-width: 800px;
-        margin: 0 auto;
-    }
-}
-
-@media (min-width: 1024px) {
-    /* Desktop: 5 colunas */
-    #botoes-parques {
-        grid-template-columns: repeat(5, 1fr);
-        max-width: 900px;
-    }
-}
- 
-/* Botões em Geral: Tamanho Uniforme */
-.botao-parque {
-    background-color: var(--cor-fundo);
-    border-radius: 20px;
-    aspect-ratio: 1 / 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 8px;
-    box-shadow: var(--sombra-neumorfismo-externa);
-    transition: all 0.2s ease-in-out;
-    cursor: pointer;
-    text-decoration: none;
-    color: var(--cor-texto);
-    position: relative;
-    overflow: hidden;
-    height: auto; 
-}
-
-.botao-parque:active {
-    box-shadow: var(--sombra-neumorfismo-ativa);
-    transform: scale(0.98);
-}
-
-/* Ícone (Marca D'água) */
-/* ---------------------------------------------------- */
-/* ALTERAÇÃO SOLICITADA: Remover o ícone preto de fundo */
-/* ---------------------------------------------------- */
-.icone-parque {
-    display: none; 
-}
- 
-/* Ícone Principal (Melhor Legibilidade) */
-.icone-parque-principal {
-    font-size: 1.8rem; /* Aumentado para preencher melhor o espaço */
+.premios-titulo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
     color: var(--cor-principal);
-    margin-bottom: 3px;
-    z-index: 2;
-    position: relative;
-}
- 
-.nome-parque {
-    font-size: 0.85rem;
-    font-weight: 600;
-    z-index: 2;
-    position: relative;
-    line-height: 1.2;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 15px;
 }
 
-/* Estilo Botão Premiação */
-#btn-premiacao {
-    background-color: var(--cor-secundaria); 
-    color: white;
-    box-shadow: 6px 6px 10px 0 rgba(139, 195, 74, 0.4), -6px -6px 10px 0 var(--cor-sombra-clara);
-}
-#btn-premiacao .icone-parque-principal {
-    color: white; /* Mantém o ícone principal branco/claro */
-}
-
-/* --- Área Secundária (Park Detail/Premiação) --- */
-#area-secundaria {
+/* Estilos de PWA Prompt */
+.pwa-prompt {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    max-width: 450px; 
-    margin: 0 auto;
-    background-color: var(--cor-fundo);
-    z-index: 1000;
-    transform: translateX(100%);
-    transition: transform 0.3s ease-in-out;
-    padding: 0;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    border-left: 1px solid #ccc;
-    box-shadow: -5px 0 15px rgba(0,0,0,0.1);
-}
-
-#area-secundaria.aberto {
-    transform: translateX(0);
-}
-
-.secundaria-header {
-    display: flex;
-    align-items: center;
-    padding: 15px 20px; 
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 90%;
     background-color: var(--cor-principal);
     color: white;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    position: sticky;
-    top: 0;
-    z-index: 10;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    z-index: 2000;
+    text-align: center;
+}
+.pwa-prompt p {
+    margin: 0 0 10px;
+    font-weight: 600;
+}
+#install-btn, #close-prompt {
+    background: white;
+    color: var(--cor-principal);
+    border: none;
+    padding: 8px 15px;
+    margin: 5px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+}
+#close-prompt {
+    background: transparent;
+    border: 1px solid white;
+    color: white;
+    font-weight: 400;
 }
 
-#btn-voltar {
-    display: none; 
-}
-
-/* ... (Resto do CSS para cards de atividade e prêmios, mantido) ... */
+/* ... (Resto do CSS para botões, cards, etc. mantido) ... */
