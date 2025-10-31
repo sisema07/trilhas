@@ -25,7 +25,7 @@ function registrarServiceWorker() {
 function iniciarApp() {
     const intro = document.getElementById('video-intro');
     const video = document.getElementById('intro-video-element');
-    const skipBtn = document.getElementById('skip-intro');
+    // const skipBtn = document.getElementById('skip-intro'); <-- Removido do HTML, não precisa mais ser referenciado
 
     // Reprodução do vídeo
     video.play().catch(error => {
@@ -45,16 +45,14 @@ function iniciarApp() {
     // Evento de 'ended' ou 'timeupdate'
     video.onended = fecharIntro;
     video.ontimeupdate = function() {
-        if (video.currentTime >= 5 && !intro.classList.contains('fade-out')) {
-            fecharIntro(); // Garante o fechamento após 5s se estiver sendo reproduzido
+        // 2. TEMPO DE TRANSIÇÃO REDUZIDO DE 5 PARA 3 SEGUNDOS
+        if (video.currentTime >= 3 && !intro.classList.contains('fade-out')) { 
+            fecharIntro(); // Garante o fechamento após 3s se estiver sendo reproduzido
         }
     };
 
-    // Botão Pular
-    skipBtn.addEventListener('click', () => {
-        video.pause();
-        fecharIntro();
-    });
+    // Botão Pular (Removido, mas deixo a nota)
+    // skipBtn.addEventListener('click', () => { video.pause(); fecharIntro(); }); 
 }
 
 /**
