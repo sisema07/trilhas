@@ -1,3 +1,5 @@
+/* style.css - CÓDIGO COMPLETO REVISADO */
+
 /* Variáveis de Cores e Estilos */
 :root {
     --cor-fundo: #ebf5ee; /* Verde/Bege claro, ideal para Neumorfismo */
@@ -55,7 +57,6 @@ body, html {
     justify-content: center;
     align-items: center;
     text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-    /* Conteúdo removido, mas a div é mantida para o estilo de flexbox */
 }
 
 #video-intro.fade-out {
@@ -90,7 +91,7 @@ header {
 /* --- Grid de Botões (Neumorfismo) --- */
 #botoes-parques {
     display: grid;
-    /* 3. Padrão para celulares: 3 colunas */
+    /* Padrão para celulares: 3 colunas */
     grid-template-columns: repeat(3, 1fr);
     gap: 12px;
     padding: 0;
@@ -110,11 +111,11 @@ header {
     /* Desktop: 5 colunas */
     #botoes-parques {
         grid-template-columns: repeat(5, 1fr);
-        max-width: 900px; /* Usa a largura máxima do container */
+        max-width: 900px;
     }
 }
  
-/* Botões em Geral: Estilos mantidos */
+/* Botões em Geral: Tamanho Uniforme */
 .botao-parque {
     background-color: var(--cor-fundo);
     border-radius: 20px;
@@ -140,9 +141,75 @@ header {
     transform: scale(0.98);
 }
 
-/* ... (O restante do CSS foi mantido o mesmo) ... */
+/* Ícone Principal (Melhor Legibilidade) */
+.icone-parque-principal {
+    font-size: 1.4rem;
+    color: var(--cor-principal);
+    margin-bottom: 3px;
+    z-index: 2;
+    position: relative;
+}
+ 
+.nome-parque {
+    font-size: 0.85rem;
+    font-weight: 600;
+    z-index: 2;
+    position: relative;
+    line-height: 1.2;
+}
 
-/* Estilos de Card de Atividade (Aprimorado) */
+/* Estilo Botão Premiação */
+#btn-premiacao {
+    background-color: var(--cor-secundaria); 
+    color: white;
+    box-shadow: 6px 6px 10px 0 rgba(139, 195, 74, 0.4), -6px -6px 10px 0 var(--cor-sombra-clara);
+}
+
+/* --- Área Secundária (Park Detail/Premiação) --- */
+#area-secundaria {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Garante que o slide cubra toda a largura do #app-container */
+    max-width: 450px; 
+    margin: 0 auto;
+    background-color: var(--cor-fundo);
+    z-index: 1000;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    padding: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid #ccc;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+}
+
+#area-secundaria.aberto {
+    transform: translateX(0);
+}
+
+.secundaria-header {
+    display: flex;
+    align-items: center;
+    /* Ajuste de Padding para compensar a remoção do botão */
+    padding: 15px 20px; 
+    background-color: var(--cor-principal);
+    color: white;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+/* OCULTA O BOTÃO DE VOLTAR NA INTERFACE (O navegador lida com o "voltar" nativo) */
+#btn-voltar {
+    display: none; 
+}
+
+/* Estilos de Card de Atividade */
 .atividade-card {
     background-color: var(--cor-fundo);
     border-radius: 15px;
@@ -155,4 +222,28 @@ header {
     gap: 10px;
 }
 
-/* ... (O restante do CSS foi mantido o mesmo) ... */
+.qrcode-btn {
+    background-color: var(--cor-principal);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 3px 3px 6px rgba(0,0,0,0.2);
+    transition: all 0.2s;
+    white-space: nowrap; 
+}
+.qrcode-btn:disabled {
+    background-color: var(--cor-secundaria);
+    cursor: not-allowed;
+    box-shadow: var(--sombra-neumorfismo-ativa); 
+}
+
+.atividade-status.concluida {
+    background-color: var(--cor-principal);
+    color: var(--cor-texto-claro);
+    box-shadow: var(--sombra-neumorfismo-interna);
+}
+
+/* ... (Resto do CSS para prêmios/status) ... */
