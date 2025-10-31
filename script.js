@@ -1,3 +1,5 @@
+// script.js - CÓDIGO COMPLETO REVISADO (IDÊNTICO À ÚLTIMA VERSÃO FUNCIONAL)
+
 // VARIÁVEIS GLOBAIS (Serão preenchidas após o fetch)
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -25,7 +27,6 @@ function registrarServiceWorker() {
 function iniciarApp() {
     const intro = document.getElementById('video-intro');
     const video = document.getElementById('intro-video-element');
-    // const skipBtn = document.getElementById('skip-intro'); <-- Removido do HTML, não precisa mais ser referenciado
 
     // Reprodução do vídeo
     video.play().catch(error => {
@@ -45,14 +46,11 @@ function iniciarApp() {
     // Evento de 'ended' ou 'timeupdate'
     video.onended = fecharIntro;
     video.ontimeupdate = function() {
-        // 2. TEMPO DE TRANSIÇÃO REDUZIDO DE 5 PARA 3 SEGUNDOS
+        // Tempo de transição de 3 segundos
         if (video.currentTime >= 3 && !intro.classList.contains('fade-out')) { 
             fecharIntro(); // Garante o fechamento após 3s se estiver sendo reproduzido
         }
     };
-
-    // Botão Pular (Removido, mas deixo a nota)
-    // skipBtn.addEventListener('click', () => { video.pause(); fecharIntro(); }); 
 }
 
 /**
@@ -297,6 +295,7 @@ async function inicializarApp() {
     }
 
     // 4. Event Listeners
+    // O botão no HTML foi escondido, mas a função de voltar no histórico é mantida aqui.
     document.getElementById('btn-voltar').addEventListener('click', () => {
         window.history.back(); // Usa a API de histórico do navegador
     });
