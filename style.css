@@ -236,30 +236,58 @@ header {
     text-align: center;
 }
 
-/* --- ESTILO ATUALIZADO DO BADGE INTRO --- */
+/* --- ESTILO ATUALIZADO DO BADGE INTRO (com mascote maior e embaixo) --- */
 .badge-intro-text {
-    display: flex; /* Cria o layout lado-a-lado */
-    align-items: center; /* Alinha o mascote e o texto verticalmente */
+    display: flex;
+    flex-direction: column; /* Coloca os itens em coluna (texto em cima, mascote embaixo) */
+    align-items: flex-start; /* Alinha o texto à esquerda por padrão */
     text-align: left;
-    background-color: #ffffff; /* Fundo branco para destacar */
+    background-color: #ffffff;
     border-radius: 15px;
     padding: 15px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08); /* Sombra de card suave */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
     margin-bottom: 25px;
+    position: relative; /* Necessário para posicionamento absoluto do mascote */
+    overflow: hidden; /* Para garantir que o mascote não vaze a borda se sair um pouco */
 }
 
-.badge-mascote-img {
-    width: 60px; /* Tamanho do mascote */
-    height: auto;
-    margin-left: 15px; /* (MUDANÇA AQUI) Espaço entre o texto e o mascote */
+/* NOVO: Estilo para o container do texto dentro da caixa */
+.badge-mascote-texto {
+    width: 100%; /* O texto ocupa toda a largura disponível */
+    padding-right: 70px; /* Cria espaço à direita para o mascote "invadir" */
+    margin-bottom: 5px; /* Pequeno espaçamento entre o texto e o mascote */
 }
 
-/* Novo: Estilo para o container do texto */
 .badge-mascote-texto p {
     font-size: 0.9rem;
     line-height: 1.5;
     color: var(--cor-texto);
-    margin: 5px 0; /* Ajusta o espaçamento entre os parágrafos */
+    margin: 5px 0;
+}
+
+/* NOVO: Estilo para a imagem do mascote (maior e posicionado) */
+.badge-mascote-img {
+    width: 80px; /* Aumenta o tamanho do mascote */
+    height: auto;
+    position: absolute; /* Posiciona o mascote de forma absoluta */
+    right: 15px; /* Distância da borda direita */
+    bottom: 5px; /* Distância da borda inferior */
+    z-index: 1; /* Garante que ele esteja acima do fundo do card */
+}
+
+/* Media query para telas menores, ajusta o mascote para não apertar o texto */
+@media (max-width: 350px) {
+    .badge-mascote-texto {
+        padding-right: 0; /* Remove o padding extra em telas muito pequenas */
+    }
+    .badge-mascote-img {
+        position: static; /* Volta para posicionamento normal no fluxo */
+        margin-top: 10px; /* Adiciona uma margem superior */
+        align-self: center; /* Centraliza o mascote abaixo do texto */
+        width: 70px; /* Um pouco menor para caber melhor */
+        right: auto; /* Remove o posicionamento fixo */
+        bottom: auto; /* Remove o posicionamento fixo */
+    }
 }
 
 .premios-titulo {
@@ -350,5 +378,6 @@ header {
 }
 /* Estilos dos cards de atividade omitidos aqui para brevidade, mas devem ser mantidos no arquivo real */
 /* ... */
+
 
 
