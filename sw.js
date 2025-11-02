@@ -1,4 +1,4 @@
-const CACHE_NAME = 'trilhas-de-minas-v2'; // <--- MUDANÇA IMPORTANTE (para v2)
+const CACHE_NAME = 'trilhas-de-minas-v3'; // <--- MUDANÇA IMPORTANTE (para v3)
 const urlsToCache = [
     './',
     'index.html',
@@ -10,26 +10,26 @@ const urlsToCache = [
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css',
     'https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:wght@400;600;700&display=swap',
     
-    // --- INÍCIO DA MODIFICAÇÃO: Adicionando as logos ao cache ---
-    'logos/alto.png',
+    // --- INÍCIO DA MODIFICAÇÃO: Lista de logos ATUALIZADA ---
     'logos/biribiri.png',
-    'logos/brigadeiro.png',
-    'logos/caminhos.png',
-    'logos/campos.png',
     'logos/ibitipoca.png',
-    'logos/intedente.png',
     'logos/itacolomi.png',
-    'logos/lapa.png',
+    'logos/lapagrande.png',
+    'logos/matadokrambeck.png',
+    'logos/matadolimoeiro.png',
     'logos/novabaden.png',
-    'logos/picoitambe.png',
+    'logos/paufurado.png',
+    'logos/picodoitambe.png',
     'logos/riodoce.png',
     'logos/riopreto.png',
-    'logos/rolamoca.png',
-    'logos/serradaararas.png',
-    'logos/serranova.png',
+    'logos/serradasararas.png',
+    'logos/serradobrigadeiro.png',
+    'logos/serradointedente.png',
+    'logos/serradopapagaio.png',
+    'logos/serradorolamoca.png',
+    'logos/serranovaetalhado.png',
     'logos/sumidouro.png',
-    'logos/verde.png',
-    'logos/veredas.png'
+    'logos/serraverde.png'
     // --- FIM DA MODIFICAÇÃO ---
 ];
 
@@ -39,7 +39,11 @@ self.addEventListener('install', event => {
         caches.open(CACHE_NAME)
             .then(cache => {
                 console.log('Cache aberto: Arquivos estáticos em cache.');
+                // Adiciona todos os URLs. Se um falhar, a instalação falha.
                 return cache.addAll(urlsToCache);
+            })
+            .catch(err => {
+                console.error('Falha ao adicionar arquivos ao cache:', err);
             })
     );
 });
@@ -52,7 +56,7 @@ self.addEventListener('activate', event => {
             return Promise.all(
                 cacheNames.map(cacheName => {
                     if (cacheWhitelist.indexOf(cacheName) === -1) {
-                        return caches.delete(cacheName); // Deleta caches antigos (ex: v1)
+                        return caches.delete(cacheName); // Deleta caches antigos (ex: v1, v2)
                     }
                 })
             );
