@@ -297,58 +297,45 @@ function carregarPremios() {
 }
 
 /**
- * Carrega a lista de atividades para o parque selecionado.
+ * Carrega e exibe a lista de atividades (Badge) de um parque específico.
+ * @param {object} parque - Objeto do parque (DADOS_PARQUES)
+ * @param {HTMLElement} container - O elemento onde o conteúdo deve ser injetado (a #dynamic-content-area)
  */
-function carregarAtividades(parque) {
-    const lista = document.getElementById('lista-atividades');
-    lista.innerHTML = '';
+function carregarConteudoAtividades(parque, container) {
     const atividades = ATIVIDADES_PARQUES[parque.id] || [];
-
-    if (!estadoUsuario[parque.id]) {
-        estadoUsuario[parque.id] = atividades.reduce((acc, a) => ({ ...acc, [a.id]: false }), {});
-        salvarEstado();
-    }
-
-    atividades.forEach(atividade => {
-        const isConcluida = estadoUsuario[parque.id] && estadoUsuario[parque.id][atividade.id];
-        const card = document.createElement('div');
-        card.className = 'atividade-card';
-        card.dataset.atividadeId = atividade.id;
-
-        const statusClass = isConcluida ? 'concluida' : '';
-        const statusIcon = isConcluida ? '<i class="fas fa-check"></i>' : '<i class="fas fa-lock"></i>';
-        
-        card.innerHTML = `
-            <div class="atividade-info">
-                <div class="atividade-nome">${atividade.nome}</div>
-                <div class="atividade-descricao">Leia o QR Code para registrar sua presença.</div>
-            </div>
-            <button class="qrcode-btn" data-parque-id="${parque.id}" data-atividade-id="${atividade.id}" ${isConcluida ? 'disabled' : ''}>
-                ${isConcluida ? 'Concluído' : 'Ler QR Code'}
-            </button>
-            <div class="atividade-status ${statusClass}" id="status-${parque.id}-${atividade.id}">
-                ${statusIcon}
-            </div>
-        `;
-        lista.appendChild(card);
-    });
     
+    let html = `
+        <h3>Atividades Gamificadas</h3>
+        <p class="badge-description">${DETALHES_PARQUES[parque.id].badge_descricao || 'Instruções para os badges deste parque.'}</p>
+        <div id="lista-atividades-dinamica" class="atividades-grid">
+    `;
+
     if (atividades.length === 0) {
-         lista.innerHTML = '<p style="color: #666; font-style: italic;">Informações de atividades não disponíveis. Em breve!</p>';
+        html += '<p style="text-align: center; margin-top: 20px;">Nenhuma atividade cadastrada para este parque.</p>';
+    } else {
+        atividades.forEach(atividade => {
+            const badgeId = `${parque.id}-${atividade.id}`;
+            const desbloqueado = estadoUsuario[badgeId] ? 'desbloqueado' : '';
+            
+            // Remove a indicação de QR Code, como você pediu!
+            html += `
+                <div class="icone-premio ${desbloqueado}" data-badge-id="${badgeId}">
+                    <i class="fas ${atividade.icone}"></i>
+                    <span>${atividade.nome}</span>
+                </div>
+            `;
+        });
     }
 
-    // Listener de QR Code (Simulação)
-    document.querySelectorAll('.qrcode-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            // Em um app real, o click chamaria a câmera. Aqui, simulamos o sucesso.
-            const parqueId = this.dataset.parqueId;
-            const atividadeId = this.dataset.atividadeId;
-            
-            // Simula o resultado de escanear o QR Code de sucesso
-            const checkinUrl = `${window.location.origin}/?checkin=${parqueId}-${atividadeId}`;
-            
-            // Chama a função de processamento com a URL simulada
-            processarCheckinQRSimulacao(checkinUrl);
+    html += '</div>';
+    container.innerHTML = html; // Injeta TUDO no container dinâmico
+
+    // Adiciona listener para cliques nos ícones (para compartilhar/upload)
+    document.querySelectorAll('#lista-atividades-dinamica .icone-premio.desbloqueado').forEach(icone => {
+        icone.addEventListener('click', (event) => {
+            const badgeId = event.currentTarget.dataset.badgeId;
+            // Carrega a área de upload, mantendo a hash atualizada
+            window.location.hash = `upload-${badgeId}`;
         });
     });
 }
@@ -454,6 +441,7 @@ async function inicializarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializarApp);
+
 
 
 
