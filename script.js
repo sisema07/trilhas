@@ -120,6 +120,7 @@ function iniciarApp() {
 
 /**
  * Carrega os botões na tela principal.
+ * (*** SEÇÃO MODIFICADA ***)
  */
 function carregarBotoesParques() {
     const container = document.getElementById('botoes-parques');
@@ -136,7 +137,19 @@ function carregarBotoesParques() {
         }
         
         const iconeMarca = `<i class="icone-parque fas ${parque.icone_fundo}"></i>`;
-        const iconePrincipal = `<i class="icone-parque-principal fas ${parque.icone_principal}"></i>`;
+        
+        // --- INÍCIO DA MODIFICAÇÃO ---
+        // Decide se usa o ícone (Font Awesome) ou a logo (PNG)
+        let iconePrincipal;
+        if (parque.is_premio || !parque.logo_png) {
+            // Se for 'Check-ins' ou se não houver logo_png definida, usa o ícone
+            iconePrincipal = `<i class="icone-parque-principal fas ${parque.icone_principal}"></i>`;
+        } else {
+            // Se for um parque e tiver logo_png, usa a tag <img>
+            iconePrincipal = `<img src="${parque.logo_png}" alt="${parque.nome}" class="logo-parque-principal">`;
+        }
+        // --- FIM DA MODIFICAÇÃO ---
+
         // Ajustado para usar o novo nome "Check-ins" do JSON
         const nome = `<span class="nome-parque">${parque.is_premio ? parque.nome : parque.nome.replace('PE ', '')}</span>`; 
 
@@ -150,6 +163,8 @@ function carregarBotoesParques() {
         container.appendChild(btn);
     });
 }
+// (*** FIM DA SEÇÃO MODIFICADA ***)
+
 
 /**
  * Exibe a área detalhada (Parque, Check-ins ou Upload).
