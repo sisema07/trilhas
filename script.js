@@ -1,9 +1,8 @@
 // script.js - CÓDIGO COMPLETO REVISADO
-// script.js - CÓDIGO COMPLETO REVISADO
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
-let DETALHES_PARQUES = {}; // <-- NOVO: Variável para os detalhes dos parques
+let DETALHES_PARQUES = {}; // Variável para os detalhes dos parques
 let estadoUsuario = JSON.parse(localStorage.getItem('trilhasDeMinasStatus')) || {};
 let scrollPosition = 0;
 let deferredPrompt; // Variável para o prompt de instalação do PWA
@@ -62,9 +61,8 @@ function processarCheckinQR() {
         
         if (parqueId && atividadeId && ATIVIDADES_PARQUES[parqueId]) {
             
-            // Simula o sucesso do check-in
+            // Inicializa o estado para o parque e garante que a atividade exista
             if (!estadoUsuario[parqueId]) {
-                // Inicializa o estado para o parque se não existir
                 estadoUsuario[parqueId] = ATIVIDADES_PARQUES[parqueId].reduce((acc, a) => ({ ...acc, [a.id]: false }), {});
             }
             
@@ -101,8 +99,10 @@ function iniciarApp() {
     
     document.getElementById('app-container').style.display = 'flex';
     
+    // Tenta dar play no vídeo
     video.play().catch(error => {
-        setTimeout(fecharIntro, 2000);
+        console.error("Erro ao tentar play automático no vídeo:", error);
+        setTimeout(fecharIntro, 200); // Se falhar, fecha rápido
     });
 
     function fecharIntro() {
@@ -112,17 +112,13 @@ function iniciarApp() {
         }, 1000);
     }
 
+    // Fecha a introdução após o fim do vídeo ou após 3 segundos
     video.onended = fecharIntro;
-    video.ontimeupdate = function() {
-        if (video.currentTime >= 3 && !intro.classList.contains('fade-out')) { 
-            fecharIntro();
-        }
-    };
+    setTimeout(fecharIntro, 3000); // Fechar forçadamente após 3s se o onended não disparar
 }
 
 /**
  * Carrega os botões na tela principal.
- * (*** SEÇÃO MODIFICADA ***)
  */
 function carregarBotoesParques() {
     const container = document.getElementById('botoes-parques');
@@ -140,19 +136,14 @@ function carregarBotoesParques() {
         
         const iconeMarca = `<i class="icone-parque fas ${parque.icone_fundo}"></i>`;
         
-        // --- INÍCIO DA MODIFICAÇÃO ---
         // Decide se usa o ícone (Font Awesome) ou a logo (PNG)
         let iconePrincipal;
         if (parque.is_premio || !parque.logo_png) {
-            // Se for 'Check-ins' ou se não houver logo_png definida, usa o ícone
             iconePrincipal = `<i class="icone-parque-principal fas ${parque.icone_principal}"></i>`;
         } else {
-            // Se for um parque e tiver logo_png, usa a tag <img>
             iconePrincipal = `<img src="${parque.logo_png}" alt="${parque.nome}" class="logo-parque-principal">`;
         }
-        // --- FIM DA MODIFICAÇÃO ---
 
-        // Ajustado para usar o novo nome "Check-ins" do JSON
         const nome = `<span class="nome-parque">${parque.is_premio ? parque.nome : parque.nome.replace('PE ', '')}</span>`; 
 
         btn.innerHTML = iconeMarca + iconePrincipal + nome;
@@ -165,13 +156,11 @@ function carregarBotoesParques() {
         container.appendChild(btn);
     });
 }
-// (*** FIM DA SEÇÃO MODIFICADA ***)
-
 
 /**
  * Exibe a área detalhada (Parque, Check-ins, Upload), e define o botão ativo na página do parque.
  */
-function mostrarArea(id, action = 'info') { // Adiciona 'action' para controlar o botão ativo
+function mostrarArea(id, action = 'info') { 
     const areaSecundaria = document.getElementById('area-secundaria');
     const parqueDetail = document.getElementById('conteudo-parque-detalhe');
     const areaPremiacao = document.getElementById('conteudo-premios');
@@ -201,7 +190,7 @@ function mostrarArea(id, action = 'info') { // Adiciona 'action' para controlar 
         document.getElementById('badge-upload-titulo').textContent = `Enviar Foto para Badge: ${parqueId.toUpperCase()} - ${atividadeId.toUpperCase()}`;
     
     } else {
-        // --- NOVO: Lógica da Página de Detalhes do Parque ---
+        // --- Lógica da Página de Detalhes do Parque ---
         const parque = DADOS_PARQUES.find(p => p.id === id);
         const detalhes = DETALHES_PARQUES[id];
         
@@ -241,14 +230,11 @@ function mostrarArea(id, action = 'info') { // Adiciona 'action' para controlar 
         }
 
         // --- 4. Adiciona Listeners aos Botões de Ação (Apenas uma vez) ---
-        // Se a página de detalhes está sendo mostrada, adicionamos os listeners
-        // Usamos uma flag para evitar duplicação de listeners
         if (!document.getElementById('info-button').dataset.listenerAdded) {
             document.querySelectorAll('.action-button').forEach(btn => {
-                btn.dataset.listenerAdded = true; // Marca que o listener foi adicionado
+                btn.dataset.listenerAdded = true; 
                 btn.addEventListener('click', function() {
                     const newAction = this.dataset.action;
-                    // Muda a hash para que a função lidarComHash trate a mudança de conteúdo
                     window.location.hash = `${parque.id}-${newAction}`;
                 });
             });
@@ -257,7 +243,8 @@ function mostrarArea(id, action = 'info') { // Adiciona 'action' para controlar 
     areaSecundaria.scrollTo(0, 0);
 }
 
-* Carrega todos os Badges.
+/**
+ * Carrega todos os Badges.
  */
 function carregarPremios() {
     const listaPremios = document.getElementById('lista-icones-premios');
@@ -267,11 +254,13 @@ function carregarPremios() {
         const atividades = ATIVIDADES_PARQUES[parqueId];
         
         if (!estadoUsuario[parqueId]) {
+             // Garante que o estado do parque exista no estadoUsuario
              estadoUsuario[parqueId] = atividades.reduce((acc, a) => ({ ...acc, [a.id]: false }), {});
              salvarEstado();
         }
 
         atividades.forEach(atividade => {
+            // CORREÇÃO: Verifica se estadoUsuario[parqueId] existe antes de checar a atividade
             const isConcluida = estadoUsuario[parqueId] && estadoUsuario[parqueId][atividade.id];
 
             const card = document.createElement('div');
@@ -279,7 +268,6 @@ function carregarPremios() {
             card.dataset.parqueId = parqueId;
             card.dataset.atividadeId = atividade.id;
             
-            // Adicionado placeholder de imagem ilustrativa (ícone)
             card.innerHTML = `
                 <i class="fas ${atividade.icone}"></i>
                 <span>${atividade.nome}</span>
@@ -303,10 +291,11 @@ function carregarPremios() {
  */
 function carregarConteudoAtividades(parque, container) {
     const atividades = ATIVIDADES_PARQUES[parque.id] || [];
+    const detalhes = DETALHES_PARQUES[parque.id] || {};
     
     let html = `
         <h3>Atividades Gamificadas</h3>
-        <p class="badge-description">${DETALHES_PARQUES[parque.id].badge_descricao || 'Instruções para os badges deste parque.'}</p>
+        <p class="badge-description">${detalhes.badge_descricao || 'Instruções para os badges deste parque.'}</p>
         <div id="lista-atividades-dinamica" class="atividades-grid">
     `;
 
@@ -314,11 +303,10 @@ function carregarConteudoAtividades(parque, container) {
         html += '<p style="text-align: center; margin-top: 20px;">Nenhuma atividade cadastrada para este parque.</p>';
     } else {
         atividades.forEach(atividade => {
-            // CORREÇÃO ESSENCIAL: O estado é verificado por [parqueId][atividadeId]
+            // CORREÇÃO: Verifica se estadoUsuario[parqueId] existe antes de checar a atividade
             const desbloqueado = estadoUsuario[parque.id] && estadoUsuario[parque.id][atividade.id] ? 'desbloqueado' : '';
             const badgeId = `${parque.id}-${atividade.id}`;
             
-            // Remove a indicação de QR Code, como você pediu!
             html += `
                 <div class="icone-premio ${desbloqueado}" data-badge-id="${badgeId}">
                     <i class="fas ${atividade.icone}"></i>
@@ -329,13 +317,12 @@ function carregarConteudoAtividades(parque, container) {
     }
 
     html += '</div>';
-    container.innerHTML = html; // Injeta TUDO no container dinâmico
+    container.innerHTML = html; 
 
     // Adiciona listener para cliques nos ícones (para compartilhar/upload)
     document.querySelectorAll('#lista-atividades-dinamica .icone-premio.desbloqueado').forEach(icone => {
         icone.addEventListener('click', (event) => {
             const badgeId = event.currentTarget.dataset.badgeId;
-            // Carrega a área de upload, mantendo a hash atualizada
             window.location.hash = `upload-${badgeId}`;
         });
     });
@@ -375,7 +362,6 @@ function lidarComHash() {
     if (hash) {
         const parts = hash.split('-');
         const id = parts[0];
-        // Se a hash tiver um segundo termo (ex: #biribiri-quiz), use-o como 'action'. Padrão é 'info'.
         const action = parts.length > 1 ? parts[1] : 'info'; 
         mostrarArea(id, action);
     } else {
@@ -384,14 +370,14 @@ function lidarComHash() {
         window.scrollTo(0, scrollPosition);
     }
 }
-// --- FUNÇÃO DE INICIALIZAÇÃO PRINCIPAL ---
 
+// --- FUNÇÃO DE INICIALIZAÇÃO PRINCIPAL ---
 async function inicializarApp() {
     // 1. Registro do Service Worker e PWA Prompt
     registrarServiceWorker();
     setupPwaInstallPrompt();
 
-// 2. Carrega os Dados do JSON
+    // 2. Carrega os Dados do JSON
     try {
         // Carrega parques.json
         const responseParques = await fetch('parques.json');
@@ -399,7 +385,7 @@ async function inicializarApp() {
         DADOS_PARQUES = dadosParques.DADOS_PARQUES;
         ATIVIDADES_PARQUES = dadosParques.ATIVIDADES_PARQUES;
         
-        // --- NOVO: Carrega park_details.json ---
+        // --- Carrega park_details.json ---
         const responseDetails = await fetch('park_details.json');
         DETALHES_PARQUES = await responseDetails.json();
         // ----------------------------------------
@@ -407,23 +393,24 @@ async function inicializarApp() {
         // 3. Inicializa o App
         carregarBotoesParques();
 
-        // 4. Processa check-in (Verifica se veio de um QR Code antes de iniciar o vídeo)
+        // 4. Processa check-in
         const checkinProcessado = processarCheckinQR();
+        
+        document.getElementById('app-container').style.display = 'flex';
         
         if (!checkinProcessado) {
              iniciarApp(); // Inicia o vídeo de abertura se não for um check-in direto
              lidarComHash(); 
         } else {
-             // Se o check-in foi processado, já deve estar na tela de Check-ins (premiacao)
+             // Se o check-in foi processado, pulamos o vídeo e vamos para a hash
              document.getElementById('video-intro').style.display = 'none';
-             document.getElementById('app-container').style.display = 'flex';
              lidarComHash();
         }
         
     } catch (error) {
         // CORREÇÃO: Tratamento de erro robusto no carregamento
         document.getElementById('app-container').style.display = 'flex';
-        document.getElementById('app-container').innerHTML = '<p style="text-align: center; color: red; margin-top: 50px; font-weight: bold;">ERRO DE CARREGAMENTO: Não foi possível carregar os dados. 1. Verifique o arquivo parques.json. 2. Limpe o Cache/Service Worker e Recarregue.</p>';
+        document.getElementById('app-container').innerHTML = '<p style="text-align: center; color: red; margin-top: 50px; font-weight: bold;">ERRO DE CARREGAMENTO: Não foi possível carregar os dados. Verifique a sintaxe de parques.json e park_details.json.</p>';
         document.getElementById('video-intro').style.display = 'none';
         console.error('Erro fatal ao carregar dados:', error);
     }
@@ -441,9 +428,3 @@ async function inicializarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializarApp);
-
-
-
-
-
-
