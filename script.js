@@ -358,17 +358,19 @@ async function inicializarApp() {
     registrarServiceWorker();
     setupPwaInstallPrompt();
 
-    // 2. Carrega os Dados do JSON
+// 2. Carrega os Dados do JSON
     try {
-        const response = await fetch('parques.json');
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        // Carrega parques.json
+        const responseParques = await fetch('parques.json');
+        const dadosParques = await responseParques.json();
+        DADOS_PARQUES = dadosParques.DADOS_PARQUES;
+        ATIVIDADES_PARQUES = dadosParques.ATIVIDADES_PARQUES;
         
-        const dados = await response.json();
-        DADOS_PARQUES = dados.DADOS_PARQUES;
-        ATIVIDADES_PARQUES = dados.ATIVIDADES_PARQUES;
-        
+        // --- NOVO: Carrega park_details.json ---
+        const responseDetails = await fetch('park_details.json');
+        DETALHES_PARQUES = await responseDetails.json();
+        // ----------------------------------------
+                
         // 3. Inicializa o App
         carregarBotoesParques();
 
@@ -406,4 +408,5 @@ async function inicializarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializarApp);
+
 
