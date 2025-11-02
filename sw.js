@@ -1,11 +1,11 @@
-const CACHE_NAME = 'trilhas-de-minas-v5'; // <--- MUDANÇA IMPORTANTE (para v3)
+const CACHE_NAME = 'trilhas-de-minas-v6'; // V6 para forçar o recarregamento do novo JSON
 const urlsToCache = [
     './',
     'index.html',
     'style.css',
     'script.js',
     'parques.json',
-    'park_details.json'
+    'park_details.json', // <-- CORRIGIDO: Vírgula adicionada
     'trilhas.mp4',
     // Ícones do Font Awesome e Google Fonts (CDN)
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css',
@@ -105,8 +105,3 @@ self.addEventListener('fetch', event => {
             })
     );
 });
-
-
-
-
-
