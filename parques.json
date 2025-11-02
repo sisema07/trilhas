@@ -19,7 +19,7 @@
         { "id": "serradorolamoca", "nome": "Serra do Rola Moça", "icone_principal": "fa-mountain", "icone_fundo": "fa-road", "imagem": "url(https://source.unsplash.com/random/400x200?mountain,minas-gerais)", "descricao": "Um dos maiores parques urbanos do Brasil, com vistas panorâmicas da região metropolitana de Belo Horizonte.", "logo_png": "logos/serradorolamoca.png" },
         { "id": "serranovaetalhado", "nome": "Serra Nova e Talhado", "icone_principal": "fa-mountain", "icone_fundo": "fa-road", "imagem": "url(https://source.unsplash.com/random/400x200?mountain,minas-gerais)", "descricao": "Um dos maiores parques urbanos do Brasil, com vistas panorâmicas da região metropolitana de Belo Horizonte.", "logo_png": "logos/serranovaetalhado.png" },
         { "id": "sumidouro", "nome": "Sumidouro", "icone_principal": "fa-gem", "icone_fundo": "fa-cave", "imagem": "url(https://source.unsplash.com/random/400x200?cave,minas-gerais)", "descricao": "Famoso pela Gruta da Lapinha e por sítios arqueológicos com vestígios pré-históricos de Minas Gerais.", "logo_png": "logos/sumidouro.png" },
-        { "id": "serraverde", "nome": "Serra Verde", "icone_principal": "fa-leaf", "icone_fundo": "fa-forest", "imagem": "url(https://source.unsplash.com/random/400x200?forest,minas-gerais)", "descricao": "Uma área de preservação com vasta cobertura florestal e rica em nascentes de água pura.", "logo_png": "logos/serraverde.png" }
+        { "id": "serraverde", "nome": "Serra Verde", "icone_principal": "fa-leaf", "icone_fundo": "fa-forest", "imagem": "url(https://source.unsplash.com/random/400x200?forest,minas-gerais)", "descricao": "Uma área de preservação com vasta cobertura florestal e rica em nascentes de água pura.", "logo_png": "logos/serraverde.png" } 
     ],
     "ATIVIDADES_PARQUES": {
         "ibitipoca": [
@@ -80,6 +80,3 @@
         ]
     }
 }
-
-
-
