@@ -109,12 +109,14 @@ function iniciarApp() {
         intro.classList.add('fade-out');
         setTimeout(() => {
             intro.style.display = 'none';
+            // Chama a hash APÓS o vídeo estar fechado
+            lidarComHash(); 
         }, 1000);
     }
 
     // Fecha a introdução após o fim do vídeo ou após 3 segundos
     video.onended = fecharIntro;
-    setTimeout(fecharIntro, 3000); // Fechar forçadamente após 3s se o onended não disparar
+    // Removendo o timeout de 3s para evitar conflito. O 'onended' é mais confiável.
 }
 
 /**
@@ -261,6 +263,7 @@ function carregarPremios() {
 
         atividades.forEach(atividade => {
             // CORREÇÃO: Verifica se estadoUsuario[parqueId] existe antes de checar a atividade
+            // Esta lógica foi corrigida na última versão e está correta agora
             const isConcluida = estadoUsuario[parqueId] && estadoUsuario[parqueId][atividade.id];
 
             const card = document.createElement('div');
@@ -365,9 +368,8 @@ function lidarComHash() {
         const action = parts.length > 1 ? parts[1] : 'info'; 
         mostrarArea(id, action);
     } else {
+        // CORREÇÃO: Remove a lógica de rolagem para não interferir na inicialização
         document.getElementById('area-secundaria').classList.remove('aberto');
-        document.getElementById('app-container').scrollIntoView();
-        window.scrollTo(0, scrollPosition);
     }
 }
 
@@ -399,8 +401,7 @@ async function inicializarApp() {
         document.getElementById('app-container').style.display = 'flex';
         
         if (!checkinProcessado) {
-             iniciarApp(); // Inicia o vídeo de abertura se não for um check-in direto
-             lidarComHash(); 
+             iniciarApp(); // Inicia o vídeo de abertura
         } else {
              // Se o check-in foi processado, pulamos o vídeo e vamos para a hash
              document.getElementById('video-intro').style.display = 'none';
@@ -408,7 +409,7 @@ async function inicializarApp() {
         }
         
     } catch (error) {
-        // CORREÇÃO: Tratamento de erro robusto no carregamento
+        // Tratamento de erro robusto no carregamento
         document.getElementById('app-container').style.display = 'flex';
         document.getElementById('app-container').innerHTML = '<p style="text-align: center; color: red; margin-top: 50px; font-weight: bold;">ERRO DE CARREGAMENTO: Não foi possível carregar os dados. Verifique a sintaxe de parques.json e park_details.json.</p>';
         document.getElementById('video-intro').style.display = 'none';
