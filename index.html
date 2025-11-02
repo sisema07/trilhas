@@ -64,15 +64,26 @@
             <p style="margin-top: 10px; font-size: 0.8rem; color: gray;">*Funcionalidade de processamento de imagem será implementada posteriormente.</p>
         </div>
 
-        <div id="conteudo-parque-detalhe" style="display: none;">
-            <div id="parque-imagem"></div>
-            <div id="parque-conteudo">
-                <p id="parque-descricao">...</p>
-                
-                <h3>Atividades Gamificadas:</h3>
-                <div id="lista-atividades">
-                    </div>
+<div id="conteudo-parque-detalhe" style="display: none;">
+            
+            <div class="park-image-container">
+                <img id="park-main-image" src="" alt="Imagem principal do Parque" class="parque-imagem-principal">
             </div>
+
+            <a id="park-location-link" href="#" target="_blank" class="location-link">
+                <i class="fas fa-map-marker-alt"></i> <span class="location-text">Estamos aqui</span>
+            </a>
+            
+            <hr class="separator">
+
+            <div class="action-buttons-container">
+                <button id="info-button" class="action-button info-btn" data-action="info">Informações</button>
+                <button id="quiz-button" class="action-button quiz-btn" data-action="quiz">Quiz</button>
+                <button id="activities-button" class="action-button activities-btn" data-action="activities">Atividades</button>
+            </div>
+
+            <div id="dynamic-content-area" class="park-content-area">
+                </div>
         </div>
     </section>
 
