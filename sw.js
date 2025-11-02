@@ -24,7 +24,7 @@ const urlsToCache = [
     'logos/riopreto.png',
     'logos/serradasararas.png',
     'logos/serradobrigadeiro.png',
-    'logos/serradointedente.png',
+    'logos/serradointendente.png',
     'logos/serradopapagaio.png',
     'logos/serradorolamoca.png',
     'logos/serranovaetalhado.png',
@@ -104,3 +104,4 @@ self.addEventListener('fetch', event => {
             })
     );
 });
+
