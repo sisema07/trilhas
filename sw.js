@@ -1,4 +1,4 @@
-const CACHE_NAME = 'trilhas-de-minas-v1';
+const CACHE_NAME = 'trilhas-de-minas-v2'; // <--- MUDANÇA IMPORTANTE (para v2)
 const urlsToCache = [
     './',
     'index.html',
@@ -8,8 +8,29 @@ const urlsToCache = [
     'trilhas.mp4',
     // Ícones do Font Awesome e Google Fonts (CDN)
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css',
-    'https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:wght@400;600;700&display=swap'
-    // Adicione mais URLs de fontes se necessário
+    'https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:wght@400;600;700&display=swap',
+    
+    // --- INÍCIO DA MODIFICAÇÃO: Adicionando as logos ao cache ---
+    'logos/alto.png',
+    'logos/biribiri.png',
+    'logos/brigadeiro.png',
+    'logos/caminhos.png',
+    'logos/campos.png',
+    'logos/ibitipoca.png',
+    'logos/intedente.png',
+    'logos/itacolomi.png',
+    'logos/lapa.png',
+    'logos/novabaden.png',
+    'logos/picoitambe.png',
+    'logos/riodoce.png',
+    'logos/riopreto.png',
+    'logos/rolamoca.png',
+    'logos/serradaararas.png',
+    'logos/serranova.png',
+    'logos/sumidouro.png',
+    'logos/verde.png',
+    'logos/veredas.png'
+    // --- FIM DA MODIFICAÇÃO ---
 ];
 
 // Instalação: Cache dos recursos
@@ -25,13 +46,13 @@ self.addEventListener('install', event => {
 
 // Ativação: Limpa caches antigos
 self.addEventListener('activate', event => {
-    const cacheWhitelist = [CACHE_NAME];
+    const cacheWhitelist = [CACHE_NAME]; // <--- Usa o novo nome do cache
     event.waitUntil(
         caches.keys().then(cacheNames => {
             return Promise.all(
                 cacheNames.map(cacheName => {
                     if (cacheWhitelist.indexOf(cacheName) === -1) {
-                        return caches.delete(cacheName); // Deleta caches antigos
+                        return caches.delete(cacheName); // Deleta caches antigos (ex: v1)
                     }
                 })
             );
@@ -59,6 +80,8 @@ self.addEventListener('fetch', event => {
 
                         // Se for um novo recurso, o clonamos e adicionamos ao cache
                         const responseToCache = response.clone();
+                        
+                        // Lógica modificada para cachear recursos dinamicamente se estiverem na lista
                         if (urlsToCache.some(url => event.request.url.includes(url.replace('./', '')))) {
                            caches.open(CACHE_NAME)
                                .then(cache => {
