@@ -322,10 +322,11 @@ header {
 #lista-icones-premios {
     display: grid;
     /* MUDANÇA: Agora é um grid automático e responsivo */
-    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    /* AJUSTE: Mínimo de 80px para tentar forçar 3 colunas */
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
     gap: 15px;
     margin-top: 20px;
-    padding: 0; /* MUDANÇA: Remove padding duplicado para alinhar */
+    padding: 0; /* MANTIDO: Remove padding duplicado para alinhar */
 }
 .icone-premio {
     background-color: var(--cor-fundo);
@@ -399,6 +400,7 @@ header {
 }
 /* Estilos dos cards de atividade omitidos aqui para brevidade, mas devem ser mantidos no arquivo real */
 /* ... */
+
 
 
 
