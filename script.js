@@ -1,4 +1,4 @@
-// script.js - CÓDIGO COMPLETO REVISADO
+// script.js - CÓDIGO COMPLETO REVISADO (Correção de Sintaxe e Fluxo)
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -114,9 +114,8 @@ function iniciarApp() {
         }, 1000);
     }
 
-    // Fecha a introdução após o fim do vídeo ou após 3 segundos
+    // Fecha a introdução após o fim do vídeo
     video.onended = fecharIntro;
-    // Removendo o timeout de 3s para evitar conflito. O 'onended' é mais confiável.
 }
 
 /**
@@ -183,7 +182,7 @@ function mostrarArea(id, action = 'info') {
         areaPremiacao.style.display = 'block';
         carregarPremios(); 
     } else if (id.startsWith('upload-')) {
-        // Lógica de upload permanece a mesma
+        // Lógica de upload
         const [,, parqueId, atividadeId] = id.split('-');
         
         titulo.textContent = `Enviar Foto Badge`;
@@ -245,8 +244,7 @@ function mostrarArea(id, action = 'info') {
     areaSecundaria.scrollTo(0, 0);
 }
 
-/**
- * Carrega todos os Badges.
+/** * Carrega todos os Badges.
  */
 function carregarPremios() {
     const listaPremios = document.getElementById('lista-icones-premios');
@@ -262,8 +260,6 @@ function carregarPremios() {
         }
 
         atividades.forEach(atividade => {
-            // CORREÇÃO: Verifica se estadoUsuario[parqueId] existe antes de checar a atividade
-            // Esta lógica foi corrigida na última versão e está correta agora
             const isConcluida = estadoUsuario[parqueId] && estadoUsuario[parqueId][atividade.id];
 
             const card = document.createElement('div');
@@ -306,7 +302,6 @@ function carregarConteudoAtividades(parque, container) {
         html += '<p style="text-align: center; margin-top: 20px;">Nenhuma atividade cadastrada para este parque.</p>';
     } else {
         atividades.forEach(atividade => {
-            // CORREÇÃO: Verifica se estadoUsuario[parqueId] existe antes de checar a atividade
             const desbloqueado = estadoUsuario[parque.id] && estadoUsuario[parque.id][atividade.id] ? 'desbloqueado' : '';
             const badgeId = `${parque.id}-${atividade.id}`;
             
@@ -368,7 +363,6 @@ function lidarComHash() {
         const action = parts.length > 1 ? parts[1] : 'info'; 
         mostrarArea(id, action);
     } else {
-        // CORREÇÃO: Remove a lógica de rolagem para não interferir na inicialização
         document.getElementById('area-secundaria').classList.remove('aberto');
     }
 }
@@ -418,7 +412,12 @@ async function inicializarApp() {
 
     // 5. Event Listeners
     document.getElementById('btn-voltar').addEventListener('click', () => {
-        window.history.back();
+        // Lógica para fechar a segunda página/voltar
+        if (window.location.hash) {
+            window.history.back();
+        } else {
+            document.getElementById('area-secundaria').classList.remove('aberto');
+        }
     });
     window.addEventListener('hashchange', lidarComHash);
     
