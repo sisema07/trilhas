@@ -74,10 +74,11 @@
             { "id": "trilha-nb", "nome": "Trilha da Mata", "icone": "fa-road" },
             { "id": "mirante-nb", "nome": "Mirante da Paz", "icone": "fa-handshake" }
         ],
-        "serradointedente": [
+        "serradointendente": [
             { "id": "cachoeira-int", "nome": "Cachoeira do Intendente", "icone": "fa-water" },
             { "id": "trilha-int", "nome": "Trilha da Pedreira", "icone": "fa-road" }
         ]
     }
 }
+
 
