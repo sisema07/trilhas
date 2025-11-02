@@ -1,24 +1,30 @@
-// park_details.json
 {
     "biribiri": {
-        "map_link": "https://www.google.com/maps/search/?api=1&query=Entrada+Parque+Estadual+do+Biribiri",
+        "map_link": "https://maps.app.goo.gl/BiribiriEntrance",
         "info_content": "O Parque Estadual do Biribiri, próximo a Diamantina, é famoso por abrigar um vilarejo histórico desativado e cachoeiras espetaculares. É ideal para trilhas e banho em suas águas cristalinas.",
         
         "quiz": [
             { "q": "Qual cachoeira é a mais famosa do Biribiri?", "a": ["Cachoeira da Sentinela", "Cachoeira do Tabuleiro"], "correct": 0, "badge_id": "biribiri-quiz" }
-            // Adicionar mais perguntas
         ],
-        // A lista de atividades já está no seu JSON original (ATIVIDADES_PARQUES)
         "badge_descricao": "Para este parque, você deve escanear QR Codes nas trilhas para ganhar os badges."
     },
     "ibitipoca": {
-        "map_link": "https://www.google.com/maps/search/?api=1&query=Entrada+Parque+Estadual+do+Ibitipoca",
+        "map_link": "https://maps.app.goo.gl/IbitipocaEntrance",
         "info_content": "Famoso por suas formações rochosas, grutas e a vista da Janela do Céu. O parque possui uma rica biodiversidade e é um dos mais visitados de Minas Gerais.",
         
         "quiz": [
             { "q": "Qual é o ponto turístico mais famoso de Ibitipoca?", "a": ["Pico do Itacolomi", "Janela do Céu"], "correct": 1, "badge_id": "ibitipoca-quiz" }
         ],
         "badge_descricao": "Para este parque, você deve escanear QR Codes nas atividades (Janela do Céu, Pico do Pião, etc) para ganhar os badges."
+    },
+    "itacolomi": {
+        "map_link": "https://maps.app.goo.gl/ItacolomiEntrance",
+        "info_content": "O Pico do Itacolomi é a marca do parque. Com altitude de 1.772m, a trilha é desafiadora, mas a vista é incomparável, especialmente das duas formações rochosas inclinadas.",
+        
+        "quiz": [
+            { "q": "Qual é o nome do pico mais alto do parque?", "a": ["Pico do Itacolomi", "Pico do Cruzeiro"], "correct": 0, "badge_id": "itacolomi-quiz" }
+        ],
+        "badge_descricao": "Para este parque, você deve escanear QR Codes em pontos de vista para ganhar os badges."
     }
-    // Repita a estrutura para os outros parques...
+    // Lembre-se de adicionar todos os outros parques aqui!
 }
