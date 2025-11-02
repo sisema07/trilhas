@@ -149,7 +149,7 @@ header {
     display: none; 
 }
  
-/* Ícone Principal */
+/* Ícone Principal (Font Awesome) */
 .icone-parque-principal {
     font-size: 1.8rem; 
     color: var(--cor-principal);
@@ -157,7 +157,20 @@ header {
     z-index: 2;
     position: relative;
 }
- 
+
+/* *** NOVO ESTILO ADICIONADO *** */
+/* Estilo para as novas logos PNG nos botões */
+.logo-parque-principal {
+    width: 60%; /* Ajuste % conforme necessário */
+    height: auto;
+    max-height: 45px; /* Ajuste o tamanho máximo em pixels */
+    margin-bottom: 3px;
+    z-index: 2;
+    position: relative;
+    object-fit: contain; /* Impede que a logo distorça */
+}
+/* *** FIM DA SEÇÃO ADICIONADA *** */
+
 .nome-parque {
     font-size: 0.85rem;
     font-weight: 600;
