@@ -236,18 +236,31 @@ header {
     text-align: center;
 }
 
+/* --- ESTILO ATUALIZADO DO BADGE INTRO --- */
 .badge-intro-text {
+    display: flex; /* Cria o layout lado-a-lado */
+    align-items: center; /* Alinha o mascote e o texto verticalmente */
     text-align: left;
-    background-color: var(--cor-sombra-clara);
+    background-color: #ffffff; /* Fundo branco para destacar */
     border-radius: 15px;
     padding: 15px;
-    box-shadow: var(--sombra-neumorfismo-interna);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08); /* Sombra de card suave */
     margin-bottom: 25px;
 }
-.badge-intro-text p {
+
+/* Novo: Estilo para a imagem do mascote */
+.badge-mascote-img {
+    width: 60px; /* Tamanho do mascote */
+    height: auto;
+    margin-right: 15px; /* Espaço entre o mascote e o texto */
+}
+
+/* Novo: Estilo para o container do texto */
+.badge-mascote-texto p {
     font-size: 0.9rem;
     line-height: 1.5;
     color: var(--cor-texto);
+    margin: 5px 0; /* Ajusta o espaçamento entre os parágrafos */
 }
 
 .premios-titulo {
@@ -338,3 +351,4 @@ header {
 }
 /* Estilos dos cards de atividade omitidos aqui para brevidade, mas devem ser mantidos no arquivo real */
 /* ... */
+
