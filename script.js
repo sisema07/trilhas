@@ -386,15 +386,17 @@ function processarCheckinQRSimulacao(urlSimulada) {
 function lidarComHash() {
     const hash = window.location.hash.substring(1);
     if (hash) {
-        mostrarArea(hash);
+        const parts = hash.split('-');
+        const id = parts[0];
+        // Se a hash tiver um segundo termo (ex: #biribiri-quiz), use-o como 'action'. Padrão é 'info'.
+        const action = parts.length > 1 ? parts[1] : 'info'; 
+        mostrarArea(id, action);
     } else {
         document.getElementById('area-secundaria').classList.remove('aberto');
         document.getElementById('app-container').scrollIntoView();
         window.scrollTo(0, scrollPosition);
     }
 }
-
-
 // --- FUNÇÃO DE INICIALIZAÇÃO PRINCIPAL ---
 
 async function inicializarApp() {
@@ -452,6 +454,7 @@ async function inicializarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializarApp);
+
 
 
 
