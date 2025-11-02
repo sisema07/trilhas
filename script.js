@@ -1,7 +1,9 @@
 // script.js - CÓDIGO COMPLETO REVISADO
+// script.js - CÓDIGO COMPLETO REVISADO
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
+let DETALHES_PARQUES = {}; // <-- NOVO: Variável para os detalhes dos parques
 let estadoUsuario = JSON.parse(localStorage.getItem('trilhasDeMinasStatus')) || {};
 let scrollPosition = 0;
 let deferredPrompt; // Variável para o prompt de instalação do PWA
@@ -404,3 +406,4 @@ async function inicializarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializarApp);
+
