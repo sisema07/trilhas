@@ -5,6 +5,7 @@ const urlsToCache = [
     'style.css',
     'script.js',
     'parques.json',
+    'park_details.json'
     'trilhas.mp4',
     // Ícones do Font Awesome e Google Fonts (CDN)
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css',
@@ -104,6 +105,7 @@ self.addEventListener('fetch', event => {
             })
     );
 });
+
 
 
 
