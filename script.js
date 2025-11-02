@@ -169,15 +169,16 @@ function carregarBotoesParques() {
 
 
 /**
- * Exibe a área detalhada (Parque, Check-ins ou Upload).
+ * Exibe a área detalhada (Parque, Check-ins, Upload), e define o botão ativo na página do parque.
  */
-function mostrarArea(id) {
+function mostrarArea(id, action = 'info') { // Adiciona 'action' para controlar o botão ativo
     const areaSecundaria = document.getElementById('area-secundaria');
     const parqueDetail = document.getElementById('conteudo-parque-detalhe');
     const areaPremiacao = document.getElementById('conteudo-premios');
     const areaEnvioFoto = document.getElementById('area-envio-foto');
     const titulo = document.getElementById('secundaria-titulo');
 
+    // Esconde todas as áreas de conteúdo
     parqueDetail.style.display = 'none';
     areaPremiacao.style.display = 'none';
     areaEnvioFoto.style.display = 'none';
@@ -185,11 +186,13 @@ function mostrarArea(id) {
     scrollPosition = window.pageYOffset;
     areaSecundaria.classList.add('aberto');
     
+    // --- LÓGICA DA PÁGINA SECUNDÁRIA ---
     if (id === 'premiacao') {
         titulo.textContent = 'Check-ins';
         areaPremiacao.style.display = 'block';
         carregarPremios(); 
     } else if (id.startsWith('upload-')) {
+        // Lógica de upload permanece a mesma
         const [,, parqueId, atividadeId] = id.split('-');
         
         titulo.textContent = `Enviar Foto Badge`;
@@ -198,20 +201,61 @@ function mostrarArea(id) {
         document.getElementById('badge-upload-titulo').textContent = `Enviar Foto para Badge: ${parqueId.toUpperCase()} - ${atividadeId.toUpperCase()}`;
     
     } else {
+        // --- NOVO: Lógica da Página de Detalhes do Parque ---
         const parque = DADOS_PARQUES.find(p => p.id === id);
-        if (!parque) return;
+        const detalhes = DETALHES_PARQUES[id];
+        
+        if (!parque || !detalhes) return;
 
         titulo.textContent = parque.nome;
         parqueDetail.style.display = 'block';
+        
+        // --- 1. CONFIGURA IMAGEM (entradas/+id.png) ---
+        document.getElementById('park-main-image').src = `entradas/${parque.id}.png`;
+        
+        // --- 2. CONFIGURA LOCALIZAÇÃO ---
+        const locationLink = document.getElementById('park-location-link');
+        locationLink.href = detalhes.map_link || '#'; 
+        
+        // --- 3. CONFIGURA BOTÕES E ÁREA DE CONTEÚDO ---
+        const contentArea = document.getElementById('dynamic-content-area');
+        const buttons = document.querySelectorAll('.action-button');
+        
+        // Remove a classe 'active' de todos os botões e aplica no atual
+        buttons.forEach(btn => btn.classList.remove('active'));
+        const activeButton = document.querySelector(`.action-button[data-action="${action}"]`);
+        if (activeButton) {
+            activeButton.classList.add('active');
+        }
 
-        document.getElementById('parque-imagem').style.backgroundImage = parque.imagem;
-        document.getElementById('parque-descricao').textContent = parque.descricao || `Bem-vindo ao ${parque.nome}! Prepare-se para explorar e completar as atividades gamificadas!`;
+        // Carrega o conteúdo dinâmico baseado na ação
+        if (action === 'info') {
+            contentArea.innerHTML = `<h3>Informações Gerais</h3><p>${detalhes.info_content}</p>`;
+        } else if (action === 'quiz') {
+            // NOVO: Renderiza a tela do Quiz
+            contentArea.innerHTML = `<h3>Quiz do Parque</h3><p>O Quiz será construído aqui! O parque tem ${detalhes.quiz.length} pergunta(s).</p>`;
+            // LOGICA DO QUIZ SERÁ ADICIONADA AQUI NO PRÓXIMO PASSO
+        } else if (action === 'activities') {
+            // NOVO: Renderiza a lista de atividades
+            carregarConteudoAtividades(parque, contentArea);
+        }
 
-        carregarAtividades(parque);
+        // --- 4. Adiciona Listeners aos Botões de Ação (Apenas uma vez) ---
+        // Se a página de detalhes está sendo mostrada, adicionamos os listeners
+        // Usamos uma flag para evitar duplicação de listeners
+        if (!document.getElementById('info-button').dataset.listenerAdded) {
+            document.querySelectorAll('.action-button').forEach(btn => {
+                btn.dataset.listenerAdded = true; // Marca que o listener foi adicionado
+                btn.addEventListener('click', function() {
+                    const newAction = this.dataset.action;
+                    // Muda a hash para que a função lidarComHash trate a mudança de conteúdo
+                    window.location.hash = `${parque.id}-${newAction}`;
+                });
+            });
+        }
     }
     areaSecundaria.scrollTo(0, 0);
 }
-
 /**
  * Carrega todos os Badges.
  */
@@ -408,5 +452,6 @@ async function inicializarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializarApp);
+
 
 
