@@ -256,8 +256,8 @@ function mostrarArea(id, action = 'info') { // Adiciona 'action' para controlar 
     }
     areaSecundaria.scrollTo(0, 0);
 }
-/**
- * Carrega todos os Badges.
+
+* Carrega todos os Badges.
  */
 function carregarPremios() {
     const listaPremios = document.getElementById('lista-icones-premios');
@@ -314,8 +314,9 @@ function carregarConteudoAtividades(parque, container) {
         html += '<p style="text-align: center; margin-top: 20px;">Nenhuma atividade cadastrada para este parque.</p>';
     } else {
         atividades.forEach(atividade => {
+            // CORREÇÃO ESSENCIAL: O estado é verificado por [parqueId][atividadeId]
+            const desbloqueado = estadoUsuario[parque.id] && estadoUsuario[parque.id][atividade.id] ? 'desbloqueado' : '';
             const badgeId = `${parque.id}-${atividade.id}`;
-            const desbloqueado = estadoUsuario[badgeId] ? 'desbloqueado' : '';
             
             // Remove a indicação de QR Code, como você pediu!
             html += `
@@ -339,7 +340,6 @@ function carregarConteudoAtividades(parque, container) {
         });
     });
 }
-
 function processarCheckinQRSimulacao(urlSimulada) {
     const urlParams = new URLSearchParams(urlSimulada.split('?')[1]);
     const checkin = urlParams.get('checkin');
@@ -441,6 +441,7 @@ async function inicializarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializarApp);
+
 
 
 
