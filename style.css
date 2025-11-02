@@ -248,11 +248,10 @@ header {
     margin-bottom: 25px;
 }
 
-/* Novo: Estilo para a imagem do mascote */
 .badge-mascote-img {
     width: 60px; /* Tamanho do mascote */
     height: auto;
-    margin-right: 15px; /* Espaço entre o mascote e o texto */
+    margin-left: 15px; /* (MUDANÇA AQUI) Espaço entre o texto e o mascote */
 }
 
 /* Novo: Estilo para o container do texto */
@@ -351,4 +350,5 @@ header {
 }
 /* Estilos dos cards de atividade omitidos aqui para brevidade, mas devem ser mantidos no arquivo real */
 /* ... */
+
 
