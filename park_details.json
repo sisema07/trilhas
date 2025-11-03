@@ -3,8 +3,11 @@
         "map_link": "https://maps.app.goo.gl/BiribiriEntrance",
         "info_content": "O Parque Estadual do Biribiri, próximo a Diamantina, é famoso por abrigar um vilarejo histórico desativado e cachoeiras espetaculares. É ideal para trilhas e banho em suas águas cristalinas.",
         
+        "quiz_title": "Desafio do Biribiri",
+        "quiz_description": "Teste seus conhecimentos sobre o patrimônio histórico e as cachoeiras do Biribiri para ganhar seu primeiro badge!",
         "quiz": [
-            { "q": "Qual cachoeira é a mais famosa do Biribiri?", "a": ["Cachoeira da Sentinela", "Cachoeira do Tabuleiro"], "correct": 0, "badge_id": "biribiri-quiz" }
+            { "q": "Qual cachoeira é a mais famosa do Biribiri?", "a": ["Cachoeira da Sentinela", "Cachoeira do Tabuleiro", "Cachoeira do Buraco"], "correct": 0, "badge_id": "biribiri-quiz" },
+            { "q": "O Vilarejo de Biribiri foi criado por qual motivo?", "a": ["Mineração de Ouro", "Fábrica Têxtil", "Agricultura"], "correct": 1, "badge_id": "biribiri-quiz" }
         ],
         "badge_descricao": "Para este parque, você deve escanear QR Codes nas trilhas para ganhar os badges."
     },
@@ -12,8 +15,11 @@
         "map_link": "https://maps.app.goo.gl/IbitipocaEntrance",
         "info_content": "Famoso por suas formações rochosas, grutas e a vista da Janela do Céu. O parque possui uma rica biodiversidade e é um dos mais visitados de Minas Gerais.",
         
+        "quiz_title": "O Mistério de Ibitipoca",
+        "quiz_description": "Desvende os segredos de Ibitipoca com este quiz!",
         "quiz": [
-            { "q": "Qual é o ponto turístico mais famoso de Ibitipoca?", "a": ["Pico do Itacolomi", "Janela do Céu"], "correct": 1, "badge_id": "ibitipoca-quiz" }
+            { "q": "Qual é o ponto turístico mais famoso de Ibitipoca?", "a": ["Pico do Itacolomi", "Janela do Céu", "Cachoeira do Tabuleiro"], "correct": 1, "badge_id": "ibitipoca-quiz" },
+            { "q": "O nome Ibitipoca, de origem tupi, significa:", "a": ["Pico Bonito", "Serra do Trovão", "Pousada da Pedra"], "correct": 1, "badge_id": "ibitipoca-quiz" }
         ],
         "badge_descricao": "Para este parque, você deve escanear QR Codes nas atividades (Janela do Céu, Pico do Pião, etc) para ganhar os badges."
     },
@@ -21,6 +27,8 @@
         "map_link": "https://maps.app.goo.gl/ItacolomiEntrance",
         "info_content": "O Pico do Itacolomi é a marca do parque. Com altitude de 1.772m, a trilha é desafiadora, mas a vista é incomparável, especialmente das duas formações rochosas inclinadas.",
         
+        "quiz_title": "Desafio do Pico",
+        "quiz_description": "Prove que você conhece o Pico mais famoso de Ouro Preto.",
         "quiz": [
             { "q": "Qual é o nome do pico mais alto do parque?", "a": ["Pico do Itacolomi", "Pico do Cruzeiro"], "correct": 0, "badge_id": "itacolomi-quiz" }
         ],
