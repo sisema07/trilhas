@@ -275,7 +275,7 @@ function carregarConteudoAtividades(parque, container) {
     let html = `
         <div class="activity-instructions">
             <div class="instruction-text">
-                <h3>Procure os códigos QRs no parque, abra a câmera do seu celular e escaneie para liberar o Badge!</h3>
+                <h3>Procure os códigos QRs no parque, abra a câmera do seu celular e escaneie para liberar o badge!</h3>
                 <p class="badge-description">${detalhes.badge_descricao || 'Instruções gerais sobre o tipo de atividade.'}</p>
             </div>
             <div class="qr-mascote-container">
@@ -603,4 +603,5 @@ async function inicializarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializarApp);
+
 
