@@ -329,7 +329,7 @@ header {
     cursor: pointer;
 }
 .icone-premio i {
-    font-size: 2.5rem;
+    font-size: 2.0rem;
     margin-bottom: 5px;
 }
 .icone-premio span {
@@ -482,7 +482,7 @@ header {
 /* Estilos da lista de atividades dentro da área dinâmica */
 .atividades-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); 
     gap: 15px;
     margin-top: 20px;
     padding: 0;
@@ -513,10 +513,7 @@ header {
     font-style: normal;
     cursor: pointer;
 }
-.icone-premio i {
-    font-size: 2.5rem;
-    margin-bottom: 5px;
-}
+
 .icone-premio span {
     font-size: 0.7rem;
     text-align: center;
@@ -713,4 +710,5 @@ header {
 .activity-item.desbloqueado {
     cursor: pointer;
 }
+
 
