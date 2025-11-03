@@ -655,3 +655,59 @@ header {
     background-color: var(--cor-principal);
     color: white;
 }
+/* --- Estilos da Área de Atividades (QR Code Instructions) --- */
+
+.activity-instructions {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    margin-bottom: 10px;
+    background-color: var(--cor-fundo); 
+}
+
+.instruction-text {
+    flex-grow: 1;
+    padding-right: 15px; 
+}
+
+.instruction-text h3 {
+    font-size: 1.1rem;
+    color: var(--cor-principal);
+    margin-top: 0;
+    margin-bottom: 5px;
+    text-align: justify;
+}
+
+.instruction-text .badge-description {
+    font-size: 0.85rem;
+    color: #555;
+    text-align: justify !important;
+}
+
+.qr-mascote-container {
+    width: 60px; /* Largura fixa para a imagem */
+    height: 60px; /* Altura fixa */
+    flex-shrink: 0; /* Impede que ele encolha */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    background-color: white; /* Fundo para a imagem */
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.qr-mascote-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Garante que o item de atividade pareça clicável/reconhecível */
+.activity-item {
+    cursor: default;
+    box-shadow: var(--sombra-neumorfismo-externa);
+}
+.activity-item.desbloqueado {
+    cursor: pointer;
+}
