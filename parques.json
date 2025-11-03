@@ -23,60 +23,75 @@
     ],
     "ATIVIDADES_PARQUES": {
         "ibitipoca": [
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain" },
             { "id": "janela", "nome": "Janela do Céu", "icone": "fa-cloud-meatball" },
             { "id": "pico", "nome": "Pico do Pião", "icone": "fa-mountain" }
         ],
         "serradorolamoca": [
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain" },
             { "id": "trilha1", "nome": "Trilha Morro Veados", "icone": "fa-deer" },
             { "id": "mirante", "nome": "Mirante Cachoeiras", "icone": "fa-water" }
         ],
         "riodoce": [
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain" },
             { "id": "canoagem", "nome": "Canoagem no Rio", "icone": "fa-ship" },
             { "id": "observacao", "nome": "Observação de Aves", "icone": "fa-dove" }
         ],
         "sumidouro": [
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain" },
             { "id": "gruta", "nome": "Gruta da Lapinha", "icone": "fa-cave" },
             { "id": "lagoa", "nome": "Trilha da Lagoa", "icone": "fa-fish-fins" }
         ],
         "biribiri": [
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain" },
             { "id": "vilarejo", "nome": "Vilarejo Histórico", "icone": "fa-building-columns" },
             { "id": "cachoeira", "nome": "Cachoeira Sentinela", "icone": "fa-water" }
         ],
         "lapagrande": [
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain" },
             { "id": "pedra", "nome": "Trilha da Pedra", "icone": "fa-chess-rook" },
             { "id": "arte", "nome": "Arte Rupestre", "icone": "fa-brush" }
         ],
         "itacolomi": [
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain" },
             { "id": "pico-itacolomi", "nome": "Pico do Itacolomi", "icone": "fa-arrow-up-long" },
             { "id": "pomar", "nome": "Antigo Pomar", "icone": "fa-apple-whole" }
         ],
         "picodoitambe": [
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain" },
             { "id": "subida", "nome": "Subida ao Pico", "icone": "fa-climber" },
             { "id": "nascente", "nome": "Nascentes Itambé", "icone": "fa-hand-holding-water" }
         ],
         "serraverde": [
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain" },
             { "id": "floresta", "nome": "Trilha da Floresta", "icone": "fa-forest" },
             { "id": "arvore", "nome": "Árvore Monumental", "icone": "fa-tree" }
         ],
         "serradobrigadeiro": [
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain" },
             { "id": "passaro", "nome": "Observatório Aves", "icone": "fa-crow" },
             { "id": "cachoeira-bg", "nome": "Cachoeira Paredão", "icone": "fa-water" }
         ],
         "riopreto": [
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain" },
             { "id": "praia", "nome": "Praia do Rio", "icone": "fa-umbrella-beach" },
             { "id": "remanso", "nome": "Poço do Remanso", "icone": "fa-swimming-pool" }
         ],
         "serradasararas": [
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain" },
             { "id": "placa", "nome": "Placa Histórica", "icone": "fa-scroll" },
             { "id": "mirante-sa", "nome": "Mirante da Serra", "icone": "fa-mountain-sun" }
         ],
         "novabaden": [
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain" },
             { "id": "trilha-nb", "nome": "Trilha da Mata", "icone": "fa-road" },
             { "id": "mirante-nb", "nome": "Mirante da Paz", "icone": "fa-handshake" }
         ],
         "serradointendente": [
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain" },
             { "id": "cachoeira-int", "nome": "Cachoeira do Intendente", "icone": "fa-water" },
             { "id": "trilha-int", "nome": "Trilha da Pedreira", "icone": "fa-road" }
         ]
     }
 }
+
