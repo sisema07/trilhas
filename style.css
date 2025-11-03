@@ -480,12 +480,12 @@ header {
 }
 
 /* Estilos da lista de atividades dentro da área dinâmica */
-.atividades-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); 
+#lista-atividades-dinamica { /* Agora é o container principal */
+    display: flex;
+    flex-direction: column; /* Coloca os itens um abaixo do outro */
     gap: 15px;
     margin-top: 20px;
-    padding: 0;
+    padding: 0 10px; /* Adiciona padding lateral para respiro */
 }
 
 /* Adaptação do estilo icone-premio para ser usado aqui */
@@ -710,6 +710,7 @@ header {
 .activity-item.desbloqueado {
     cursor: pointer;
 }
+
 
 
 
