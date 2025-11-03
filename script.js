@@ -266,28 +266,39 @@ function carregarPremios() {
     }
 }
 
-/**
- * Carrega e exibe a lista de atividades (Badge) de um parque específico.
- */
+
 function carregarConteudoAtividades(parque, container) {
     const atividades = ATIVIDADES_PARQUES[parque.id] || [];
     const detalhes = DETALHES_PARQUES[parque.id] || {};
     
+    // 1. INSTRUÇÕES (com espaço para a imagem qr.png)
     let html = `
-        <h3>Atividades Gamificadas</h3>
-        <p class="badge-description">${detalhes.badge_descricao || 'Instruções para os badges deste parque.'}</p>
+        <div class="activity-instructions">
+            <div class="instruction-text">
+                <h3>Procure os códigos QRs no parque, abra a câmera do seu celular e escaneie para liberar o Badge!</h3>
+                <p class="badge-description">${detalhes.badge_descricao || 'Instruções gerais sobre o tipo de atividade.'}</p>
+            </div>
+            <div class="qr-mascote-container">
+                <img src="qr.png" alt="Mascote escaneando QR Code" class="qr-mascote-img">
+            </div>
+        </div>
+        <hr class="separator" style="margin: 15px 0;">
+        
         <div id="lista-atividades-dinamica" class="atividades-grid">
     `;
 
+    // 2. LISTA DE ATIVIDADES (Badge Apagado / Aceso)
     if (atividades.length === 0) {
         html += '<p style="text-align: center; margin-top: 20px;">Nenhuma atividade cadastrada para este parque.</p>';
     } else {
         atividades.forEach(atividade => {
+            // Verifica se o badge está no estado do usuário
             const desbloqueado = estadoUsuario[parque.id] && estadoUsuario[parque.id][atividade.id] ? 'desbloqueado' : '';
             const badgeId = `${parque.id}-${atividade.id}`;
             
+            // O Badge é a representação da atividade na lista
             html += `
-                <div class="icone-premio ${desbloqueado}" data-badge-id="${badgeId}">
+                <div class="icone-premio activity-item ${desbloqueado}" data-badge-id="${badgeId}">
                     <i class="fas ${atividade.icone}"></i>
                     <span>${atividade.nome}</span>
                 </div>
@@ -298,9 +309,11 @@ function carregarConteudoAtividades(parque, container) {
     html += '</div>';
     container.innerHTML = html; 
 
+    // 3. Listener para badges desbloqueados
     document.querySelectorAll('#lista-atividades-dinamica .icone-premio.desbloqueado').forEach(icone => {
         icone.addEventListener('click', (event) => {
             const badgeId = event.currentTarget.dataset.badgeId;
+            // Se já está desbloqueado, permite o upload/compartilhamento
             window.location.hash = `upload-${badgeId}`;
         });
     });
@@ -590,3 +603,4 @@ async function inicializarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializarApp);
+
