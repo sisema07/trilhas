@@ -211,7 +211,6 @@ function mostrarArea(id, action = 'info') {
         if (action === 'info') {
             contentArea.innerHTML = `<h3>Informações Gerais</h3><p>${detalhes.info_content}</p>`;
         } else if (action === 'quiz') {
-            // Chama a função de Quiz
             carregarQuiz(parque, contentArea);
         } else if (action === 'activities') {
             carregarConteudoAtividades(parque, contentArea);
@@ -376,26 +375,24 @@ function carregarQuiz(parque, container) {
     currentQuizIndex = 0;
     quizScore = 0;
     
-    // Estrutura HTML do Quiz
+    // Estrutura HTML do Quiz (Removido o botão Submit e Adicionado o container de navegação)
     container.innerHTML = `
-container.innerHTML = `
-    <div class="quiz-container">
-        <h3 class="quiz-title">${detalhes.quiz_title || `Quiz do ${parque.nome}`}</h3>
-        <p class="quiz-description">${detalhes.quiz_description || 'Responda para ganhar um badge!'}</p>
-        
-        <div class="progress-bar"><div class="progress" id="quiz-progress"></div></div>
-        <div id="quiz-question-container"></div>
-        
-        <div class="quiz-nav-buttons">
-            <button id="quiz-next-btn" class="action-button hidden">Próxima</button>
-            <button id="quiz-restart-btn" class="action-button hidden">Reiniciar</button>
+        <div class="quiz-container">
+            <h3 class="quiz-title">${detalhes.quiz_title || `Quiz do ${parque.nome}`}</h3>
+            <p class="quiz-description">${detalhes.quiz_description || 'Responda para ganhar um badge!'}</p>
+            
+            <div class="progress-bar"><div class="progress" id="quiz-progress"></div></div>
+            <div id="quiz-question-container"></div>
+            
+            <div class="quiz-nav-buttons">
+                <button id="quiz-next-btn" class="action-button hidden">Próxima</button>
+                <button id="quiz-restart-btn" class="action-button hidden">Reiniciar</button>
+            </div>
         </div>
-    </div>
     `;
 
     // Adiciona Listeners e Inicia a primeira pergunta
     document.getElementById('quiz-next-btn').addEventListener('click', nextQuestion);
-    document.getElementById('quiz-submit-btn').addEventListener('click', showQuizResult);
     document.getElementById('quiz-restart-btn').addEventListener('click', () => {
         currentQuizIndex = 0;
         quizScore = 0;
@@ -415,10 +412,9 @@ function showQuestion() {
     const q = currentQuizData[currentQuizIndex];
     const container = document.getElementById('quiz-question-container');
     const nextBtn = document.getElementById('quiz-next-btn');
-    const submitBtn = document.getElementById('quiz-submit-btn');
     
+    // Esconde botões de navegação
     nextBtn.classList.add('hidden');
-    submitBtn.classList.add('hidden');
 
     container.innerHTML = `
         <div class="question">${q.q}</div>
@@ -432,25 +428,19 @@ function showQuestion() {
 /**
  * Lógica ao selecionar uma opção no quiz.
  */
-/**
- * Lógica ao selecionar uma opção no quiz.
- */
 function selectQuizOption(selectedIndex) {
-    // 1. Desabilita todos os botões de opção para travar a resposta
     const buttons = document.querySelectorAll('#quiz-question-container .options button');
     buttons.forEach(btn => btn.disabled = true);
     
-    // 2. Verifica se a resposta está correta
+    // Verifica se a resposta está correta
     const isCorrect = selectedIndex === currentQuizData[currentQuizIndex].correct;
     
-    // 3. Colore a opção selecionada (vermelho/verde)
-    // Usamos cores embutidas para o feedback visual imediato
+    // Cores para feedback visual
     const correctColor = '#3ba64b'; // Verde
     const wrongColor = '#dc3545'; // Vermelho
     
     buttons[selectedIndex].style.backgroundColor = isCorrect ? correctColor : wrongColor;
     
-    // 4. Se estiver errada, revela a opção correta
     if (isCorrect) {
         quizScore++;
     } else {
@@ -458,7 +448,7 @@ function selectQuizOption(selectedIndex) {
         buttons[currentQuizData[currentQuizIndex].correct].style.backgroundColor = correctColor;
     }
 
-    // 5. Lógica de Próxima / Concluir
+    // Lógica de Próxima / Concluir
     const nextBtn = document.getElementById('quiz-next-btn');
     
     if (currentQuizIndex < currentQuizData.length - 1) {
@@ -466,7 +456,7 @@ function selectQuizOption(selectedIndex) {
         nextBtn.textContent = 'Próxima';
         nextBtn.classList.remove('hidden');
         
-        // Remove listener de Concluir (se houver) e garante o listener de Próxima
+        // Garante que o listener seja de Próxima
         nextBtn.removeEventListener('click', showQuizResult); 
         nextBtn.addEventListener('click', nextQuestion);
     } else {
@@ -539,6 +529,7 @@ function showQuizResult() {
         }
     `;
 
+    // Esconde o botão Próxima/Concluir e mostra o Reiniciar
     document.getElementById('quiz-next-btn').classList.add('hidden');
     document.getElementById('quiz-restart-btn').classList.remove('hidden');
 }
@@ -599,4 +590,3 @@ async function inicializarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializarApp);
-
