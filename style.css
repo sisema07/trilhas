@@ -1,8 +1,8 @@
-/* style.css - CÓDIGO COMPLETO FINALMENTE CORRIGIDO */
+/* style.css - CÓDIGO COMPLETO FINALMENTE CORRIGIDO PARA LISTA DE ATIVIDADES */
 
 /* Variáveis de Cores e Estilos */
 :root {
-    --cor-fundo: #ebf5ee; /* Verde/Bege claro, ideal para Neumorfismo */
+    --cor-fundo: #ebf5ee; /* Verde/Beige claro, ideal para Neumorfismo */
     --cor-principal: #4CAF50; /* Verde vibrante */
     --cor-secundaria: #8BC34A; /* Verde mais suave para destaque */
     --cor-texto: #333;
@@ -296,7 +296,9 @@ header {
     margin-bottom: 15px;
 }
 
-/* Estilos para o Grid de Badges */
+/* --- ESTILOS DO GRID DE BADGES DE CHECK-INS (TAMANHO GRANDE) --- */
+
+/* Estilos para o Grid de Badges (Check-ins) */
 #lista-icones-premios {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
@@ -304,6 +306,7 @@ header {
     margin-top: 20px;
     padding: 0;
 }
+/* Badge Quadrado Grande */
 .icone-premio {
     background-color: var(--cor-fundo);
     border-radius: 15px;
@@ -329,7 +332,7 @@ header {
     cursor: pointer;
 }
 .icone-premio i {
-    font-size: 2.0rem;
+    font-size: 2.0rem; /* Tamanho do ícone no Grid de Check-ins */
     margin-bottom: 5px;
 }
 .icone-premio span {
@@ -479,54 +482,151 @@ header {
     text-align: justify;
 }
 
-/* Estilos da lista de atividades dentro da área dinâmica */
-#lista-atividades-dinamica { /* Agora é o container principal */
-    display: flex;
-    flex-direction: column; /* Coloca os itens um abaixo do outro */
-    gap: 15px;
-    margin-top: 20px;
-    padding: 0 10px; /* Adiciona padding lateral para respiro */
-}
-
-/* Adaptação do estilo icone-premio para ser usado aqui */
-.icone-premio {
-    background-color: var(--cor-fundo);
-    border-radius: 15px;
-    aspect-ratio: 1 / 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    box-shadow: var(--sombra-neumorfismo-externa);
-    transition: all 0.3s ease-in-out;
-    position: relative;
-    padding: 10px;
-    color: #ccc;
-    opacity: 0.5;
-    font-style: italic;
-    cursor: default;
-}
-.icone-premio.desbloqueado {
-    box-shadow: var(--sombra-neumorfismo-interna);
-    color: var(--cor-secundaria); 
-    opacity: 1.0;
-    font-style: normal;
-    cursor: pointer;
-}
-
-.icone-premio span {
-    font-size: 0.7rem;
-    text-align: center;
-    font-weight: 500;
-    line-height: 1.1;
-}
-
 /* Descrição para a área de atividades */
 .badge-description {
     font-size: 0.9rem;
     color: #666;
     margin-top: -10px;
     text-align: center !important;
+}
+
+/* --- ESTILOS DE LISTA DE ATIVIDADES (LISTA COM DESCRIÇÃO) --- */
+
+#lista-atividades-dinamica { 
+    display: flex;
+    flex-direction: column; 
+    gap: 15px;
+    margin-top: 20px;
+    padding: 0 10px; 
+}
+
+/* Item Completo da Lista (Badge + Descrição) */
+.activity-list-item {
+    display: flex;
+    align-items: center;
+    background-color: var(--cor-fundo);
+    border-radius: 15px;
+    box-shadow: var(--sombra-neumorfismo-externa);
+    padding: 10px;
+    transition: all 0.2s;
+    min-height: 70px;
+}
+.activity-list-item.desbloqueado {
+    box-shadow: var(--sombra-neumorfismo-interna);
+    cursor: pointer;
+}
+
+
+/* Estilo do Badge Pequeno (À esquerda) */
+.activity-list-item .icone-premio {
+    /* Tornando o badge MENOR e fixo na esquerda */
+    width: 60px; 
+    height: 60px;
+    flex-shrink: 0; 
+    margin-right: 15px;
+    
+    /* Cores e Estilos */
+    opacity: 0.5;
+    color: #ccc;
+    
+    /* Garantindo que o ícone interno seja centralizado */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--cor-fundo);
+    border-radius: 15px;
+    box-shadow: var(--sombra-neumorfismo-externa);
+    padding: 0; /* Remove padding extra */
+}
+
+.activity-list-item.desbloqueado .icone-premio {
+    opacity: 1.0;
+    color: var(--cor-secundaria); 
+    box-shadow: var(--sombra-neumorfismo-interna);
+}
+
+/* Tamanho do Ícone dentro do Badge (reduzido) */
+.activity-list-item .icone-premio i {
+    font-size: 1.6rem; 
+    margin-bottom: 0; 
+}
+
+/* Esconder o nome no BADGE, pois ele está na descrição ao lado */
+.activity-list-item .icone-premio span {
+    display: none;
+}
+
+/* Estilo da Descrição da Atividade */
+.activity-description-box {
+    flex-grow: 1;
+    text-align: left;
+    padding-right: 5px;
+}
+
+.activity-description-box h4 {
+    margin: 0 0 3px 0;
+    font-size: 1.0rem;
+    color: var(--cor-texto);
+    font-weight: 700;
+}
+.activity-description-box p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #666;
+    line-height: 1.3;
+    text-align: left !important;
+}
+
+/* --- Estilos da Área de Instruções de QR Code --- */
+
+.activity-instructions {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    margin-bottom: 10px;
+    background-color: var(--cor-fundo); 
+}
+
+.instruction-text {
+    flex-grow: 1;
+    padding-right: 15px; 
+}
+
+.instruction-text h3 {
+    font-size: 1.1rem;
+    color: var(--cor-principal);
+    margin-top: 0;
+    margin-bottom: 5px;
+    text-align: justify;
+    font-weight: 700; 
+    text-transform: none !important; /* CORREÇÃO FINAL DA CAIXA ALTA */
+}
+
+.instruction-text .badge-description {
+    font-size: 0.85rem;
+    color: #555;
+    text-align: justify !important;
+    margin-top: 0;
+}
+
+.qr-mascote-container {
+    width: 60px; 
+    height: 60px; 
+    flex-shrink: 0; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    background-color: white; 
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.qr-mascote-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 /* --- ESTILOS DO QUIZ DINÂMICO --- */
@@ -570,7 +670,7 @@ header {
     padding: 0 10px;
 }
 
-/* NOVO: Container das opções em GRID de 2 colunas */
+/* Container das opções em GRID de 2 colunas */
 .options {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -630,7 +730,7 @@ header {
     margin: 15px 0;
 }
 
-/* NOVO: Estilos para o Container dos Botões de Navegação (Duas Colunas) */
+/* Estilos para o Container dos Botões de Navegação (Duas Colunas) */
 .quiz-nav-buttons {
     display: flex;
     justify-content: center;
@@ -652,65 +752,3 @@ header {
     background-color: var(--cor-principal);
     color: white;
 }
-/* --- Estilos da Área de Atividades (QR Code Instructions) --- */
-
-.activity-instructions {
-    display: flex;
-    align-items: center;
-    padding: 0 10px;
-    margin-bottom: 10px;
-    background-color: var(--cor-fundo); 
-}
-
-.instruction-text {
-    flex-grow: 1;
-    padding-right: 15px; 
-}
-
-.instruction-text h3 {
-    font-size: 1.1rem;
-    color: var(--cor-principal);
-    margin-top: 0;
-    margin-bottom: 5px;
-    text-align: justify;
-    font-weight: 700; 
-    text-transform: none !important;
-}
-
-.instruction-text .badge-description {
-    font-size: 0.85rem;
-    color: #555;
-    text-align: justify !important;
-}
-
-.qr-mascote-container {
-    width: 60px; /* Largura fixa para a imagem */
-    height: 60px; /* Altura fixa */
-    flex-shrink: 0; /* Impede que ele encolha */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px;
-    background-color: white; /* Fundo para a imagem */
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.qr-mascote-img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-/* Garante que o item de atividade pareça clicável/reconhecível */
-.activity-item {
-    cursor: default;
-    box-shadow: var(--sombra-neumorfismo-externa);
-}
-.activity-item.desbloqueado {
-    cursor: pointer;
-}
-
-
-
-
