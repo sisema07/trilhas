@@ -1,259 +1,255 @@
 {
     "DADOS_PARQUES": [
-{ 
-  "id": "premiacao", 
-  "nome": "Check-ins", 
-  "icone_principal": "fa-medal", 
-  "icone_fundo": "fa-trophy", 
-  "imagem": null, 
-  "is_premio": true 
-},
-{ 
-  "id": "biribiri", 
-  "nome": "Biribiri", 
-  "icone_principal": "fa-campground", 
-  "icone_fundo": "fa-river", 
-  "imagem": "url(https://source.unsplash.com/random/400x200?river,minas-gerais)", 
-  "descricao": "Um local com um vilarejo histórico desativado e cachoeiras de águas cristalinas para um bom banho.", 
-  "logo_png": "logos/biribiri.png" 
-},
-{ 
-  "id": "ibitipoca", 
-  "nome": "Ibitipoca", 
-  "icone_principal": "fa-tree", 
-  "icone_fundo": "fa-mountain", 
-  "imagem": "url(https://source.unsplash.com/random/400x200?ibitipoca,nature,mg)", 
-  "descricao": "O Parque Estadual do Ibitipoca é famoso por suas grutas e paisagens de tirar o fôlego. Não perca a Janela do Céu!", 
-  "logo_png": "logos/ibitipoca.png" 
-},
-{ 
-  "id": "itacolomi", 
-  "nome": "Itacolomi", 
-  "icone_principal": "fa-cloud-sun", 
-  "icone_fundo": "fa-eye", 
-  "imagem": "url(https://source.unsplash.com/random/400x200?view,minas-gerais)", 
-  "descricao": "Localizado entre Ouro Preto e Mariana, seu pico imponente é um marco da região e oferece vistas espetaculares.", 
-  "logo_png": "logos/itacolomi.png" 
-},
-{ 
-  "id": "lapagrande", 
-  "nome": "Lapa Grande", 
-  "icone_principal": "fa-globe-americas", 
-  "icone_fundo": "fa-rock", 
-  "imagem": "url(https://source.unsplash.com/random/400x200?rock,minas-gerais)", 
-  "descricao": "Abriga a Gruta da Lapa Grande, um dos maiores complexos de cavernas da região de Montes Claros.", 
-  "logo_png": "logos/lapagrande.png" 
-},
-{ 
-  "id": "matadokrambeck", 
-  "nome": "Mata do Krambeck", 
-  "icone_principal": "fa-globe-americas", 
-  "icone_fundo": "fa-rock", 
-  "imagem": "url(https://source.unsplash.com/random/400x200?rock,minas-gerais)", 
-  "descricao": "Abriga a Gruta da Lapa Grande, um dos maiores complexos de cavernas da região de Montes Claros.", 
-  "logo_png": "logos/matadokrambeck.png" 
-},
-{ 
-  "id": "matadolimoeiro", 
-  "nome": "Mata do Limoeiro", 
-  "icone_principal": "fa-hiking", 
-  "icone_fundo": "fa-gorge", 
-  "imagem": "url(https://source.unsplash.com/random/400x200?canyon,minas-gerais)", 
-  "descricao": "Conhecido por seus cânions profundos, vegetação de campos rupestres e rica biodiversidade.", 
-  "logo_png": "logos/matadolimoeiro.png" 
-},
-{ 
-  "id": "novabaden", 
-  "nome": "Nova Baden", 
-  "icone_principal": "fa-bug", 
-  "icone_fundo": "fa-spider", 
-  "imagem": "url(https://source.unsplash.com/random/400x200?insect,minas-gerais)", 
-  "descricao": "Um remanescente de floresta ombrófila mista, com grande diversidade de fauna e flora.", 
-  "logo_png": "logos/novabaden.png" 
-},
-{ 
-  "id": "paufurado", 
-  "nome": "Pau Furado", 
-  "icone_principal": "fa-seedling", 
-  "icone_fundo": "fa-bridge", 
-  "imagem": "url(https://source.unsplash.com/random/400x200?campo,minas-gerais)", 
-  "descricao": "Famoso por suas grandes cavernas e pela flora de veredas, com o Buriti como marca registrada.", 
-  "logo_png": "logos/paufurado.png" 
-},
-{ 
-  "id": "picodoitambe", 
-  "nome": "Pico do Itambé", 
-  "icone_principal": "fa-fire", 
-  "icone_fundo": "fa-mountain-sun", 
-  "imagem": "url(https://source.unsplash.com/random/400x200?peak,minas-gerais)", 
-  "descricao": "O ponto mais alto da Serra do Espinhaço em Minas Gerais, um desafio para os amantes de trekking.", 
-  "logo_png": "logos/picodoitambe.png" 
-},
-{ 
-  "id": "riodoce", 
-  "nome": "Rio Doce", 
-  "icone_principal": "fa-water", 
-  "icone_fundo": "fa-ship", 
-  "imagem": "url(https://source.unsplash.com/random/400x200?lake,minas-gerais)", 
-  "descricao": "Conhecido por suas vastas áreas de Mata Atlântica e seu sistema de lagos, ideal para observação da vida selvagem.", 
-  "logo_png": "logos/riodoce.png" 
-},
-{ 
-  "id": "riopreto", 
-  "nome": "Rio Preto", 
-  "icone_principal": "fa-umbrella-beach", 
-  "icone_fundo": "fa-swimming-pool", 
-  "imagem": "url(https://source.unsplash.com/random/400x200?beach,river,minas-gerais)", 
-  "descricao": "Com águas escuras e cristalinas, oferece poços naturais e praias fluviais para descanso e banho.", 
-  "logo_png": "logos/riopreto.png" 
-},
-{ 
-  "id": "serradasararas", 
-  "nome": "Serra das Araras", 
-  "icone_principal": "fa-camera", 
-  "icone_fundo": "fa-scroll", 
-  "imagem": "url(https://source.unsplash.com/random/400x200?viewpoint,minas-gerais)", 
-  "descricao": "Localizada no Noroeste de Minas, possui belezas cênicas e importância histórica na rota de tropeiros.", 
-  "logo_png": "logos/serradasararas.png" 
-},
-{ 
-  "id": "serradointendente", 
-  "nome": "Serra do Intendente", 
-  "icone_principal": "fa-road", 
-  "icone_fundo": "fa-map", 
-  "imagem": "url(https://source.unsplash.com/random/400x200?road,minas-gerais)", 
-  "descricao": "Parque com diversas trilhas e cachoeiras, com destaque para a região da Cachoeira do Intendente.", 
-  "logo_png": "logos/serradointendente.png" 
-},
-{ 
-  "id": "serradobrigadeiro", 
-  "nome": "Serra do Brigadeiro", 
-  "icone_principal": "fa-feather-alt", 
-  "icone_fundo": "fa-crow", 
-  "imagem": "url(https://source.unsplash.com/random/400x200?bird,minas-gerais)", 
-  "descricao": "Excelente local para observação de aves e trilhas pela Mata Atlântica de altitude.", 
-  "logo_png": "logos/serradobrigadeiro.png" 
-},
-{ 
-  "id": "serradopapagaio", 
-  "nome": "Serra do Papagaio", 
-  "icone_principal": "fa-mountain", 
-  "icone_fundo": "fa-road", 
-  "imagem": "url(https://source.unsplash.com/random/400x200?mountain,minas-gerais)", 
-  "descricao": "Um dos maiores parques urbanos do Brasil, com vistas panorâmicas da região metropolitana de Belo Horizonte.", 
-  "logo_png": "logos/serradopapagaio.png" 
-},
-{ 
-  "id": "serradorolamoca", 
-  "nome": "Serra do Rola Moça", 
-  "icone_principal": "fa-mountain", 
-  "icone_fundo": "fa-road", 
-  "imagem": "url(https://source.unsplash.com/random/400x200?mountain,minas-gerais)", 
-  "descricao": "Um dos maiores parques urbanos do Brasil, com vistas panorâmicas da região metropolitana de Belo Horizonte.", 
-  "logo_png": "logos/serradorolamoca.png" 
-},
-{ 
-  "id": "serranovaetalhado", 
-  "nome": "Serra Nova e Talhado", 
-  "icone_principal": "fa-mountain", 
-  "icone_fundo": "fa-road", 
-  "imagem": "url(https://source.unsplash.com/random/400x200?mountain,minas-gerais)", 
-  "descricao": "Um dos maiores parques urbanos do Brasil, com vistas panorâmicas da região metropolitana de Belo Horizonte.", 
-  "logo_png": "logos/serranovaetalhado.png" 
-},
-{ 
-  "id": "serraverde", 
-  "nome": "Serra Verde", 
-  "icone_principal": "fa-leaf", 
-  "icone_fundo": "fa-forest", 
-  "imagem": "url(https://source.unsplash.com/random/400x200?forest,minas-gerais)", 
-  "descricao": "Uma área de preservação com vasta cobertura florestal e rica em nascentes de água pura.", 
-  "logo_png": "logos/serraverde.png" 
-},
-{ 
-  "id": "sumidouro", 
-  "nome": "Sumidouro", 
-  "icone_principal": "fa-gem", 
-  "icone_fundo": "fa-cave", 
-  "imagem": "url(https://source.unsplash.com/random/400x200?cave,minas-gerais)", 
-  "descricao": "Famoso pela Gruta da Lapinha e por sítios arqueológicos com vestígios pré-históricos de Minas Gerais.", 
-  "logo_png": "logos/sumidouro.png" 
-}
+        { 
+            "id": "premiacao", 
+            "nome": "Check-ins", 
+            "icone_principal": "fa-medal", 
+            "icone_fundo": "fa-trophy", 
+            "imagem": null, 
+            "is_premio": true 
+        },
+        { 
+            "id": "biribiri", 
+            "nome": "Biribiri", 
+            "icone_principal": "fa-campground", 
+            "icone_fundo": "fa-river", 
+            "imagem": "url(https://source.unsplash.com/random/400x200?river,minas-gerais)", 
+            "descricao": "Um local com um vilarejo histórico desativado e cachoeiras de águas cristalinas para um bom banho.", 
+            "logo_png": "logos/biribiri.png" 
+        },
+        { 
+            "id": "ibitipoca", 
+            "nome": "Ibitipoca", 
+            "icone_principal": "fa-tree", 
+            "icone_fundo": "fa-mountain", 
+            "imagem": "url(https://source.unsplash.com/random/400x200?ibitipoca,nature,mg)", 
+            "descricao": "O Parque Estadual do Ibitipoca é famoso por suas grutas e paisagens de tirar o fôlego. Não perca a Janela do Céu!", 
+            "logo_png": "logos/ibitipoca.png" 
+        },
+        { 
+            "id": "itacolomi", 
+            "nome": "Itacolomi", 
+            "icone_principal": "fa-cloud-sun", 
+            "icone_fundo": "fa-eye", 
+            "imagem": "url(https://source.unsplash.com/random/400x200?view,minas-gerais)", 
+            "descricao": "Localizado entre Ouro Preto e Mariana, seu pico imponente é um marco da região e oferece vistas espetaculares.", 
+            "logo_png": "logos/itacolomi.png" 
+        },
+        { 
+            "id": "lapagrande", 
+            "nome": "Lapa Grande", 
+            "icone_principal": "fa-globe-americas", 
+            "icone_fundo": "fa-rock", 
+            "imagem": "url(https://source.unsplash.com/random/400x200?rock,minas-gerais)", 
+            "descricao": "Abriga a Gruta da Lapa Grande, um dos maiores complexos de cavernas da região de Montes Claros.", 
+            "logo_png": "logos/lapagrande.png" 
+        },
+        { 
+            "id": "matadokrambeck", 
+            "nome": "Mata do Krambeck", 
+            "icone_principal": "fa-globe-americas", 
+            "icone_fundo": "fa-rock", 
+            "imagem": "url(https://source.unsplash.com/random/400x200?rock,minas-gerais)", 
+            "descricao": "Abriga a Gruta da Lapa Grande, um dos maiores complexos de cavernas da região de Montes Claros.", 
+            "logo_png": "logos/matadokrambeck.png" 
+        },
+        { 
+            "id": "matadolimoeiro", 
+            "nome": "Mata do Limoeiro", 
+            "icone_principal": "fa-hiking", 
+            "icone_fundo": "fa-gorge", 
+            "imagem": "url(https://source.unsplash.com/random/400x200?canyon,minas-gerais)", 
+            "descricao": "Conhecido por seus cânions profundos, vegetação de campos rupestres e rica biodiversidade.", 
+            "logo_png": "logos/matadolimoeiro.png" 
+        },
+        { 
+            "id": "novabaden", 
+            "nome": "Nova Baden", 
+            "icone_principal": "fa-bug", 
+            "icone_fundo": "fa-spider", 
+            "imagem": "url(https://source.unsplash.com/random/400x200?insect,minas-gerais)", 
+            "descricao": "Um remanescente de floresta ombrófila mista, com grande diversidade de fauna e flora.", 
+            "logo_png": "logos/novabaden.png" 
+        },
+        { 
+            "id": "paufurado", 
+            "nome": "Pau Furado", 
+            "icone_principal": "fa-seedling", 
+            "icone_fundo": "fa-bridge", 
+            "imagem": "url(https://source.unsplash.com/random/400x200?campo,minas-gerais)", 
+            "descricao": "Famoso por suas grandes cavernas e pela flora de veredas, com o Buriti como marca registrada.", 
+            "logo_png": "logos/paufurado.png" 
+        },
+        { 
+            "id": "picodoitambe", 
+            "nome": "Pico do Itambé", 
+            "icone_principal": "fa-fire", 
+            "icone_fundo": "fa-mountain-sun", 
+            "imagem": "url(https://source.unsplash.com/random/400x200?peak,minas-gerais)", 
+            "descricao": "O ponto mais alto da Serra do Espinhaço em Minas Gerais, um desafio para os amantes de trekking.", 
+            "logo_png": "logos/picodoitambe.png" 
+        },
+        { 
+            "id": "riodoce", 
+            "nome": "Rio Doce", 
+            "icone_principal": "fa-water", 
+            "icone_fundo": "fa-ship", 
+            "imagem": "url(https://source.unsplash.com/random/400x200?lake,minas-gerais)", 
+            "descricao": "Conhecido por suas vastas áreas de Mata Atlântica e seu sistema de lagos, ideal para observação da vida selvagem.", 
+            "logo_png": "logos/riodoce.png" 
+        },
+        { 
+            "id": "riopreto", 
+            "nome": "Rio Preto", 
+            "icone_principal": "fa-umbrella-beach", 
+            "icone_fundo": "fa-swimming-pool", 
+            "imagem": "url(https://source.unsplash.com/random/400x200?beach,river,minas-gerais)", 
+            "descricao": "Com águas escuras e cristalinas, oferece poços naturais e praias fluviais para descanso e banho.", 
+            "logo_png": "logos/riopreto.png" 
+        },
+        { 
+            "id": "serradasararas", 
+            "nome": "Serra das Araras", 
+            "icone_principal": "fa-camera", 
+            "icone_fundo": "fa-scroll", 
+            "imagem": "url(https://source.unsplash.com/random/400x200?viewpoint,minas-gerais)", 
+            "descricao": "Localizada no Noroeste de Minas, possui belezas cênicas e importância histórica na rota de tropeiros.", 
+            "logo_png": "logos/serradasararas.png" 
+        },
+        { 
+            "id": "serradobrigadeiro", 
+            "nome": "Serra do Brigadeiro", 
+            "icone_principal": "fa-feather-alt", 
+            "icone_fundo": "fa-crow", 
+            "imagem": "url(https://source.unsplash.com/random/400x200?bird,minas-gerais)", 
+            "descricao": "Excelente local para observação de aves e trilhas pela Mata Atlântica de altitude.", 
+            "logo_png": "logos/serradobrigadeiro.png" 
+        },
+        { 
+            "id": "serradointendente", 
+            "nome": "Serra do Intendente", 
+            "icone_principal": "fa-road", 
+            "icone_fundo": "fa-map", 
+            "imagem": "url(https://source.unsplash.com/random/400x200?road,minas-gerais)", 
+            "descricao": "Parque com diversas trilhas e cachoeiras, com destaque para a região da Cachoeira do Intendente.", 
+            "logo_png": "logos/serradointendente.png" 
+        },
+        { 
+            "id": "serradopapagaio", 
+            "nome": "Serra do Papagaio", 
+            "icone_principal": "fa-mountain", 
+            "icone_fundo": "fa-road", 
+            "imagem": "url(https://source.unsplash.com/random/400x200?mountain,minas-gerais)", 
+            "descricao": "Um dos maiores parques urbanos do Brasil, com vistas panorâmicas da região metropolitana de Belo Horizonte.", 
+            "logo_png": "logos/serradopapagaio.png" 
+        },
+        { 
+            "id": "serradorolamoca", 
+            "nome": "Serra do Rola Moça", 
+            "icone_principal": "fa-mountain", 
+            "icone_fundo": "fa-road", 
+            "imagem": "url(https://source.unsplash.com/random/400x200?mountain,minas-gerais)", 
+            "descricao": "Um dos maiores parques urbanos do Brasil, com vistas panorâmicas da região metropolitana de Belo Horizonte.", 
+            "logo_png": "logos/serradorolamoca.png" 
+        },
+        { 
+            "id": "serranovaetalhado", 
+            "nome": "Serra Nova e Talhado", 
+            "icone_principal": "fa-mountain", 
+            "icone_fundo": "fa-road", 
+            "imagem": "url(https://source.unsplash.com/random/400x200?mountain,minas-gerais)", 
+            "descricao": "Um dos maiores parques urbanos do Brasil, com vistas panorâmicas da região metropolitana de Belo Horizonte.", 
+            "logo_png": "logos/serranovaetalhado.png" 
+        },
+        { 
+            "id": "sumidouro", 
+            "nome": "Sumidouro", 
+            "icone_principal": "fa-gem", 
+            "icone_fundo": "fa-cave", 
+            "imagem": "url(https://source.unsplash.com/random/400x200?cave,minas-gerais)", 
+            "descricao": "Famoso pela Gruta da Lapinha e por sítios arqueológicos com vestígios pré-históricos de Minas Gerais.", 
+            "logo_png": "logos/sumidouro.png" 
+        },
+        { 
+            "id": "serraverde", 
+            "nome": "Serra Verde", 
+            "icone_principal": "fa-leaf", 
+            "icone_fundo": "fa-forest", 
+            "imagem": "url(https://source.unsplash.com/random/400x200?forest,minas-gerais)", 
+            "descricao": "Uma área de preservação com vasta cobertura florestal e rica em nascentes de água pura.", 
+            "logo_png": "logos/serraverde.png" 
+        } 
     ],
     "ATIVIDADES_PARQUES": {
         "ibitipoca": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "" },
-            { "id": "janela", "nome": "Janela do Céu", "icone": "fa-cloud-meatball", "descricao_curta": "" },
-            { "id": "pico", "nome": "Pico do Pião", "icone": "fa-mountain", "descricao_curta": "" }
-        ],
-        "serradorolamoca": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "" },
-            { "id": "trilha1", "nome": "Trilha Morro Veados", "icone": "fa-deer", "descricao_curta": "" },
-            { "id": "mirante", "nome": "Mirante Cachoeiras", "icone": "fa-water", "descricao_curta": "" }
-        ],
-        "riodoce": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "" },
-            { "id": "canoagem", "nome": "Canoagem no Rio", "icone": "fa-ship", "descricao_curta": "" },
-            { "id": "observacao", "nome": "Observação de Aves", "icone": "fa-dove", "descricao_curta": "" }
-        ],
-        "sumidouro": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "" },
-            { "id": "gruta", "nome": "Gruta da Lapinha", "icone": "fa-cave", "descricao_curta": "" },
-            { "id": "lagoa", "nome": "Trilha da Lagoa", "icone": "fa-fish-fins", "descricao_curta": "" }
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "Teste seus conhecimentos para liberar este Badge!" },
+            { "id": "janela", "nome": "Janela do Céu", "icone": "fa-cloud-meatball", "descricao_curta": "A vista icônica do parque, cachoeira e horizonte sem fim." },
+            { "id": "pico", "nome": "Pico do Pião", "icone": "fa-mountain", "descricao_curta": "A subida ao ponto mais alto e a capela histórica no topo." }
         ],
         "biribiri": [
             { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" },
             { "id": "vilarejo", "nome": "Vilarejo Histórico", "icone": "fa-building-columns", "descricao_curta": "Conheça as ruínas da antiga fábrica têxtil de Biribiri." },
             { "id": "cachoeira", "nome": "Cachoeira Sentinela", "icone": "fa-water", "descricao_curta": "Localizada no coração do parque, a Sentinela possui águas cristalinas." }
         ],
+        "serradorolamoca": [
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" },
+            { "id": "trilha1", "nome": "Trilha Morro Veados", "icone": "fa-deer", "descricao_curta": "Caminhada de dificuldade média com vista panorâmica." },
+            { "id": "mirante", "nome": "Mirante Cachoeiras", "icone": "fa-water", "descricao_curta": "Veja as principais quedas d'água da região." }
+        ],
+        "riodoce": [
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" },
+            { "id": "canoagem", "nome": "Canoagem no Rio", "icone": "fa-ship", "descricao_curta": "Navegue pelo lago e observe a fauna." },
+            { "id": "observacao", "nome": "Observação de Aves", "icone": "fa-dove", "descricao_curta": "Um dos melhores locais para ver espécies raras." }
+        ],
+        "sumidouro": [
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" },
+            { "id": "gruta", "nome": "Gruta da Lapinha", "icone": "fa-cave", "descricao_curta": "Explore a famosa caverna com formações incríveis." },
+            { "id": "lagoa", "nome": "Trilha da Lagoa", "icone": "fa-fish-fins", "descricao_curta": "Passeio pela área da lagoa e sítios arqueológicos." }
+        ],
         "lapagrande": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "" },
-            { "id": "pedra", "nome": "Trilha da Pedra", "icone": "fa-chess-rook", "descricao_curta": "" },
-            { "id": "arte", "nome": "Arte Rupestre", "icone": "fa-brush", "descricao_curta": "" }
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" },
+            { "id": "pedra", "nome": "Trilha da Pedra", "icone": "fa-chess-rook", "descricao_curta": "A Trilha que leva a uma vista espetacular das montanhas." },
+            { "id": "arte", "nome": "Arte Rupestre", "icone": "fa-brush", "descricao_curta": "Descubra as pinturas rupestres milenares nas cavernas." }
         ],
         "itacolomi": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "" },
-            { "id": "pico-itacolomi", "nome": "Pico do Itacolomi", "icone": "fa-arrow-up-long", "descricao_curta": "" },
-            { "id": "pomar", "nome": "Antigo Pomar", "icone": "fa-apple-whole", "descricao_curta": "" }
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" },
+            { "id": "pico-itacolomi", "nome": "Pico do Itacolomi", "icone": "fa-arrow-up-long", "descricao_curta": "Conquiste o pico símbolo da região de Ouro Preto." },
+            { "id": "pomar", "nome": "Antigo Pomar", "icone": "fa-apple-whole", "descricao_curta": "Visite a área de descanso e o antigo pomar da fazenda." }
         ],
         "picodoitambe": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "" },
-            { "id": "subida", "nome": "Subida ao Pico", "icone": "fa-climber", "descricao_curta": "" },
-            { "id": "nascente", "nome": "Nascentes Itambé", "icone": "fa-hand-holding-water", "descricao_curta": "" }
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" },
+            { "id": "subida", "nome": "Subida ao Pico", "icone": "fa-climber", "descricao_curta": "Subida desafiadora para o ponto mais alto da serra." },
+            { "id": "nascente", "nome": "Nascentes Itambé", "icone": "fa-hand-holding-water", "descricao_curta": "Área de nascentes e riachos preservados." }
         ],
         "serraverde": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "" },
-            { "id": "floresta", "nome": "Trilha da Floresta", "icone": "fa-forest", "descricao_curta": "" },
-            { "id": "arvore", "nome": "Árvore Monumental", "icone": "fa-tree", "descricao_curta": "" }
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" },
+            { "id": "floresta", "nome": "Trilha da Floresta", "icone": "fa-forest", "descricao_curta": "Passeio pela vasta cobertura florestal do parque." },
+            { "id": "arvore", "nome": "Árvore Monumental", "icone": "fa-tree", "descricao_curta": "Visite a árvore mais antiga e imponente da região." }
         ],
         "serradobrigadeiro": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "" },
-            { "id": "passaro", "nome": "Observatório Aves", "icone": "fa-crow", "descricao_curta": "" },
-            { "id": "cachoeira-bg", "nome": "Cachoeira Paredão", "icone": "fa-water", "descricao_curta": "" }
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" },
+            { "id": "passaro", "nome": "Observatório Aves", "icone": "fa-crow", "descricao_curta": "Local ideal para observação da fauna local." },
+            { "id": "cachoeira-bg", "nome": "Cachoeira Paredão", "icone": "fa-water", "descricao_curta": "Uma das maiores quedas d'água da Serra do Brigadeiro." }
         ],
         "riopreto": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "" },
-            { "id": "praia", "nome": "Praia do Rio", "icone": "fa-umbrella-beach", "descricao_curta": "" },
-            { "id": "remanso", "nome": "Poço do Remanso", "icone": "fa-swimming-pool", "descricao_curta": "" }
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" },
+            { "id": "praia", "nome": "Praia do Rio", "icone": "fa-umbrella-beach", "descricao_curta": "Descanse nas praias fluviais do Rio Preto." },
+            { "id": "remanso", "nome": "Poço do Remanso", "icone": "fa-swimming-pool", "descricao_curta": "Poço de águas tranquilas e transparentes para banho." }
         ],
         "serradasararas": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "" },
-            { "id": "placa", "nome": "Placa Histórica", "icone": "fa-scroll", "descricao_curta": "" },
-            { "id": "mirante-sa", "nome": "Mirante da Serra", "icone": "fa-mountain-sun", "descricao_curta": "" }
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" },
+            { "id": "placa", "nome": "Placa Histórica", "icone": "fa-scroll", "descricao_curta": "Ponto de registro histórico da Rota de Tropeiros." },
+            { "id": "mirante-sa", "nome": "Mirante da Serra", "icone": "fa-mountain-sun", "descricao_curta": "Vista panorâmica do Noroeste Mineiro." }
         ],
         "novabaden": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "" },
-            { "id": "trilha-nb", "nome": "Trilha da Mata", "icone": "fa-road", "descricao_curta": "" },
-            { "id": "mirante-nb", "nome": "Mirante da Paz", "icone": "fa-handshake", "descricao_curta": "" }
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" },
+            { "id": "trilha-nb", "nome": "Trilha da Mata", "icone": "fa-road", "descricao_curta": "Passeio pela floresta ombrófila mista preservada." },
+            { "id": "mirante-nb", "nome": "Mirante da Paz", "icone": "fa-handshake", "descricao_curta": "Local tranquilo com vista para a região de Nova Baden." }
         ],
         "serradointendente": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "" },
-            { "id": "cachoeira-int", "nome": "Cachoeira do Intendente", "icone": "fa-water", "descricao_curta": "" },
-            { "id": "trilha-int", "nome": "Trilha da Pedreira", "icone": "fa-road", "descricao_curta": "" }
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" },
+            { "id": "cachoeira-int", "nome": "Cachoeira do Intendente", "icone": "fa-water", "descricao_curta": "Queda d'água famosa, ideal para banho e fotos." },
+            { "id": "trilha-int", "nome": "Trilha da Pedreira", "icone": "fa-road", "descricao_curta": "Antiga área de extração de pedras com vegetação de volta." }
         ]
     }
 }
-
-
-
-
