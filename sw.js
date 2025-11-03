@@ -1,4 +1,4 @@
-const CACHE_NAME = 'trilhas-de-minas-v6'; // V6 para forçar o recarregamento do novo JSON
+const CACHE_NAME = 'trilhas-de-minas-v7'; // Usando v7 para forçar a atualização
 const urlsToCache = [
     './',
     'index.html',
