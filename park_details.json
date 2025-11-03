@@ -18,7 +18,6 @@
            { "q": "O nome “Biribiri” tem origem em um pássaro da região.", "a": ["Verdadeiro", "Falso"], "correct": 0, "badge_id": "quiz" },
            { "q": "Quantas cachoeiras principais existem no parque?", "a": ["Duas", "Três", "Quatro"], "correct": 1, "badge_id": "quiz" },
            { "q": "A antiga fábrica têxtil de Biribiri ainda está em funcionamento.", "a": ["Verdadeiro", "Falso"], "correct": 1, "badge_id": "quiz" }
-        ];
         ],
         "badge_descricao": "Para este parque, você deve escanear QR Codes nas trilhas para ganhar os badges."
     },
@@ -46,4 +45,5 @@
         "badge_descricao": "Para este parque, você deve escanear QR Codes em pontos de vista para ganhar os badges."
     }
 }
+
 
