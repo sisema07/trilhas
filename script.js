@@ -1,4 +1,4 @@
-// script.js - CÓDIGO COMPLETO FINALMENTE CORRIGIDO
+// script.js - CÓDIGO COMPLETO (FINALMENTE CORRIGIDO E FUNCIONAL)
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -6,6 +6,11 @@ let DETALHES_PARQUES = {};
 let estadoUsuario = JSON.parse(localStorage.getItem('trilhasDeMinasStatus')) || {};
 let scrollPosition = 0;
 let deferredPrompt; 
+
+// Variáveis de estado do Quiz
+let currentQuizData = null; 
+let currentQuizIndex = 0;   
+let quizScore = 0;          
 
 function salvarEstado() {
     localStorage.setItem('trilhasDeMinasStatus', JSON.stringify(estadoUsuario));
@@ -206,7 +211,8 @@ function mostrarArea(id, action = 'info') {
         if (action === 'info') {
             contentArea.innerHTML = `<h3>Informações Gerais</h3><p>${detalhes.info_content}</p>`;
         } else if (action === 'quiz') {
-            contentArea.innerHTML = `<h3>Quiz do Parque</h3><p>O Quiz será construído aqui! O parque tem ${detalhes.quiz.length} pergunta(s).</p>`;
+            // Chama a função de Quiz
+            carregarQuiz(parque, contentArea);
         } else if (action === 'activities') {
             carregarConteudoAtividades(parque, contentArea);
         }
@@ -339,6 +345,186 @@ function lidarComHash() {
         document.getElementById('area-secundaria').classList.remove('aberto');
     }
 }
+
+// --- LÓGICA DO QUIZ ---
+
+/**
+ * Carrega a interface do quiz para o parque e inicializa o jogo.
+ */
+function carregarQuiz(parque, container) {
+    const detalhes = DETALHES_PARQUES[parque.id];
+    
+    // Verifica se o quiz já foi completado com sucesso
+    if (estadoUsuario[parque.id] && detalhes.quiz.length > 0 && estadoUsuario[parque.id][detalhes.quiz[0].badge_id]) {
+        container.innerHTML = `
+            <div class="quiz-result-container success">
+                <h3>🎉 Parabéns! Quiz Concluído!</h3>
+                <p>Você já demonstrou ser um expert neste parque. Seu Badge já está ativado!</p>
+                <button onclick="window.location.hash = 'premiacao'" class="action-button">Ver Meus Badges</button>
+            </div>
+        `;
+        return;
+    }
+
+    if (!detalhes.quiz || detalhes.quiz.length === 0) {
+        container.innerHTML = `<p style="text-align: center; margin-top: 30px;">Quiz indisponível para este parque.</p>`;
+        return;
+    }
+
+    // Inicializa o estado do quiz para o parque
+    currentQuizData = detalhes.quiz;
+    currentQuizIndex = 0;
+    quizScore = 0;
+    
+    // Estrutura HTML do Quiz
+    container.innerHTML = `
+        <div class="quiz-container">
+            <h3 class="quiz-title">${detalhes.quiz_title || `Quiz do ${parque.nome}`}</h3>
+            <p class="quiz-description">${detalhes.quiz_description || 'Responda para ganhar um badge!'}</p>
+            
+            <div class="progress-bar"><div class="progress" id="quiz-progress"></div></div>
+            <div id="quiz-question-container"></div>
+            
+            <button id="quiz-next-btn" class="action-button hidden">Próxima</button>
+            <button id="quiz-submit-btn" class="action-button hidden">Finalizar</button>
+            <button id="quiz-restart-btn" class="action-button hidden">Reiniciar</button>
+        </div>
+    `;
+
+    // Adiciona Listeners e Inicia a primeira pergunta
+    document.getElementById('quiz-next-btn').addEventListener('click', nextQuestion);
+    document.getElementById('quiz-submit-btn').addEventListener('click', showQuizResult);
+    document.getElementById('quiz-restart-btn').addEventListener('click', () => {
+        currentQuizIndex = 0;
+        quizScore = 0;
+        document.getElementById('quiz-restart-btn').classList.add('hidden');
+        showQuestion();
+    });
+
+    showQuestion();
+}
+
+/**
+ * Exibe a pergunta atual.
+ */
+function showQuestion() {
+    if (!currentQuizData || currentQuizIndex >= currentQuizData.length) return;
+    
+    const q = currentQuizData[currentQuizIndex];
+    const container = document.getElementById('quiz-question-container');
+    const nextBtn = document.getElementById('quiz-next-btn');
+    const submitBtn = document.getElementById('quiz-submit-btn');
+    
+    nextBtn.classList.add('hidden');
+    submitBtn.classList.add('hidden');
+
+    container.innerHTML = `
+        <div class="question">${q.q}</div>
+        <div class="options">
+            ${q.a.map((opt, i) => `<button onclick="selectQuizOption(${i})">${opt}</button>`).join('')}
+        </div>
+    `;
+    updateQuizProgress();
+}
+
+/**
+ * Lógica ao selecionar uma opção no quiz.
+ */
+function selectQuizOption(selectedIndex) {
+    const buttons = document.querySelectorAll('#quiz-question-container .options button');
+    buttons.forEach(btn => btn.disabled = true);
+    
+    const isCorrect = selectedIndex === currentQuizData[currentQuizIndex].correct;
+    
+    // Colorir a opção selecionada
+    buttons[selectedIndex].style.backgroundColor = isCorrect ? '#3ba64b' : '#dc3545';
+    
+    if (isCorrect) {
+        quizScore++;
+    } else {
+        // Mostra o correto
+        buttons[currentQuizData[currentQuizIndex].correct].style.backgroundColor = '#3ba64b';
+    }
+
+    if (currentQuizIndex < currentQuizData.length - 1) {
+        document.getElementById('quiz-next-btn').classList.remove('hidden');
+    } else {
+        document.getElementById('quiz-submit-btn').classList.remove('hidden');
+    }
+}
+
+/**
+ * Avança para a próxima pergunta.
+ */
+function nextQuestion() {
+    currentQuizIndex++;
+    showQuestion();
+}
+
+/**
+ * Atualiza a barra de progresso.
+ */
+function updateQuizProgress() {
+    // Adiciona 1 ao currentQuizIndex, pois é a pergunta que acabou de ser respondida
+    const progress = ((currentQuizIndex + 1) / currentQuizData.length) * 100;
+    document.getElementById('quiz-progress').style.width = progress + '%';
+}
+
+/**
+ * Exibe o resultado final do Quiz e libera o badge.
+ */
+function showQuizResult() {
+    updateQuizProgress(); 
+    
+    const total = currentQuizData.length;
+    let classification = '';
+    
+    if (quizScore < total * 0.4) classification = 'Novato';
+    else if (quizScore < total * 0.75) classification = 'Conhecedor';
+    else classification = 'Explorador';
+
+    const requiredScore = Math.ceil(total * 0.75);
+    const badgeId = currentQuizData[0].badge_id;
+    let badgeLiberado = false;
+    const parqueId = window.location.hash.substring(1).split('-')[0];
+    
+    if (quizScore >= requiredScore) {
+        // Tenta liberar o Badge
+        if (!estadoUsuario[parqueId]) {
+             estadoUsuario[parqueId] = {};
+        }
+        
+        if (!estadoUsuario[parqueId][badgeId]) {
+            estadoUsuario[parqueId][badgeId] = true;
+            salvarEstado();
+            badgeLiberado = true;
+        }
+    }
+    
+    // Conteúdo final
+    document.getElementById('quiz-question-container').innerHTML = `
+        <h2>Resultado Final</h2>
+        <p><strong>Acertos:</strong> ${quizScore} de ${total}</p>
+        <p><strong>Classificação:</strong> ${classification}</p>
+        
+        ${badgeLiberado ? 
+            `<h3 class="success-message">🎉 BADGE CONQUISTADO! 🎉</h3>
+             <p>O Badge do Quiz foi liberado! Tente as outras atividades ou vá para a área de Check-ins.</p>`
+            : `<p class="fail-message">Estude mais para tentar novamente! Você precisa de ${requiredScore} acertos para ganhar o Badge.</p>`
+        }
+    `;
+
+    document.getElementById('quiz-next-btn').classList.add('hidden');
+    document.getElementById('quiz-submit-btn').classList.add('hidden');
+    document.getElementById('quiz-restart-btn').classList.remove('hidden');
+}
+
+
+// --- EXPOSIÇÃO GLOBAL DE FUNÇÕES (para o HTML dinâmico) ---
+window.selectQuizOption = selectQuizOption;
+window.nextQuestion = nextQuestion;
+window.showQuizResult = showQuizResult;
+
 
 // --- FUNÇÃO DE INICIALIZAÇÃO PRINCIPAL ---
 async function inicializarApp() {
