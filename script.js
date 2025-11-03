@@ -271,7 +271,7 @@ function carregarConteudoAtividades(parque, container) {
     const atividades = ATIVIDADES_PARQUES[parque.id] || [];
     const detalhes = DETALHES_PARQUES[parque.id] || {};
     
-    // 1. INSTRUÇÕES (com espaço para a imagem qr.png)
+    // 1. INSTRUÇÕES (com texto formatado corretamente)
     let html = `
         <div class="activity-instructions">
             <div class="instruction-text">
@@ -284,23 +284,27 @@ function carregarConteudoAtividades(parque, container) {
         </div>
         <hr class="separator" style="margin: 15px 0;">
         
-        <div id="lista-atividades-dinamica" class="atividades-grid">
-    `;
+        <div id="lista-atividades-dinamica"> `;
 
     // 2. LISTA DE ATIVIDADES (Badge Apagado / Aceso)
     if (atividades.length === 0) {
         html += '<p style="text-align: center; margin-top: 20px;">Nenhuma atividade cadastrada para este parque.</p>';
     } else {
         atividades.forEach(atividade => {
-            // Verifica se o badge está no estado do usuário
             const desbloqueado = estadoUsuario[parque.id] && estadoUsuario[parque.id][atividade.id] ? 'desbloqueado' : '';
             const badgeId = `${parque.id}-${atividade.id}`;
             
-            // O Badge é a representação da atividade na lista
+            // NOVO HTML DE LISTA
             html += `
-                <div class="icone-premio activity-item ${desbloqueado}" data-badge-id="${badgeId}">
-                    <i class="fas ${atividade.icone}"></i>
-                    <span>${atividade.nome}</span>
+                <div class="activity-list-item ${desbloqueado}" data-badge-id="${badgeId}">
+                    <div class="icone-premio">
+                        <i class="fas ${atividade.icone}"></i>
+                        <span>${atividade.nome}</span> </div>
+                    
+                    <div class="activity-description-box">
+                        <h4>${atividade.nome}</h4>
+                        <p>${atividade.descricao_curta || 'Descrição pendente.'}</p>
+                    </div>
                 </div>
             `;
         });
@@ -310,14 +314,14 @@ function carregarConteudoAtividades(parque, container) {
     container.innerHTML = html; 
 
     // 3. Listener para badges desbloqueados
-    document.querySelectorAll('#lista-atividades-dinamica .icone-premio.desbloqueado').forEach(icone => {
-        icone.addEventListener('click', (event) => {
+    document.querySelectorAll('#lista-atividades-dinamica .activity-list-item.desbloqueado').forEach(item => {
+        item.addEventListener('click', (event) => {
             const badgeId = event.currentTarget.dataset.badgeId;
-            // Se já está desbloqueado, permite o upload/compartilhamento
             window.location.hash = `upload-${badgeId}`;
         });
     });
 }
+
 function processarCheckinQRSimulacao(urlSimulada) {
     const urlParams = new URLSearchParams(urlSimulada.split('?')[1]);
     const checkin = urlParams.get('checkin');
@@ -603,5 +607,6 @@ async function inicializarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializarApp);
+
 
 
