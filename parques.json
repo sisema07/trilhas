@@ -1,6 +1,14 @@
 {
     "DADOS_PARQUES": [
 { 
+  "id": "premiacao", 
+  "nome": "Check-ins", 
+  "icone_principal": "fa-medal", 
+  "icone_fundo": "fa-trophy", 
+  "imagem": null, 
+  "is_premio": true 
+},
+{ 
   "id": "biribiri", 
   "nome": "Biribiri", 
   "icone_principal": "fa-campground", 
@@ -80,14 +88,6 @@
   "imagem": "url(https://source.unsplash.com/random/400x200?peak,minas-gerais)", 
   "descricao": "O ponto mais alto da Serra do Espinhaço em Minas Gerais, um desafio para os amantes de trekking.", 
   "logo_png": "logos/picodoitambe.png" 
-},
-{ 
-  "id": "premiacao", 
-  "nome": "Check-ins", 
-  "icone_principal": "fa-medal", 
-  "icone_fundo": "fa-trophy", 
-  "imagem": null, 
-  "is_premio": true 
 },
 { 
   "id": "riodoce", 
@@ -253,5 +253,6 @@
         ]
     }
 }
+
 
 
