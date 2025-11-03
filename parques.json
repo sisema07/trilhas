@@ -182,77 +182,78 @@
     ],
     "ATIVIDADES_PARQUES": {
         "ibitipoca": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain" },
-            { "id": "janela", "nome": "Janela do Céu", "icone": "fa-cloud-meatball" },
-            { "id": "pico", "nome": "Pico do Pião", "icone": "fa-mountain" }
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "" },
+            { "id": "janela", "nome": "Janela do Céu", "icone": "fa-cloud-meatball", "descricao_curta": "" },
+            { "id": "pico", "nome": "Pico do Pião", "icone": "fa-mountain", "descricao_curta": "" }
         ],
         "serradorolamoca": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain" },
-            { "id": "trilha1", "nome": "Trilha Morro Veados", "icone": "fa-deer" },
-            { "id": "mirante", "nome": "Mirante Cachoeiras", "icone": "fa-water" }
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "" },
+            { "id": "trilha1", "nome": "Trilha Morro Veados", "icone": "fa-deer", "descricao_curta": "" },
+            { "id": "mirante", "nome": "Mirante Cachoeiras", "icone": "fa-water", "descricao_curta": "" }
         ],
         "riodoce": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain" },
-            { "id": "canoagem", "nome": "Canoagem no Rio", "icone": "fa-ship" },
-            { "id": "observacao", "nome": "Observação de Aves", "icone": "fa-dove" }
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "" },
+            { "id": "canoagem", "nome": "Canoagem no Rio", "icone": "fa-ship", "descricao_curta": "" },
+            { "id": "observacao", "nome": "Observação de Aves", "icone": "fa-dove", "descricao_curta": "" }
         ],
         "sumidouro": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain" },
-            { "id": "gruta", "nome": "Gruta da Lapinha", "icone": "fa-cave" },
-            { "id": "lagoa", "nome": "Trilha da Lagoa", "icone": "fa-fish-fins" }
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "" },
+            { "id": "gruta", "nome": "Gruta da Lapinha", "icone": "fa-cave", "descricao_curta": "" },
+            { "id": "lagoa", "nome": "Trilha da Lagoa", "icone": "fa-fish-fins", "descricao_curta": "" }
         ],
         "biribiri": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain" },
-            { "id": "vilarejo", "nome": "Vilarejo Histórico", "icone": "fa-building-columns" },
-            { "id": "cachoeira", "nome": "Cachoeira Sentinela", "icone": "fa-water" }
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" },
+            { "id": "vilarejo", "nome": "Vilarejo Histórico", "icone": "fa-building-columns", "descricao_curta": "Conheça as ruínas da antiga fábrica têxtil de Biribiri." },
+            { "id": "cachoeira", "nome": "Cachoeira Sentinela", "icone": "fa-water", "descricao_curta": "Localizada no coração do parque, a Sentinela possui águas cristalinas." }
         ],
         "lapagrande": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain" },
-            { "id": "pedra", "nome": "Trilha da Pedra", "icone": "fa-chess-rook" },
-            { "id": "arte", "nome": "Arte Rupestre", "icone": "fa-brush" }
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "" },
+            { "id": "pedra", "nome": "Trilha da Pedra", "icone": "fa-chess-rook", "descricao_curta": "" },
+            { "id": "arte", "nome": "Arte Rupestre", "icone": "fa-brush", "descricao_curta": "" }
         ],
         "itacolomi": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain" },
-            { "id": "pico-itacolomi", "nome": "Pico do Itacolomi", "icone": "fa-arrow-up-long" },
-            { "id": "pomar", "nome": "Antigo Pomar", "icone": "fa-apple-whole" }
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "" },
+            { "id": "pico-itacolomi", "nome": "Pico do Itacolomi", "icone": "fa-arrow-up-long", "descricao_curta": "" },
+            { "id": "pomar", "nome": "Antigo Pomar", "icone": "fa-apple-whole", "descricao_curta": "" }
         ],
         "picodoitambe": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain" },
-            { "id": "subida", "nome": "Subida ao Pico", "icone": "fa-climber" },
-            { "id": "nascente", "nome": "Nascentes Itambé", "icone": "fa-hand-holding-water" }
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "" },
+            { "id": "subida", "nome": "Subida ao Pico", "icone": "fa-climber", "descricao_curta": "" },
+            { "id": "nascente", "nome": "Nascentes Itambé", "icone": "fa-hand-holding-water", "descricao_curta": "" }
         ],
         "serraverde": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain" },
-            { "id": "floresta", "nome": "Trilha da Floresta", "icone": "fa-forest" },
-            { "id": "arvore", "nome": "Árvore Monumental", "icone": "fa-tree" }
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "" },
+            { "id": "floresta", "nome": "Trilha da Floresta", "icone": "fa-forest", "descricao_curta": "" },
+            { "id": "arvore", "nome": "Árvore Monumental", "icone": "fa-tree", "descricao_curta": "" }
         ],
         "serradobrigadeiro": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain" },
-            { "id": "passaro", "nome": "Observatório Aves", "icone": "fa-crow" },
-            { "id": "cachoeira-bg", "nome": "Cachoeira Paredão", "icone": "fa-water" }
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "" },
+            { "id": "passaro", "nome": "Observatório Aves", "icone": "fa-crow", "descricao_curta": "" },
+            { "id": "cachoeira-bg", "nome": "Cachoeira Paredão", "icone": "fa-water", "descricao_curta": "" }
         ],
         "riopreto": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain" },
-            { "id": "praia", "nome": "Praia do Rio", "icone": "fa-umbrella-beach" },
-            { "id": "remanso", "nome": "Poço do Remanso", "icone": "fa-swimming-pool" }
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "" },
+            { "id": "praia", "nome": "Praia do Rio", "icone": "fa-umbrella-beach", "descricao_curta": "" },
+            { "id": "remanso", "nome": "Poço do Remanso", "icone": "fa-swimming-pool", "descricao_curta": "" }
         ],
         "serradasararas": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain" },
-            { "id": "placa", "nome": "Placa Histórica", "icone": "fa-scroll" },
-            { "id": "mirante-sa", "nome": "Mirante da Serra", "icone": "fa-mountain-sun" }
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "" },
+            { "id": "placa", "nome": "Placa Histórica", "icone": "fa-scroll", "descricao_curta": "" },
+            { "id": "mirante-sa", "nome": "Mirante da Serra", "icone": "fa-mountain-sun", "descricao_curta": "" }
         ],
         "novabaden": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain" },
-            { "id": "trilha-nb", "nome": "Trilha da Mata", "icone": "fa-road" },
-            { "id": "mirante-nb", "nome": "Mirante da Paz", "icone": "fa-handshake" }
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "" },
+            { "id": "trilha-nb", "nome": "Trilha da Mata", "icone": "fa-road", "descricao_curta": "" },
+            { "id": "mirante-nb", "nome": "Mirante da Paz", "icone": "fa-handshake", "descricao_curta": "" }
         ],
         "serradointendente": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain" },
-            { "id": "cachoeira-int", "nome": "Cachoeira do Intendente", "icone": "fa-water" },
-            { "id": "trilha-int", "nome": "Trilha da Pedreira", "icone": "fa-road" }
+            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "" },
+            { "id": "cachoeira-int", "nome": "Cachoeira do Intendente", "icone": "fa-water", "descricao_curta": "" },
+            { "id": "trilha-int", "nome": "Trilha da Pedreira", "icone": "fa-road", "descricao_curta": "" }
         ]
     }
 }
+
 
 
 
