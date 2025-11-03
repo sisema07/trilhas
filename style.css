@@ -573,40 +573,51 @@ header {
     padding: 0 10px;
 }
 
+/* --- ESTILOS DO QUIZ DINÂMICO --- */
+/* ... (Mantenha as regras quiz-container, quiz-title, etc) ... */
+
+/* NOVO: Container das opções em GRID de 2 colunas */
+.options {
+    display: grid;
+    /* Divide em duas colunas de tamanho igual com espaçamento */
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+    padding: 10px 0;
+    margin: 0 10px;
+    justify-content: center;
+}
+
 .options button {
+    /* Removendo regras de width/margin que existiam antes */
     display: block;
-    width: 90%;
-    margin: 8px auto;
     background-color: var(--cor-fundo);
     border: 1px solid var(--cor-principal);
     color: var(--cor-principal);
     border-radius: 25px;
-    padding: 12px;
+    padding: 12px 10px; /* Padding ajustado */
     font-size: 0.9rem;
     cursor: pointer;
     box-shadow: var(--sombra-neumorfismo-card);
     transition: all 0.3s ease;
+    width: 100%; /* Ocupa a célula inteira do grid */
+    box-sizing: border-box;
 }
 
-.options button:hover:not(:disabled) {
-    background-color: var(--cor-principal);
-    color: white;
+/* --- NOVO: Estilo para o Container dos Botões de Navegação (Duas Colunas) --- */
+.quiz-nav-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* Espaço entre os botões */
+    padding: 10px 20px 0;
 }
 
-.options button:disabled {
-    cursor: default;
-    opacity: 1;
-    box-shadow: none;
+/* Estilos para botões de navegação no quiz */
+.quiz-nav-buttons .action-button {
+    /* Aplicando o estilo de botão existente, mas com flex */
+    flex-grow: 1; /* Cresce igualmente */
+    max-width: 150px; /* Limita o tamanho em telas maiores */
+    margin: 0; /* Remove margens laterais */
 }
-
-/* Estilo para a opção selecionada e coloração */
-.options button[style*="background-color: rgb(220, 53, 69)"] { /* Vermelho */
-    color: white !important;
-}
-.options button[style*="background-color: rgb(59, 166, 75)"] { /* Verde */
-    color: white !important;
-}
-
 
 /* Resultados */
 .quiz-result-container {
@@ -635,3 +646,4 @@ header {
     background-color: var(--cor-principal);
     color: white;
 }
+
