@@ -674,7 +674,7 @@ header {
     margin-bottom: 5px;
     text-align: justify;
     font-weight: 700; 
-    text-transform: none;
+    text-transform: none !important;
 }
 
 .instruction-text .badge-description {
@@ -710,5 +710,6 @@ header {
 .activity-item.desbloqueado {
     cursor: pointer;
 }
+
 
 
