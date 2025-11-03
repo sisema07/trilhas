@@ -259,7 +259,10 @@ function carregarPremios() {
             
             if (isConcluida) {
                  card.addEventListener('click', () => {
-                    window.location.hash = `upload-${parqueId}-${atividade.id}`;
+                    const parqueIdClick = card.dataset.parqueId;
+                    const atividadeIdClick = card.dataset.atividadeId;
+                     
+                    window.location.hash = `upload-${parqueIdClick}-${atividadeIdClick}`;
                  });
             }
         });
@@ -665,3 +668,4 @@ async function inicializarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializarApp);
+
