@@ -378,17 +378,19 @@ function carregarQuiz(parque, container) {
     
     // Estrutura HTML do Quiz
     container.innerHTML = `
-        <div class="quiz-container">
-            <h3 class="quiz-title">${detalhes.quiz_title || `Quiz do ${parque.nome}`}</h3>
-            <p class="quiz-description">${detalhes.quiz_description || 'Responda para ganhar um badge!'}</p>
-            
-            <div class="progress-bar"><div class="progress" id="quiz-progress"></div></div>
-            <div id="quiz-question-container"></div>
-            
+container.innerHTML = `
+    <div class="quiz-container">
+        <h3 class="quiz-title">${detalhes.quiz_title || `Quiz do ${parque.nome}`}</h3>
+        <p class="quiz-description">${detalhes.quiz_description || 'Responda para ganhar um badge!'}</p>
+        
+        <div class="progress-bar"><div class="progress" id="quiz-progress"></div></div>
+        <div id="quiz-question-container"></div>
+        
+        <div class="quiz-nav-buttons">
             <button id="quiz-next-btn" class="action-button hidden">Próxima</button>
-            <button id="quiz-submit-btn" class="action-button hidden">Finalizar</button>
             <button id="quiz-restart-btn" class="action-button hidden">Reiniciar</button>
         </div>
+    </div>
     `;
 
     // Adiciona Listeners e Inicia a primeira pergunta
@@ -430,26 +432,49 @@ function showQuestion() {
 /**
  * Lógica ao selecionar uma opção no quiz.
  */
+/**
+ * Lógica ao selecionar uma opção no quiz.
+ */
 function selectQuizOption(selectedIndex) {
+    // 1. Desabilita todos os botões de opção para travar a resposta
     const buttons = document.querySelectorAll('#quiz-question-container .options button');
     buttons.forEach(btn => btn.disabled = true);
     
+    // 2. Verifica se a resposta está correta
     const isCorrect = selectedIndex === currentQuizData[currentQuizIndex].correct;
     
-    // Colorir a opção selecionada
-    buttons[selectedIndex].style.backgroundColor = isCorrect ? '#3ba64b' : '#dc3545';
+    // 3. Colore a opção selecionada (vermelho/verde)
+    // Usamos cores embutidas para o feedback visual imediato
+    const correctColor = '#3ba64b'; // Verde
+    const wrongColor = '#dc3545'; // Vermelho
     
+    buttons[selectedIndex].style.backgroundColor = isCorrect ? correctColor : wrongColor;
+    
+    // 4. Se estiver errada, revela a opção correta
     if (isCorrect) {
         quizScore++;
     } else {
         // Mostra o correto
-        buttons[currentQuizData[currentQuizIndex].correct].style.backgroundColor = '#3ba64b';
+        buttons[currentQuizData[currentQuizIndex].correct].style.backgroundColor = correctColor;
     }
 
+    // 5. Lógica de Próxima / Concluir
+    const nextBtn = document.getElementById('quiz-next-btn');
+    
     if (currentQuizIndex < currentQuizData.length - 1) {
-        document.getElementById('quiz-next-btn').classList.remove('hidden');
+        // Se ainda há perguntas, mostra "Próxima"
+        nextBtn.textContent = 'Próxima';
+        nextBtn.classList.remove('hidden');
+        
+        // Remove listener de Concluir (se houver) e garante o listener de Próxima
+        nextBtn.removeEventListener('click', showQuizResult); 
+        nextBtn.addEventListener('click', nextQuestion);
     } else {
-        document.getElementById('quiz-submit-btn').classList.remove('hidden');
+        // Se for a última pergunta, muda para "Concluir"
+        nextBtn.textContent = 'Concluir';
+        nextBtn.removeEventListener('click', nextQuestion); // Remove o listener Próxima
+        nextBtn.addEventListener('click', showQuizResult);  // Adiciona o listener Concluir
+        nextBtn.classList.remove('hidden');
     }
 }
 
@@ -515,7 +540,6 @@ function showQuizResult() {
     `;
 
     document.getElementById('quiz-next-btn').classList.add('hidden');
-    document.getElementById('quiz-submit-btn').classList.add('hidden');
     document.getElementById('quiz-restart-btn').classList.remove('hidden');
 }
 
@@ -575,3 +599,4 @@ async function inicializarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializarApp);
+
