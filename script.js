@@ -508,26 +508,36 @@ function updateQuizProgress() {
     document.getElementById('quiz-progress').style.width = progress + '%';
 }
 
+// script.js - SUBSTITUA a função showQuizResult()
+
 /**
- * Exibe o resultado final do Quiz e libera o badge.
+ * Exibe o resultado final do Quiz, libera o badge e mostra a animação de vitória.
  */
 function showQuizResult() {
     updateQuizProgress(); 
     
     const total = currentQuizData.length;
-    let classification = '';
-    
-    if (quizScore < total * 0.4) classification = 'Novato';
-    else if (quizScore < total * 0.75) classification = 'Conhecedor';
-    else classification = 'Explorador';
-
     const requiredScore = Math.ceil(total * 0.75);
     const badgeId = currentQuizData[0].badge_id;
-    let badgeLiberado = false;
     const parqueId = window.location.hash.substring(1).split('-')[0];
     
+    let classification = '';
+    let badgeLiberado = false;
+    let winAnimation = false; // NOVA VARIÁVEL
+    
+    if (quizScore === total) { // NOVO: VERIFICAÇÃO SE ACERTOU TODAS
+        winAnimation = true;
+        classification = 'Mestre Explorador!';
+    } else if (quizScore >= requiredScore) {
+        classification = 'Explorador';
+    } else if (quizScore >= total * 0.4) {
+        classification = 'Conhecedor';
+    } else {
+        classification = 'Novato';
+    }
+    
+    // 1. Tenta liberar o Badge (Se acertou 75% ou mais)
     if (quizScore >= requiredScore) {
-        // Tenta liberar o Badge
         if (!estadoUsuario[parqueId]) {
              estadoUsuario[parqueId] = {};
         }
@@ -539,24 +549,31 @@ function showQuizResult() {
         }
     }
     
-    // Conteúdo final
+    // 2. Conteúdo final
     document.getElementById('quiz-question-container').innerHTML = `
         <h2>Resultado Final</h2>
+        
+        ${winAnimation ? // NOVO: Bloco de animação de vitória
+            `<div class="win-animation-container">
+                <img src="win.gif" alt="Animação de Vitória" class="win-gif-mascote">
+            </div>
+            <h3 class="success-message">🏆 VOCÊ ACERTOU TODAS! 🏆</h3>`
+            : `<h3 class="result-classification">Classificação: ${classification}</h3>`
+        }
+
         <p><strong>Acertos:</strong> ${quizScore} de ${total}</p>
-        <p><strong>Classificação:</strong> ${classification}</p>
         
         ${badgeLiberado ? 
-            `<h3 class="success-message">🎉 BADGE CONQUISTADO! 🎉</h3>
-             <p>O Badge do Quiz foi liberado! Tente as outras atividades ou vá para a área de Check-ins.</p>`
+            `<p class="success-badge-message">🎉 BADGE CONQUISTADO! 🎉</p>
+             <p>O Badge do Quiz foi liberado! Vá para a área de Check-ins.</p>`
             : `<p class="fail-message">Estude mais para tentar novamente! Você precisa de ${requiredScore} acertos para ganhar o Badge.</p>`
         }
     `;
 
-    // Esconde o botão Próxima/Concluir e mostra o Reiniciar
+    // 3. Esconde o botão Próxima/Concluir e mostra o Reiniciar
     document.getElementById('quiz-next-btn').classList.add('hidden');
     document.getElementById('quiz-restart-btn').classList.remove('hidden');
 }
-
 /**
  * Simula o processamento da foto e usa a API Web Share para compartilhar a conquista.
  */
@@ -668,4 +685,5 @@ async function inicializarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializarApp);
+
 
