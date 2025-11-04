@@ -227,11 +227,39 @@ header {
 #secundaria-titulo {
     margin: 0;
     font-size: 1.25rem;
+    flex-grow: 1; /* Garante que o título ocupe o espaço central */
+    text-align: center;
+    margin-left: -40px; /* Compensa o espaço do botão voltar */
 }
 
+/* Botão Voltar/Home */
 #btn-voltar {
     display: none; 
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.25rem;
+    padding: 0;
+    width: 40px; /* Largura fixa para centralização */
+    height: 40px;
+    cursor: pointer;
+    margin-right: 10px;
+    z-index: 20;
 }
+/* NOVO: Botão Home */
+#btn-home {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.25rem;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    margin-left: auto; /* Empurra para o lado direito */
+    z-index: 20;
+}
+
 
 /* --- Estilos da Área de Check-ins (Badges) --- */
 #conteudo-premios {
@@ -399,27 +427,32 @@ header {
     object-fit: cover;
 }
 
-/* 2. Localização */
-.location-link {
+/* 2. Área de Visitação (Maps + Texto + Instagram) */
+.location-link-container {
     display: flex;
     align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    color: var(--cor-principal);
+    justify-content: space-between;
+    padding: 10px 20px;
+}
+.location-link-container span {
     font-weight: 700;
-    font-size: 1.1rem;
-    padding: 10px 0;
+    color: var(--cor-texto);
+}
+.location-icon-link {
+    color: #444; /* Cor escura padrão */
+    font-size: 1.6rem;
     transition: color 0.2s;
+    width: 35px; /* Define largura para ícones */
+    text-align: center;
+    line-height: 1;
+}
+.location-icon-link:first-child {
+    color: #DB4437; /* Google Maps Reddish */
+}
+.location-icon-link:last-child {
+    color: #E1306C; /* Instagram Pink */
 }
 
-.location-link:active {
-    opacity: 0.8;
-}
-
-.location-link i {
-    font-size: 1.2rem;
-    margin-right: 8px;
-}
 
 .separator {
     border: none;
@@ -519,17 +552,14 @@ header {
 
 /* Estilo do Badge Pequeno (À esquerda) */
 .activity-list-item .icone-premio {
-    /* Tornando o badge MENOR e fixo na esquerda */
     width: 60px; 
     height: 60px;
     flex-shrink: 0; 
     margin-right: 15px;
     
-    /* Cores e Estilos */
     opacity: 0.5;
     color: #ccc;
     
-    /* Garantindo que o ícone interno seja centralizado */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -537,7 +567,7 @@ header {
     background-color: var(--cor-fundo);
     border-radius: 15px;
     box-shadow: var(--sombra-neumorfismo-externa);
-    padding: 0; /* Remove padding extra */
+    padding: 0;
 }
 
 .activity-list-item.desbloqueado .icone-premio {
@@ -648,6 +678,7 @@ header {
 }
 .quiz-header-text {
     text-align: left;
+    flex-grow: 1;
 }
 
 /* --- Barra de Progresso com Mascote --- */
@@ -658,7 +689,6 @@ header {
     position: relative;
 }
 .progress-bar {
-    /* Mantém o estilo da barra, mas remove a margem */
     background-color: #ccc;
     border-radius: 10px;
     height: 10px;
@@ -666,7 +696,6 @@ header {
     box-shadow: inset 1px 1px 3px rgba(0,0,0,0.2);
 }
 #quiz-progress {
-    /* Mantido */
     background-color: var(--cor-secundaria);
     height: 100%;
     width: 0%;
@@ -676,13 +705,13 @@ header {
 /* Mascote da Barra (Raposa) */
 .progress-mascot-img {
     position: absolute;
-    top: -15px; /* Ajusta a posição verticalmente sobre a barra */
+    top: -15px; 
     left: 0;
-    width: 30px; /* Tamanho do mascote */
+    width: 30px; 
     height: auto;
     z-index: 5;
-    transition: transform 0.3s ease-out; /* Transição suave para o movimento */
-    opacity: 0; /* Esconde no início */
+    transition: transform 0.3s ease-out; 
+    opacity: 0; 
     transform: translateX(0);
 }
 .quiz-container {
@@ -699,29 +728,6 @@ header {
     font-size: 0.9rem;
     color: #666;
     margin-bottom: 15px;
-}
-.progress-bar {
-    background-color: #ccc;
-    border-radius: 10px;
-    height: 10px;
-    margin: 15px auto;
-    width: 80%;
-    overflow: hidden;
-    box-shadow: inset 1px 1px 3px rgba(0,0,0,0.2);
-}
-
-.progress {
-    background-color: var(--cor-secundaria);
-    height: 100%;
-    width: 0%;
-    transition: width 0.3s ease;
-}
-
-.question {
-    margin: 20px 0;
-    font-weight: 600;
-    font-size: 1.1rem;
-    padding: 0 10px;
 }
 
 /* Container das opções em GRID de 2 colunas */
@@ -810,10 +816,9 @@ header {
 
 .win-animation-container {
     width: 100%;
-    max-width: 150px; /* Limita o tamanho do GIF/Vídeo */
+    max-width: 150px; 
     margin: 10px auto;
     overflow: hidden;
-    /* Para garantir a transparência do GIF, se necessário: */
     background: transparent; 
 }
 
@@ -833,4 +838,3 @@ header {
     font-weight: bold;
     margin: 10px 0;
 }
-
