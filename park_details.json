@@ -10,7 +10,7 @@
             "imagens/biribiri/cachoeira_sentinela.jpg", 
             "imagens/biribiri/cachoeira-cristais.png", 
             "imagens/biribiri/caminho-escravos.png",
-            "imagens/biribiri/poco-agua-limpa.png",   
+            "imagens/biribiri/poco-agua-limpa.jpg",   
             "imagens/biribiri/poco-estudante.png"
         ],
         
@@ -60,3 +60,4 @@
         "badge_descricao": "Para este parque, você deve escanear QR Codes em pontos de vista para ganhar os badges."
     }
 }
+
