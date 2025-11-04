@@ -1,4 +1,4 @@
-// script.js - CÓDIGO COMPLETO (DESATIVA MASCOTE DA BARRA E CORRIGE LÓGICA FINAL DO QUIZ)
+// script.js - CÓDIGO COMPLETO (FINAL COM CORREÇÕES DE CARROSSEL E NAVEGAÇÃO)
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -166,16 +166,20 @@ function setupCarousel(parqueId) {
     dotsContainer.innerHTML = '';
 
     const detalhes = DETALHES_PARQUES[parqueId];
-    // Assumindo que você terá uma chave 'carousel_images' no park_details.json
-    const images = detalhes.carousel_images || [`entradas/${parqueId}.png`]; 
+    // CORREÇÃO: Usamos o array 'carousel_images' se existir
+    const images = detalhes.carousel_images && detalhes.carousel_images.length > 0
+        ? detalhes.carousel_images
+        : [`entradas/${parqueId}.png`]; // Fallback para a imagem única
     
     images.forEach((src, index) => {
+        // Imagens
         const img = document.createElement('img');
         img.src = src;
         img.alt = `Imagem ${index + 1} do parque`;
         img.className = 'carousel-image';
         carouselElement.appendChild(img);
 
+        // Pontos de navegação
         const dot = document.createElement('div');
         dot.className = `dot ${index === 0 ? 'active' : ''}`;
         dot.addEventListener('click', () => {
@@ -187,7 +191,9 @@ function setupCarousel(parqueId) {
         dotsContainer.appendChild(dot);
     });
 
+    // Atualiza os pontos (dots) ao rolar o carrossel
     carouselElement.addEventListener('scroll', () => {
+        // Calcula o índice atual arredondando para o número inteiro mais próximo
         const activeIndex = Math.round(carouselElement.scrollLeft / carouselElement.offsetWidth);
         
         document.querySelectorAll('.dot').forEach((dot, index) => {
@@ -242,17 +248,16 @@ function mostrarArea(id, action = 'info') {
         
         // --- Configura o Carrossel ---
         setupCarousel(parque.id);
-        // -----------------------------
+        // ----------------------------------
         
         // --- Configuração da Área de Visitação (Maps e Instagram) ---
         const mapLink = detalhes.map_link || '#';
-        // CORREÇÃO 4: Lógica do Instagram
-        const instaLink = detalhes.instagram_link || 'https://www.instagram.com/trilhasdeminasapp/'; 
+        const instaLink = detalhes.instagram_link || '#'; 
 
         document.getElementById('map-link-icon').href = mapLink;
         document.getElementById('insta-link-icon').href = instaLink;
-        // O texto 'Venha nos visitar' está fixo no HTML
-        // -------------------------------------------------------------
+        // O texto 'Venha nos visitar' está fixo no HTML/CSS, e não é clicável.
+        // ------------------------------------------------------------------------
         
         const contentArea = document.getElementById('dynamic-content-area');
         const buttons = document.querySelectorAll('.action-button');
@@ -340,7 +345,7 @@ function carregarConteudoAtividades(parque, container) {
             </div>
             <div class="qr-mascote-container activity-mascote-anchor">
                 <img src="qr.png" alt="Mascote escaneando QR Code" class="qr-mascote-img">
-                </div>
+            </div>
         </div>
         <hr class="separator" style="margin: 15px 0;">
         
@@ -453,7 +458,7 @@ function carregarQuiz(parque, container) {
     currentQuizIndex = 0;
     quizScore = 0;
     
-    // VARIÁVEIS PARA IMAGEM DA FAUNA
+    // VARIÁVEIS PARA IMAGEM DA FAUNA (CORREÇÃO 4)
     const faunaImg = parque.fauna_parque_png ? `<img src="fauna/${parque.fauna_parque_png}" alt="Mascote do Parque" class="quiz-fauna-img">` : '';
     
     // Estrutura HTML do Quiz
@@ -524,7 +529,7 @@ function selectQuizOption(selectedIndex) {
     buttons.forEach(btn => btn.disabled = true);
     
     // Verifica se a resposta está correta
-    const isCorrect = selectedIndex === currentQuizData[currentQuestionIndex].correct;
+    const isCorrect = selectedIndex === currentQuizData[currentQuizIndex].correct;
     
     // Cores para feedback visual
     const correctColor = '#3ba64b'; // Verde
@@ -536,7 +541,7 @@ function selectQuizOption(selectedIndex) {
         quizScore++;
     } else {
         // Mostra o correto
-        buttons[currentQuizData[currentQuestionIndex].correct].style.backgroundColor = correctColor;
+        buttons[currentQuizData[currentQuizIndex].correct].style.backgroundColor = correctColor;
     }
 
     // Lógica de Próxima / Concluir
@@ -582,7 +587,6 @@ function updateQuizProgress() {
 
     // Aplica a largura na barra
     progressBar.style.width = progressPercent + '%';
-    // REMOVIDA A LÓGICA DE TRANSFORMAÇÃO DO MASCOTE
 }
 
 /**
@@ -651,9 +655,10 @@ function showQuizResult() {
     const nextBtn = document.getElementById('quiz-next-btn');
     nextBtn.classList.add('hidden'); // Esconde o botão "Concluir"
     
+    const restartBtn = document.getElementById('quiz-restart-btn');
+    
     if (isPerfectScore) {
-        // Se acertou todas, transforma o botão "Reiniciar" em "Badges" e redireciona
-        const restartBtn = document.getElementById('quiz-restart-btn');
+        // Se acertou todas, transforma o botão "Reiniciar" em "Badges" e navega
         restartBtn.textContent = 'Ver Badges';
         restartBtn.classList.remove('hidden');
         
@@ -666,7 +671,8 @@ function showQuizResult() {
         
     } else {
         // Se não foi pontuação perfeita, apenas mantém o botão Reiniciar normal
-        document.getElementById('quiz-restart-btn').classList.remove('hidden');
+        restartBtn.textContent = 'Reiniciar';
+        restartBtn.classList.remove('hidden');
     }
 }
 
