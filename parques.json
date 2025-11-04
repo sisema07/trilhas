@@ -206,7 +206,7 @@
             "id": "trilha2", 
             "nome": "Trilha Cachoeira dos Cristais", 
             "icone": "fa-archway", 
-            "descricao_curta": "Início a partir da portaria do parque,  (~9km) caminhada moderada, bem sinalizadas; ideal para banho em poços e contemplação. Procure o QR code para realizar o check-in." 
+            "descricao_curta": "Início a partir da portaria do parque, (~9km) caminhada moderada, bem sinalizadas; ideal para banho em poços e contemplação. Procure o QR code para realizar o check-in." 
             },
             { 
             "id": "trilha3", 
@@ -301,4 +301,5 @@
         ]
     }
 }
+
 
