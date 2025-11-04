@@ -9,7 +9,8 @@
            { 
              "q": "O Parque Estadual do Biribiri fica próximo a qual cidade mineira?", 
              "a": ["Diamantina", "Ouro Preto", "São João del-Rei"], 
-             "correct": 0, "badge_id": "quiz" 
+             "correct": 0, 
+             "badge_id": "quiz" 
            },
            { 
              "q": "O vilarejo de Biribiri foi fundado para abrigar operários de uma antiga fábrica têxtil.", 
@@ -111,6 +112,7 @@
         "badge_descricao": "Para este parque, você deve escanear QR Codes em pontos de vista para ganhar os badges."
     }
 }
+
 
 
 
