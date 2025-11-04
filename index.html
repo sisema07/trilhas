@@ -38,17 +38,18 @@
         <div class="secundaria-header">
             <button id="btn-voltar"><i class="fas fa-arrow-left"></i></button>
             <h2 id="secundaria-titulo"></h2>
+            <button id="btn-home"><i class="fas fa-home"></i></button>
         </div>
         
         <div id="conteudo-premios" style="display: none;">
             
-<div class="badge-intro-text">
-    <div class="badge-mascote-texto">
-        <p>Visite os Parques Estaduais de Minas Gerais, faça check-ins nos QR codes das atividades e receba Badges que aparecerão aqui.</p>
-        <p>Depois de ativado, clique no Badge e compartilhe sua foto com check-in nas redes sociais!</p>
-    </div>
-    <img src="logo.png" alt="Mascote Trilhas de Minas" class="badge-mascote-img">
-</div>
+            <div class="badge-intro-text">
+                <div class="badge-mascote-texto">
+                    <p>Visite os Parques Estaduais de Minas Gerais, faça check-ins nos QR codes das atividades e receba Badges que aparecerão aqui.</p>
+                    <p>Depois de ativado, clique no Badge e compartilhe sua foto com check-in nas redes sociais!</p>
+                </div>
+                <img src="logo.png" alt="Mascote Trilhas de Minas" class="badge-mascote-img">
+            </div>
 
             <p class="premios-titulo" style="font-size: 1.4rem; margin-top: 30px;">Confira seus Badges aqui</p>
             <div id="lista-icones-premios">
@@ -69,10 +70,15 @@
                 <img id="park-main-image" src="" alt="Imagem principal do Parque" class="parque-imagem-principal">
             </div>
 
-            <a id="park-location-link" href="#" target="_blank" class="location-link">
-                <i class="fas fa-map-marker-alt"></i> <span class="location-text">Estamos aqui</span>
-            </a>
-            
+            <div class="location-link-container">
+                <a id="map-link-icon" href="#" target="_blank" class="location-icon-link">
+                    <i class="fas fa-map-marker-alt"></i>
+                </a>
+                <span id="visitar-text" class="location-text">Venha nos visitar</span>
+                <a id="insta-link-icon" href="#" target="_blank" class="location-icon-link">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </div>
             <hr class="separator">
 
             <div class="action-buttons-container">
