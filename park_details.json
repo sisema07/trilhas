@@ -23,7 +23,7 @@
         "badge_descricao": "Para este parque, você deve escanear QR Codes nas trilhas para ganhar os badges."
     },
     "ibitipoca": {
-        "map_link": "https://maps.app.goo.gl/IbitipocaEntrance",
+        "map_link": "URL_DO_GOOGLE_MAPS_IBITIPOCA",
         "instagram_link": "URL_DO_INSTAGRAM_IBITIPOCA",
         "info_content": "Famoso por suas formações rochosas, grutas e a vista da Janela do Céu. O parque possui uma rica biodiversidade e é um dos mais visitados de Minas Gerais.",
         
@@ -36,7 +36,7 @@
         "badge_descricao": "Para este parque, você deve escanear QR Codes nas atividades (Janela do Céu, Pico do Pião, etc) para ganhar os badges."
     },
     "itacolomi": {
-        "map_link": "https://maps.app.goo.gl/ItacolomiEntrance",
+        "map_link": "URL_DO_GOOGLE_MAPS_ITACOLOMI",
         "instagram_link": "URL_DO_INSTAGRAM_ITACOLOMI",
         "info_content": "O Pico do Itacolomi é a marca do parque. Com altitude de 1.772m, a trilha é desafiadora, mas a vista é incomparável, especialmente das duas formações rochosas inclinadas.",
         
