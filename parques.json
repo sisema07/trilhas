@@ -15,7 +15,8 @@
             "icone_fundo": "fa-river", 
             "imagem": "url(https://source.unsplash.com/random/400x200?river,minas-gerais)", 
             "descricao": "Um local com um vilarejo histórico desativado e cachoeiras de águas cristalinas para um bom banho.", 
-            "logo_png": "logos/biribiri.png" 
+            "logo_png": "logos/biribiri.png",
+            "fauna_parque_png": "jaguatirica.png"
         },
         { 
             "id": "ibitipoca", 
@@ -259,4 +260,5 @@
         ]
     }
 }
+
 
