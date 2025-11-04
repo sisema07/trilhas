@@ -1,4 +1,4 @@
-const CACHE_NAME = 'trilhas-de-minas-v7'; // Usando v7 para forçar a atualização
+const CACHE_NAME = 'trilhas-de-minas-v8'; // Aumentando a versão para garantir o recarregamento
 const urlsToCache = [
     './',
     'index.html',
@@ -30,7 +30,11 @@ const urlsToCache = [
     'logos/serradorolamoca.png',
     'logos/serranovaetalhado.png',
     'logos/sumidouro.png',
-    'logos/serraverde.png'
+    'logos/serraverde.png',
+    // --- NOVO: Adicionando imagens do Quiz para cache ---
+    'fauna/jaguatirica.png',
+    'mascote-quiz-run.png',
+    'win.gif'
 ];
 
 // Instalação: Cache dos recursos
