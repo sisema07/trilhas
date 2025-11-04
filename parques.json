@@ -235,18 +235,6 @@
             "nome": "Poço da Água Limpa", 
             "icone": "fa-archway", 
             "descricao_curta": "Local para banho, contemplação, relaxamento na natureza. Procure o QR code para realizar o check-in." 
-            },
-            { 
-            "id": "cachoeira1", 
-            "nome": "Cachoeira do Braço Seco", 
-            "icone": "fa-archway", 
-            "descricao_curta": "Local para banho, contemplação, relaxamento na natureza. Procure o QR code para realizar o check-in." 
-            },
-            { 
-            "id": "cachoeira2", 
-            "nome": "Cachoeira do Mocotó", 
-            "icone": "fa-archway", 
-            "descricao_curta": "Local para banho, contemplação, relaxamento na natureza. Procure o QR code para realizar o check-in." 
             }
         ],
         "serradorolamoca": [
@@ -311,6 +299,7 @@
         ]
     }
 }
+
 
 
 
