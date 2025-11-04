@@ -196,7 +196,13 @@
             "icone": "fa-archway", 
             "descricao_curta": "Escaneie o QR Code na portaria do parque para registrar sua chegada!" 
             },
-                       { 
+            { 
+            "id": "vila", 
+            "nome": "Vila do Biribiri", 
+            "icone": "fa-archway", 
+            "descricao_curta": "Localizado a 13 km de Diamantina, o vale de Biribiri, cujo nome em tupi-guarani significa “buraco fundo”, está nos contrafortes da Serra do Espinhaço, em meio a cachoeiras e natureza preservada. Em 1876, foi inaugurada ali a Fábrica de Tecidos de Diamantina, fundada pelos irmãos Felício dos Santos.  Após o fechamento da fábrica em 1973, a vila tornou-se um destino turístico, conhecido por seu charme histórico, ambiente bucólico e belas paisagens dentro do Parque Estadual do Biribiri. Procure o QR code para realizar o check-in." 
+            },
+            { 
             "id": "trilha1", 
             "nome": "Trilha Cachoeira da Sentinela", 
             "icone": "fa-archway", 
@@ -301,5 +307,6 @@
         ]
     }
 }
+
 
 
