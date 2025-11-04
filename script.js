@@ -370,6 +370,8 @@ function lidarComHash() {
 
 // --- LÓGICA DO QUIZ ---
 
+// script.js - SUBSTITUA a função carregarQuiz()
+
 /**
  * Carrega a interface do quiz para o parque e inicializa o jogo.
  */
@@ -398,13 +400,27 @@ function carregarQuiz(parque, container) {
     currentQuizIndex = 0;
     quizScore = 0;
     
-    // Estrutura HTML do Quiz (Removido o botão Submit e Adicionado o container de navegação)
+    // VARIÁVEIS PARA IMAGEM
+    const faunaImg = parque.fauna_parque_png ? `<img src="fauna/${parque.fauna_parque_png}" alt="Mascote do Parque" class="quiz-fauna-img">` : '';
+    
+    // Estrutura HTML do Quiz
     container.innerHTML = `
         <div class="quiz-container">
-            <h3 class="quiz-title">${detalhes.quiz_title || `Quiz do ${parque.nome}`}</h3>
-            <p class="quiz-description">${detalhes.quiz_description || 'Responda para ganhar um badge!'}</p>
+            <div class="quiz-header-content">
+                ${faunaImg}
+                <div class="quiz-header-text">
+                    <h3 class="quiz-title">${detalhes.quiz_title || `Quiz do ${parque.nome}`}</h3>
+                    <p class="quiz-description">${detalhes.quiz_description || 'Responda para ganhar um badge!'}</p>
+                </div>
+            </div>
             
-            <div class="progress-bar"><div class="progress" id="quiz-progress"></div></div>
+            <div class="progress-bar-container">
+                <img id="progress-mascot" src="mascote-quiz-run.png" alt="Mascote correndo" class="progress-mascot-img">
+                <div class="progress-bar">
+                    <div class="progress" id="quiz-progress"></div>
+                </div>
+            </div>
+            
             <div id="quiz-question-container"></div>
             
             <div class="quiz-nav-buttons">
@@ -414,6 +430,17 @@ function carregarQuiz(parque, container) {
         </div>
     `;
 
+    // Adiciona Listeners e Inicia a primeira pergunta
+    document.getElementById('quiz-next-btn').addEventListener('click', nextQuestion);
+    document.getElementById('quiz-restart-btn').addEventListener('click', () => {
+        currentQuizIndex = 0;
+        quizScore = 0;
+        document.getElementById('quiz-restart-btn').classList.add('hidden');
+        showQuestion();
+    });
+
+    showQuestion();
+}
     // Adiciona Listeners e Inicia a primeira pergunta
     document.getElementById('quiz-next-btn').addEventListener('click', nextQuestion);
     document.getElementById('quiz-restart-btn').addEventListener('click', () => {
@@ -499,17 +526,32 @@ function nextQuestion() {
     showQuestion();
 }
 
+
 /**
- * Atualiza a barra de progresso.
+ * Atualiza a barra de progresso e move o mascote.
  */
 function updateQuizProgress() {
-    // Adiciona 1 ao currentQuizIndex, pois é a pergunta que acabou de ser respondida
-    const progress = ((currentQuizIndex + 1) / currentQuizData.length) * 100;
-    document.getElementById('quiz-progress').style.width = progress + '%';
+    // 1. Calcula o progresso (adiciona 1 porque o índice começa em 0)
+    const progressPercent = ((currentQuizIndex + 1) / currentQuizData.length) * 100;
+    
+    const progressBar = document.getElementById('quiz-progress');
+    const mascot = document.getElementById('progress-mascot');
+
+    // 2. Aplica a largura na barra
+    progressBar.style.width = progressPercent + '%';
+
+    // 3. Move o Mascote (a raposa)
+    // Queremos que o mascote esteja no final da barra, subtraindo a largura da própria imagem (ex: 20px)
+    // Usamos um valor máximo de 90% para evitar que ele saia da barra, pois a barra tem bordas.
+    
+    // O mascote deve se mover de 0% a 90% da largura do container para não cair fora.
+    const mascotPosition = Math.min(progressPercent * 0.9, 90); 
+    
+    if (progressPercent > 0) {
+        mascot.style.transform = `translateX(${mascotPosition}%)`;
+        mascot.style.opacity = 1;
+    }
 }
-
-// script.js - SUBSTITUA a função showQuizResult()
-
 /**
  * Exibe o resultado final do Quiz, libera o badge e mostra a animação de vitória.
  */
@@ -685,5 +727,6 @@ async function inicializarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializarApp);
+
 
 
