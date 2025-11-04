@@ -1,4 +1,4 @@
-// script.js - CÓDIGO COMPLETO (FINALMENTE CORRIGIDO E FUNCIONAL)
+// script.js - CÓDIGO COMPLETO (FINALIZANDO VISUAL DO QUIZ)
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -370,8 +370,6 @@ function lidarComHash() {
 
 // --- LÓGICA DO QUIZ ---
 
-// script.js - SUBSTITUA a função carregarQuiz()
-
 /**
  * Carrega a interface do quiz para o parque e inicializa o jogo.
  */
@@ -400,7 +398,7 @@ function carregarQuiz(parque, container) {
     currentQuizIndex = 0;
     quizScore = 0;
     
-    // VARIÁVEIS PARA IMAGEM
+    // VARIÁVEIS PARA IMAGEM DA FAUNA
     const faunaImg = parque.fauna_parque_png ? `<img src="fauna/${parque.fauna_parque_png}" alt="Mascote do Parque" class="quiz-fauna-img">` : '';
     
     // Estrutura HTML do Quiz
@@ -441,17 +439,6 @@ function carregarQuiz(parque, container) {
 
     showQuestion();
 }
-    // Adiciona Listeners e Inicia a primeira pergunta
-    document.getElementById('quiz-next-btn').addEventListener('click', nextQuestion);
-    document.getElementById('quiz-restart-btn').addEventListener('click', () => {
-        currentQuizIndex = 0;
-        quizScore = 0;
-        document.getElementById('quiz-restart-btn').classList.add('hidden');
-        showQuestion();
-    });
-
-    showQuestion();
-}
 
 /**
  * Exibe a pergunta atual.
@@ -480,6 +467,7 @@ function showQuestion() {
  */
 function selectQuizOption(selectedIndex) {
     const buttons = document.querySelectorAll('#quiz-question-container .options button');
+    // CORREÇÃO: Desabilitar botões após a seleção (mantém a opção desabilitada)
     buttons.forEach(btn => btn.disabled = true);
     
     // Verifica se a resposta está correta
@@ -526,25 +514,21 @@ function nextQuestion() {
     showQuestion();
 }
 
-
 /**
  * Atualiza a barra de progresso e move o mascote.
  */
 function updateQuizProgress() {
-    // 1. Calcula o progresso (adiciona 1 porque o índice começa em 0)
     const progressPercent = ((currentQuizIndex + 1) / currentQuizData.length) * 100;
     
     const progressBar = document.getElementById('quiz-progress');
     const mascot = document.getElementById('progress-mascot');
+    
+    if (!progressBar || !mascot) return; // Adicionado para evitar erro se o elemento não existir
 
     // 2. Aplica a largura na barra
     progressBar.style.width = progressPercent + '%';
 
     // 3. Move o Mascote (a raposa)
-    // Queremos que o mascote esteja no final da barra, subtraindo a largura da própria imagem (ex: 20px)
-    // Usamos um valor máximo de 90% para evitar que ele saia da barra, pois a barra tem bordas.
-    
-    // O mascote deve se mover de 0% a 90% da largura do container para não cair fora.
     const mascotPosition = Math.min(progressPercent * 0.9, 90); 
     
     if (progressPercent > 0) {
@@ -552,6 +536,7 @@ function updateQuizProgress() {
         mascot.style.opacity = 1;
     }
 }
+
 /**
  * Exibe o resultado final do Quiz, libera o badge e mostra a animação de vitória.
  */
@@ -565,9 +550,9 @@ function showQuizResult() {
     
     let classification = '';
     let badgeLiberado = false;
-    let winAnimation = false; // NOVA VARIÁVEL
+    let winAnimation = false; 
     
-    if (quizScore === total) { // NOVO: VERIFICAÇÃO SE ACERTOU TODAS
+    if (quizScore === total) { 
         winAnimation = true;
         classification = 'Mestre Explorador!';
     } else if (quizScore >= requiredScore) {
@@ -595,7 +580,7 @@ function showQuizResult() {
     document.getElementById('quiz-question-container').innerHTML = `
         <h2>Resultado Final</h2>
         
-        ${winAnimation ? // NOVO: Bloco de animação de vitória
+        ${winAnimation ? 
             `<div class="win-animation-container">
                 <img src="win.gif" alt="Animação de Vitória" class="win-gif-mascote">
             </div>
@@ -727,6 +712,3 @@ async function inicializarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializarApp);
-
-
-
