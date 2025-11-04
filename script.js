@@ -1,4 +1,4 @@
-// script.js - CÓDIGO COMPLETO (COM TODAS AS CORREÇÕES E LÓGICA DO CARROSSEL)
+// script.js - CÓDIGO COMPLETO (DESATIVA MASCOTE DA BARRA E CORRIGE LÓGICA FINAL DO QUIZ)
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -165,19 +165,17 @@ function setupCarousel(parqueId) {
     carouselElement.innerHTML = '';
     dotsContainer.innerHTML = '';
 
-    // Usa a lista de imagens do parque (criaremos a chave 'carousel_images' no JSON)
     const detalhes = DETALHES_PARQUES[parqueId];
-    const images = detalhes.carousel_images || [`entradas/${parqueId}.png`]; // Fallback para a imagem única
+    // Assumindo que você terá uma chave 'carousel_images' no park_details.json
+    const images = detalhes.carousel_images || [`entradas/${parqueId}.png`]; 
     
     images.forEach((src, index) => {
-        // Imagens
         const img = document.createElement('img');
         img.src = src;
         img.alt = `Imagem ${index + 1} do parque`;
         img.className = 'carousel-image';
         carouselElement.appendChild(img);
 
-        // Pontos de navegação
         const dot = document.createElement('div');
         dot.className = `dot ${index === 0 ? 'active' : ''}`;
         dot.addEventListener('click', () => {
@@ -189,7 +187,6 @@ function setupCarousel(parqueId) {
         dotsContainer.appendChild(dot);
     });
 
-    // Atualiza os pontos (dots) ao rolar o carrossel
     carouselElement.addEventListener('scroll', () => {
         const activeIndex = Math.round(carouselElement.scrollLeft / carouselElement.offsetWidth);
         
@@ -219,7 +216,7 @@ function mostrarArea(id, action = 'info') {
     
     // CORREÇÃO 1: Botão Home/Início
     document.getElementById('btn-home').addEventListener('click', () => {
-        window.location.hash = ''; // Redireciona para a home
+        window.location.hash = ''; 
     });
 
     if (id === 'premiacao') {
@@ -243,18 +240,19 @@ function mostrarArea(id, action = 'info') {
         titulo.textContent = parque.nome;
         parqueDetail.style.display = 'block';
         
-        // --- NOVO: Configura o Carrossel ---
+        // --- Configura o Carrossel ---
         setupCarousel(parque.id);
-        // ----------------------------------
+        // -----------------------------
         
-        // --- CORREÇÃO 4: Configuração da Área de Visitação (Maps e Instagram) ---
+        // --- Configuração da Área de Visitação (Maps e Instagram) ---
         const mapLink = detalhes.map_link || '#';
-        const instaLink = detalhes.instagram_link || '#'; 
+        // CORREÇÃO 4: Lógica do Instagram
+        const instaLink = detalhes.instagram_link || 'https://www.instagram.com/trilhasdeminasapp/'; 
 
         document.getElementById('map-link-icon').href = mapLink;
         document.getElementById('insta-link-icon').href = instaLink;
-        // O texto 'Venha nos visitar' está fixo no HTML/CSS, e não é clicável.
-        // ------------------------------------------------------------------------
+        // O texto 'Venha nos visitar' está fixo no HTML
+        // -------------------------------------------------------------
         
         const contentArea = document.getElementById('dynamic-content-area');
         const buttons = document.querySelectorAll('.action-button');
@@ -333,16 +331,16 @@ function carregarConteudoAtividades(parque, container) {
     const atividades = ATIVIDADES_PARQUES[parque.id] || [];
     const detalhes = DETALHES_PARQUES[parque.id] || {};
     
-    // 1. INSTRUÇÕES 
+    // 1. INSTRUÇÕES (CORREÇÃO 6: Texto Simplificado)
     let html = `
         <div class="activity-instructions">
             <div class="instruction-text">
-                <h3>Procure os códigos QRs no parque, abra a câmera do seu celular e escaneie para liberar o badge!</h3>
+                <h3>Escaneie os QR codes</h3>
                 <p class="badge-description">${detalhes.badge_descricao || 'Instruções gerais sobre o tipo de atividade.'}</p>
             </div>
-            <div class="qr-mascote-container">
+            <div class="qr-mascote-container activity-mascote-anchor">
                 <img src="qr.png" alt="Mascote escaneando QR Code" class="qr-mascote-img">
-            </div>
+                </div>
         </div>
         <hr class="separator" style="margin: 15px 0;">
         
@@ -470,7 +468,6 @@ function carregarQuiz(parque, container) {
             </div>
             
             <div class="progress-bar-container">
-                <img id="progress-mascot" src="mascote-quiz-run.png" alt="Mascote correndo" class="progress-mascot-img">
                 <div class="progress-bar">
                     <div class="progress" id="quiz-progress"></div>
                 </div>
@@ -527,7 +524,7 @@ function selectQuizOption(selectedIndex) {
     buttons.forEach(btn => btn.disabled = true);
     
     // Verifica se a resposta está correta
-    const isCorrect = selectedIndex === currentQuizData[currentQuizIndex].correct;
+    const isCorrect = selectedIndex === currentQuizData[currentQuestionIndex].correct;
     
     // Cores para feedback visual
     const correctColor = '#3ba64b'; // Verde
@@ -571,7 +568,7 @@ function nextQuestion() {
 }
 
 /**
- * Atualiza a barra de progresso e move o mascote.
+ * Atualiza a barra de progresso. (CORREÇÃO 1: REMOVIDA A LÓGICA DE MOVIMENTO DE MASCOTE)
  */
 function updateQuizProgress() {
     const totalQuestions = currentQuizData.length;
@@ -580,32 +577,12 @@ function updateQuizProgress() {
     const progressPercent = (currentProgressCount / totalQuestions) * 100;
     
     const progressBar = document.getElementById('quiz-progress');
-    const mascot = document.getElementById('progress-mascot');
     
-    if (!progressBar || !mascot) return;
+    if (!progressBar) return;
 
-    // 2. Aplica a largura na barra
+    // Aplica a largura na barra
     progressBar.style.width = progressPercent + '%';
-
-    // 3. Move o Mascote (a raposa)
-    
-    let mascotPosition;
-
-    if (progressPercent === 100) {
-        // CORREÇÃO 1: Força a posição final para 98% quando o quiz é concluído (100%)
-        mascotPosition = 98; 
-    } else {
-        // Move o mascote proporcionalmente, limitando o movimento em 90% para deixar espaço
-        mascotPosition = progressPercent * 0.9;
-    }
-
-    // Garante que o mascote não saia do limite 
-    mascotPosition = Math.min(mascotPosition, 98); 
-    
-    if (currentProgressCount > 0) {
-        mascot.style.transform = `translateX(${mascotPosition}%)`;
-        mascot.style.opacity = 1;
-    }
+    // REMOVIDA A LÓGICA DE TRANSFORMAÇÃO DO MASCOTE
 }
 
 /**
@@ -648,10 +625,12 @@ function showQuizResult() {
     }
     
     // 2. Conteúdo final
+    const isPerfectScore = quizScore === total;
+    
     document.getElementById('quiz-question-container').innerHTML = `
         <h2>Resultado Final</h2>
         
-        ${winAnimation ? 
+        ${isPerfectScore ? 
             `<div class="win-animation-container">
                 <img src="win.gif" alt="Animação de Vitória" class="win-gif-mascote">
             </div>
@@ -668,9 +647,27 @@ function showQuizResult() {
         }
     `;
 
-    // 3. Esconde o botão Próxima/Concluir e mostra o Reiniciar
-    document.getElementById('quiz-next-btn').classList.add('hidden');
-    document.getElementById('quiz-restart-btn').classList.remove('hidden');
+    // 3. LÓGICA DO BOTÃO FINAL (CORREÇÃO 3)
+    const nextBtn = document.getElementById('quiz-next-btn');
+    nextBtn.classList.add('hidden'); // Esconde o botão "Concluir"
+    
+    if (isPerfectScore) {
+        // Se acertou todas, transforma o botão "Reiniciar" em "Badges" e redireciona
+        const restartBtn = document.getElementById('quiz-restart-btn');
+        restartBtn.textContent = 'Ver Badges';
+        restartBtn.classList.remove('hidden');
+        
+        // Remove o listener de Reiniciar e adiciona o de navegação
+        restartBtn.removeEventListener('click', nextQuestion);
+        restartBtn.removeEventListener('click', showQuizResult);
+        restartBtn.addEventListener('click', () => {
+             window.location.hash = 'premiacao';
+        });
+        
+    } else {
+        // Se não foi pontuação perfeita, apenas mantém o botão Reiniciar normal
+        document.getElementById('quiz-restart-btn').classList.remove('hidden');
+    }
 }
 
 /**
@@ -780,9 +777,8 @@ async function inicializarApp() {
     });
     window.addEventListener('hashchange', lidarComHash);
     
-    // CORREÇÃO 1: Botão Home/Início
     document.getElementById('btn-home').addEventListener('click', () => {
-        window.location.hash = ''; // Redireciona para a home
+        window.location.hash = ''; // CORREÇÃO 2: Botão Home funcionando
     });
 
     document.getElementById('btn-enviar-foto').addEventListener('click', processarCompartilhamentoFoto);
