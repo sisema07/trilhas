@@ -190,12 +190,53 @@
         "biribiri": [
             { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" },
             { "id": "vilarejo", "nome": "Vilarejo Histórico", "icone": "fa-building-columns", "descricao_curta": "Conheça as ruínas da antiga fábrica têxtil de Biribiri." },
-            { "id": "cachoeira", "nome": "Cachoeira Sentinela", "icone": "fa-water", "descricao_curta": "Localizada no coração do parque, a Sentinela possui águas cristalinas." },
             { 
             "id": "portaria", 
             "nome": "Check-in: Portaria", 
             "icone": "fa-archway", 
             "descricao_curta": "Escaneie o QR Code na portaria do parque para registrar sua chegada!" 
+            },
+                       { 
+            "id": "trilha1", 
+            "nome": "Trilha Cachoeira da Sentinela", 
+            "icone": "fa-archway", 
+            "descricao_curta": "Início a partir da portaria do parque,  (~5km) caminhada moderada, bem sinalizadas; ideal para banho em poços e contemplação. Procure o QR code para realizar o check-in." 
+            },
+            { 
+            "id": "trilha2", 
+            "nome": "Trilha Cachoeira dos Cristais", 
+            "icone": "fa-archway", 
+            "descricao_curta": "Início a partir da portaria do parque,  (~9km) caminhada moderada, bem sinalizadas; ideal para banho em poços e contemplação. Procure o QR code para realizar o check-in." 
+            },
+            { 
+            "id": "trilha3", 
+            "nome": "Trilha Caminho dos Escravos", 
+            "icone": "fa-archway", 
+            "descricao_curta": "Caminho histórico com cerca de ~20 km entre a cidade de Diamantina e o distrito de Mendanha; o trecho interno ao parque tem aproximadamente 16 km. Trilha de maior extensão, requer preparo maior e idealmente acompanhamento de guia. Procure o QR code para realizar o check-in." 
+            },
+            { 
+            "id": "poco1", 
+            "nome": "Poço do Estudante", 
+            "icone": "fa-archway", 
+            "descricao_curta": "Local para banho, contemplação, relaxamento na natureza. Procure o QR code para realizar o check-in." 
+            },
+            { 
+            "id": "poco2", 
+            "nome": "Poço da Água Limpa", 
+            "icone": "fa-archway", 
+            "descricao_curta": "Local para banho, contemplação, relaxamento na natureza. Procure o QR code para realizar o check-in." 
+            },
+            { 
+            "id": "cachoeira1", 
+            "nome": "Cachoeira do Braço Seco", 
+            "icone": "fa-archway", 
+            "descricao_curta": "Local para banho, contemplação, relaxamento na natureza. Procure o QR code para realizar o check-in." 
+            },
+            { 
+            "id": "cachoeira2", 
+            "nome": "Cachoeira do Mocotó", 
+            "icone": "fa-archway", 
+            "descricao_curta": "Local para banho, contemplação, relaxamento na natureza. Procure o QR code para realizar o check-in." 
             }
         ],
         "serradorolamoca": [
@@ -260,3 +301,4 @@
         ]
     }
 }
+
