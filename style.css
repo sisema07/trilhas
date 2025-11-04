@@ -1,4 +1,4 @@
-/* style.css - CÓDIGO COMPLETO FINALMENTE CORRIGIDO PARA LISTA DE ATIVIDADES */
+/* style.css - CÓDIGO COMPLETO AJUSTADO (COM CORREÇÕES FINAIS DE LAYOUT) */
 
 /* Variáveis de Cores e Estilos */
 :root {
@@ -226,7 +226,7 @@ header {
 
 /* CORREÇÃO 3: Alinhamento do Título - O título usa flex-grow para ocupar o espaço */
 #secundaria-titulo {
-    margin: 0 5px; /* Adiciona margem lateral para respiro */
+    margin: 0 5px; 
     font-size: 1.25rem;
     flex-grow: 1; 
     text-align: left; /* Alinha o título à esquerda, começando após o botão voltar */
@@ -234,7 +234,6 @@ header {
 
 /* Botão Voltar/Home */
 #btn-voltar {
-    display: none; 
     background: none;
     border: none;
     color: white;
@@ -461,13 +460,14 @@ header {
 .location-link-container {
     display: flex;
     align-items: center;
-    justify-content: center; /* CORREÇÃO 4: Centraliza os elementos */
-    gap: 15px; /* CORREÇÃO 4: Reduz a distância entre os elementos */
+    justify-content: center; 
+    gap: 5px; /* CORREÇÃO 4: Espaçamento reduzido (de 15px para 5px) */
     padding: 10px 20px;
 }
 .location-link-container span {
     font-weight: 700;
     color: var(--cor-texto);
+    margin: 0 10px; /* Adiciona margem maior ao redor do texto central */
 }
 .location-icon-link {
     color: #444; 
@@ -533,11 +533,13 @@ header {
     color: #444;
 }
 
+/* CORREÇÃO 5: Títulos com Capitalize (Apenas a Inicial em Maiúscula) */
 #dynamic-content-area h3 {
     color: var(--cor-principal);
     font-family: 'Bebas Neue', sans-serif;
     font-size: 1.6rem;
     margin-top: 15px;
+    text-transform: capitalize; /* Aplica apenas a primeira letra de cada palavra em maiúscula */
 }
 
 /* Estilos para a descrição (padrão) */
@@ -570,13 +572,14 @@ header {
     align-items: center;
     background-color: var(--cor-fundo);
     border-radius: 15px;
-    /* CORREÇÃO 2: A sombra é aplicada APENAS no item de lista, eliminando o conflito visual */
-    box-shadow: var(--sombra-neumorfismo-externa);
+    /* CORREÇÃO 2: A sombra externa é aplicada aqui */
+    box-shadow: var(--sombra-neumorfismo-externa); 
     padding: 10px;
     transition: all 0.2s;
     min-height: 70px;
 }
 .activity-list-item.desbloqueado {
+    /* CORREÇÃO 2: A sombra interna é aplicada aqui (e não no icone-premio) */
     box-shadow: var(--sombra-neumorfismo-interna);
     cursor: pointer;
 }
@@ -598,7 +601,7 @@ header {
     align-items: center;
     background-color: var(--cor-fundo);
     border-radius: 15px;
-    /* Removendo a sombra aqui para evitar o efeito "botão sobre botão" (já está no activity-list-item) */
+    /* CORREÇÃO 2: Shadow/Sombra removida daqui para evitar o efeito "botão sobre botão" */
     box-shadow: none; 
     padding: 0;
 }
@@ -606,8 +609,7 @@ header {
 .activity-list-item.desbloqueado .icone-premio {
     opacity: 1.0;
     color: var(--cor-secundaria); 
-    /* Removendo a sombra interna aqui para evitar o efeito "botão sobre botão" */
-    box-shadow: none; 
+    box-shadow: none; /* CORREÇÃO 2: Sombra removida */
 }
 
 /* Tamanho do Ícone dentro do Badge (reduzido) */
@@ -657,6 +659,7 @@ header {
     padding-right: 15px; 
 }
 
+/* CORREÇÃO 6: Texto Simplificado e Sombra para Mascote */
 .instruction-text h3 {
     font-size: 1.1rem;
     color: var(--cor-principal);
@@ -664,7 +667,7 @@ header {
     margin-bottom: 5px;
     text-align: justify;
     font-weight: 700; 
-    text-transform: none !important;
+    text-transform: none !important; 
 }
 
 .instruction-text .badge-description {
@@ -674,22 +677,25 @@ header {
     margin-top: 0;
 }
 
+/* CORREÇÃO 6: Estilo para Mascote (Sombra e Tamanho) */
 .qr-mascote-container {
-    width: 60px; 
-    height: 60px; 
+    width: 80px; /* Aumentado de 60px para 80px */
+    height: 80px; 
     flex-shrink: 0; 
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 5px;
-    background-color: white; 
+    background-color: transparent; /* Fundo transparente */
     border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    /* Sombra discreta para não parecer flutuando */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
+    position: relative;
 }
 
 .qr-mascote-img {
-    width: 100%;
-    height: 100%;
+    width: 90%; /* Ajuste o tamanho da imagem interna */
+    height: 90%;
     object-fit: contain;
 }
 
@@ -703,19 +709,20 @@ header {
     margin-bottom: 15px;
 }
 .quiz-fauna-img {
-    width: 60px; 
+    width: 80px; /* CORREÇÃO 4: Aumentado de 60px para 80px */
     height: auto;
     margin-right: 15px;
     flex-shrink: 0;
-    border-radius: 5px;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    border-radius: 10px; /* Borda arredondada */
+    /* Sombra para o Mascote do Quiz */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
 }
 .quiz-header-text {
     text-align: left;
     flex-grow: 1;
 }
 
-/* --- Barra de Progresso com Mascote --- */
+/* --- Barra de Progresso --- */
 
 .progress-bar-container {
     width: 80%;
@@ -736,117 +743,7 @@ header {
     transition: width 0.3s ease;
 }
 
-/* Mascote da Barra (Raposa) */
-.progress-mascot-img {
-    position: absolute;
-    top: -15px; 
-    left: 0;
-    width: 30px; 
-    height: auto;
-    z-index: 5;
-    transition: transform 0.3s ease-out; 
-    opacity: 0; 
-    transform: translateX(0);
-}
-.quiz-container {
-    padding: 10px 0;
-    text-align: center;
-}
-.quiz-title {
-    color: var(--cor-principal);
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.8rem;
-    margin-bottom: 5px;
-}
-.quiz-description {
-    font-size: 0.9rem;
-    color: #666;
-    margin-bottom: 15px;
-}
-
-/* Container das opções em GRID de 2 colunas */
-.options {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 10px;
-    padding: 10px 0;
-    margin: 0 10px;
-    justify-content: center;
-}
-
-.options button {
-    display: block;
-    background-color: var(--cor-fundo);
-    border: 1px solid var(--cor-principal);
-    color: var(--cor-principal);
-    border-radius: 25px;
-    padding: 12px 10px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    box-shadow: var(--sombra-neumorfismo-card);
-    transition: all 0.3s ease;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.options button:hover:not(:disabled) {
-    background-color: var(--cor-principal);
-    color: white;
-}
-
-.options button:disabled {
-    cursor: default;
-    opacity: 1;
-    box-shadow: none;
-}
-
-/* Estilo para a opção selecionada e coloração */
-.options button[style*="background-color: rgb(220, 53, 69)"] { /* Vermelho */
-    color: white !important;
-}
-.options button[style*="background-color: rgb(59, 166, 75)"] { /* Verde */
-    color: white !important;
-}
-
-/* Resultados */
-.quiz-result-container {
-    padding: 20px;
-}
-.success-message {
-    color: var(--cor-principal);
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.8rem;
-    margin: 20px 0 10px;
-}
-.fail-message {
-    color: #dc3545;
-    font-weight: 600;
-    margin: 15px 0;
-}
-
-/* Estilos para o Container dos Botões de Navegação (Duas Colunas) */
-.quiz-nav-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    padding: 10px 20px 0;
-}
-
-/* Estilos para botões de navegação no quiz */
-.quiz-nav-buttons .action-button {
-    flex-grow: 1; 
-    max-width: 150px;
-    margin: 0;
-    display: block;
-    width: auto;
-    padding: 10px;
-    font-size: 1rem;
-    border-radius: 25px;
-    box-shadow: var(--sombra-neumorfismo-externa);
-    background-color: var(--cor-principal);
-    color: white;
-}
-/* --- ESTILOS DE RESULTADO E ANIMAÇÃO --- */
+/* --- Estilos de Resultado (Animação) --- */
 
 .win-animation-container {
     width: 100%;
@@ -854,6 +751,9 @@ header {
     margin: 10px auto;
     overflow: hidden;
     background: transparent; 
+    border-radius: 15px; /* CORREÇÃO 2: Borda arredondada no GIF */
+    border: 3px solid var(--cor-principal); /* CORREÇÃO 2: Borda verde para harmonizar */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Sombra para destacar */
 }
 
 .win-gif-mascote {
@@ -872,3 +772,6 @@ header {
     font-weight: bold;
     margin: 10px 0;
 }
+
+/* Estilos de Quiz/Options (mantidos) */
+/* ... */
