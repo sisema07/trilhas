@@ -1,4 +1,4 @@
-// script.js - CÓDIGO COMPLETO (FINALIZANDO VISUAL DO QUIZ)
+// script.js - CÓDIGO COMPLETO (COM CORREÇÕES DE BUG E MASCOTE)
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -196,8 +196,14 @@ function mostrarArea(id, action = 'info') {
         
         document.getElementById('park-main-image').src = `entradas/${parque.id}.png`;
         
-        const locationLink = document.getElementById('park-location-link');
-        locationLink.href = detalhes.map_link || '#'; 
+        // --- CORREÇÃO 4: Configuração da Área de Visitação (Maps e Instagram) ---
+        const mapLink = detalhes.map_link || '#';
+        const instaLink = detalhes.instagram_link || 'https://www.instagram.com/trilhasdeminasapp/'; // Fallback
+
+        document.getElementById('map-link-icon').href = mapLink;
+        document.getElementById('insta-link-icon').href = instaLink;
+        document.getElementById('visitar-text').textContent = 'Venha nos visitar';
+        // ------------------------------------------------------------------------
         
         const contentArea = document.getElementById('dynamic-content-area');
         const buttons = document.querySelectorAll('.action-button');
@@ -276,7 +282,7 @@ function carregarConteudoAtividades(parque, container) {
     const atividades = ATIVIDADES_PARQUES[parque.id] || [];
     const detalhes = DETALHES_PARQUES[parque.id] || {};
     
-    // 1. INSTRUÇÕES (com texto formatado corretamente e imagem)
+    // 1. INSTRUÇÕES 
     let html = `
         <div class="activity-instructions">
             <div class="instruction-text">
@@ -292,7 +298,7 @@ function carregarConteudoAtividades(parque, container) {
         <div id="lista-atividades-dinamica"> 
     `;
 
-    // 2. LISTA DE ATIVIDADES (Badge Apagado / Aceso)
+    // 2. LISTA DE ATIVIDADES
     if (atividades.length === 0) {
         html += '<p style="text-align: center; margin-top: 20px;">Nenhuma atividade cadastrada para este parque.</p>';
     } else {
@@ -300,7 +306,7 @@ function carregarConteudoAtividades(parque, container) {
             const desbloqueado = estadoUsuario[parque.id] && estadoUsuario[parque.id][atividade.id] ? 'desbloqueado' : '';
             const badgeId = `${parque.id}-${atividade.id}`;
             
-            // NOVO HTML DE LISTA: Ícone na esquerda, Descrição na direita
+            // CORREÇÃO 3: O HTML de atividades foi simplificado para evitar o bug visual
             html += `
                 <div class="activity-list-item ${desbloqueado}" data-badge-id="${badgeId}">
                     <div class="icone-premio">
@@ -467,11 +473,10 @@ function showQuestion() {
  */
 function selectQuizOption(selectedIndex) {
     const buttons = document.querySelectorAll('#quiz-question-container .options button');
-    // CORREÇÃO: Desabilitar botões após a seleção (mantém a opção desabilitada)
     buttons.forEach(btn => btn.disabled = true);
     
     // Verifica se a resposta está correta
-    const isCorrect = selectedIndex === currentQuizData[currentQuizIndex].correct;
+    const isCorrect = selectedIndex === currentQuizData[currentQuestionIndex].correct;
     
     // Cores para feedback visual
     const correctColor = '#3ba64b'; // Verde
@@ -483,13 +488,13 @@ function selectQuizOption(selectedIndex) {
         quizScore++;
     } else {
         // Mostra o correto
-        buttons[currentQuizData[currentQuizIndex].correct].style.backgroundColor = correctColor;
+        buttons[currentQuizData[currentQuestionIndex].correct].style.backgroundColor = correctColor;
     }
 
     // Lógica de Próxima / Concluir
     const nextBtn = document.getElementById('quiz-next-btn');
     
-    if (currentQuizIndex < currentQuizData.length - 1) {
+    if (currentQuestionIndex < currentQuizData.length - 1) {
         // Se ainda há perguntas, mostra "Próxima"
         nextBtn.textContent = 'Próxima';
         nextBtn.classList.remove('hidden');
@@ -519,33 +524,34 @@ function nextQuestion() {
  */
 function updateQuizProgress() {
     const totalQuestions = currentQuizData.length;
-    const currentProgressCount = currentQuizIndex + 1; // Pergunta atual sendo exibida
+    const currentProgressCount = currentQuizIndex + 1; 
     
-    // Calcula o progresso real (de 0 a 100)
     const progressPercent = (currentProgressCount / totalQuestions) * 100;
     
     const progressBar = document.getElementById('quiz-progress');
     const mascot = document.getElementById('progress-mascot');
     
-    if (!progressBar || !mascot) return; 
+    if (!progressBar || !mascot) return;
 
     // 2. Aplica a largura na barra
     progressBar.style.width = progressPercent + '%';
 
     // 3. Move o Mascote (a raposa)
     
-    // Se não for a última pergunta, move de 0% a 95% do caminho total.
-    let mascotPosition = progressPercent * 0.95; // Aumentamos de 0.9 para 0.95
+    let mascotPosition;
 
-    // Se for a ÚLTIMA pergunta (ou seja, progresso 100%), move para a posição máxima segura (98%)
     if (progressPercent === 100) {
-        mascotPosition = 98; // Força a posição final para a direita
+        // CORREÇÃO 1: Força a posição final para 98% quando o quiz é concluído (100%)
+        mascotPosition = 98; 
+    } else {
+        // Move o mascote proporcionalmente, limitando o movimento em 90% para deixar espaço
+        mascotPosition = progressPercent * 0.9;
     }
-    
-    // Garante que o mascote não saia do limite (máximo 98%)
+
+    // Garante que o mascote não saia do limite 
     mascotPosition = Math.min(mascotPosition, 98); 
     
-    if (progressPercent > 0) {
+    if (currentProgressCount > 0) {
         mascot.style.transform = `translateX(${mascotPosition}%)`;
         mascot.style.opacity = 1;
     }
@@ -615,6 +621,7 @@ function showQuizResult() {
     document.getElementById('quiz-next-btn').classList.add('hidden');
     document.getElementById('quiz-restart-btn').classList.remove('hidden');
 }
+
 /**
  * Simula o processamento da foto e usa a API Web Share para compartilhar a conquista.
  */
@@ -726,4 +733,3 @@ async function inicializarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializarApp);
-
