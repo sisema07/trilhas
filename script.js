@@ -1,4 +1,4 @@
-// script.js - CÓDIGO COMPLETO (COM CORREÇÕES DE BUG E MASCOTE)
+// script.js - CÓDIGO COMPLETO (COM TODAS AS CORREÇÕES E LÓGICA DO CARROSSEL)
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -157,6 +157,50 @@ function carregarBotoesParques() {
 }
 
 /**
+ * Lógica do Carrossel de Imagens (NOVA FUNÇÃO)
+ */
+function setupCarousel(parqueId) {
+    const carouselElement = document.getElementById('park-carousel');
+    const dotsContainer = document.getElementById('carousel-dots');
+    carouselElement.innerHTML = '';
+    dotsContainer.innerHTML = '';
+
+    // Usa a lista de imagens do parque (criaremos a chave 'carousel_images' no JSON)
+    const detalhes = DETALHES_PARQUES[parqueId];
+    const images = detalhes.carousel_images || [`entradas/${parqueId}.png`]; // Fallback para a imagem única
+    
+    images.forEach((src, index) => {
+        // Imagens
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = `Imagem ${index + 1} do parque`;
+        img.className = 'carousel-image';
+        carouselElement.appendChild(img);
+
+        // Pontos de navegação
+        const dot = document.createElement('div');
+        dot.className = `dot ${index === 0 ? 'active' : ''}`;
+        dot.addEventListener('click', () => {
+            carouselElement.scrollTo({
+                left: carouselElement.offsetWidth * index,
+                behavior: 'smooth'
+            });
+        });
+        dotsContainer.appendChild(dot);
+    });
+
+    // Atualiza os pontos (dots) ao rolar o carrossel
+    carouselElement.addEventListener('scroll', () => {
+        const activeIndex = Math.round(carouselElement.scrollLeft / carouselElement.offsetWidth);
+        
+        document.querySelectorAll('.dot').forEach((dot, index) => {
+            dot.classList.toggle('active', index === activeIndex);
+        });
+    });
+}
+
+
+/**
  * Exibe a área detalhada (Parque, Check-ins, Upload), e define o botão ativo na página do parque.
  */
 function mostrarArea(id, action = 'info') { 
@@ -173,6 +217,11 @@ function mostrarArea(id, action = 'info') {
     scrollPosition = window.pageYOffset;
     areaSecundaria.classList.add('aberto');
     
+    // CORREÇÃO 1: Botão Home/Início
+    document.getElementById('btn-home').addEventListener('click', () => {
+        window.location.hash = ''; // Redireciona para a home
+    });
+
     if (id === 'premiacao') {
         titulo.textContent = 'Check-ins';
         areaPremiacao.style.display = 'block';
@@ -194,15 +243,17 @@ function mostrarArea(id, action = 'info') {
         titulo.textContent = parque.nome;
         parqueDetail.style.display = 'block';
         
-        document.getElementById('park-main-image').src = `entradas/${parque.id}.png`;
+        // --- NOVO: Configura o Carrossel ---
+        setupCarousel(parque.id);
+        // ----------------------------------
         
         // --- CORREÇÃO 4: Configuração da Área de Visitação (Maps e Instagram) ---
         const mapLink = detalhes.map_link || '#';
-        const instaLink = detalhes.instagram_link || 'https://www.instagram.com/trilhasdeminasapp/'; // Fallback
+        const instaLink = detalhes.instagram_link || '#'; 
 
         document.getElementById('map-link-icon').href = mapLink;
         document.getElementById('insta-link-icon').href = instaLink;
-        document.getElementById('visitar-text').textContent = 'Venha nos visitar';
+        // O texto 'Venha nos visitar' está fixo no HTML/CSS, e não é clicável.
         // ------------------------------------------------------------------------
         
         const contentArea = document.getElementById('dynamic-content-area');
@@ -306,7 +357,7 @@ function carregarConteudoAtividades(parque, container) {
             const desbloqueado = estadoUsuario[parque.id] && estadoUsuario[parque.id][atividade.id] ? 'desbloqueado' : '';
             const badgeId = `${parque.id}-${atividade.id}`;
             
-            // CORREÇÃO 3: O HTML de atividades foi simplificado para evitar o bug visual
+            // CORREÇÃO 3: HTML de atividades simplificado para evitar o bug visual
             html += `
                 <div class="activity-list-item ${desbloqueado}" data-badge-id="${badgeId}">
                     <div class="icone-premio">
@@ -476,7 +527,7 @@ function selectQuizOption(selectedIndex) {
     buttons.forEach(btn => btn.disabled = true);
     
     // Verifica se a resposta está correta
-    const isCorrect = selectedIndex === currentQuizData[currentQuestionIndex].correct;
+    const isCorrect = selectedIndex === currentQuizData[currentQuizIndex].correct;
     
     // Cores para feedback visual
     const correctColor = '#3ba64b'; // Verde
@@ -494,7 +545,7 @@ function selectQuizOption(selectedIndex) {
     // Lógica de Próxima / Concluir
     const nextBtn = document.getElementById('quiz-next-btn');
     
-    if (currentQuestionIndex < currentQuizData.length - 1) {
+    if (currentQuizIndex < currentQuizData.length - 1) {
         // Se ainda há perguntas, mostra "Próxima"
         nextBtn.textContent = 'Próxima';
         nextBtn.classList.remove('hidden');
@@ -694,7 +745,7 @@ async function inicializarApp() {
         
         document.getElementById('app-container').style.display = 'flex';
         
-        // --- NOVO: Listener para habilitar/desabilitar o botão de envio ---
+        // --- Listener para habilitar/desabilitar o botão de envio ---
         document.getElementById('input-foto-badge').addEventListener('change', function() {
             const btn = document.getElementById('btn-enviar-foto');
             if (this.files.length > 0) {
@@ -729,6 +780,11 @@ async function inicializarApp() {
     });
     window.addEventListener('hashchange', lidarComHash);
     
+    // CORREÇÃO 1: Botão Home/Início
+    document.getElementById('btn-home').addEventListener('click', () => {
+        window.location.hash = ''; // Redireciona para a home
+    });
+
     document.getElementById('btn-enviar-foto').addEventListener('click', processarCompartilhamentoFoto);
 }
 
