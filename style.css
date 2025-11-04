@@ -630,7 +630,61 @@ header {
 }
 
 /* --- ESTILOS DO QUIZ DINÂMICO --- */
+/* --- Estilos do Mascote e Header do Quiz --- */
 
+.quiz-header-content {
+    display: flex;
+    align-items: flex-start;
+    padding: 0 10px;
+    margin-bottom: 15px;
+}
+.quiz-fauna-img {
+    width: 60px; /* Tamanho fixo da imagem de fauna */
+    height: auto;
+    margin-right: 15px;
+    flex-shrink: 0;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+}
+.quiz-header-text {
+    text-align: left;
+}
+
+/* --- Barra de Progresso com Mascote --- */
+
+.progress-bar-container {
+    width: 80%;
+    margin: 15px auto;
+    position: relative;
+}
+.progress-bar {
+    /* Mantém o estilo da barra, mas remove a margem */
+    background-color: #ccc;
+    border-radius: 10px;
+    height: 10px;
+    overflow: hidden;
+    box-shadow: inset 1px 1px 3px rgba(0,0,0,0.2);
+}
+#quiz-progress {
+    /* Mantido */
+    background-color: var(--cor-secundaria);
+    height: 100%;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+/* Mascote da Barra (Raposa) */
+.progress-mascot-img {
+    position: absolute;
+    top: -15px; /* Ajusta a posição verticalmente sobre a barra */
+    left: 0;
+    width: 30px; /* Tamanho do mascote */
+    height: auto;
+    z-index: 5;
+    transition: transform 0.3s ease-out; /* Transição suave para o movimento */
+    opacity: 0; /* Esconde no início */
+    transform: translateX(0);
+}
 .quiz-container {
     padding: 10px 0;
     text-align: center;
@@ -779,3 +833,4 @@ header {
     font-weight: bold;
     margin: 10px 0;
 }
+
