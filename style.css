@@ -224,12 +224,12 @@ header {
     z-index: 10;
 }
 
+/* CORREÇÃO 3: Alinhamento do Título - O título usa flex-grow para ocupar o espaço */
 #secundaria-titulo {
-    margin: 0;
+    margin: 0 5px; /* Adiciona margem lateral para respiro */
     font-size: 1.25rem;
-    flex-grow: 1; /* Garante que o título ocupe o espaço central */
-    text-align: center;
-    margin-left: -40px; /* Compensa o espaço do botão voltar */
+    flex-grow: 1; 
+    text-align: left; /* Alinha o título à esquerda, começando após o botão voltar */
 }
 
 /* Botão Voltar/Home */
@@ -240,13 +240,13 @@ header {
     color: white;
     font-size: 1.25rem;
     padding: 0;
-    width: 40px; /* Largura fixa para centralização */
+    width: 40px; 
     height: 40px;
     cursor: pointer;
     margin-right: 10px;
     z-index: 20;
 }
-/* NOVO: Botão Home */
+
 #btn-home {
     background: none;
     border: none;
@@ -411,8 +411,8 @@ header {
     padding: 0 0 20px 0;
 }
 
-/* 1. Imagem Principal */
-.park-image-container {
+/* 1. Carrossel de Imagens */
+.park-carousel-container {
     width: 100%;
     aspect-ratio: 16 / 9;
     overflow: hidden;
@@ -420,18 +420,49 @@ header {
     margin-bottom: 15px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
-
-.parque-imagem-principal {
+.park-carousel {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+}
+.carousel-image {
+    flex-shrink: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    scroll-snap-align: start;
+}
+.carousel-dots {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+.dot {
+    width: 8px;
+    height: 8px;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.dot.active {
+    background-color: var(--cor-principal);
+    transform: scale(1.2);
 }
 
 /* 2. Área de Visitação (Maps + Texto + Instagram) */
 .location-link-container {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center; /* CORREÇÃO 4: Centraliza os elementos */
+    gap: 15px; /* CORREÇÃO 4: Reduz a distância entre os elementos */
     padding: 10px 20px;
 }
 .location-link-container span {
@@ -439,18 +470,18 @@ header {
     color: var(--cor-texto);
 }
 .location-icon-link {
-    color: #444; /* Cor escura padrão */
+    color: #444; 
     font-size: 1.6rem;
     transition: color 0.2s;
-    width: 35px; /* Define largura para ícones */
+    width: 35px;
     text-align: center;
     line-height: 1;
 }
 .location-icon-link:first-child {
-    color: #DB4437; /* Google Maps Reddish */
+    color: #DB4437; 
 }
 .location-icon-link:last-child {
-    color: #E1306C; /* Instagram Pink */
+    color: #E1306C;
 }
 
 
@@ -539,6 +570,7 @@ header {
     align-items: center;
     background-color: var(--cor-fundo);
     border-radius: 15px;
+    /* CORREÇÃO 2: A sombra é aplicada APENAS no item de lista, eliminando o conflito visual */
     box-shadow: var(--sombra-neumorfismo-externa);
     padding: 10px;
     transition: all 0.2s;
@@ -566,14 +598,16 @@ header {
     align-items: center;
     background-color: var(--cor-fundo);
     border-radius: 15px;
-    box-shadow: var(--sombra-neumorfismo-externa);
+    /* Removendo a sombra aqui para evitar o efeito "botão sobre botão" (já está no activity-list-item) */
+    box-shadow: none; 
     padding: 0;
 }
 
 .activity-list-item.desbloqueado .icone-premio {
     opacity: 1.0;
     color: var(--cor-secundaria); 
-    box-shadow: var(--sombra-neumorfismo-interna);
+    /* Removendo a sombra interna aqui para evitar o efeito "botão sobre botão" */
+    box-shadow: none; 
 }
 
 /* Tamanho do Ícone dentro do Badge (reduzido) */
@@ -630,7 +664,7 @@ header {
     margin-bottom: 5px;
     text-align: justify;
     font-weight: 700; 
-    text-transform: none !important; /* CORREÇÃO FINAL DA CAIXA ALTA */
+    text-transform: none !important;
 }
 
 .instruction-text .badge-description {
@@ -669,7 +703,7 @@ header {
     margin-bottom: 15px;
 }
 .quiz-fauna-img {
-    width: 60px; /* Tamanho fixo da imagem de fauna */
+    width: 60px; 
     height: auto;
     margin-right: 15px;
     flex-shrink: 0;
