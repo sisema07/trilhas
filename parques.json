@@ -188,8 +188,12 @@
             { "id": "pico", "nome": "Pico do Pião", "icone": "fa-mountain", "descricao_curta": "A subida ao ponto mais alto e a capela histórica no topo." }
         ],
         "biribiri": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" },
-            { "id": "vilarejo", "nome": "Vilarejo Histórico", "icone": "fa-building-columns", "descricao_curta": "Conheça as ruínas da antiga fábrica têxtil de Biribiri." },
+            {
+            "id": "quiz", 
+            "nome": "Quiz: Conhecimento", 
+            "icone": "fa-brain", 
+            "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" 
+            },
             { 
             "id": "portaria", 
             "nome": "Check-in: Portaria", 
@@ -197,10 +201,10 @@
             "descricao_curta": "Escaneie o QR Code na portaria do parque para registrar sua chegada!" 
             },
             { 
-            "id": "vila", 
-            "nome": "Vila do Biribiri", 
-            "icone": "fa-archway", 
-            "descricao_curta": "Localizado a 13 km de Diamantina, o vale de Biribiri, cujo nome em tupi-guarani significa “buraco fundo”, está nos contrafortes da Serra do Espinhaço, em meio a cachoeiras e natureza preservada. Em 1876, foi inaugurada ali a Fábrica de Tecidos de Diamantina, fundada pelos irmãos Felício dos Santos.  Após o fechamento da fábrica em 1973, a vila tornou-se um destino turístico, conhecido por seu charme histórico, ambiente bucólico e belas paisagens dentro do Parque Estadual do Biribiri. Procure o QR code para realizar o check-in." 
+            "id": "vilarejo", 
+            "nome": "Vilarejo Histórico", 
+            "icone": "fa-building-columns", 
+            "descricao_curta": "Conheça as ruínas da antiga fábrica têxtil de Biribiri." 
             },
             { 
             "id": "trilha1", 
@@ -307,6 +311,7 @@
         ]
     }
 }
+
 
 
 
