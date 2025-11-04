@@ -518,18 +518,32 @@ function nextQuestion() {
  * Atualiza a barra de progresso e move o mascote.
  */
 function updateQuizProgress() {
-    const progressPercent = ((currentQuizIndex + 1) / currentQuizData.length) * 100;
+    const totalQuestions = currentQuizData.length;
+    const currentProgressCount = currentQuizIndex + 1; // Pergunta atual sendo exibida
+    
+    // Calcula o progresso real (de 0 a 100)
+    const progressPercent = (currentProgressCount / totalQuestions) * 100;
     
     const progressBar = document.getElementById('quiz-progress');
     const mascot = document.getElementById('progress-mascot');
     
-    if (!progressBar || !mascot) return; // Adicionado para evitar erro se o elemento não existir
+    if (!progressBar || !mascot) return; 
 
     // 2. Aplica a largura na barra
     progressBar.style.width = progressPercent + '%';
 
     // 3. Move o Mascote (a raposa)
-    const mascotPosition = Math.min(progressPercent * 0.9, 90); 
+    
+    // Se não for a última pergunta, move de 0% a 95% do caminho total.
+    let mascotPosition = progressPercent * 0.95; // Aumentamos de 0.9 para 0.95
+
+    // Se for a ÚLTIMA pergunta (ou seja, progresso 100%), move para a posição máxima segura (98%)
+    if (progressPercent === 100) {
+        mascotPosition = 98; // Força a posição final para a direita
+    }
+    
+    // Garante que o mascote não saia do limite (máximo 98%)
+    mascotPosition = Math.min(mascotPosition, 98); 
     
     if (progressPercent > 0) {
         mascot.style.transform = `translateX(${mascotPosition}%)`;
@@ -712,3 +726,4 @@ async function inicializarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializarApp);
+
