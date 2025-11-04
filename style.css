@@ -752,3 +752,30 @@ header {
     background-color: var(--cor-principal);
     color: white;
 }
+/* --- ESTILOS DE RESULTADO E ANIMAÇÃO --- */
+
+.win-animation-container {
+    width: 100%;
+    max-width: 150px; /* Limita o tamanho do GIF/Vídeo */
+    margin: 10px auto;
+    overflow: hidden;
+    /* Para garantir a transparência do GIF, se necessário: */
+    background: transparent; 
+}
+
+.win-gif-mascote {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.result-classification {
+    font-size: 1.5rem;
+    color: var(--cor-principal);
+    margin-top: 20px;
+}
+.success-badge-message {
+    color: var(--cor-secundaria);
+    font-weight: bold;
+    margin: 10px 0;
+}
