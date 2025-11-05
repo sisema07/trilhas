@@ -1,4 +1,4 @@
-// script.js - CÓDIGO COMPLETO (FINAL COM CORREÇÕES DE CARROSSEL E NAVEGAÇÃO)
+// script.js - CÓDIGO COMPLETO (LIMPO, CORRIGIDO E FUNCIONAL)
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -157,7 +157,7 @@ function carregarBotoesParques() {
 }
 
 /**
- * Lógica do Carrossel de Imagens (NOVA FUNÇÃO)
+ * Lógica do Carrossel de Imagens 
  */
 function setupCarousel(parqueId) {
     const carouselElement = document.getElementById('park-carousel');
@@ -166,20 +166,17 @@ function setupCarousel(parqueId) {
     dotsContainer.innerHTML = '';
 
     const detalhes = DETALHES_PARQUES[parqueId];
-    // CORREÇÃO: Usamos o array 'carousel_images' se existir
     const images = detalhes.carousel_images && detalhes.carousel_images.length > 0
         ? detalhes.carousel_images
-        : [`entradas/${parqueId}.png`]; // Fallback para a imagem única
+        : [`entradas/${parqueId}.png`]; 
     
     images.forEach((src, index) => {
-        // Imagens
         const img = document.createElement('img');
         img.src = src;
         img.alt = `Imagem ${index + 1} do parque`;
         img.className = 'carousel-image';
         carouselElement.appendChild(img);
 
-        // Pontos de navegação
         const dot = document.createElement('div');
         dot.className = `dot ${index === 0 ? 'active' : ''}`;
         dot.addEventListener('click', () => {
@@ -191,9 +188,7 @@ function setupCarousel(parqueId) {
         dotsContainer.appendChild(dot);
     });
 
-    // Atualiza os pontos (dots) ao rolar o carrossel
     carouselElement.addEventListener('scroll', () => {
-        // Calcula o índice atual arredondando para o número inteiro mais próximo
         const activeIndex = Math.round(carouselElement.scrollLeft / carouselElement.offsetWidth);
         
         document.querySelectorAll('.dot').forEach((dot, index) => {
@@ -220,7 +215,6 @@ function mostrarArea(id, action = 'info') {
     scrollPosition = window.pageYOffset;
     areaSecundaria.classList.add('aberto');
     
-    // CORREÇÃO 1: Botão Home/Início
     document.getElementById('btn-home').addEventListener('click', () => {
         window.location.hash = ''; 
     });
@@ -246,9 +240,7 @@ function mostrarArea(id, action = 'info') {
         titulo.textContent = parque.nome;
         parqueDetail.style.display = 'block';
         
-        // --- Configura o Carrossel ---
         setupCarousel(parque.id);
-        // ----------------------------------
         
         // --- Configuração da Área de Visitação (Maps e Instagram) ---
         const mapLink = detalhes.map_link || '#';
@@ -256,8 +248,6 @@ function mostrarArea(id, action = 'info') {
 
         document.getElementById('map-link-icon').href = mapLink;
         document.getElementById('insta-link-icon').href = instaLink;
-        // O texto 'Venha nos visitar' está fixo no HTML/CSS, e não é clicável.
-        // ------------------------------------------------------------------------
         
         const contentArea = document.getElementById('dynamic-content-area');
         const buttons = document.querySelectorAll('.action-button');
@@ -289,8 +279,6 @@ function mostrarArea(id, action = 'info') {
     areaSecundaria.scrollTo(0, 0);
 }
 
-// script.js - SUBSTITUA a função carregarPremios()
-
 /** * Carrega todos os Badges.
  */
 function carregarPremios() {
@@ -313,7 +301,7 @@ function carregarPremios() {
             card.dataset.parqueId = parqueId;
             card.dataset.atividadeId = atividade.id;
             
-            // --- NOVO: Lógica para usar Imagem ou Ícone ---
+            // --- NOVO: Lógica para usar Imagem ou Ícone (CHECK-INS) ---
             let badgeContent;
             if (atividade.imagem_png) {
                 // Se tiver imagem PNG, usa a tag <img>
@@ -322,7 +310,7 @@ function carregarPremios() {
                 // Caso contrário, usa o ícone Font Awesome existente
                 badgeContent = `<i class="fas ${atividade.icone}"></i>`;
             }
-            // ----------------------------------------------
+            // -----------------------------------------------------------
             
             card.innerHTML = `
                 ${badgeContent}
@@ -342,8 +330,6 @@ function carregarPremios() {
     }
 }
 
-// script.js - SUBSTITUA a função carregarConteudoAtividades()
-
 /**
  * Carrega e exibe a lista de atividades escaneáveis (Badges) de um parque específico (Layout Lista).
  */
@@ -351,14 +337,14 @@ function carregarConteudoAtividades(parque, container) {
     const atividades = ATIVIDADES_PARQUES[parque.id] || [];
     const detalhes = DETALHES_PARQUES[parque.id] || {};
     
-    // 1. INSTRUÇÕES 
+    // 1. INSTRUÇÕES (CORREÇÃO 6: Texto Simplificado)
     let html = `
         <div class="activity-instructions">
             <div class="instruction-text">
                 <h3>Escaneie os QR codes</h3>
                 <p class="badge-description">${detalhes.badge_descricao || 'Instruções gerais sobre o tipo de atividade.'}</p>
             </div>
-            <div class="qr-mascote-container activity-mascote-anchor">
+            <div class="qr-mascote-container">
                 <img src="qr.png" alt="Mascote escaneando QR Code" class="qr-mascote-img">
             </div>
         </div>
@@ -375,7 +361,7 @@ function carregarConteudoAtividades(parque, container) {
             const desbloqueado = estadoUsuario[parque.id] && estadoUsuario[parque.id][atividade.id] ? 'desbloqueado' : '';
             const badgeId = `${parque.id}-${atividade.id}`;
             
-            // --- NOVO: Lógica para usar Imagem ou Ícone ---
+            // --- NOVO: Lógica para usar Imagem ou Ícone (LISTA DE ATIVIDADES) ---
             let badgeContent;
             if (atividade.imagem_png) {
                 // Se tiver imagem PNG, usa a tag <img>
@@ -384,7 +370,7 @@ function carregarConteudoAtividades(parque, container) {
                 // Caso contrário, usa o ícone Font Awesome existente
                 badgeContent = `<i class="fas ${atividade.icone}"></i>`;
             }
-            // ----------------------------------------------
+            // ------------------------------------------------------------------
             
             // HTML de lista
             html += `
@@ -810,11 +796,10 @@ async function inicializarApp() {
     window.addEventListener('hashchange', lidarComHash);
     
     document.getElementById('btn-home').addEventListener('click', () => {
-        window.location.hash = ''; // CORREÇÃO 2: Botão Home funcionando
+        window.location.hash = ''; // CORREÇÃO: Botão Home funcionando
     });
 
     document.getElementById('btn-enviar-foto').addEventListener('click', processarCompartilhamentoFoto);
 }
 
 document.addEventListener('DOMContentLoaded', inicializarApp);
-
