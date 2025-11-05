@@ -775,3 +775,27 @@ header {
 
 /* Estilos de Quiz/Options (mantidos) */
 /* ... */
+
+/* NOVO: Estilo para Imagem PNG personalizada no Badge */
+.badge-custom-img {
+    width: 100%; /* Ocupa a largura total do container */
+    height: 100%;
+    object-fit: contain; /* Garante que a imagem caiba sem cortar */
+    padding: 5px; /* Adiciona um pequeno padding interno para visualização */
+    box-sizing: border-box;
+}
+/* Ajustes específicos para o Badge GRANDE de Check-ins */
+#lista-icones-premios .icone-premio .badge-custom-img {
+    width: 80%; /* Reduz o tamanho para deixar espaço para o nome */
+    height: auto;
+    max-height: 80%;
+    padding: 0;
+    margin-bottom: 5px;
+}
+/* Ajustes específicos para o Badge PEQUENO de Atividades */
+.activity-list-item .icone-premio .badge-custom-img {
+    width: 90%;
+    height: 90%;
+    margin-bottom: 0;
+    padding: 0;
+}
