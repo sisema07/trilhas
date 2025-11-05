@@ -1,4 +1,4 @@
-const CACHE_NAME = 'trilhas-de-minas-v8'; // Aumentando a versão para garantir o recarregamento
+const CACHE_NAME = 'trilhas-de-minas-v9'; // AUMENTANDO VERSÃO NOVAMENTE
 const urlsToCache = [
     './',
     'index.html',
@@ -11,30 +11,18 @@ const urlsToCache = [
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css',
     'https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:wght@400;600;700&display=swap',
     
-    // --- Lista de logos ATUALIZADA ---
+    // --- LISTAS DE IMAGENS E LOGOS ---
     'logos/biribiri.png',
-    'logos/ibitipoca.png',
-    'logos/itacolomi.png',
-    'logos/lapagrande.png',
-    'logos/matadokrambeck.png',
-    'logos/matadolimoeiro.png',
-    'logos/novabaden.png',
-    'logos/paufurado.png',
-    'logos/picodoitambe.png',
-    'logos/riodoce.png',
-    'logos/riopreto.png',
-    'logos/serradasararas.png',
-    'logos/serradobrigadeiro.png',
-    'logos/serradointendente.png',
-    'logos/serradopapagaio.png',
-    'logos/serradorolamoca.png',
-    'logos/serranovaetalhado.png',
-    'logos/sumidouro.png',
-    'logos/serraverde.png',
-    // --- NOVO: Adicionando imagens do Quiz para cache ---
+    // ... (inclua aqui todos os seus outros logos, como estavam antes) ...
     'fauna/jaguatirica.png',
     'mascote-quiz-run.png',
-    'win.gif'
+    'win.gif',
+    
+    // --- NOVO: IMAGENS DE BADGE (Para Carregamento Offline) ---
+    'badges/portaria-badge.png',
+    'badges/vilarejo-historico-badge.png',
+    'badges/cachoeira-sentinela-badge.png',
+    'badges/cachoeira-dos-cristais-badge.png'
 ];
 
 // Instalação: Cache dos recursos
