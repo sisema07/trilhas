@@ -289,6 +289,8 @@ function mostrarArea(id, action = 'info') {
     areaSecundaria.scrollTo(0, 0);
 }
 
+// script.js - SUBSTITUA a função carregarPremios()
+
 /** * Carrega todos os Badges.
  */
 function carregarPremios() {
@@ -311,8 +313,19 @@ function carregarPremios() {
             card.dataset.parqueId = parqueId;
             card.dataset.atividadeId = atividade.id;
             
+            // --- NOVO: Lógica para usar Imagem ou Ícone ---
+            let badgeContent;
+            if (atividade.imagem_png) {
+                // Se tiver imagem PNG, usa a tag <img>
+                badgeContent = `<img src="${atividade.imagem_png}" alt="${atividade.nome}" class="badge-custom-img">`;
+            } else {
+                // Caso contrário, usa o ícone Font Awesome existente
+                badgeContent = `<i class="fas ${atividade.icone}"></i>`;
+            }
+            // ----------------------------------------------
+            
             card.innerHTML = `
-                <i class="fas ${atividade.icone}"></i>
+                ${badgeContent}
                 <span>${atividade.nome}</span>
             `;
             listaPremios.appendChild(card);
@@ -329,6 +342,8 @@ function carregarPremios() {
     }
 }
 
+// script.js - SUBSTITUA a função carregarConteudoAtividades()
+
 /**
  * Carrega e exibe a lista de atividades escaneáveis (Badges) de um parque específico (Layout Lista).
  */
@@ -336,7 +351,7 @@ function carregarConteudoAtividades(parque, container) {
     const atividades = ATIVIDADES_PARQUES[parque.id] || [];
     const detalhes = DETALHES_PARQUES[parque.id] || {};
     
-    // 1. INSTRUÇÕES (CORREÇÃO 6: Texto Simplificado)
+    // 1. INSTRUÇÕES 
     let html = `
         <div class="activity-instructions">
             <div class="instruction-text">
@@ -360,11 +375,22 @@ function carregarConteudoAtividades(parque, container) {
             const desbloqueado = estadoUsuario[parque.id] && estadoUsuario[parque.id][atividade.id] ? 'desbloqueado' : '';
             const badgeId = `${parque.id}-${atividade.id}`;
             
-            // CORREÇÃO 3: HTML de atividades simplificado para evitar o bug visual
+            // --- NOVO: Lógica para usar Imagem ou Ícone ---
+            let badgeContent;
+            if (atividade.imagem_png) {
+                // Se tiver imagem PNG, usa a tag <img>
+                badgeContent = `<img src="${atividade.imagem_png}" alt="${atividade.nome}" class="badge-custom-img">`;
+            } else {
+                // Caso contrário, usa o ícone Font Awesome existente
+                badgeContent = `<i class="fas ${atividade.icone}"></i>`;
+            }
+            // ----------------------------------------------
+            
+            // HTML de lista
             html += `
                 <div class="activity-list-item ${desbloqueado}" data-badge-id="${badgeId}">
                     <div class="icone-premio">
-                        <i class="fas ${atividade.icone}"></i>
+                        ${badgeContent}
                         <span>${atividade.nome}</span> 
                     </div>
                     
@@ -791,3 +817,4 @@ async function inicializarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializarApp);
+
