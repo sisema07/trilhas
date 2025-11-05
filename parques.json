@@ -188,15 +188,39 @@
             { "id": "pico", "nome": "Pico do Pião", "icone": "fa-mountain", "descricao_curta": "A subida ao ponto mais alto e a capela histórica no topo." }
         ],
         "biribiri": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" },
-            { "id": "vilarejo", "nome": "Vilarejo Histórico", "icone": "fa-building-columns", "descricao_curta": "Conheça as ruínas da antiga fábrica têxtil de Biribiri.", "imagem_png": "badges/vilarejo-historico-badge.png" },
-            { "id": "cachoeira", "nome": "Cachoeira Sentinela", "icone": "fa-water", "descricao_curta": "Localizada no coração do parque, a Sentinela possui águas cristalinas.", "imagem_png": "cachoeira-sentinela-badge" },
+            { 
+            "id": "quiz", 
+            "nome": "Quiz: Conhecimento", 
+            "icone": "fa-brain", 
+            "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" 
+            },
             { 
             "id": "portaria", 
             "nome": "Check-in: Portaria", 
             "icone": "fa-archway", 
             "descricao_curta": "Escaneie o QR Code na portaria do parque para registrar sua chegada!",
-            "imagem_png": "portaria-badge.png"
+            "imagem_png": "badges/portaria-badge.png"
+            },
+            { 
+            "id": "vilarejo", 
+            "nome": "Vilarejo Histórico", 
+            "icone": "fa-building-columns", 
+            "descricao_curta": "Conheça as ruínas da antiga fábrica têxtil de Biribiri.", 
+            "imagem_png": "badges/vilarejo-historico-badge.png" 
+            },
+            { 
+            "id": "cachoeira1", 
+            "nome": "Cachoeira Sentinela", 
+            "icone": "fa-water", 
+            "descricao_curta": "Localizada no coração do parque, a Sentinela possui águas cristalinas.", 
+            "imagem_png": "badges/cachoeira-sentinela-badge.png" 
+            },
+            { 
+            "id": "cachoeira2", 
+            "nome": "Cachoeira dos Cristais", 
+            "icone": "fa-water", 
+            "descricao_curta": "É uma excelente opção para quem deseja se refrescar em suas águas cristalinas e desfrutar de um mergulho relaxante.", 
+            "imagem_png": "badges/cachoeira-dos-cristais-badge.png" 
             }
         ],
         "serradorolamoca": [
@@ -261,6 +285,7 @@
         ]
     }
 }
+
 
 
 
