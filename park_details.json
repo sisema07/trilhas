@@ -93,16 +93,92 @@
         "badge_descricao": "Para este parque, você deve escanear QR Codes nas trilhas para ganhar os badges."
     },
     "ibitipoca": {
-        "map_link": "URL_DO_GOOGLE_MAPS_IBITIPOCA",
-        "instagram_link": "URL_DO_INSTAGRAM_IBITIPOCA",
+        "map_link": "https://maps.app.goo.gl/dRuRSRRJ5N2jNYCn8",
+        "instagram_link": "https://www.instagram.com/parquedoibitipoca",
         "info_content": "Famoso por suas formações rochosas, grutas e a vista da Janela do Céu. O parque possui uma rica biodiversidade e é um dos mais visitados de Minas Gerais.",
-        "carousel_images": ["entradas/ibitipoca.png"],
+
+        "carousel_images": [ 
+            "entradas/portaria-ibitipoca.png",  
+            "imagens/ibitipoca/centro-de-visitantes.png",
+            "imagens/ibitipoca/cruzeiro.png", 
+            "imagens/ibitipoca/janela-do-ceu.png"
+        ],
         
         "quiz_title": "O Mistério de Ibitipoca",
         "quiz_description": "Desvende os segredos de Ibitipoca com este quiz!",
         "quiz": [
-            { "q": "Qual é o ponto turístico mais famoso de Ibitipoca?", "a": ["Pico do Itacolomi", "Janela do Céu", "Cachoeira do Tabuleiro"], "correct": 1, "badge_id": "ibitipoca-quiz" },
-            { "q": "O nome Ibitipoca, de origem tupi, significa:", "a": ["Pico Bonito", "Serra do Trovão", "Pousada da Pedra"], "correct": 1, "badge_id": "ibitipoca-quiz" }
+    { 
+      "q": "Qual é o ponto turístico mais famoso de Ibitipoca?",
+      "a": ["Pico do Itacolomi", "Janela do Céu", "Cachoeira do Tabuleiro", "Parque Nacional da Lagoa Santa"],
+      "correct": 1,
+      "badge_id": "ibitipoca-quiz"
+    },
+    { 
+      "q": "O nome Ibitipoca, de origem tupi, significa:",
+      "a": ["Pico Bonito", "Serra do Trovão", "Pousada da Pedra", "Lugar de pedra quebrada"],
+      "correct": 3,
+      "badge_id": "ibitipoca-quiz"
+    },
+    {
+      "q": "Em quais municípios está localizado o Parque Estadual do Ibitipoca?",
+      "a": ["Ouro Preto e Mariana", "Lima Duarte e Santa Rita de Ibitipoca", "Belo Horizonte e Sabará", "Juiz de Fora e Muriaé"],
+      "correct": 1,
+      "badge_id": "ibitipoca-quiz"
+    },
+    {
+      "q": "Quantos circuitos de visita o parque possui (os circuitos principais)?",
+      "a": ["Um", "Dois", "Três", "Quatro"],
+      "correct": 2,
+      "badge_id": "ibitipoca-quiz"
+    },
+    {
+      "q": "Qual destes é um dos circuitos do parque?",
+      "a": ["Circuito do Itacolomi", "Circuito Janela do Céu", "Circuito da Pampulha", "Circuito do Morro do Chapéu"],
+      "correct": 1,
+      "badge_id": "ibitipoca-quiz"
+    },
+    {
+      "q": "Aproximadamente qual é a extensão do roteiro Janela do Céu (ida e volta)?",
+      "a": ["3 km", "8 km", "16 km", "30 km"],
+      "correct": 2,
+      "badge_id": "ibitipoca-quiz"
+    },
+    {
+      "q": "Em que ano o Parque Estadual do Ibitipoca foi criado?",
+      "a": ["1920", "1973", "1998", "2005"],
+      "correct": 1,
+      "badge_id": "ibitipoca-quiz"
+    },
+    {
+      "q": "Qual órgão é responsável pela administração do parque (no âmbito estadual)?",
+      "a": ["Instituto Estadual de Florestas (IEF-MG)", "IBAMA", "ICMBio", "Prefeitura de Lima Duarte"],
+      "correct": 0,
+      "badge_id": "ibitipoca-quiz"
+    },
+    {
+      "q": "O parque possui limitação de visitantes diária para determinados roteiros (como Janela do Céu). Isso é:",
+      "a": ["Falso — não há limite algum", "Verdadeiro — há limite diário para alguns circuitos", "Somente em feriados há limite", "Só para grupos escolares"],
+      "correct": 1,
+      "badge_id": "ibitipoca-quiz"
+    },
+    {
+      "q": "Qual é a área aproximada do Parque Estadual do Ibitipoca?",
+      "a": ["500 hectares", "1.488 hectares", "10.000 hectares", "50 hectares"],
+      "correct": 1,
+      "badge_id": "ibitipoca-quiz"
+    },
+    {
+      "q": "Qual destes atrativos é encontrado dentro do parque?",
+      "a": ["Cachoeirinha", "Morro da Garça", "Pico da Bandeira", "Lagoa da Pampulha"],
+      "correct": 0,
+      "badge_id": "ibitipoca-quiz"
+    },
+    {
+      "q": "Os dias de funcionamento do parque, segundo o site oficial, são:",
+      "a": ["Segunda a sexta, exceto feriados", "Terça a domingo e feriados", "Apenas finais de semana", "Aberto 24 horas por dia"],
+      "correct": 1,
+      "badge_id": "ibitipoca-quiz"
+    }
         ],
         "badge_descricao": "Para este parque, você deve escanear QR Codes nas atividades (Janela do Céu, Pico do Pião, etc) para ganhar os badges."
     },
@@ -120,6 +196,7 @@
         "badge_descricao": "Para este parque, você deve escanear QR Codes em pontos de vista para ganhar os badges."
     }
 }
+
 
 
 
