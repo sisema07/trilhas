@@ -1,4 +1,4 @@
-/* style.css - CÓDIGO COMPLETO AJUSTADO (FINAL) */
+/* style.css - CÓDIGO COMPLETO AJUSTADO (FINAL - CORREÇÃO OPACIDADE BADGES) */
 
 /* Variáveis de Cores e Estilos */
 :root {
@@ -347,17 +347,20 @@ header {
     position: relative;
     padding: 10px;
     
-    /* ESTILO PARA BADGE APAGADO */
-    color: #ccc; 
+    /* ESTILO PARA BADGE APAGADO: A opacidade deve ser aplicada no container */
     opacity: 0.5; 
+    
+    /* A cor cinza é o fallback para ícones */
+    color: #ccc; 
     font-style: italic;
     cursor: default;
 }
 .icone-premio.desbloqueado {
     box-shadow: var(--sombra-neumorfismo-interna);
+    
     /* ESTILO PARA BADGE LIBERADO */
     color: var(--cor-secundaria); 
-    opacity: 1.0;
+    opacity: 1.0; /* Totalmente visível */
     font-style: normal;
     cursor: pointer;
 }
@@ -607,11 +610,15 @@ header {
     padding: 10px;
     transition: all 0.2s;
     min-height: 70px;
+    
+    /* ESTILO PARA BADGE APAGADO */
+    opacity: 0.6; /* Levemente apagado */
 }
 .activity-list-item.desbloqueado {
     /* CORREÇÃO 2: A sombra interna é aplicada aqui (e não no icone-premio) */
     box-shadow: var(--sombra-neumorfismo-interna);
     cursor: pointer;
+    opacity: 1.0; /* Totalmente visível */
 }
 
 
@@ -622,8 +629,7 @@ header {
     flex-shrink: 0; 
     margin-right: 15px;
     
-    /* ESTILO PARA BADGE APAGADO */
-    opacity: 0.5;
+    /* Removendo a opacidade daqui, pois já está no .activity-list-item */
     color: #ccc;
     
     display: flex;
@@ -638,8 +644,6 @@ header {
 }
 
 .activity-list-item.desbloqueado .icone-premio {
-    /* ESTILO PARA BADGE LIBERADO */
-    opacity: 1.0;
     color: var(--cor-secundaria); 
     box-shadow: none; /* CORREÇÃO 2: Sombra removida */
 }
@@ -656,6 +660,12 @@ header {
     height: 90%;
     margin-bottom: 0;
     padding: 0;
+    /* Garantir que a imagem seja monocromática se necessário (fallback, mas o opacity do pai resolve) */
+    /* filter: grayscale(100%); */
+}
+
+.activity-list-item.desbloqueado .icone-premio .badge-custom-img {
+    /* filter: grayscale(0%); */
 }
 
 /* Esconder o nome no BADGE, pois ele está na descrição ao lado */
@@ -710,8 +720,6 @@ header {
     font-weight: 700; 
     text-transform: none !important; 
 }
-
-/* Removido: .instruction-text .badge-description */
 
 /* CORREÇÃO: Estilo para Mascote (Posicionado abaixo do título) */
 .qr-mascote-container {
