@@ -5,7 +5,7 @@
         "info_content": "O Parque Estadual do Biribiri, próximo a Diamantina, é famoso por abrigar um vilarejo histórico desativado e cachoeiras espetaculares. É ideal para trilhas e banho em suas águas cristalinas.",
 
         "carousel_images": [ 
-            "entradas/portaria.png",  
+            "entradas/portaria-biribiri.png",  
             "imagens/biribiri/vilarejo-historico.jpg",
             "imagens/biribiri/cachoeira-sentinela.jpg", 
             "imagens/biribiri/cachoeira-cristais.png", 
@@ -120,5 +120,6 @@
         "badge_descricao": "Para este parque, você deve escanear QR Codes em pontos de vista para ganhar os badges."
     }
 }
+
 
 
