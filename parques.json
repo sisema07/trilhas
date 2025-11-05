@@ -189,8 +189,8 @@
         ],
         "biribiri": [
             { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" },
-            { "id": "vilarejo", "nome": "Vilarejo Histórico", "icone": "fa-building-columns", "descricao_curta": "Conheça as ruínas da antiga fábrica têxtil de Biribiri.", "imagem_png": "badges/vilarejo-historico.png" },
-            { "id": "cachoeira", "nome": "Cachoeira Sentinela", "icone": "fa-water", "descricao_curta": "Localizada no coração do parque, a Sentinela possui águas cristalinas.", "imagem_png": "cachoeira_sentinela-badge" },
+            { "id": "vilarejo", "nome": "Vilarejo Histórico", "icone": "fa-building-columns", "descricao_curta": "Conheça as ruínas da antiga fábrica têxtil de Biribiri.", "imagem_png": "badges/vilarejo-historico-badge.png" },
+            { "id": "cachoeira", "nome": "Cachoeira Sentinela", "icone": "fa-water", "descricao_curta": "Localizada no coração do parque, a Sentinela possui águas cristalinas.", "imagem_png": "cachoeira-sentinela-badge" },
             { 
             "id": "portaria", 
             "nome": "Check-in: Portaria", 
@@ -261,5 +261,6 @@
         ]
     }
 }
+
 
 
