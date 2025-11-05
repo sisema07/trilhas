@@ -798,6 +798,8 @@ header {
     font-weight: bold;
     margin: 10px 0;
 }
-
-/* Estilos de Quiz/Options (mantidos) */
-/* ... */
+/* Estilos para o botão de opção do Quiz */
+.quiz-option-btn {
+    transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+    text-align: center;
+}
