@@ -1,4 +1,4 @@
-// script.js - CÓDIGO COMPLETO (LIMPO, CORRIGIDO E FUNCIONAL)
+// script.js - CÓDIGO COMPLETO (FINALMENTE LIMPO E PRONTO PARA USO)
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -344,7 +344,7 @@ function carregarConteudoAtividades(parque, container) {
                 <h3>Escaneie os QR codes</h3>
                 <p class="badge-description">${detalhes.badge_descricao || 'Instruções gerais sobre o tipo de atividade.'}</p>
             </div>
-            <div class="qr-mascote-container">
+            <div class="qr-mascote-container activity-mascote-anchor">
                 <img src="qr.png" alt="Mascote escaneando QR Code" class="qr-mascote-img">
             </div>
         </div>
@@ -796,7 +796,7 @@ async function inicializarApp() {
     window.addEventListener('hashchange', lidarComHash);
     
     document.getElementById('btn-home').addEventListener('click', () => {
-        window.location.hash = ''; // CORREÇÃO: Botão Home funcionando
+        window.location.hash = ''; // Botão Home funcionando
     });
 
     document.getElementById('btn-enviar-foto').addEventListener('click', processarCompartilhamentoFoto);
