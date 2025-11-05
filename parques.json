@@ -199,7 +199,7 @@
             "nome": "Check-in: Portaria", 
             "icone": "fa-archway", 
             "descricao_curta": "Escaneie o QR Code na portaria do parque para registrar sua chegada!",
-            "imagem_png": "badges/portaria-badge.png"
+            "imagem_png": "badges/portaria-biribiri-badge.png"
             },
             { 
             "id": "vilarejo", 
@@ -285,6 +285,7 @@
         ]
     }
 }
+
 
 
 
