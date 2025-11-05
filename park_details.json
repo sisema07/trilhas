@@ -6,8 +6,8 @@
 
         "carousel_images": [ 
             "entradas/portaria.png",  
-            "imagens/biribiri/vilarejo_historico.jpg",
-            "imagens/biribiri/cachoeira_sentinela.jpg", 
+            "imagens/biribiri/vilarejo-historico.jpg",
+            "imagens/biribiri/cachoeira-sentinela.jpg", 
             "imagens/biribiri/cachoeira-cristais.png", 
             "imagens/biribiri/caminho-escravos.png",
             "imagens/biribiri/poco-agua-limpa.jpg",   
@@ -17,18 +17,78 @@
         "quiz_title": "Desafio do Biribiri",
         "quiz_description": "Teste seus conhecimentos sobre o patrimônio histórico e as cachoeiras do Biribiri para ganhar seu primeiro badge!",
         "quiz": [
-           { "q": "O Parque Estadual do Biribiri fica próximo a qual cidade mineira?", "a": ["Diamantina", "Ouro Preto", "São João del-Rei"], "correct": 0, "badge_id": "quiz" },
-           { "q": "O vilarejo de Biribiri foi fundado para abrigar operários de uma antiga fábrica têxtil.", "a": ["Verdadeiro", "Falso"], "correct": 0, "badge_id": "quiz" },
-           { "q": "Qual é o nome da famosa cachoeira de águas cristalinas do parque?", "a": ["Cachoeira dos Cristais", "Cachoeira do Sentinela", "Cachoeira do Biribiri"], "correct": 2, "badge_id": "quiz" },
-           { "q": "A entrada no Parque do Biribiri é gratuita.", "a": ["Verdadeiro", "Falso"], "correct": 0, "badge_id": "quiz" },
-           { "q": "Em que década o vilarejo de Biribiri foi desativado?", "a": ["1970", "1960", "1950"], "correct": 1, "badge_id": "quiz" },
-           { "q": "O parque é administrado pelo Instituto Estadual de Florestas (IEF-MG).", "a": ["Verdadeiro", "Falso"], "correct": 0, "badge_id": "quiz" },
-           { "q": "Qual bioma predominante no Parque do Biribiri?", "a": ["Cerrado", "Mata Atlântica", "Caatinga"], "correct": 0, "badge_id": "quiz" },
-           { "q": "É permitido acampar dentro do parque.", "a": ["Verdadeiro", "Falso"], "correct": 1, "badge_id": "quiz" },
-           { "q": "O acesso principal ao parque é feito por uma estrada de terra.", "a": ["Verdadeiro", "Falso"], "correct": 0, "badge_id": "quiz" },
-           { "q": "O nome “Biribiri” tem origem em um pássaro da região.", "a": ["Verdadeiro", "Falso"], "correct": 0, "badge_id": "quiz" },
-           { "q": "Quantas cachoeiras principais existem no parque?", "a": ["Duas", "Três", "Quatro"], "correct": 1, "badge_id": "quiz" },
-           { "q": "A antiga fábrica têxtil de Biribiri ainda está em funcionamento.", "a": ["Verdadeiro", "Falso"], "correct": 1, "badge_id": "quiz" }
+           { 
+           "q": "O Parque Estadual do Biribiri fica próximo a qual cidade mineira?", 
+           "a": ["Diamantina", "Ouro Preto", "São João del-Rei"], 
+           "correct": 0, 
+           "badge_id": "quiz" 
+           },
+           { 
+           "q": "O vilarejo de Biribiri foi fundado para abrigar operários de uma antiga fábrica têxtil.", 
+           "a": ["Verdadeiro", "Falso"], 
+           "correct": 0, 
+           "badge_id": "quiz" 
+           },
+           { 
+           "q": "Qual é o nome da famosa cachoeira de águas cristalinas do parque?", 
+           "a": ["Cachoeira dos Cristais", "Cachoeira do Sentinela", "Cachoeira do Biribiri"], 
+           "correct": 2, 
+           "badge_id": "quiz" 
+           },
+           { 
+           "q": "A entrada no Parque do Biribiri é gratuita.", 
+           "a": ["Verdadeiro", "Falso"], 
+           "correct": 0, 
+           "badge_id": "quiz" 
+           },
+           { 
+           "q": "Em que década o vilarejo de Biribiri foi desativado?", 
+           "a": ["1970", "1960", "1950"], 
+           "correct": 1, 
+           "badge_id": "quiz" 
+           },
+           { 
+           "q": "O parque é administrado pelo Instituto Estadual de Florestas (IEF-MG).", 
+           "a": ["Verdadeiro", "Falso"], 
+           "correct": 0, 
+           "badge_id": "quiz" 
+           },
+           { 
+           "q": "Qual bioma predominante no Parque do Biribiri?", 
+           "a": ["Cerrado", "Mata Atlântica", "Caatinga"], 
+           "correct": 0, 
+           "badge_id": "quiz" 
+           },
+           { 
+           "q": "É permitido acampar dentro do parque.", 
+           "a": ["Verdadeiro", "Falso"], 
+           "correct": 1, 
+           "badge_id": "quiz" 
+           },
+           { 
+           "q": "O acesso principal ao parque é feito por uma estrada de terra.", 
+           "a": ["Verdadeiro", "Falso"], 
+           "correct": 0, 
+           "badge_id": "quiz" 
+           },
+           { 
+           "q": "O nome “Biribiri” tem origem em um pássaro da região.", 
+           "a": ["Verdadeiro", "Falso"], 
+           "correct": 0, 
+           "badge_id": "quiz" 
+           },
+           { 
+           "q": "Quantas cachoeiras principais existem no parque?", 
+           "a": ["Duas", "Três", "Quatro"], 
+           "correct": 1, 
+           "badge_id": "quiz" 
+           },
+           { 
+           "q": "A antiga fábrica têxtil de Biribiri ainda está em funcionamento.", 
+           "a": ["Verdadeiro", "Falso"], 
+           "correct": 1, 
+           "badge_id": "quiz" 
+           }
         ],
         "badge_descricao": "Para este parque, você deve escanear QR Codes nas trilhas para ganhar os badges."
     },
@@ -60,4 +120,5 @@
         "badge_descricao": "Para este parque, você deve escanear QR Codes em pontos de vista para ganhar os badges."
     }
 }
+
 
