@@ -1,4 +1,4 @@
-/* style.css - CÓDIGO COMPLETO AJUSTADO (COM CORREÇÕES FINAIS DE LAYOUT) */
+/* style.css - CÓDIGO COMPLETO AJUSTADO (FINAL) */
 
 /* Variáveis de Cores e Estilos */
 :root {
@@ -346,13 +346,16 @@ header {
     transition: all 0.3s ease-in-out;
     position: relative;
     padding: 10px;
-    color: #ccc;
-    opacity: 0.5;
+    
+    /* ESTILO PARA BADGE APAGADO */
+    color: #ccc; 
+    opacity: 0.5; 
     font-style: italic;
     cursor: default;
 }
 .icone-premio.desbloqueado {
     box-shadow: var(--sombra-neumorfismo-interna);
+    /* ESTILO PARA BADGE LIBERADO */
     color: var(--cor-secundaria); 
     opacity: 1.0;
     font-style: normal;
@@ -371,16 +374,16 @@ header {
 
 /* NOVO: Estilo para Imagem PNG personalizada no Badge */
 .badge-custom-img {
-    width: 100%; /* Ocupa a largura total do container */
+    width: 100%; 
     height: 100%;
-    object-fit: contain; /* Garante que a imagem caiba sem cortar */
-    padding: 5px; /* Adiciona um pequeno padding interno para visualização */
+    object-fit: contain; 
+    padding: 5px; 
     box-sizing: border-box;
 }
 
 /* Ajustes específicos para o Badge GRANDE de Check-ins */
 #lista-icones-premios .icone-premio .badge-custom-img {
-    width: 80%; /* Reduz o tamanho para deixar espaço para o nome */
+    width: 80%; 
     height: auto;
     max-height: 80%;
     padding: 0;
@@ -444,7 +447,16 @@ header {
     overflow-x: scroll;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
+    
+    /* ESCONDER BARRA DE ROLAGEM */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }
+/* ESCONDER BARRA DE ROLAGEM para Webkit (Chrome, Safari) */
+.park-carousel::-webkit-scrollbar {
+    display: none;
+}
+
 .carousel-image {
     flex-shrink: 0;
     width: 100%;
@@ -610,6 +622,7 @@ header {
     flex-shrink: 0; 
     margin-right: 15px;
     
+    /* ESTILO PARA BADGE APAGADO */
     opacity: 0.5;
     color: #ccc;
     
@@ -625,6 +638,7 @@ header {
 }
 
 .activity-list-item.desbloqueado .icone-premio {
+    /* ESTILO PARA BADGE LIBERADO */
     opacity: 1.0;
     color: var(--cor-secundaria); 
     box-shadow: none; /* CORREÇÃO 2: Sombra removida */
@@ -674,6 +688,7 @@ header {
 
 .activity-instructions {
     display: flex;
+    flex-direction: column; /* Novo: Organiza itens na vertical */
     align-items: center;
     padding: 0 10px;
     margin-bottom: 10px;
@@ -681,8 +696,8 @@ header {
 }
 
 .instruction-text {
-    flex-grow: 1;
-    padding-right: 15px; 
+    width: 100%; /* Novo: Ocupa toda a largura */
+    padding-right: 0; 
 }
 
 /* CORREÇÃO 6: Texto Simplificado e Sombra para Mascote */
@@ -691,36 +706,31 @@ header {
     color: var(--cor-principal);
     margin-top: 0;
     margin-bottom: 5px;
-    text-align: justify;
+    text-align: center !important; /* Centralizado */
     font-weight: 700; 
     text-transform: none !important; 
 }
 
-.instruction-text .badge-description {
-    font-size: 0.85rem;
-    color: #555;
-    text-align: justify !important;
-    margin-top: 0;
-}
+/* Removido: .instruction-text .badge-description */
 
-/* CORREÇÃO 6: Estilo para Mascote (Sombra e Tamanho) */
+/* CORREÇÃO: Estilo para Mascote (Posicionado abaixo do título) */
 .qr-mascote-container {
-    width: 80px; /* Aumentado de 60px para 80px */
+    width: 80px; 
     height: 80px; 
     flex-shrink: 0; 
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 5px;
-    background-color: transparent; /* Fundo transparente */
+    background-color: transparent; 
     border-radius: 10px;
-    /* Sombra discreta para não parecer flutuando */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
     position: relative;
+    margin-top: 10px; /* Espaçamento após o título */
 }
 
 .qr-mascote-img {
-    width: 90%; /* Ajuste o tamanho da imagem interna */
+    width: 90%; 
     height: 90%;
     object-fit: contain;
 }
@@ -735,12 +745,11 @@ header {
     margin-bottom: 15px;
 }
 .quiz-fauna-img {
-    width: 80px; /* CORREÇÃO 4: Aumentado de 60px para 80px */
+    width: 80px; 
     height: auto;
     margin-right: 15px;
     flex-shrink: 0;
-    border-radius: 10px; /* Borda arredondada */
-    /* Sombra para o Mascote do Quiz */
+    border-radius: 10px; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
 }
 .quiz-header-text {
@@ -777,9 +786,9 @@ header {
     margin: 10px auto;
     overflow: hidden;
     background: transparent; 
-    border-radius: 15px; /* CORREÇÃO 2: Borda arredondada no GIF */
-    border: 3px solid var(--cor-principal); /* CORREÇÃO 2: Borda verde para harmonizar */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Sombra para destacar */
+    border-radius: 15px; 
+    border: 3px solid var(--cor-principal); 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
 }
 
 .win-gif-mascote {
