@@ -1,4 +1,4 @@
-// script.js - CÓDIGO COMPLETO (FINAL COM CORREÇÕES DE NAVEGAÇÃO, UI E BADGES)
+// script.js - CÓDIGO COMPLETO (FINAL COM CORREÇÃO CRÍTICA DO FLUXO DE CHECK-IN)
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -156,6 +156,42 @@ function resetInterval() {
 }
 
 
+// --- FLUXO PRINCIPAL DE CHECK-IN (QR CODE) ---
+
+/**
+ * Processa a URL de check-in (ex: #checkin-biribiri-portaria)
+ * Apenas desbloqueia o badge e redireciona para a tela de Badges.
+ */
+function processarCheckin(parqueId, atividadeId) {
+    if (ATIVIDADES_PARQUES[parqueId] && ATIVIDADES_PARQUES[parqueId].some(a => a.id === atividadeId)) {
+        
+        if (!estadoUsuario[parqueId]) {
+            estadoUsuario[parqueId] = {};
+        }
+
+        let mensagem = `Você fez check-in em ${parqueId.toUpperCase()}! `;
+
+        if (!estadoUsuario[parqueId][atividadeId]) {
+            // Desbloqueia o badge
+            estadoUsuario[parqueId][atividadeId] = true;
+            salvarEstado();
+            mensagem = `🎉 Novo Badge desbloqueado em ${parqueId.toUpperCase()}!`;
+        } else {
+            mensagem = `Badge já estava desbloqueado. Divirta-se!`;
+        }
+
+        // Alerta o usuário (feedback imediato)
+        alert(mensagem); 
+        
+        // Redireciona para a tela de Badges para o usuário ver a conquista
+        window.location.hash = 'premiacao';
+        
+        return true;
+    }
+    return false;
+}
+
+
 // --- Lógica de Navegação e Conteúdo ---
 
 function carregarBotaoParque(parque) {
@@ -243,11 +279,13 @@ function carregarPremios() {
             `;
             listaPremios.appendChild(card);
             
+            // SOMENTE badges desbloqueados são clicáveis para o fluxo de compartilhamento
             if (isConcluida) {
                  card.addEventListener('click', () => {
                     const parqueIdClick = card.dataset.parqueId;
                     const atividadeIdClick = card.dataset.atividadeId;
                      
+                    // Navega para a tela de compartilhamento (upload)
                     window.location.hash = `upload-${parqueIdClick}-${atividadeIdClick}`;
                  });
             }
@@ -257,7 +295,7 @@ function carregarPremios() {
 
 
 function carregarConteudoPremiacao() {
-    // 1. Esconder a área de detalhes do parque (se estiver aberta)
+    // 1. Esconder áreas secundárias
     document.getElementById('conteudo-parque-detalhe').style.display = 'none';
     document.getElementById('area-envio-foto').style.display = 'none';
 
@@ -320,7 +358,7 @@ function carregarConteudoQuiz(parque, container) {
     quizScore = 0;
     
     // O link da imagem da fauna é recuperado do parques.json
-    const faunaImgPath = parque.fauna_parque_png ? `fauna/${parque.fauna_parque_png}` : 'fauna/default.png'; // Link recuperado
+    const faunaImgPath = parque.fauna_parque_png ? `fauna/${parque.fauna_parque_png}` : 'fauna/default.png'; 
     
     container.innerHTML = `
         <div class="quiz-header-content">
@@ -414,7 +452,7 @@ function finalizarQuiz() {
     
     let resultadoHtml;
     
-    // Condição de sucesso: 75% de acerto (padrão mantido do seu código anterior)
+    // Condição de sucesso: 75% de acerto
     const requiredScore = Math.ceil(total * 0.75);
     
     if (quizScore >= requiredScore) { 
@@ -457,11 +495,9 @@ function finalizarQuiz() {
 
 /**
  * Carrega e exibe a lista de atividades escaneáveis (Badges) de um parque específico (Layout Lista).
- * AJUSTADO: Layout para manter apenas o título e o mascote (qr.png)
  */
 function carregarConteudoAtividades(parque, container) {
     const atividades = ATIVIDADES_PARQUES[parque.id] || [];
-    // Removido: detalhes.badge_descricao
     
     // 1. INSTRUÇÕES (Layout ajustado)
     let html = `
@@ -518,8 +554,9 @@ function carregarConteudoAtividades(parque, container) {
     // 3. Listener para badges desbloqueados
     document.querySelectorAll('#lista-atividades-dinamica .activity-list-item.desbloqueado').forEach(item => {
         item.addEventListener('click', (event) => {
-            const badgeId = event.currentTarget.dataset.badge-id; // biribiri-portaria
-            window.location.hash = `upload-${badgeId}`; // Navega para #upload-biribiri-portaria
+            const badgeId = event.currentTarget.dataset.badgeId; // biribiri-portaria
+            // Navega para a tela de compartilhamento (upload)
+            window.location.hash = `upload-${badgeId}`; 
         });
     });
 }
@@ -530,7 +567,7 @@ function carregarDetalhesParque(parqueId, action = 'info') {
     
     if (!parque || !detalhes) {
         console.error('Parque ou detalhes não encontrados:', parqueId);
-        window.location.hash = ''; // Volta para a home
+        window.location.hash = ''; 
         return;
     }
 
@@ -552,14 +589,14 @@ function carregarDetalhesParque(parqueId, action = 'info') {
     // 5. Configurar Área de Conteúdo Dinâmico
     const contentArea = document.getElementById('dynamic-content-area');
     
-    // 6. Configurar Listeners dos Botões de Ação (AGORA SÓ CHAMAM A FUNÇÃO SEM MUDAR O HASH)
+    // 6. Configurar Listeners dos Botões de Ação (NÃO MUDAM O HASH)
     document.querySelectorAll('.action-button[data-action]').forEach(btn => {
         btn.classList.remove('active');
         btn.onclick = null; // Limpa listeners antigos
         btn.addEventListener('click', (e) => {
             e.preventDefault();
             const newAction = e.target.dataset.action;
-            // Apenas carrega o conteúdo, NÃO MUDA O HASH (para não travar o botão VOLTAR)
+            // Apenas carrega o conteúdo, mantendo o hash do parque
             carregarConteudoDinamico(parque, contentArea, newAction); 
         });
     });
@@ -602,7 +639,7 @@ function carregarConteudoDinamico(parque, container, action) {
 }
 
 
-// --- Lógica de Upload/Check-in ---
+// --- Lógica de Upload/Compartilhamento (Só acessível via clique no Badge) ---
 
 function carregarAreaUpload(parqueId, atividadeId) {
     const parque = DADOS_PARQUES.find(p => p.id === parqueId);
@@ -623,11 +660,21 @@ function carregarAreaUpload(parqueId, atividadeId) {
     
     document.getElementById('secundaria-titulo').textContent = 'Compartilhar Conquista';
     
+    // Acesso negado se o badge não estiver desbloqueado (Garantia extra)
+    if (!isConcluida) {
+        document.getElementById('secundaria-titulo').textContent = 'Acesso Negado';
+        document.getElementById('area-envio-foto').innerHTML = `
+            <p style="text-align: center; padding: 20px;">Você precisa escanear o QR Code de ${atividade.nome} para liberar o compartilhamento!</p>
+            <button class="action-button active" onclick="window.location.hash='premiacao'" style="width: 100%; max-width: 300px; margin: 20px auto;">Voltar para Badges</button>
+        `;
+        return;
+    }
+    
     // Atualiza o título dinâmico na área de envio
     const badgeTituloElement = document.getElementById('badge-upload-titulo');
-    badgeTituloElement.textContent = `Enviar Foto para Badge: ${atividade.nome} (${parque.nome})`;
+    badgeTituloElement.textContent = `Compartilhar Badge: ${atividade.nome} (${parque.nome})`;
 
-    // Re-adicionar listener (pois o conteúdo foi recriado)
+    // Re-adicionar listener
     document.getElementById('btn-enviar-foto').removeEventListener('click', processarCompartilhamentoFoto);
     document.getElementById('btn-enviar-foto').addEventListener('click', () => {
         // Passa os IDs para a função de processamento
@@ -643,29 +690,21 @@ window.processarCompartilhamentoFoto = function(parqueId, atividadeId) {
     const btn = document.getElementById('btn-enviar-foto');
     
     if (fotoInput.files.length === 0) {
-        alert('Por favor, selecione uma foto para compartilhar.');
+        alert('Por favor, selecione uma foto para processar e compartilhar.');
         return;
     }
 
     btn.textContent = 'Processando...';
     btn.disabled = true;
 
-    // 1. Lógica de Desbloqueio (Check-in/Upload)
-    const isUnlocked = estadoUsuario[parqueId] && estadoUsuario[parqueId][atividadeId];
-    if (!isUnlocked) {
-        if (!estadoUsuario[parqueId]) estadoUsuario[parqueId] = {};
-        estadoUsuario[parqueId][atividadeId] = true;
-        salvarEstado();
-    }
+    // A lógica de desbloqueio é omitida aqui, pois só acessamos esta tela se o badge JÁ estiver liberado.
     
-    // ... (restante da lógica de Web Share API permanece a mesma)
-
     // SIMULAÇÃO DO COMPARTILHAMENTO E VOLTA
     setTimeout(() => {
-        alert(`Sucesso! Badge "${atividadeId.toUpperCase()}" de ${parqueId.toUpperCase()} desbloqueado e pronto para o compartilhamento!`);
+        alert(`Sucesso! Sua foto foi carimbada (simulação) e está pronta para o compartilhamento!`);
         btn.textContent = 'Compartilhado!';
-        // Volta para a tela de atividades do parque após o 'compartilhamento'
-        window.location.hash = `#${parqueId}`; 
+        // Volta para a tela de Check-ins (Premiacao)
+        window.location.hash = `premiacao`; 
     }, 1500); 
 }
 
@@ -673,7 +712,9 @@ window.processarCompartilhamentoFoto = function(parqueId, atividadeId) {
 // --- Lógica do Roteamento (Hashchange) ---
 
 function lidarComHash() {
-    const hash = window.location.hash.substring(1);
+    // Usamos location.hash para garantir que o histórico funcione
+    const fullHash = window.location.hash;
+    const hash = fullHash.substring(1);
     
     // Limpar o intervalo do carrossel ao mudar de página
     if (carouselInterval) {
@@ -694,7 +735,18 @@ function lidarComHash() {
     document.body.style.overflow = 'hidden'; // Remove o scroll do corpo principal
     document.body.style.height = '100vh'; // Garante que a tela cheia funcione
 
-    // Rota: Upload/Check-in (upload-parqueid-atividadeid)
+    // Rota: 1. DESBLOQUEIO PURO (QR CODE)
+    if (hash.startsWith('checkin-')) {
+        const parts = hash.split('-'); // [checkin, parqueId, atividadeId]
+        if (parts.length === 3) {
+            // Desbloqueia e Roteia para #premiacao
+            processarCheckin(parts[1], parts[2]);
+            // O processarCheckin já ajusta a hash, o resto do lidarComHash será executado na próxima mudança
+            return;
+        }
+    }
+
+    // Rota: 2. COMPARTILHAMENTO (SÓ ACESSÍVEL VIA CLIQUE NO BADGE LIBERADO)
     if (hash.startsWith('upload-')) {
         const parts = hash.split('-'); // [upload, parqueId, atividadeId]
         if (parts.length === 3) {
@@ -703,21 +755,21 @@ function lidarComHash() {
         }
     }
     
-    // Rota: Premiação (premiacao)
+    // Rota: 3. PREMIAÇÃO (TODOS OS BADGES)
     if (hash === 'premiacao') {
         carregarConteudoPremiacao();
         return;
     }
 
-    // Rota: Detalhes do Parque (parqueid) - Sempre carrega a INFO por padrão
+    // Rota: 4. DETALHES DO PARQUE
     const parts = hash.split('-');
     const parqueId = parts[0];
 
     const parqueEncontrado = DADOS_PARQUES.find(p => p.id === parqueId);
 
     if (parqueEncontrado && parqueId !== 'premiacao') {
-        // Se houver hash, mas não um subitem (ex: #biribiri), carrega info
-        const action = parts.length > 1 ? parts[1] : 'info'; // Permite carregar com action inicial (se vier de um link)
+        // Carrega sempre o parque, ignorando sub-ações no hash para o histórico de navegação
+        const action = parts.length > 1 ? parts[1] : 'info';
         carregarDetalhesParque(parqueId, action);
     } else {
         // Hash inválido, volta para a home
@@ -774,31 +826,42 @@ async function inicializar() {
         const videoElement = document.getElementById('intro-video-element');
         let checkinProcessado = false; 
 
-        // Se a hash não estiver vazia, assume que é um deeplink ou check-in
-        if (window.location.hash) {
-            checkinProcessado = true;
-        }
-        
         // Adicionar o listener para o vídeo
         videoElement.addEventListener('ended', () => {
              iniciarApp(); 
         });
 
         // Lógica de primeira visita e auto-play
-        if (localStorage.getItem('first_visit') !== 'false' && !checkinProcessado) {
-            localStorage.setItem('first_visit', 'false');
+        if (localStorage.getItem('first_visit') !== 'false' || window.location.hash) {
             
-            document.getElementById('video-intro').style.display = 'flex';
-            videoElement.load();
-            videoElement.play().catch(error => {
-                console.warn('Playback impedido. Iniciando App diretamente.', error);
-                iniciarApp(); 
-            });
+            // Se houver hash de checkin, processa e evita o vídeo (melhor experiência)
+            if (window.location.hash.startsWith('#checkin-')) {
+                 const parts = window.location.hash.substring(1).split('-');
+                 processarCheckin(parts[1], parts[2]); // Processa e redireciona para #premiacao
+                 checkinProcessado = true;
+            } else if (window.location.hash) {
+                 // É um deeplink normal
+                 checkinProcessado = true;
+            }
+
+            if (!checkinProcessado && localStorage.getItem('first_visit') !== 'false') {
+                 localStorage.setItem('first_visit', 'false');
+                 document.getElementById('video-intro').style.display = 'flex';
+                 videoElement.load();
+                 videoElement.play().catch(error => {
+                     console.warn('Playback impedido. Iniciando App diretamente.', error);
+                     iniciarApp(); 
+                 });
+            } else {
+                 document.getElementById('video-intro').style.display = 'none';
+                 document.getElementById('app-container').style.display = 'flex'; 
+                 lidarComHash();
+            }
 
         } else {
-            // Não é a primeira visita ou é um deeplink
+             // Não é a primeira visita e não há hash (começa na home)
              document.getElementById('video-intro').style.display = 'none';
-             document.getElementById('app-container').style.display = 'flex'; // Garante que o app container apareça
+             document.getElementById('app-container').style.display = 'flex'; 
              lidarComHash();
         }
         
@@ -814,14 +877,17 @@ async function inicializar() {
         const hash = window.location.hash.substring(1);
         if (hash.startsWith('upload-')) {
             // Volta da tela de upload para a lista de atividades do parque
-            const [,, parqueId] = hash.split('-');
-            window.location.hash = `#${parqueId}`; 
-            carregarDetalhesParque(parqueId, 'activities'); // Garante que a tela de atividades seja a ativa
+            window.location.hash = `premiacao`; 
+        } else if (hash === 'premiacao') {
+             // Volta de Premiacao para a home
+             window.location.hash = ''; 
+        } else if (DADOS_PARQUES.some(p => p.id === hash.split('-')[0])) {
+             // Volta da página do parque para a home
+             window.location.hash = ''; 
         } else if (hash !== '') {
-            // Se estiver em qualquer página de detalhe/checkin, volta para a home
-            window.location.hash = ''; 
+             // Caso de rotas de erro/fallback
+             window.location.hash = '';
         } else {
-            // Se já estiver na home, fecha a área secundária (não deveria acontecer, mas é fallback)
             document.getElementById('area-secundaria').classList.remove('aberto');
         }
     });
@@ -832,8 +898,6 @@ async function inicializar() {
     });
 
     window.addEventListener('hashchange', lidarComHash);
-    
-    // Listener do botão de envio de foto, que agora é configurado dentro de carregarAreaUpload
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
