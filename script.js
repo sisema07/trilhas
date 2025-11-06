@@ -714,8 +714,9 @@ function carregarAreaUpload(parqueId, atividadeId) {
     };
     
     // Carrega a imagem do carimbo (BUSCA NA FOLDER 'badges/')
+    // CORREÇÃO CRÍTICA: Garantir que o caminho para o carimbo (badge) seja buscado corretamente na pasta 'badges/'
     if (atividade.imagem_png) {
-        stampImage.src = `badges/${atividade.imagem_png}`; // Exemplo: badges/portaria-badge.png
+        stampImage.src = atividade.imagem_png.startsWith('badges/') ? atividade.imagem_png : `badges/${atividade.imagem_png}`;
     } else {
         // Fallback (apenas se a imagem_png não estiver preenchida)
         stampImage.src = 'images/default_stamp_fallback.png'; 
@@ -763,12 +764,12 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
 
     // 2. Desenha a Imagem do Usuário (dentro da moldura)
     if (userUploadedPhoto && userUploadedPhoto.complete && userUploadedPhoto.naturalWidth > 0) {
-        // COORDENADAS PARA A FOTO DO USUÁRIO (AJUSTADAS PARA O TEMPLATE 600X800)
-        // **AJUSTE AQUI:** photoHeight de 0.4 para 0.55 para acomodar melhor 4:5
-        const photoX = canvas.width * 0.1;    
-        const photoY = canvas.height * 0.28;   // Ajustado para começar um pouco mais alto
-        const photoWidth = canvas.width * 0.8; 
-        const photoHeight = canvas.height * 0.55; // Mais alto para 4:5
+        // COORDENADAS PARA A FOTO DO USUÁRIO (AJUSTADAS PARA ACOMOCAR MELHOR O 4:5)
+        // NOVAS COORDENADAS: photoX=12%, photoY=32%, photoWidth=76%, photoHeight=51%
+        const photoX = canvas.width * 0.12;    
+        const photoY = canvas.height * 0.32;   
+        const photoWidth = canvas.width * 0.76; 
+        const photoHeight = canvas.height * 0.51; 
 
         // Lógica para preencher o espaço (Cover) mantendo a proporção da foto do usuário
         const imgAspectRatio = userUploadedPhoto.naturalWidth / userUploadedPhoto.naturalHeight;
@@ -799,35 +800,33 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         // POSIÇÃO E TAMANHO DO CARIMBO (Canto Superior Esquerdo, ao lado do texto)
         const stampSize = canvas.width * 0.25; // 25% da largura
         const stampX = canvas.width * 0.05;    // 5% da largura
-        const stampY = canvas.height * 0.06;    // Ajustado para um pouco mais baixo, harmonizando com o texto
+        const stampY = canvas.height * 0.08;    // Ajustado para 8% (Para baixo o suficiente para alinhar com o texto)
         canvasContext.drawImage(stampImage, stampX, stampY, stampSize, stampSize);
     }
 
     // 4. Adiciona o Texto Dinâmico
-    canvasContext.fillStyle = '#333'; 
     
-    // **REMOVIDO:** Título Furo (Simulação) - Você vai adicionar isso no template da imagem
-
     // Texto do Carimbo (Detalhes do Check-in)
     canvasContext.textAlign = 'left';
-    canvasContext.fillStyle = '#4CAF50'; 
+    
+    // CORREÇÃO DE ESPAÇAMENTO E POSICIONAMENTO
 
-    // **AJUSTE AQUI:** Fontes e Posicionamento
     const textStartX = canvas.width * 0.35; // Posição X para o início do texto
-    let currentTextY = canvas.height * 0.08; // Posição Y inicial ajustada (mais para baixo)
+    let currentTextY = canvas.height * 0.12; // Posição Y inicial (12% da altura)
 
-    // CHECK-IN REALIZADO
-    canvasContext.font = 'bold 22px "Roboto Slab", serif'; // Fonte mais robusta para título de carimbo
+    // LINHA 1: CHECK-IN REALIZADO (Alinhado verticalmente abaixo do carimbo)
+    canvasContext.font = 'bold 22px "Roboto Slab", serif'; 
+    canvasContext.fillStyle = '#4CAF50'; // Verde
     canvasContext.fillText('CHECK-IN REALIZADO', textStartX, currentTextY);
-    currentTextY += 25; // Espaçamento menor após a primeira linha
+    currentTextY += 22; // Espaçamento vertical ajustado (22px)
 
-    // Nome do Parque
-    canvasContext.font = 'bold 18px "Lora", serif'; // Fonte serifada e formal
+    // LINHA 2: Nome do Parque
+    canvasContext.font = 'bold 18px "Lora", serif'; 
     canvasContext.fillStyle = '#555';
     canvasContext.fillText(parque.nome.toUpperCase(), textStartX, currentTextY); 
-    currentTextY += 22; // Espaçamento menor
+    currentTextY += 20; // Espaçamento vertical ajustado (20px)
 
-    // Nome da Atividade
+    // LINHA 3: Nome da Atividade
     canvasContext.fillText(atividade.nome.toUpperCase(), textStartX, currentTextY); 
 }
 
