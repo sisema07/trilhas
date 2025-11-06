@@ -1,4 +1,4 @@
-// script.js - CÓDIGO COMPLETO (FINAL COM CORREÇÕES NO CANVAS E FONTES)
+// script.js - CÓDIGO COMPLETO (FINAL COM CORREÇÕES NO CANVAS E BUG DE HOME)
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -11,10 +11,13 @@ let deferredPrompt;
 let passportTemplateImage = new Image(); // Imagem base do passaporte
 let stampImage = new Image();            // Imagem do carimbo do badge
 let userPhoto = new Image();             // Foto do usuário
+let cornerFoldImage = new Image();       // Imagem da dobra da quina (NOVO)
 let canvasContext = null;                // Contexto 2D do Canvas
 
 // Caminho para a sua imagem de fundo do passaporte (VOCÊ DEVE CRIAR ESTE ARQUIVO)
 passportTemplateImage.src = 'images/passport_template.png'; // Caminho fixo para o template 600x800
+// Imagem para a dobra da quina (NOVO)
+cornerFoldImage.src = 'images/corner_fold.png'; // CRIE ESTA IMAGEM PNG (ex: um triângulo ou adesivo)
 
 // Variáveis de estado do Quiz
 let currentQuizData = null; 
@@ -25,7 +28,7 @@ function salvarEstado() {
     localStorage.setItem('trilhasDeMinasStatus', JSON.stringify(estadoUsuario));
 }
 
-// --- PWA/OFFLINE: Service Worker Registration e Instalação (código omitido para brevidade, mas deve ser mantido) ---
+// --- Funções de PWA, Carrossel, e Lógica de Navegação (omitidas por brevidade, mas mantidas) ---
 
 function registrarServiceWorker() {
     if ('serviceWorker' in navigator) {
@@ -66,8 +69,6 @@ function setupPwaInstallPrompt() {
 }
 
 
-// --- Lógica do Carrossel (Componente) (código omitido para brevidade, mas deve ser mantido) ---
-
 let currentCarouselIndex = 0;
 let carouselImages = [];
 let carouselInterval = null;
@@ -76,14 +77,12 @@ function setupCarousel(parqueId, images) {
     const carouselElement = document.getElementById('park-carousel');
     const dotsElement = document.getElementById('carousel-dots');
     
-    // Limpar conteúdos anteriores
     carouselElement.innerHTML = '';
     dotsElement.innerHTML = '';
     
     carouselImages = images;
     currentCarouselIndex = 0;
     
-    // 1. Criar Imagens e Adicionar ao Carrossel
     carouselImages.forEach((src, index) => {
         const img = document.createElement('img');
         img.src = src;
@@ -91,7 +90,6 @@ function setupCarousel(parqueId, images) {
         img.className = 'carousel-image';
         carouselElement.appendChild(img);
         
-        // 2. Criar Dots de Navegação
         const dot = document.createElement('div');
         dot.className = `dot ${index === 0 ? 'active' : ''}`;
         dot.dataset.index = index;
@@ -102,12 +100,9 @@ function setupCarousel(parqueId, images) {
         dotsElement.appendChild(dot);
     });
     
-    // Se houver mais de uma imagem, habilita dots e auto-play
     if (images.length > 1) {
         dotsElement.style.display = 'flex';
-        // 3. Setup do Auto-play
         resetInterval();
-        // Listener para navegação manual
         carouselElement.addEventListener('scroll', handleScroll);
     } else {
         dotsElement.style.display = 'none';
@@ -714,7 +709,6 @@ function carregarAreaUpload(parqueId, atividadeId) {
     };
     
     // Carrega a imagem do carimbo (BUSCA NA FOLDER 'badges/')
-    // CORREÇÃO CRÍTICA: Garantir que o caminho para o carimbo (badge) seja buscado corretamente na pasta 'badges/'
     if (atividade.imagem_png) {
         stampImage.src = atividade.imagem_png.startsWith('badges/') ? atividade.imagem_png : `badges/${atividade.imagem_png}`;
     } else {
@@ -762,14 +756,35 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         canvasContext.fillText('Carregue images/passport_template.png', 50, canvas.height / 2);
     }
 
+    // --- COORDENADAS E TAMANHOS DO FRAME DA FOTO ---
+    const photoX = canvas.width * 0.1;    
+    const photoY = canvas.height * 0.3;   
+    const photoWidth = canvas.width * 0.8; 
+    const photoHeight = canvas.height * 0.55; // Altura aumentada para 55% para preservar 4:5
+
     // 2. Desenha a Imagem do Usuário (dentro da moldura)
     if (userUploadedPhoto && userUploadedPhoto.complete && userUploadedPhoto.naturalWidth > 0) {
-        // NOVAS COORDENADAS PARA A FOTO DO USUÁRIO (AJUSTADAS PARA ACOMOCAR MELHOR O 4:5 E O NOVO TEMPLATE)
-        const photoX = canvas.width * 0.1;    
-        const photoY = canvas.height * 0.3;   
-        const photoWidth = canvas.width * 0.8; 
-        const photoHeight = canvas.height * 0.55; 
-
+        
+        // --- 2.1. Aplicar Borda Arredondada e Traço Verde (Clipping) ---
+        const cornerRadius = photoWidth * 0.05; // 5% da largura da foto para o raio da borda
+        
+        canvasContext.save(); // Salva o estado antes de aplicar o clipping
+        
+        // Cria o caminho arredondado
+        canvasContext.beginPath();
+        canvasContext.moveTo(photoX + cornerRadius, photoY);
+        canvasContext.lineTo(photoX + photoWidth - cornerRadius, photoY);
+        canvasContext.quadraticCurveTo(photoX + photoWidth, photoY, photoX + photoWidth, photoY + cornerRadius);
+        canvasContext.lineTo(photoX + photoWidth, photoY + photoHeight - cornerRadius);
+        canvasContext.quadraticCurveTo(photoX + photoWidth, photoY + photoHeight, photoX + photoWidth - cornerRadius, photoY + photoHeight);
+        canvasContext.lineTo(photoX + cornerRadius, photoY + photoHeight);
+        canvasContext.quadraticCurveTo(photoX, photoY + photoHeight, photoX, photoY + photoHeight - cornerRadius);
+        canvasContext.lineTo(photoX, photoY + cornerRadius);
+        canvasContext.quadraticCurveTo(photoX, photoY, photoX + cornerRadius, photoY);
+        canvasContext.closePath();
+        
+        canvasContext.clip(); // Limita o desenho à área arredondada
+        
         // Lógica para preencher o espaço (Cover) mantendo a proporção da foto do usuário
         const imgAspectRatio = userUploadedPhoto.naturalWidth / userUploadedPhoto.naturalHeight;
         const frameAspectRatio = photoWidth / photoHeight;
@@ -792,24 +807,64 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         
         // Desenha a imagem recortada
         canvasContext.drawImage(userUploadedPhoto, sx, sy, sWidth, sHeight, photoX, photoY, photoWidth, photoHeight);
+        
+        canvasContext.restore(); // Restaura o estado para remover o clipping
+
+        // --- 2.2. Desenhar o Traço Verde ---
+        canvasContext.strokeStyle = '#4CAF50'; // Cor verde
+        canvasContext.lineWidth = 4; // Espessura do traço
+        
+        canvasContext.beginPath();
+        canvasContext.moveTo(photoX + cornerRadius, photoY);
+        canvasContext.lineTo(photoX + photoWidth - cornerRadius, photoY);
+        canvasContext.quadraticCurveTo(photoX + photoWidth, photoY, photoX + photoWidth, photoY + cornerRadius);
+        canvasContext.lineTo(photoX + photoWidth, photoY + photoHeight - cornerRadius);
+        canvasContext.quadraticCurveTo(photoX + photoWidth, photoY + photoHeight, photoX + photoWidth - cornerRadius, photoY + photoHeight);
+        canvasContext.lineTo(photoX + cornerRadius, photoY + photoHeight);
+        canvasContext.quadraticCurveTo(photoX, photoY + photoHeight, photoX, photoY + photoHeight - cornerRadius);
+        canvasContext.lineTo(photoX, photoY + cornerRadius);
+        canvasContext.quadraticCurveTo(photoX, photoY, photoX + cornerRadius, photoY);
+        canvasContext.closePath();
+        canvasContext.stroke();
     }
     
-    // 3. Adiciona o Carimbo do Badge
-    if (stampImage.complete && stampImage.naturalWidth > 0) {
-        // POSIÇÃO E TAMANHO DO CARIMBO (Canto Superior Esquerdo, ao lado do texto)
-        const stampSize = canvas.width * 0.25; // 25% da largura
-        const stampX = canvas.width * 0.05;    // 5% da largura
-        const stampY = canvas.height * 0.15;    // ABAIXADO PARA EVITAR CONFLITO COM O TÍTULO DO TEMPLATE
-        canvasContext.drawImage(stampImage, stampX, stampY, stampSize, stampSize);
+    // --- 3. Adiciona Quina Dobrada (SOBRE A FOTO) ---
+    if (cornerFoldImage.complete && cornerFoldImage.naturalWidth > 0) {
+        // Posição: Canto superior direito da foto
+        const foldSize = canvas.width * 0.15; // 15% da largura
+        const foldX = photoX + photoWidth - foldSize * 0.9; // Ajusta para a quina da foto
+        const foldY = photoY - foldSize * 0.1; // Ajusta para a quina da foto
+        canvasContext.drawImage(cornerFoldImage, foldX, foldY, foldSize, foldSize);
     }
 
-    // 4. Adiciona o Texto Dinâmico
+    // --- 4. Adiciona Carimbo (Badge) e Textos (SOBRE A FOTO E A QUINA) ---
     
-    // Texto do Carimbo (Detalhes do Check-in)
+    // 4.1. Adiciona o Carimbo do Badge (Rotacionado)
+    if (stampImage.complete && stampImage.naturalWidth > 0) {
+        canvasContext.save(); // Salva o estado antes da rotação
+        
+        const stampSize = canvas.width * 0.25; 
+        const stampX = canvas.width * 0.05;    
+        const stampY = canvas.height * 0.15;    // ABAIXADO PARA EVITAR CONFLITO COM O TÍTULO DO TEMPLATE
+        const rotationAngle = -25 * Math.PI / 180; // -25 graus para rotação
+
+        // Ponto de rotação (o centro do carimbo)
+        const centerX = stampX + stampSize / 2;
+        const centerY = stampY + stampSize / 2;
+
+        canvasContext.translate(centerX, centerY);
+        canvasContext.rotate(rotationAngle);
+        canvasContext.translate(-centerX, -centerY); // Move de volta
+
+        // Desenha o carimbo rotacionado (Ajusta a posição original)
+        canvasContext.drawImage(stampImage, stampX, stampY, stampSize, stampSize);
+        
+        canvasContext.restore(); // Restaura o estado (remove a rotação)
+    }
+
+    // 4.2. Adiciona o Texto Dinâmico
     canvasContext.textAlign = 'left';
     
-    // CORREÇÃO DE ESPAÇAMENTO E POSICIONAMENTO
-
     const textStartX = canvas.width * 0.37; // Posição X para o início do texto
     let currentTextY = canvas.height * 0.18; // ABAIXADO PARA EVITAR CONFLITO COM O TÍTULO DO TEMPLATE
 
@@ -863,8 +918,9 @@ function lidarComHash() {
 
     // Rota: Home (Sem Hash)
     if (!hash || hash === 'home' || hash === '#') {
-        // Garantir que a área secundária feche completamente
+        // CORREÇÃO CRÍTICA: Garante que a área secundária feche E o app-container fique visível
         document.getElementById('area-secundaria').classList.remove('aberto');
+        document.getElementById('app-container').style.display = 'flex'; // Garante que os botões voltem
         document.body.style.overflow = 'auto'; // Retorna o scroll ao corpo principal
         document.body.style.height = 'auto'; 
         setupPwaInstallPrompt(); 
