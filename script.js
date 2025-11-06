@@ -1,4 +1,4 @@
-// script.js - CÓDIGO COMPLETO (FINAL COM CORREÇÃO CRÍTICA DO VÍDEO CONGELADO)
+// script.js - CÓDIGO COMPLETO (FINAL COM CORREÇÕES NO CANVAS E FONTES)
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -678,6 +678,15 @@ function carregarAreaUpload(parqueId, atividadeId) {
     const canvas = document.getElementById('passport-canvas');
     canvasContext = canvas.getContext('2d');
     
+    // Carrega as fontes do Google Fonts dinamicamente
+    if (!document.getElementById('google-fonts-link')) {
+        const link = document.createElement('link');
+        link.id = 'google-fonts-link';
+        link.href = 'https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Roboto+Slab:wght@700&display=swap';
+        link.rel = 'stylesheet';
+        document.head.appendChild(link);
+    }
+
     const inputFotoBadge = document.getElementById('input-foto-badge');
     const btnGerarBaixar = document.getElementById('btn-gerar-e-baixar');
 
@@ -704,9 +713,9 @@ function carregarAreaUpload(parqueId, atividadeId) {
         }
     };
     
-    // Carrega a imagem do carimbo (BUSCA NA PASTA 'badges/')
+    // Carrega a imagem do carimbo (BUSCA NA FOLDER 'badges/')
     if (atividade.imagem_png) {
-        stampImage.src = atividade.imagem_png; // Exemplo: badges/portaria-badge.png
+        stampImage.src = `badges/${atividade.imagem_png}`; // Exemplo: badges/portaria-badge.png
     } else {
         // Fallback (apenas se a imagem_png não estiver preenchida)
         stampImage.src = 'images/default_stamp_fallback.png'; 
@@ -755,10 +764,11 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
     // 2. Desenha a Imagem do Usuário (dentro da moldura)
     if (userUploadedPhoto && userUploadedPhoto.complete && userUploadedPhoto.naturalWidth > 0) {
         // COORDENADAS PARA A FOTO DO USUÁRIO (AJUSTADAS PARA O TEMPLATE 600X800)
+        // **AJUSTE AQUI:** photoHeight de 0.4 para 0.55 para acomodar melhor 4:5
         const photoX = canvas.width * 0.1;    
-        const photoY = canvas.height * 0.3;   
+        const photoY = canvas.height * 0.28;   // Ajustado para começar um pouco mais alto
         const photoWidth = canvas.width * 0.8; 
-        const photoHeight = canvas.height * 0.4; 
+        const photoHeight = canvas.height * 0.55; // Mais alto para 4:5
 
         // Lógica para preencher o espaço (Cover) mantendo a proporção da foto do usuário
         const imgAspectRatio = userUploadedPhoto.naturalWidth / userUploadedPhoto.naturalHeight;
@@ -767,13 +777,13 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         let sx, sy, sWidth, sHeight; // Source (corte da imagem do usuário)
         
         if (imgAspectRatio > frameAspectRatio) {
-            // A imagem do usuário é mais larga, cortar laterais
+            // A imagem do usuário é mais larga que o frame, cortar laterais da imagem
             sHeight = userUploadedPhoto.naturalHeight;
             sWidth = sHeight * frameAspectRatio;
             sx = (userUploadedPhoto.naturalWidth - sWidth) / 2;
             sy = 0;
         } else {
-            // A imagem do usuário é mais alta, cortar topo/base
+            // A imagem do usuário é mais alta que o frame, cortar topo/base da imagem
             sWidth = userUploadedPhoto.naturalWidth;
             sHeight = sWidth / frameAspectRatio;
             sx = 0;
@@ -789,32 +799,36 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         // POSIÇÃO E TAMANHO DO CARIMBO (Canto Superior Esquerdo, ao lado do texto)
         const stampSize = canvas.width * 0.25; // 25% da largura
         const stampX = canvas.width * 0.05;    // 5% da largura
-        const stampY = canvas.height * 0.1;    // 10% da altura
+        const stampY = canvas.height * 0.06;    // Ajustado para um pouco mais baixo, harmonizando com o texto
         canvasContext.drawImage(stampImage, stampX, stampY, stampSize, stampSize);
     }
 
     // 4. Adiciona o Texto Dinâmico
     canvasContext.fillStyle = '#333'; 
     
-    // Título Furo (Simulação)
-    canvasContext.font = 'bold 30px "Bebas Neue", sans-serif'; 
-    canvasContext.textAlign = 'center';
-    canvasContext.fillText('TRILHAS DE MINAS', canvas.width / 2, canvas.height * 0.04); 
-    
+    // **REMOVIDO:** Título Furo (Simulação) - Você vai adicionar isso no template da imagem
+
     // Texto do Carimbo (Detalhes do Check-in)
     canvasContext.textAlign = 'left';
-    canvasContext.font = 'bold 24px "Open Sans", sans-serif'; 
     canvasContext.fillStyle = '#4CAF50'; 
-    canvasContext.fillText('CHECK-IN REALIZADO', canvas.width * 0.35, canvas.height * 0.12);
 
-    canvasContext.font = 'bold 18px "Open Sans", sans-serif'; 
-    canvasContext.fillStyle = '#555';
+    // **AJUSTE AQUI:** Fontes e Posicionamento
+    const textStartX = canvas.width * 0.35; // Posição X para o início do texto
+    let currentTextY = canvas.height * 0.08; // Posição Y inicial ajustada (mais para baixo)
+
+    // CHECK-IN REALIZADO
+    canvasContext.font = 'bold 22px "Roboto Slab", serif'; // Fonte mais robusta para título de carimbo
+    canvasContext.fillText('CHECK-IN REALIZADO', textStartX, currentTextY);
+    currentTextY += 25; // Espaçamento menor após a primeira linha
 
     // Nome do Parque
-    canvasContext.fillText(parque.nome.toUpperCase(), canvas.width * 0.35, canvas.height * 0.17); 
+    canvasContext.font = 'bold 18px "Lora", serif'; // Fonte serifada e formal
+    canvasContext.fillStyle = '#555';
+    canvasContext.fillText(parque.nome.toUpperCase(), textStartX, currentTextY); 
+    currentTextY += 22; // Espaçamento menor
 
     // Nome da Atividade
-    canvasContext.fillText(atividade.nome.toUpperCase(), canvas.width * 0.35, canvas.height * 0.22); 
+    canvasContext.fillText(atividade.nome.toUpperCase(), textStartX, currentTextY); 
 }
 
 /**
