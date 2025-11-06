@@ -1,4 +1,4 @@
-/* style.css - CÓDIGO COMPLETO AJUSTADO (FINAL - CORREÇÃO OPACIDADE BADGES) */
+/* style.css - CÓDIGO COMPLETO AJUSTADO (FINAL - COM ESTILOS DO CANVAS) */
 
 /* Variáveis de Cores e Estilos */
 :root {
@@ -660,12 +660,6 @@ header {
     height: 90%;
     margin-bottom: 0;
     padding: 0;
-    /* Garantir que a imagem seja monocromática se necessário (fallback, mas o opacity do pai resolve) */
-    /* filter: grayscale(100%); */
-}
-
-.activity-list-item.desbloqueado .icone-premio .badge-custom-img {
-    /* filter: grayscale(0%); */
 }
 
 /* Esconder o nome no BADGE, pois ele está na descrição ao lado */
@@ -819,4 +813,59 @@ header {
 .quiz-option-btn {
     transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
     text-align: center;
+}
+
+/* --- ESTILOS ADICIONAIS PARA ÁREA DE COMPARTILHAMENTO (CANVAS) --- */
+
+#area-envio-foto {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.upload-container {
+    background-color: var(--cor-fundo);
+    border-radius: 20px;
+    box-shadow: var(--sombra-neumorfismo-externa);
+    padding: 25px;
+    text-align: center;
+    max-width: 400px; 
+    width: 100%;
+}
+
+.upload-container p {
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+    color: var(--cor-texto);
+}
+
+#input-foto-badge {
+    display: block;
+    width: 100%;
+    margin: 10px 0 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: white;
+}
+
+/* Estilos para o Canvas e Pré-visualização */
+#output-image-preview {
+    margin-top: 20px;
+    background-color: #f0f0f0; 
+    border-radius: 15px;
+    padding: 10px;
+    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.1); 
+    overflow: hidden; 
+}
+
+#passport-canvas {
+    background-color: #e6e0d4; /* Cor de papel envelhecido para o canvas */
+    border-radius: 10px; /* Borda arredondada para o "passaporte" */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+#user-photo-preview {
+    display: none !important; /* Esconde a pré-visualização da tag img, pois o Canvas mostrará o preview */
 }
