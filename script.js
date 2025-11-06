@@ -1,4 +1,4 @@
-// script.js - CÓDIGO COMPLETO (FINAL COM CORREÇÃO DE NAVEGAÇÃO E MENSAGEM DO CHECK-IN)
+// script.js - CÓDIGO COMPLETO (FINAL COM CORREÇÃO CRÍTICA DO FLUXO DE CHECK-IN)
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -6,6 +6,15 @@ let DETALHES_PARQUES = {};
 let estadoUsuario = JSON.parse(localStorage.getItem('trilhasDeMinasStatus')) || {};
 let scrollPosition = 0;
 let deferredPrompt; 
+
+// NOVAS VARIÁVEIS PARA O CANVAS DE COMPARTILHAMENTO
+let passportTemplateImage = new Image(); // Imagem base do passaporte
+let stampImage = new Image();            // Imagem do carimbo do badge
+let userPhoto = new Image();             // Foto do usuário
+let canvasContext = null;                // Contexto 2D do Canvas
+
+// Caminho para a sua imagem de fundo do passaporte (VOCÊ DEVE CRIAR ESTE ARQUIVO)
+passportTemplateImage.src = 'images/passport_template.png'; // Caminho fixo para o template 600x800
 
 // Variáveis de estado do Quiz
 let currentQuizData = null; 
@@ -16,7 +25,7 @@ function salvarEstado() {
     localStorage.setItem('trilhasDeMinasStatus', JSON.stringify(estadoUsuario));
 }
 
-// --- PWA/OFFLINE: Service Worker Registration e Instalação ---
+// --- PWA/OFFLINE: Service Worker Registration e Instalação (código omitido para brevidade, mas deve ser mantido) ---
 
 function registrarServiceWorker() {
     if ('serviceWorker' in navigator) {
@@ -56,7 +65,8 @@ function setupPwaInstallPrompt() {
     });
 }
 
-// --- Lógica do Carrossel (Componente) ---
+
+// --- Lógica do Carrossel (Componente) (código omitido para brevidade, mas deve ser mantido) ---
 
 let currentCarouselIndex = 0;
 let carouselImages = [];
@@ -109,12 +119,10 @@ function handleScroll() {
     const carouselElement = document.getElementById('park-carousel');
     const scrollLeft = carouselElement.scrollLeft;
     const width = carouselElement.offsetWidth;
-    // Arredonda para o slide mais próximo
     let index = Math.round(scrollLeft / width); 
     
-    // Ajustar o index se a navegação manual mudar
     if (index !== currentCarouselIndex) {
-        showSlide(index, false); // Atualiza os dots, mas sem scroll
+        showSlide(index, false);
         resetInterval();
     }
 }
@@ -151,7 +159,6 @@ function resetInterval() {
     if (carouselInterval) {
         clearInterval(carouselInterval);
     }
-    // Muda a cada 4 segundos
     carouselInterval = setInterval(nextSlide, 4000); 
 }
 
@@ -160,7 +167,6 @@ function resetInterval() {
 
 /**
  * Processa a URL de check-in (ex: #checkin-biribiri-portaria)
- * Apenas desbloqueia o badge e redireciona para a tela de Badges.
  */
 function processarCheckin(parqueId, atividadeId) {
     if (ATIVIDADES_PARQUES[parqueId] && ATIVIDADES_PARQUES[parqueId].some(a => a.id === atividadeId)) {
@@ -169,7 +175,6 @@ function processarCheckin(parqueId, atividadeId) {
             estadoUsuario[parqueId] = {};
         }
 
-        let mensagem = `Você fez check-in em ${parqueId.toUpperCase()}! `;
         let isNewBadge = false;
 
         if (!estadoUsuario[parqueId][atividadeId]) {
@@ -179,7 +184,7 @@ function processarCheckin(parqueId, atividadeId) {
             isNewBadge = true;
         } 
         
-        // --- NOVO: Mensagem Pop-up Customizada ---
+        // --- Mensagem Pop-up Customizada ---
         if (isNewBadge) {
              const popUpMessage = "Trilhas de Minas\n\n🎉 Novo Badge desbloqueado!\nConfira na área Check-ins";
              alert(popUpMessage); 
@@ -198,7 +203,7 @@ function processarCheckin(parqueId, atividadeId) {
 }
 
 
-// --- Lógica de Navegação e Conteúdo ---
+// --- Lógica de Navegação e Conteúdo (código omitido para brevidade, mas deve ser mantido) ---
 
 function carregarBotaoParque(parque) {
     const button = document.createElement('a');
@@ -227,7 +232,6 @@ function carregarBotaoParque(parque) {
     } else {
         button.addEventListener('click', (e) => {
             e.preventDefault();
-            // A navegação agora é controlada pela função lidarComHash
             window.location.hash = `#${parque.id}`;
         });
     }
@@ -271,10 +275,8 @@ function carregarPremios() {
             // --- Lógica para usar Imagem ou Ícone ---
             let badgeContent;
             if (atividade.imagem_png) {
-                // Se tiver imagem PNG, usa a tag <img> com a nova classe CSS
                 badgeContent = `<img src="${atividade.imagem_png}" alt="${atividade.nome}" class="badge-custom-img">`;
             } else {
-                // Caso contrário, usa o ícone Font Awesome existente
                 badgeContent = `<i class="fas ${atividade.icone}"></i>`;
             }
             // ----------------------------------------
@@ -320,7 +322,7 @@ function carregarConteudoPremiacao() {
 }
 
 
-// --- Lógica de Detalhes do Parque (Funções Inalteradas) ---
+// --- Lógica de Detalhes do Parque (código omitido para brevidade, mas deve ser mantido) ---
 
 function carregarConteudoInfo(parque, container) {
     const detalhes = DETALHES_PARQUES[parque.id] || {};
@@ -415,7 +417,6 @@ function carregarProximaQuestao() {
         </div>
     `;
     
-    // Certifica-se de que o botão Next está escondido até a seleção
     if(nextQuestionBtn) nextQuestionBtn.style.display = 'none';
     
     atualizarBarraProgresso();
@@ -435,11 +436,9 @@ window.selectQuizOption = function(selectedIndex, buttonElement) {
     } else {
         buttonElement.style.backgroundColor = '#f44336'; 
         buttonElement.style.color = 'white';
-        // Mostra o correto (usando a classe active que tem a cor verde)
         document.querySelector(`.quiz-option-btn[data-index="${questao.correct}"]`)?.classList.add('active');
     }
     
-    // Avança para a próxima questão após um breve delay
     setTimeout(() => {
         currentQuizIndex++;
         carregarProximaQuestao();
@@ -457,15 +456,11 @@ function finalizarQuiz() {
     const parqueId = window.location.hash.substring(1).split('-')[0];
     
     let resultadoHtml;
-    
-    // Condição de sucesso: 75% de acerto
     const requiredScore = Math.ceil(total * 0.75);
     
     if (quizScore >= requiredScore) { 
-        // Desbloquear o badge do quiz
         const badgeId = currentQuizData[0].badge_id || 'quiz';
         if (ATIVIDADES_PARQUES[parqueId]?.find(a => a.id === badgeId)) {
-            // Verifica se já estava desbloqueado antes de salvar
             if (!(estadoUsuario[parqueId] && estadoUsuario[parqueId][badgeId])) {
                 if (!estadoUsuario[parqueId]) estadoUsuario[parqueId] = {};
                 estadoUsuario[parqueId][badgeId] = true;
@@ -560,8 +555,7 @@ function carregarConteudoAtividades(parque, container) {
     // 3. Listener para badges desbloqueados
     document.querySelectorAll('#lista-atividades-dinamica .activity-list-item.desbloqueado').forEach(item => {
         item.addEventListener('click', (event) => {
-            const badgeId = event.currentTarget.dataset.badgeId; // biribiri-portaria
-            // Navega para a tela de compartilhamento (upload)
+            const badgeId = event.currentTarget.dataset.badgeId;
             window.location.hash = `upload-${badgeId}`; 
         });
     });
@@ -645,7 +639,7 @@ function carregarConteudoDinamico(parque, container, action) {
 }
 
 
-// --- Lógica de Upload/Compartilhamento (Só acessível via clique no Badge) ---
+// --- Lógica de Upload/Compartilhamento (CANVAS) ---
 
 function carregarAreaUpload(parqueId, atividadeId) {
     const parque = DADOS_PARQUES.find(p => p.id === parqueId);
@@ -680,48 +674,185 @@ function carregarAreaUpload(parqueId, atividadeId) {
     const badgeTituloElement = document.getElementById('badge-upload-titulo');
     badgeTituloElement.textContent = `Compartilhar Badge: ${atividade.nome} (${parque.nome})`;
 
-    // Re-adicionar listener
-    document.getElementById('btn-enviar-foto').removeEventListener('click', processarCompartilhamentoFoto);
-    document.getElementById('btn-enviar-foto').addEventListener('click', () => {
-        // Passa os IDs para a função de processamento
-        processarCompartilhamentoFoto(parqueId, atividadeId);
-    });
+    // --- Lógica do Canvas para Compartilhamento ---
+    const canvas = document.getElementById('passport-canvas');
+    canvasContext = canvas.getContext('2d');
+    
+    const inputFotoBadge = document.getElementById('input-foto-badge');
+    const btnGerarBaixar = document.getElementById('btn-gerar-e-baixar');
 
+    // Limpar listeners anteriores para evitar duplicações
+    inputFotoBadge.onchange = null;
+    btnGerarBaixar.onclick = null;
+    
+    // Event listener para quando o usuário seleciona uma foto
+    inputFotoBadge.onchange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                userPhoto.src = e.target.result;
+                userPhoto.onload = () => {
+                    // Desenha a imagem no canvas assim que o template do passaporte e a foto do usuário estiverem carregados
+                    drawPassportImage(parque, atividade, userPhoto);
+                };
+            };
+            reader.readAsDataURL(file);
+        } else {
+            // Desenha apenas o template
+            drawPassportImage(parque, atividade, null);
+        }
+    };
+    
+    // Carrega a imagem do carimbo (AGORA BUSCA NA PASTA 'badges/')
+    if (atividade.imagem_png) {
+        stampImage.src = atividade.imagem_png; // Exemplo: badges/portaria-badge.png
+    } else {
+        // Fallback (apenas se a imagem_png não estiver preenchida)
+        stampImage.src = 'images/default_stamp_fallback.png'; 
+    }
+    
+    // Inicializa o canvas com o template do passaporte (sem a foto do usuário ainda)
+    drawPassportImage(parque, atividade, null); // Passa null para userPhoto inicialmente
+
+
+    // Listener para o botão de baixar
+    btnGerarBaixar.onclick = () => {
+        if (inputFotoBadge.files.length > 0) {
+            downloadCanvasImage(parque.nome, atividade.nome);
+        } else {
+            alert('Por favor, selecione uma foto antes de baixar o check-in.');
+        }
+    };
+    
     document.getElementById('area-secundaria').classList.add('aberto');
     document.getElementById('area-secundaria').scrollTop = 0;
 }
 
-window.processarCompartilhamentoFoto = function(parqueId, atividadeId) {
-    const fotoInput = document.getElementById('input-foto-badge');
-    const btn = document.getElementById('btn-enviar-foto');
+/**
+ * Desenha a imagem completa do passaporte no Canvas.
+ * @param {object} parque Objeto do parque atual.
+ * @param {object} atividade Objeto da atividade atual.
+ * @param {Image} userUploadedPhoto Imagem da foto do usuário (opcional).
+ */
+function drawPassportImage(parque, atividade, userUploadedPhoto) {
+    if (!canvasContext) return;
+
+    const canvas = canvasContext.canvas;
     
-    if (fotoInput.files.length === 0) {
-        alert('Por favor, selecione uma foto para processar e compartilhar.');
+    // Limpa o canvas
+    canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+
+    // 1. Desenha a Imagem Base do Passaporte (Ajustada para 600x800)
+    if (passportTemplateImage.complete && passportTemplateImage.naturalWidth > 0) {
+        canvasContext.drawImage(passportTemplateImage, 0, 0, canvas.width, canvas.height);
+    } else {
+        // Fallback: Desenha um retângulo simples se o template não carregar
+        canvasContext.fillStyle = '#e6e0d4'; // Cor de papel envelhecido
+        canvasContext.fillRect(0, 0, canvas.width, canvas.height);
+        canvasContext.fillStyle = '#333';
+        canvasContext.font = '20px Arial';
+        canvasContext.fillText('Carregue images/passport_template.png', 50, canvas.height / 2);
+    }
+
+    // 2. Desenha a Imagem do Usuário (dentro da moldura)
+    if (userUploadedPhoto && userUploadedPhoto.complete && userUploadedPhoto.naturalWidth > 0) {
+        // COORDENADAS PARA A FOTO DO USUÁRIO (Ajuste para o seu template)
+        const photoX = canvas.width * 0.1;    
+        const photoY = canvas.height * 0.3;   
+        const photoWidth = canvas.width * 0.8; 
+        const photoHeight = canvas.height * 0.4; 
+
+        // Lógica para preencher o espaço (Cover) mantendo a proporção da foto do usuário
+        const imgAspectRatio = userUploadedPhoto.naturalWidth / userUploadedPhoto.naturalHeight;
+        const frameAspectRatio = photoWidth / photoHeight;
+        
+        let sx, sy, sWidth, sHeight; // Source (corte da imagem do usuário)
+        let dx, dy, dWidth, dHeight; // Destination (onde desenhar no canvas)
+        
+        dWidth = photoWidth;
+        dHeight = photoHeight;
+        dx = photoX;
+        dy = photoY;
+
+        if (imgAspectRatio > frameAspectRatio) {
+            // A imagem do usuário é mais larga, cortar laterais
+            sHeight = userUploadedPhoto.naturalHeight;
+            sWidth = sHeight * frameAspectRatio;
+            sx = (userUploadedPhoto.naturalWidth - sWidth) / 2;
+            sy = 0;
+        } else {
+            // A imagem do usuário é mais alta, cortar topo/base
+            sWidth = userUploadedPhoto.naturalWidth;
+            sHeight = sWidth / frameAspectRatio;
+            sx = 0;
+            sy = (userUploadedPhoto.naturalHeight - sHeight) / 2;
+        }
+        
+        // Desenha a imagem recortada
+        canvasContext.drawImage(userUploadedPhoto, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+
+    }
+    
+    // 3. Adiciona o Carimbo do Badge
+    if (stampImage.complete && stampImage.naturalWidth > 0) {
+        // POSIÇÃO E TAMANHO DO CARIMBO (Canto Superior Esquerdo, ao lado do texto)
+        const stampSize = canvas.width * 0.25; // 25% da largura
+        const stampX = canvas.width * 0.05;    // 5% da largura
+        const stampY = canvas.height * 0.1;    // 10% da altura
+        canvasContext.drawImage(stampImage, stampX, stampY, stampSize, stampSize);
+    }
+
+    // 4. Adiciona o Texto Dinâmico
+    canvasContext.fillStyle = '#333'; 
+
+    // Título Furo (Simulação)
+    canvasContext.font = 'bold 30px "Bebas Neue", sans-serif'; 
+    canvasContext.textAlign = 'center';
+    canvasContext.fillText('TRILHAS DE MINAS', canvas.width / 2, canvas.height * 0.04); 
+    
+    // Texto do Carimbo (Detalhes do Check-in)
+    canvasContext.textAlign = 'left';
+    canvasContext.font = 'bold 24px "Open Sans", sans-serif'; 
+    canvasContext.fillStyle = var('--cor-principal') || '#4CAF50'; 
+    canvasContext.fillText('CHECK-IN REALIZADO', canvas.width * 0.35, canvas.height * 0.12);
+
+    canvasContext.font = 'bold 18px "Open Sans", sans-serif'; 
+    canvasContext.fillStyle = '#555';
+
+    // Nome do Parque
+    canvasContext.fillText(parque.nome.toUpperCase(), canvas.width * 0.35, canvas.height * 0.17); 
+
+    // Nome da Atividade
+    canvasContext.fillText(atividade.nome.toUpperCase(), canvas.width * 0.35, canvas.height * 0.22); 
+}
+
+/**
+ * Faz o download da imagem gerada no Canvas.
+ */
+function downloadCanvasImage(parqueNome, atividadeNome) {
+    if (!canvasContext) {
+        alert('Nenhuma imagem para baixar. Por favor, selecione uma foto.');
         return;
     }
 
-    btn.textContent = 'Processando...';
-    btn.disabled = true;
-
-    // SIMULAÇÃO DO COMPARTILHAMENTO E VOLTA
-    setTimeout(() => {
-        alert(`Sucesso! Sua foto foi carimbada (simulação) e está pronta para o compartilhamento!`);
-        btn.textContent = 'Processar e Compartilhar';
-        btn.disabled = false;
-        // Volta para a tela de Check-ins (Premiacao)
-        window.location.hash = `premiacao`; 
-    }, 1500); 
+    const canvas = canvasContext.canvas;
+    const dataURL = canvas.toDataURL('image/png'); 
+    const link = document.createElement('a');
+    link.download = `trilhasdeminas_${parqueNome.toLowerCase().replace(/\s/g, '_')}_${atividadeNome.toLowerCase().replace(/\s/g, '_')}.png`;
+    link.href = dataURL;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 }
 
 
 // --- Lógica do Roteamento (Hashchange) ---
 
 function lidarComHash() {
-    // Usamos location.hash para garantir que o histórico funcione
     const fullHash = window.location.hash;
     const hash = fullHash.substring(1);
     
-    // Limpar o intervalo do carrossel ao mudar de página
     if (carouselInterval) {
         clearInterval(carouselInterval);
     }
@@ -730,31 +861,28 @@ function lidarComHash() {
 
     // Rota: Home (Sem Hash)
     if (!hash || hash === 'home' || hash === '#') {
-        // Garantir que a área secundária feche completamente
         document.getElementById('area-secundaria').classList.remove('aberto');
-        document.body.style.overflow = 'auto'; // Retorna o scroll ao corpo principal
+        document.body.style.overflow = 'auto';
         document.body.style.height = 'auto'; 
         setupPwaInstallPrompt(); 
         return;
     }
     
-    document.body.style.overflow = 'hidden'; // Remove o scroll do corpo principal
-    document.body.style.height = '100vh'; // Garante que a tela cheia funcione
+    document.body.style.overflow = 'hidden'; 
+    document.body.style.height = '100vh';
 
     // Rota: 1. DESBLOQUEIO PURO (QR CODE)
     if (hash.startsWith('checkin-')) {
-        const parts = hash.split('-'); // [checkin, parqueId, atividadeId]
+        const parts = hash.split('-'); 
         if (parts.length === 3) {
-            // Desbloqueia e Roteia para #premiacao
             processarCheckin(parts[1], parts[2]);
-            // O processarCheckin já ajusta a hash. O próximo hashchange cuidará da rota #premiacao
             return;
         }
     }
 
-    // Rota: 2. COMPARTILHAMENTO (SÓ ACESSÍVEL VIA CLIQUE NO BADGE LIBERADO)
+    // Rota: 2. COMPARTILHAMENTO (CANVAS)
     if (hash.startsWith('upload-')) {
-        const parts = hash.split('-'); // [upload, parqueId, atividadeId]
+        const parts = hash.split('-'); 
         if (parts.length === 3) {
             carregarAreaUpload(parts[1], parts[2]);
             return;
@@ -777,7 +905,6 @@ function lidarComHash() {
         const action = parts.length > 1 ? parts[1] : 'info';
         carregarDetalhesParque(parqueId, action);
     } else {
-        // Hash inválido, volta para a home
         window.location.hash = ''; 
     }
 }
@@ -789,7 +916,6 @@ function iniciarApp() {
     carregarBotoesParques();
     lidarComHash(); 
 
-    // Ocultar a intro
     const videoIntro = document.getElementById('video-intro');
     videoIntro.classList.add('fade-out'); 
     setTimeout(() => {
@@ -798,12 +924,11 @@ function iniciarApp() {
         setupPwaInstallPrompt();
     }, 1000); 
 
-    // Adiciona listener para o botão de check-ins (que é um link com hash)
     const btnPremiacao = document.getElementById('btn-premiacao');
     if (btnPremiacao) {
         btnPremiacao.addEventListener('click', (e) => {
             e.preventDefault();
-            window.location.hash = `#${btnPremiacao.dataset.parqueId}`; // Redireciona para #premiacao
+            window.location.hash = `#${btnPremiacao.dataset.parqueId}`; 
         });
     }
 }
@@ -831,19 +956,16 @@ async function inicializar() {
         const videoElement = document.getElementById('intro-video-element');
         let checkinProcessado = false; 
 
-        // Adicionar o listener para o vídeo
         videoElement.addEventListener('ended', () => {
              iniciarApp(); 
         });
-        
-        // Verifica se há um hash de checkin na URL de entrada
+
         if (window.location.hash.startsWith('#checkin-')) {
              const parts = window.location.hash.substring(1).split('-');
              processarCheckin(parts[1], parts[2]); 
              checkinProcessado = true;
         }
 
-        // Lógica de primeira visita e auto-play
         if (localStorage.getItem('first_visit') !== 'false' && !checkinProcessado) {
             localStorage.setItem('first_visit', 'false');
             
@@ -855,7 +977,6 @@ async function inicializar() {
             });
 
         } else {
-             // Não é a primeira visita ou o checkin já processou e redirecionou
              document.getElementById('video-intro').style.display = 'none';
              document.getElementById('app-container').style.display = 'flex'; 
              lidarComHash();
@@ -863,7 +984,7 @@ async function inicializar() {
         
     } catch (error) {
         document.getElementById('app-container').style.display = 'flex';
-        document.getElementById('app-container').innerHTML = '<p style="text-align: center; color: red; margin-top: 50px; font-weight: bold;">ERRO DE CARREGAMENTO: Não foi possível carregar os dados. Verifique a sintaxe de parques.json e park_details.json.</p>';
+        document.getElementById('app-container').innerHTML = '<p style="text-align: center; color: red; margin-top: 50px; font-weight: bold;">ERRO DE CARREGAMENTO: Não foi possível carregar os dados. Verifique a sintaxe de todos os arquivos JSON e de imagens.</p>';
         document.getElementById('video-intro').style.display = 'none';
         console.error('Erro fatal ao carregar dados:', error);
     }
@@ -873,24 +994,18 @@ async function inicializar() {
         const hash = window.location.hash.substring(1);
         
         if (hash.startsWith('upload-')) {
-            // Volta da tela de upload para a tela de Check-ins
             window.location.hash = `premiacao`; 
         } else if (hash === 'premiacao') {
-             // Volta de Premiacao para a home
              window.location.hash = ''; 
         } else if (DADOS_PARQUES.some(p => p.id === hash.split('-')[0])) {
-             // Volta da página de detalhes do parque para a home
              window.location.hash = ''; 
         } else if (hash !== '') {
-             // Caso de rotas de erro/fallback
              window.location.hash = '';
         } else {
-            // Se já estiver na home, fecha a área secundária (para garantir)
             document.getElementById('area-secundaria').classList.remove('aberto');
         }
     });
     
-    // O botão Home sempre volta para a Home
     document.getElementById('btn-home').addEventListener('click', () => {
         window.location.hash = ''; 
     });
