@@ -55,13 +55,30 @@
             <div id="lista-icones-premios">
                 </div>
         </div>
+        
+        <div id="area-envio-foto" style="display: none;">
+            <h2 id="badge-upload-titulo" style="text-align: center; margin-bottom: 20px;">Compartilhar Conquista</h2>
 
-        <div id="area-envio-foto" style="display: none; padding: 20px;">
-            <h3 id="badge-upload-titulo">Enviar Foto para Badge: [Nome do Badge]</h3>
-            <p>Selecione uma foto 4:5 (vertical) para receber sua imagem personalizada de conquista.</p>
-            <input type="file" accept="image/*" id="input-foto-badge">
-            <button id="btn-enviar-foto" disabled>Processar e Compartilhar</button>
-            <p style="margin-top: 10px; font-size: 0.8rem; color: gray;">*Funcionalidade de processamento de imagem será implementada posteriormente.</p>
+            <div class="upload-container">
+                <p>Selecione uma foto sua na trilha para carimbar:</p>
+                <input type="file" id="input-foto-badge" accept="image/*">
+                
+                <div id="output-image-preview">
+                    
+                    <canvas id="passport-canvas" width="600" height="800" style="border: 1px solid #ccc; display: block; margin: 20px auto; max-width: 100%; height: auto;"></canvas>
+                    
+                    <img id="user-photo-preview" src="" alt="Sua foto" style="display: none; max-width: 100%; margin-top: 10px; border-radius: 10px;">
+                </div>
+                
+                <button id="btn-gerar-e-baixar" class="action-button active" style="margin-top: 20px; width: 100%;">
+                    <i class="fas fa-download"></i> Baixar Foto com Check-in
+                </button>
+                
+                <button id="btn-compartilhar-social" class="action-button" style="margin-top: 10px; width: 100%;" disabled>
+                    <i class="fas fa-share-alt"></i> Compartilhar nas Redes Sociais (Em Breve)
+                </button>
+
+            </div>
         </div>
 
         <div id="conteudo-parque-detalhe" style="display: none;">
