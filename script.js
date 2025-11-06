@@ -1,4 +1,4 @@
-// script.js - CÓDIGO COMPLETO (FINAL COM CORREÇÃO CRÍTICA DO FLUXO DE CHECK-IN)
+// script.js - CÓDIGO COMPLETO (FINAL COM CORREÇÃO DE NAVEGAÇÃO E MENSAGEM DO CHECK-IN)
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -170,18 +170,24 @@ function processarCheckin(parqueId, atividadeId) {
         }
 
         let mensagem = `Você fez check-in em ${parqueId.toUpperCase()}! `;
+        let isNewBadge = false;
 
         if (!estadoUsuario[parqueId][atividadeId]) {
             // Desbloqueia o badge
             estadoUsuario[parqueId][atividadeId] = true;
             salvarEstado();
-            mensagem = `🎉 Novo Badge desbloqueado em ${parqueId.toUpperCase()}!`;
+            isNewBadge = true;
+        } 
+        
+        // --- NOVO: Mensagem Pop-up Customizada ---
+        if (isNewBadge) {
+             const popUpMessage = "Trilhas de Minas\n\n🎉 Novo Badge desbloqueado!\nConfira na área Check-ins";
+             alert(popUpMessage); 
         } else {
-            mensagem = `Badge já estava desbloqueado. Divirta-se!`;
+             const popUpMessage = "Trilhas de Minas\n\nEste Badge já estava desbloqueado!\nConfira na área Check-ins";
+             alert(popUpMessage); 
         }
-
-        // Alerta o usuário (feedback imediato)
-        alert(mensagem); 
+        // ------------------------------------------
         
         // Redireciona para a tela de Badges para o usuário ver a conquista
         window.location.hash = 'premiacao';
@@ -314,7 +320,7 @@ function carregarConteudoPremiacao() {
 }
 
 
-// --- Lógica de Detalhes do Parque ---
+// --- Lógica de Detalhes do Parque (Funções Inalteradas) ---
 
 function carregarConteudoInfo(parque, container) {
     const detalhes = DETALHES_PARQUES[parque.id] || {};
@@ -697,12 +703,11 @@ window.processarCompartilhamentoFoto = function(parqueId, atividadeId) {
     btn.textContent = 'Processando...';
     btn.disabled = true;
 
-    // A lógica de desbloqueio é omitida aqui, pois só acessamos esta tela se o badge JÁ estiver liberado.
-    
     // SIMULAÇÃO DO COMPARTILHAMENTO E VOLTA
     setTimeout(() => {
         alert(`Sucesso! Sua foto foi carimbada (simulação) e está pronta para o compartilhamento!`);
-        btn.textContent = 'Compartilhado!';
+        btn.textContent = 'Processar e Compartilhar';
+        btn.disabled = false;
         // Volta para a tela de Check-ins (Premiacao)
         window.location.hash = `premiacao`; 
     }, 1500); 
@@ -725,6 +730,7 @@ function lidarComHash() {
 
     // Rota: Home (Sem Hash)
     if (!hash || hash === 'home' || hash === '#') {
+        // Garantir que a área secundária feche completamente
         document.getElementById('area-secundaria').classList.remove('aberto');
         document.body.style.overflow = 'auto'; // Retorna o scroll ao corpo principal
         document.body.style.height = 'auto'; 
@@ -741,7 +747,7 @@ function lidarComHash() {
         if (parts.length === 3) {
             // Desbloqueia e Roteia para #premiacao
             processarCheckin(parts[1], parts[2]);
-            // O processarCheckin já ajusta a hash, o resto do lidarComHash será executado na próxima mudança
+            // O processarCheckin já ajusta a hash. O próximo hashchange cuidará da rota #premiacao
             return;
         }
     }
@@ -768,7 +774,6 @@ function lidarComHash() {
     const parqueEncontrado = DADOS_PARQUES.find(p => p.id === parqueId);
 
     if (parqueEncontrado && parqueId !== 'premiacao') {
-        // Carrega sempre o parque, ignorando sub-ações no hash para o histórico de navegação
         const action = parts.length > 1 ? parts[1] : 'info';
         carregarDetalhesParque(parqueId, action);
     } else {
@@ -830,36 +835,27 @@ async function inicializar() {
         videoElement.addEventListener('ended', () => {
              iniciarApp(); 
         });
+        
+        // Verifica se há um hash de checkin na URL de entrada
+        if (window.location.hash.startsWith('#checkin-')) {
+             const parts = window.location.hash.substring(1).split('-');
+             processarCheckin(parts[1], parts[2]); 
+             checkinProcessado = true;
+        }
 
         // Lógica de primeira visita e auto-play
-        if (localStorage.getItem('first_visit') !== 'false' || window.location.hash) {
+        if (localStorage.getItem('first_visit') !== 'false' && !checkinProcessado) {
+            localStorage.setItem('first_visit', 'false');
             
-            // Se houver hash de checkin, processa e evita o vídeo (melhor experiência)
-            if (window.location.hash.startsWith('#checkin-')) {
-                 const parts = window.location.hash.substring(1).split('-');
-                 processarCheckin(parts[1], parts[2]); // Processa e redireciona para #premiacao
-                 checkinProcessado = true;
-            } else if (window.location.hash) {
-                 // É um deeplink normal
-                 checkinProcessado = true;
-            }
-
-            if (!checkinProcessado && localStorage.getItem('first_visit') !== 'false') {
-                 localStorage.setItem('first_visit', 'false');
-                 document.getElementById('video-intro').style.display = 'flex';
-                 videoElement.load();
-                 videoElement.play().catch(error => {
-                     console.warn('Playback impedido. Iniciando App diretamente.', error);
-                     iniciarApp(); 
-                 });
-            } else {
-                 document.getElementById('video-intro').style.display = 'none';
-                 document.getElementById('app-container').style.display = 'flex'; 
-                 lidarComHash();
-            }
+            document.getElementById('video-intro').style.display = 'flex';
+            videoElement.load();
+            videoElement.play().catch(error => {
+                console.warn('Playback impedido. Iniciando App diretamente.', error);
+                iniciarApp(); 
+            });
 
         } else {
-             // Não é a primeira visita e não há hash (começa na home)
+             // Não é a primeira visita ou o checkin já processou e redirecionou
              document.getElementById('video-intro').style.display = 'none';
              document.getElementById('app-container').style.display = 'flex'; 
              lidarComHash();
@@ -875,19 +871,21 @@ async function inicializar() {
     // LÓGICA DO BOTÃO VOLTAR (AJUSTE CRÍTICO DE NAVEGAÇÃO)
     document.getElementById('btn-voltar').addEventListener('click', () => {
         const hash = window.location.hash.substring(1);
+        
         if (hash.startsWith('upload-')) {
-            // Volta da tela de upload para a lista de atividades do parque
+            // Volta da tela de upload para a tela de Check-ins
             window.location.hash = `premiacao`; 
         } else if (hash === 'premiacao') {
              // Volta de Premiacao para a home
              window.location.hash = ''; 
         } else if (DADOS_PARQUES.some(p => p.id === hash.split('-')[0])) {
-             // Volta da página do parque para a home
+             // Volta da página de detalhes do parque para a home
              window.location.hash = ''; 
         } else if (hash !== '') {
              // Caso de rotas de erro/fallback
              window.location.hash = '';
         } else {
+            // Se já estiver na home, fecha a área secundária (para garantir)
             document.getElementById('area-secundaria').classList.remove('aberto');
         }
     });
