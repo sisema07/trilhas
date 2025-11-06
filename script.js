@@ -1,4 +1,4 @@
-// script.js - CÓDIGO COMPLETO (FINAL COM CORREÇÃO CRÍTICA DO FLUXO DE CHECK-IN)
+// script.js - CÓDIGO COMPLETO (FINAL COM CORREÇÃO CRÍTICA DO VÍDEO CONGELADO)
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -704,7 +704,7 @@ function carregarAreaUpload(parqueId, atividadeId) {
         }
     };
     
-    // Carrega a imagem do carimbo (AGORA BUSCA NA PASTA 'badges/')
+    // Carrega a imagem do carimbo (BUSCA NA PASTA 'badges/')
     if (atividade.imagem_png) {
         stampImage.src = atividade.imagem_png; // Exemplo: badges/portaria-badge.png
     } else {
@@ -731,9 +731,6 @@ function carregarAreaUpload(parqueId, atividadeId) {
 
 /**
  * Desenha a imagem completa do passaporte no Canvas.
- * @param {object} parque Objeto do parque atual.
- * @param {object} atividade Objeto da atividade atual.
- * @param {Image} userUploadedPhoto Imagem da foto do usuário (opcional).
  */
 function drawPassportImage(parque, atividade, userUploadedPhoto) {
     if (!canvasContext) return;
@@ -743,7 +740,7 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
     // Limpa o canvas
     canvasContext.clearRect(0, 0, canvas.width, canvas.height);
 
-    // 1. Desenha a Imagem Base do Passaporte (Ajustada para 600x800)
+    // 1. Desenha a Imagem Base do Passaporte (600x800)
     if (passportTemplateImage.complete && passportTemplateImage.naturalWidth > 0) {
         canvasContext.drawImage(passportTemplateImage, 0, 0, canvas.width, canvas.height);
     } else {
@@ -757,7 +754,7 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
 
     // 2. Desenha a Imagem do Usuário (dentro da moldura)
     if (userUploadedPhoto && userUploadedPhoto.complete && userUploadedPhoto.naturalWidth > 0) {
-        // COORDENADAS PARA A FOTO DO USUÁRIO (Ajuste para o seu template)
+        // COORDENADAS PARA A FOTO DO USUÁRIO (AJUSTADAS PARA O TEMPLATE 600X800)
         const photoX = canvas.width * 0.1;    
         const photoY = canvas.height * 0.3;   
         const photoWidth = canvas.width * 0.8; 
@@ -768,13 +765,7 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         const frameAspectRatio = photoWidth / photoHeight;
         
         let sx, sy, sWidth, sHeight; // Source (corte da imagem do usuário)
-        let dx, dy, dWidth, dHeight; // Destination (onde desenhar no canvas)
         
-        dWidth = photoWidth;
-        dHeight = photoHeight;
-        dx = photoX;
-        dy = photoY;
-
         if (imgAspectRatio > frameAspectRatio) {
             // A imagem do usuário é mais larga, cortar laterais
             sHeight = userUploadedPhoto.naturalHeight;
@@ -790,8 +781,7 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         }
         
         // Desenha a imagem recortada
-        canvasContext.drawImage(userUploadedPhoto, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
-
+        canvasContext.drawImage(userUploadedPhoto, sx, sy, sWidth, sHeight, photoX, photoY, photoWidth, photoHeight);
     }
     
     // 3. Adiciona o Carimbo do Badge
@@ -805,7 +795,7 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
 
     // 4. Adiciona o Texto Dinâmico
     canvasContext.fillStyle = '#333'; 
-
+    
     // Título Furo (Simulação)
     canvasContext.font = 'bold 30px "Bebas Neue", sans-serif'; 
     canvasContext.textAlign = 'center';
@@ -814,7 +804,7 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
     // Texto do Carimbo (Detalhes do Check-in)
     canvasContext.textAlign = 'left';
     canvasContext.font = 'bold 24px "Open Sans", sans-serif'; 
-    canvasContext.fillStyle = var('--cor-principal') || '#4CAF50'; 
+    canvasContext.fillStyle = '#4CAF50'; 
     canvasContext.fillText('CHECK-IN REALIZADO', canvas.width * 0.35, canvas.height * 0.12);
 
     canvasContext.font = 'bold 18px "Open Sans", sans-serif'; 
@@ -836,7 +826,7 @@ function downloadCanvasImage(parqueNome, atividadeNome) {
         return;
     }
 
-    const canvas = canvasContext.canvas;
+    const canvas = document.getElementById('passport-canvas');
     const dataURL = canvas.toDataURL('image/png'); 
     const link = document.createElement('a');
     link.download = `trilhasdeminas_${parqueNome.toLowerCase().replace(/\s/g, '_')}_${atividadeNome.toLowerCase().replace(/\s/g, '_')}.png`;
@@ -861,8 +851,9 @@ function lidarComHash() {
 
     // Rota: Home (Sem Hash)
     if (!hash || hash === 'home' || hash === '#') {
+        // Garantir que a área secundária feche completamente
         document.getElementById('area-secundaria').classList.remove('aberto');
-        document.body.style.overflow = 'auto';
+        document.body.style.overflow = 'auto'; // Retorna o scroll ao corpo principal
         document.body.style.height = 'auto'; 
         setupPwaInstallPrompt(); 
         return;
@@ -955,28 +946,43 @@ async function inicializar() {
         
         const videoElement = document.getElementById('intro-video-element');
         let checkinProcessado = false; 
+        let videoPlayed = false;
 
-        videoElement.addEventListener('ended', () => {
-             iniciarApp(); 
-        });
+        // Função para garantir que o app inicie
+        const ensureAppStarts = () => {
+            if (!videoPlayed) {
+                videoPlayed = true;
+                iniciarApp();
+            }
+        };
 
+        // Adiciona o evento end, mas também o fallback de 3 segundos.
+        videoElement.addEventListener('ended', ensureAppStarts);
+        
+        // Verifica se há um hash de checkin na URL de entrada
         if (window.location.hash.startsWith('#checkin-')) {
              const parts = window.location.hash.substring(1).split('-');
              processarCheckin(parts[1], parts[2]); 
              checkinProcessado = true;
         }
 
+        // Lógica de primeira visita e auto-play
         if (localStorage.getItem('first_visit') !== 'false' && !checkinProcessado) {
             localStorage.setItem('first_visit', 'false');
             
             document.getElementById('video-intro').style.display = 'flex';
             videoElement.load();
-            videoElement.play().catch(error => {
-                console.warn('Playback impedido. Iniciando App diretamente.', error);
-                iniciarApp(); 
+            videoElement.play().then(() => {
+                // Se o play começar, adiciona timeout para garantir
+                setTimeout(ensureAppStarts, 3000); 
+            }).catch(error => {
+                // Fallback imediato se o autoplay falhar
+                console.warn('Playback impedido. Iniciando App diretamente via fallback.', error);
+                ensureAppStarts(); 
             });
 
         } else {
+             // Não é a primeira visita ou o checkin já processou e redirecionou
              document.getElementById('video-intro').style.display = 'none';
              document.getElementById('app-container').style.display = 'flex'; 
              lidarComHash();
