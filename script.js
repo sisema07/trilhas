@@ -764,12 +764,11 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
 
     // 2. Desenha a Imagem do Usuário (dentro da moldura)
     if (userUploadedPhoto && userUploadedPhoto.complete && userUploadedPhoto.naturalWidth > 0) {
-        // COORDENADAS PARA A FOTO DO USUÁRIO (AJUSTADAS PARA ACOMOCAR MELHOR O 4:5)
-        // NOVAS COORDENADAS: photoX=12%, photoY=32%, photoWidth=76%, photoHeight=51%
-        const photoX = canvas.width * 0.12;    
-        const photoY = canvas.height * 0.32;   
-        const photoWidth = canvas.width * 0.76; 
-        const photoHeight = canvas.height * 0.51; 
+        // NOVAS COORDENADAS PARA A FOTO DO USUÁRIO (AJUSTADAS PARA ACOMOCAR MELHOR O 4:5 E O NOVO TEMPLATE)
+        const photoX = canvas.width * 0.1;    
+        const photoY = canvas.height * 0.3;   
+        const photoWidth = canvas.width * 0.8; 
+        const photoHeight = canvas.height * 0.55; 
 
         // Lógica para preencher o espaço (Cover) mantendo a proporção da foto do usuário
         const imgAspectRatio = userUploadedPhoto.naturalWidth / userUploadedPhoto.naturalHeight;
@@ -800,7 +799,7 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         // POSIÇÃO E TAMANHO DO CARIMBO (Canto Superior Esquerdo, ao lado do texto)
         const stampSize = canvas.width * 0.25; // 25% da largura
         const stampX = canvas.width * 0.05;    // 5% da largura
-        const stampY = canvas.height * 0.08;    // Ajustado para 8% (Para baixo o suficiente para alinhar com o texto)
+        const stampY = canvas.height * 0.15;    // ABAIXADO PARA EVITAR CONFLITO COM O TÍTULO DO TEMPLATE
         canvasContext.drawImage(stampImage, stampX, stampY, stampSize, stampSize);
     }
 
@@ -811,19 +810,19 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
     
     // CORREÇÃO DE ESPAÇAMENTO E POSICIONAMENTO
 
-    const textStartX = canvas.width * 0.35; // Posição X para o início do texto
-    let currentTextY = canvas.height * 0.12; // Posição Y inicial (12% da altura)
+    const textStartX = canvas.width * 0.37; // Posição X para o início do texto
+    let currentTextY = canvas.height * 0.18; // ABAIXADO PARA EVITAR CONFLITO COM O TÍTULO DO TEMPLATE
 
-    // LINHA 1: CHECK-IN REALIZADO (Alinhado verticalmente abaixo do carimbo)
+    // LINHA 1: CHECK-IN REALIZADO
     canvasContext.font = 'bold 22px "Roboto Slab", serif'; 
     canvasContext.fillStyle = '#4CAF50'; // Verde
     canvasContext.fillText('CHECK-IN REALIZADO', textStartX, currentTextY);
     currentTextY += 22; // Espaçamento vertical ajustado (22px)
 
-    // LINHA 2: Nome do Parque
+    // LINHA 2: Nome do Parque (COM "PARQUE ESTADUAL")
     canvasContext.font = 'bold 18px "Lora", serif'; 
     canvasContext.fillStyle = '#555';
-    canvasContext.fillText(parque.nome.toUpperCase(), textStartX, currentTextY); 
+    canvasContext.fillText(`PARQUE ESTADUAL ${parque.nome.toUpperCase()}`, textStartX, currentTextY); 
     currentTextY += 20; // Espaçamento vertical ajustado (20px)
 
     // LINHA 3: Nome da Atividade
