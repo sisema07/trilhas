@@ -1,4 +1,4 @@
-// script.js - CÓDIGO COMPLETO (FINAL COM AJUSTE CRÍTICO DE PROPORÇÃO DA FOTO E COORDENADAS)
+// script.js - CÓDIGO COMPLETO (FINAL COM AJUSTE DEFINITIVO DA PROPORÇÃO DA FOTO)
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -758,11 +758,10 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
     }
 
     // --- COORDENADAS E TAMANHOS DO FRAME DA FOTO ---
-    // NOVO AJUSTE: Altura aumentada para 60% para preservar o 4:5
     const photoX = canvas.width * 0.1;    
-    const photoY = canvas.height * 0.28;   
+    const photoY = canvas.height * 0.28;   // Ajustado para cima
     const photoWidth = canvas.width * 0.8; 
-    const photoHeight = canvas.height * 0.6; 
+    const photoHeight = canvas.height * 0.6; // Altura aumentada para 60% para preservar 4:5
 
     // 2. Desenha a Imagem do Usuário (dentro da moldura)
     if (userUploadedPhoto && userUploadedPhoto.complete && userUploadedPhoto.naturalWidth > 0) {
@@ -830,17 +829,17 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         canvasContext.stroke();
     }
     
-    // --- 3. Adiciona Carimbo (Badge) e Textos (SOBRE A FOTO, AJUSTADO PARA RESPONSIVIDADE) ---
+    // --- 3. Adiciona Carimbo (Badge) e Textos (AJUSTADO PARA PROXIMIDADE) ---
     
     // 3.1. Adiciona o Carimbo do Badge (Rotacionado e Reposicionado)
     if (stampImage.complete && stampImage.naturalWidth > 0) {
         canvasContext.save(); // Salva o estado antes da rotação
         
         // NOVAS COORDENADAS PARA O CARIMBO (AJUSTADAS)
-        const stampSize = canvas.width * 0.3;     // 30% da largura
-        const stampX = canvas.width * 0.03;      // 3% da largura
-        const stampY = canvas.height * 0.1;     // 10% da altura
-        const rotationAngle = -25 * Math.PI / 180; // -25 graus para rotação
+        const stampSize = canvas.width * 0.3;     
+        const stampX = canvas.width * 0.03;      
+        const stampY = canvas.height * 0.1;     // Subiu para 10%
+        const rotationAngle = -25 * Math.PI / 180; 
 
         // Ponto de rotação (o centro do carimbo)
         const centerX = stampX + stampSize / 2;
@@ -850,30 +849,30 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         canvasContext.rotate(rotationAngle);
         canvasContext.translate(-centerX, -centerY); // Move de volta
 
-        // Desenha o carimbo rotacionado (Ajusta a posição original)
+        // Desenha o carimbo rotacionado 
         canvasContext.drawImage(stampImage, stampX, stampY, stampSize, stampSize);
         
         canvasContext.restore(); // Restaura o estado (remove a rotação)
     }
 
-    // 3.2. Adiciona o Texto Dinâmico (AJUSTADO PARA RESPONSIVIDADE E PROXIMIDADE DO CARIMBO)
+    // 3.2. Adiciona o Texto Dinâmico (AJUSTADO PARA PROXIMIDADE DO CARIMBO)
     canvasContext.textAlign = 'left';
     
-    // NOVAS COORDENADAS PARA O TEXTO (AJUSTADAS)
-    const textStartX = canvas.width * 0.32;   // 32% da largura
-    let currentTextY = canvas.height * 0.13; // 13% da altura
+    // NOVAS COORDENADAS PARA O TEXTO
+    const textStartX = canvas.width * 0.32;   
+    let currentTextY = canvas.height * 0.13; // Subiu para 13%
 
     // LINHA 1: CHECK-IN REALIZADO
-    canvasContext.font = `bold ${canvas.width * 0.036}px "Roboto Slab", serif`; // Fonte responsiva (22px para 600px de largura)
+    canvasContext.font = `bold ${canvas.width * 0.036}px "Roboto Slab", serif`; 
     canvasContext.fillStyle = '#4CAF50'; // Verde
     canvasContext.fillText('CHECK-IN REALIZADO', textStartX, currentTextY);
-    currentTextY += canvas.width * 0.036 + canvas.width * 0.005; // Espaçamento vertical responsivo
+    currentTextY += canvas.width * 0.036 + canvas.width * 0.005; 
 
     // LINHA 2: Nome do Parque (COM "PARQUE ESTADUAL")
-    canvasContext.font = `bold ${canvas.width * 0.03}px "Lora", serif`; // Fonte responsiva (18px para 600px de largura)
+    canvasContext.font = `bold ${canvas.width * 0.03}px "Lora", serif`; 
     canvasContext.fillStyle = '#555';
     canvasContext.fillText(`PARQUE ESTADUAL ${parque.nome.toUpperCase()}`, textStartX, currentTextY); 
-    currentTextY += canvas.width * 0.03 + canvas.width * 0.005; // Espaçamento vertical responsivo
+    currentTextY += canvas.width * 0.03 + canvas.width * 0.005; 
 
     // LINHA 3: Nome da Atividade
     canvasContext.fillText(atividade.nome.toUpperCase(), textStartX, currentTextY); 
