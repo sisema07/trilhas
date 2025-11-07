@@ -1,4 +1,4 @@
-/* style.css - CÓDIGO COMPLETO AJUSTADO (FINAL COM CORREÇÃO DE VAZAMENTO LATERAL) */
+/* style.css - CÓDIGO COMPLETO AJUSTADO (FINAL COM TODAS AS CORREÇÕES) */
 
 /* Variáveis de Cores e Estilos */
 :root {
@@ -26,6 +26,8 @@ body, html {
     color: var(--cor-texto);
     overflow-x: hidden;
     touch-action: manipulation;
+    width: 100%;
+    height: 100%;
 }
 
 /* --- Tela de Introdução (Com Vídeo) --- */
@@ -72,6 +74,8 @@ body, html {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* --- Header: Imagem de Título --- */
@@ -100,6 +104,8 @@ header {
     grid-template-columns: repeat(3, 1fr);
     gap: 12px;
     padding: 0;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 /* Media Queries (Mantidas) */
@@ -118,7 +124,7 @@ header {
     }
 }
 
-/* CORREÇÕES GERAIS DE RESPONSIVIDADE */
+/* CORREÇÃO PARA MOBILE PEQUENO */
 @media (max-width: 480px) {
     #botoes-parques {
         grid-template-columns: repeat(3, 1fr);
@@ -137,53 +143,8 @@ header {
     .icone-parque-principal, .logo-parque-principal {
         margin-bottom: 2px;
     }
-    
-    /* Garantir que imagens não ultrapassem containers */
-    img {
-        max-width: 100%;
-        height: auto;
-    }
-    
-    .park-carousel-container {
-        aspect-ratio: 4/3; /* Mais quadrado para mobile */
-    }
 }
-
-/* CORREÇÃO PARA IMAGENS NO CARROSSEL */
-.carousel-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-/* CORREÇÃO PARA O CANVAS DE COMPARTILHAMENTO */
-#passport-canvas {
-    max-width: 100%;
-    height: auto;
-    border: 1px solid #ccc;
-    background: white;
-}
-
-/* CORREÇÃO PARA BOTÕES EM MOBILE */
-.action-button {
-    min-height: 44px; /* Tamanho mínimo para touch */
-    padding: 12px 8px;
-    font-size: 0.9rem;
-}
-
-/* CORREÇÃO PARA SCROLL EM MOBILE */
-#area-secundaria {
-    -webkit-overflow-scrolling: touch; /* Scroll suave no iOS */
-}
-
-/* CORREÇÃO PARA HEADER FIXO */
-.secundaria-header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
+ 
 /* Botões em Geral: Estilos mantidos */
 .botao-parque {
     background-color: var(--cor-fundo);
@@ -202,7 +163,9 @@ header {
     color: var(--cor-texto);
     position: relative;
     overflow: hidden;
-    height: auto; 
+    height: auto;
+    min-height: 44px; /* Tamanho mínimo para touch */
+    box-sizing: border-box;
 }
 
 .botao-parque:active {
@@ -253,7 +216,7 @@ header {
     color: white; 
 }
 
-/* --- Área Secundária (Park Detail/Check-ins) --- CORREÇÃO COMPLETA --- */
+/* --- Área Secundária (Park Detail/Check-ins) - CORREÇÃO CRÍTICA --- */
 #area-secundaria {
     position: fixed;
     top: 0;
@@ -271,12 +234,20 @@ header {
     flex-direction: column;
     border-left: 1px solid #ccc;
     box-shadow: -5px 0 15px rgba(0,0,0,0.1);
-    /* GARANTIR que não vaze em mobile */
     box-sizing: border-box;
+    -webkit-overflow-scrolling: touch; /* Scroll suave no iOS */
 }
 
 #area-secundaria.aberto {
     transform: translateX(0);
+}
+
+/* CORREÇÃO PARA MOBILE - garantir que não ultrapasse a tela */
+@media (max-width: 450px) {
+    #area-secundaria {
+        max-width: 100%;
+        border-left: none;
+    }
 }
 
 .secundaria-header {
@@ -288,15 +259,15 @@ header {
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     position: sticky;
     top: 0;
-    z-index: 10;
+    z-index: 100;
 }
 
-/* CORREÇÃO 3: Alinhamento do Título - O título usa flex-grow para ocupar o espaço */
+/* CORREÇÃO 3: Alinhamento do Título */
 #secundaria-titulo {
     margin: 0 5px; 
     font-size: 1.25rem;
     flex-grow: 1; 
-    text-align: left; /* Alinha o título à esquerda, começando após o botão voltar */
+    text-align: left;
 }
 
 /* Botão Voltar/Home */
@@ -311,6 +282,7 @@ header {
     cursor: pointer;
     margin-right: 10px;
     z-index: 20;
+    min-height: 44px; /* Tamanho mínimo para touch */
 }
 
 #btn-home {
@@ -322,10 +294,10 @@ header {
     width: 40px;
     height: 40px;
     cursor: pointer;
-    margin-left: auto; /* Empurra para o lado direito */
+    margin-left: auto;
     z-index: 20;
+    min-height: 44px; /* Tamanho mínimo para touch */
 }
-
 
 /* --- Estilos da Área de Check-ins (Badges) --- */
 #conteudo-premios {
@@ -369,13 +341,6 @@ header {
     z-index: 1;
 }
 
-/* CORREÇÃO PARA MOBILE - garantir que não ultrapasse a tela */
-@media (max-width: 450px) {
-    #area-secundaria {
-        max-width: 100%;
-        border-left: none;
-    }
-}
 @media (max-width: 350px) {
     .badge-mascote-texto {
         padding-right: 0;
@@ -389,6 +354,7 @@ header {
         bottom: auto;
     }
 }
+
 .premios-titulo {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 2rem;
@@ -398,8 +364,6 @@ header {
 }
 
 /* --- ESTILOS DO GRID DE BADGES DE CHECK-INS (TAMANHO GRANDE) --- */
-
-/* Estilos para o Grid de Badges (Check-ins) */
 #lista-icones-premios {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
@@ -407,6 +371,7 @@ header {
     margin-top: 20px;
     padding: 0;
 }
+
 /* Badge Quadrado Grande */
 .icone-premio {
     background-color: var(--cor-fundo);
@@ -420,28 +385,25 @@ header {
     transition: all 0.3s ease-in-out;
     position: relative;
     padding: 10px;
-    
-    /* ESTILO PARA BADGE APAGADO: A opacidade deve ser aplicada no container */
-    opacity: 0.5; 
-    
-    /* A cor cinza é o fallback para ícones */
-    color: #ccc; 
+    opacity: 0.5;
+    color: #ccc;
     font-style: italic;
     cursor: default;
 }
+
 .icone-premio.desbloqueado {
     box-shadow: var(--sombra-neumorfismo-interna);
-    
-    /* ESTILO PARA BADGE LIBERADO */
-    color: var(--cor-secundaria); 
-    opacity: 1.0; /* Totalmente visível */
+    color: var(--cor-secundaria);
+    opacity: 1.0;
     font-style: normal;
     cursor: pointer;
 }
+
 .icone-premio i {
-    font-size: 2.0rem; /* Tamanho do ícone no Grid de Check-ins */
+    font-size: 2.0rem;
     margin-bottom: 5px;
 }
+
 .icone-premio span {
     font-size: 0.7rem;
     text-align: center;
@@ -482,10 +444,12 @@ header {
     z-index: 2000;
     text-align: center;
 }
+
 .pwa-prompt p {
     margin: 0 0 10px;
     font-weight: 600;
 }
+
 #install-btn, #close-prompt {
     background: white;
     color: var(--cor-principal);
@@ -495,7 +459,9 @@ header {
     border-radius: 8px;
     font-weight: 700;
     cursor: pointer;
+    min-height: 44px;
 }
+
 #close-prompt {
     background: transparent;
     border: 1px solid white;
@@ -503,7 +469,7 @@ header {
     font-weight: 400;
 }
 
-/* --- Estilos da Página de Detalhes do Parque (NOVO) --- */
+/* --- Estilos da Página de Detalhes do Parque --- */
 #conteudo-parque-detalhe {
     padding: 0 0 20px 0;
 }
@@ -517,6 +483,13 @@ header {
     margin-bottom: 15px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
+
+@media (max-width: 480px) {
+    .park-carousel-container {
+        aspect-ratio: 4/3; /* Mais quadrado para mobile */
+    }
+}
+
 .park-carousel {
     display: flex;
     width: 100%;
@@ -524,12 +497,10 @@ header {
     overflow-x: scroll;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
-    
-    /* ESCONDER BARRA DE ROLAGEM */
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
-/* ESCONDER BARRA DE ROLAGEM para Webkit (Chrome, Safari) */
+
 .park-carousel::-webkit-scrollbar {
     display: none;
 }
@@ -540,7 +511,9 @@ header {
     height: 100%;
     object-fit: cover;
     scroll-snap-align: start;
+    display: block;
 }
+
 .carousel-dots {
     position: absolute;
     bottom: 10px;
@@ -550,6 +523,7 @@ header {
     justify-content: center;
     gap: 8px;
 }
+
 .dot {
     width: 8px;
     height: 8px;
@@ -558,6 +532,7 @@ header {
     cursor: pointer;
     transition: background-color 0.3s;
 }
+
 .dot.active {
     background-color: var(--cor-principal);
     transform: scale(1.2);
@@ -568,14 +543,16 @@ header {
     display: flex;
     align-items: center;
     justify-content: center; 
-    gap: 5px; /* CORREÇÃO 4: Espaçamento reduzido (de 15px para 5px) */
+    gap: 5px;
     padding: 10px 20px;
 }
+
 .location-link-container span {
     font-weight: 700;
     color: var(--cor-texto);
-    margin: 0 10px; /* Adiciona margem maior ao redor do texto central */
+    margin: 0 10px;
 }
+
 .location-icon-link {
     color: #444; 
     font-size: 1.6rem;
@@ -584,13 +561,14 @@ header {
     text-align: center;
     line-height: 1;
 }
+
 .location-icon-link:first-child {
     color: #DB4437; 
 }
+
 .location-icon-link:last-child {
     color: #E1306C;
 }
-
 
 .separator {
     border: none;
@@ -609,7 +587,7 @@ header {
 .action-button {
     flex-grow: 1;
     margin: 0 5px;
-    padding: 10px 5px;
+    padding: 12px 5px;
     background-color: var(--cor-fundo);
     color: var(--cor-texto);
     border: none;
@@ -619,6 +597,7 @@ header {
     cursor: pointer;
     box-shadow: var(--sombra-neumorfismo-externa);
     transition: all 0.2s ease-in-out;
+    min-height: 44px;
 }
 
 .action-button.active {
@@ -640,22 +619,19 @@ header {
     color: #444;
 }
 
-/* CORREÇÃO 5: Títulos com Capitalize (Apenas a Inicial em Maiúscula) */
 #dynamic-content-area h3 {
     color: var(--cor-principal);
     font-family: 'Bebas Neue', sans-serif;
     font-size: 1.6rem;
     margin-top: 15px;
-    text-transform: capitalize; /* Aplica apenas a primeira letra de cada palavra em maiúscula */
+    text-transform: capitalize;
 }
 
-/* Estilos para a descrição (padrão) */
 #dynamic-content-area p {
     margin-bottom: 15px;
     text-align: justify;
 }
 
-/* Descrição para a área de atividades */
 .badge-description {
     font-size: 0.9rem;
     color: #666;
@@ -664,7 +640,6 @@ header {
 }
 
 /* --- ESTILOS DE LISTA DE ATIVIDADES (LISTA COM DESCRIÇÃO) --- */
-
 #lista-atividades-dinamica { 
     display: flex;
     flex-direction: column; 
@@ -679,22 +654,18 @@ header {
     align-items: center;
     background-color: var(--cor-fundo);
     border-radius: 15px;
-    /* CORREÇÃO 2: A sombra externa é aplicada aqui */
-    box-shadow: var(--sombra-neumorfismo-externa); 
+    box-shadow: var(--sombra-neumorfismo-externa);
     padding: 10px;
     transition: all 0.2s;
     min-height: 70px;
-    
-    /* ESTILO PARA BADGE APAGADO */
-    opacity: 0.6; /* Levemente apagado */
-}
-.activity-list-item.desbloqueado {
-    /* CORREÇÃO 2: A sombra interna é aplicada aqui (e não no icone-premio) */
-    box-shadow: var(--sombra-neumorfismo-interna);
-    cursor: pointer;
-    opacity: 1.0; /* Totalmente visível */
+    opacity: 0.6;
 }
 
+.activity-list-item.desbloqueado {
+    box-shadow: var(--sombra-neumorfismo-interna);
+    cursor: pointer;
+    opacity: 1.0;
+}
 
 /* Estilo do Badge Pequeno (À esquerda) */
 .activity-list-item .icone-premio {
@@ -702,33 +673,27 @@ header {
     height: 60px;
     flex-shrink: 0; 
     margin-right: 15px;
-    
-    /* Removendo a opacidade daqui, pois já está no .activity-list-item */
     color: #ccc;
-    
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: var(--cor-fundo);
     border-radius: 15px;
-    /* CORREÇÃO 2: Shadow/Sombra removida daqui para evitar o efeito "botão sobre botão" */
-    box-shadow: none; 
+    box-shadow: none;
     padding: 0;
 }
 
 .activity-list-item.desbloqueado .icone-premio {
-    color: var(--cor-secundaria); 
-    box-shadow: none; /* CORREÇÃO 2: Sombra removida */
+    color: var(--cor-secundaria);
+    box-shadow: none;
 }
 
-/* Tamanho do Ícone dentro do Badge (reduzido) */
 .activity-list-item .icone-premio i {
     font-size: 1.6rem; 
     margin-bottom: 0; 
 }
 
-/* Ajustes específicos para o Badge PEQUENO de Atividades */
 .activity-list-item .icone-premio .badge-custom-img {
     width: 90%;
     height: 90%;
@@ -736,12 +701,10 @@ header {
     padding: 0;
 }
 
-/* Esconder o nome no BADGE, pois ele está na descrição ao lado */
 .activity-list-item .icone-premio span {
     display: none;
 }
 
-/* Estilo da Descrição da Atividade */
 .activity-description-box {
     flex-grow: 1;
     text-align: left;
@@ -754,6 +717,7 @@ header {
     color: var(--cor-texto);
     font-weight: 700;
 }
+
 .activity-description-box p {
     margin: 0;
     font-size: 0.8rem;
@@ -763,10 +727,9 @@ header {
 }
 
 /* --- Estilos da Área de Instruções de QR Code --- */
-
 .activity-instructions {
     display: flex;
-    flex-direction: column; /* Novo: Organiza itens na vertical */
+    flex-direction: column;
     align-items: center;
     padding: 0 10px;
     margin-bottom: 10px;
@@ -774,22 +737,20 @@ header {
 }
 
 .instruction-text {
-    width: 100%; /* Novo: Ocupa toda a largura */
+    width: 100%;
     padding-right: 0; 
 }
 
-/* CORREÇÃO 6: Texto Simplificado e Sombra para Mascote */
 .instruction-text h3 {
     font-size: 1.1rem;
     color: var(--cor-principal);
     margin-top: 0;
     margin-bottom: 5px;
-    text-align: center !important; /* Centralizado */
+    text-align: center !important;
     font-weight: 700; 
     text-transform: none !important; 
 }
 
-/* CORREÇÃO: Estilo para Mascote (Posicionado abaixo do título) */
 .qr-mascote-container {
     width: 80px; 
     height: 80px; 
@@ -802,7 +763,7 @@ header {
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
     position: relative;
-    margin-top: 10px; /* Espaçamento após o título */
+    margin-top: 10px;
 }
 
 .qr-mascote-img {
@@ -812,14 +773,13 @@ header {
 }
 
 /* --- ESTILOS DO QUIZ DINÂMICO --- */
-/* --- Estilos do Mascote e Header do Quiz --- */
-
 .quiz-header-content {
     display: flex;
     align-items: flex-start;
     padding: 0 10px;
     margin-bottom: 15px;
 }
+
 .quiz-fauna-img {
     width: 80px; 
     height: auto;
@@ -828,18 +788,19 @@ header {
     border-radius: 10px; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
 }
+
 .quiz-header-text {
     text-align: left;
     flex-grow: 1;
 }
 
 /* --- Barra de Progresso --- */
-
 .progress-bar-container {
     width: 80%;
     margin: 15px auto;
     position: relative;
 }
+
 .progress-bar {
     background-color: #ccc;
     border-radius: 10px;
@@ -847,6 +808,7 @@ header {
     overflow: hidden;
     box-shadow: inset 1px 1px 3px rgba(0,0,0,0.2);
 }
+
 #quiz-progress {
     background-color: var(--cor-secundaria);
     height: 100%;
@@ -855,7 +817,6 @@ header {
 }
 
 /* --- Estilos de Resultado (Animação) --- */
-
 .win-animation-container {
     width: 100%;
     max-width: 150px; 
@@ -878,41 +839,40 @@ header {
     color: var(--cor-principal);
     margin-top: 20px;
 }
+
 .success-badge-message {
     color: var(--cor-secundaria);
     font-weight: bold;
     margin: 10px 0;
 }
-/* Estilos para o botão de opção do Quiz */
+
 .quiz-option-btn {
     transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
     text-align: center;
 }
 
 /* --- ESTILOS ADICIONAIS PARA ÁREA DE COMPARTILHAMENTO (CANVAS) --- */
-
 #area-envio-foto {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centraliza os itens horizontalmente */
+    align-items: center;
     padding: 15px;
-    box-sizing: border-box; /* Inclui padding na largura total */
+    box-sizing: border-box;
 }
 
 #badge-upload-titulo {
     text-align: center;
     margin-bottom: 20px;
-    font-size: 1.2rem; /* Tamanho de fonte ajustável */
-    max-width: 90%; /* Limita a largura do título */
+    font-size: 1.2rem;
+    max-width: 90%;
 }
-
 
 .upload-controls {
     display: flex;
     flex-direction: column;
     gap: 15px;
     width: 100%;
-    max-width: 400px; /* Limita a largura dos controles em telas maiores */
+    max-width: 400px;
     margin-top: 20px;
 }
 
@@ -938,19 +898,19 @@ header {
 }
 
 .header .title {
-    white-space: nowrap; /* Evita quebras de linha indesejadas */
-    overflow: hidden;    /* Esconde o excesso se houver */
-    text-overflow: ellipsis; /* Adiciona "..." se o texto for cortado */
-    max-width: calc(100% - 100px); /* Ajusta a largura máxima para dar espaço aos ícones */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: calc(100% - 100px);
 }
 
 input[type="file"] {
-    width: 100%; /* Ocupa a largura total do contêiner */
+    width: 100%;
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 5px;
     background-color: #f9f9f9;
-    box-sizing: border-box; /* Inclui padding e border na largura total */
+    box-sizing: border-box;
 }
 
 #input-foto-badge {
@@ -964,16 +924,18 @@ input[type="file"] {
 }
 
 #btn-gerar-e-baixar {
-    background-color: var(--cor-principal); /* Supondo uma variável de cor principal */
+    background-color: var(--cor-principal);
     color: white;
     padding: 10px 15px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 1rem;
-    width: 100%; /* Ocupa a largura total do contêiner */
+    width: 100%;
     box-sizing: border-box;
+    min-height: 44px;
 }
+
 /* Estilos para o Canvas e Pré-visualização */
 #output-image-preview {
     margin-top: 20px;
@@ -985,16 +947,21 @@ input[type="file"] {
 }
 
 #passport-canvas {
-    max-width: 100%; /* Garante que o canvas não ultrapasse a largura do contêiner */
-    height: auto;    /* Mantém a proporção do canvas */
-    display: block;  /* Remove espaços extras de elementos inline */
-    margin: 0 auto;  /* Centraliza o canvas */
-    border: 1px solid #ccc; /* Uma pequena borda para visualização */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Sombra para destacar */
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    background: white;
 }
 
 #user-photo-preview {
-    display: none !important; /* Esconde a pré-visualização da tag img, pois o Canvas mostrará o preview */
+    display: none !important;
 }
 
-
+/* CORREÇÃO GLOBAL PARA IMAGENS */
+img {
+    max-width: 100%;
+    height: auto;
+}
