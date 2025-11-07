@@ -1,4 +1,4 @@
-// script.js - CÓDIGO COMPLETO CORRIGIDO (SEM TRAVAMENTOS)
+// script.js - CÓDIGO COMPLETO CORRIGIDO (COM LAYOUT E COMPARTILHAMENTO)
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -366,7 +366,7 @@ function carregarProximaQuestao() {
     let optionsHtml = '';
     questao.a.forEach((alternativa, index) => {
         optionsHtml += `
-            <button class="action-button quiz-option-btn" onclick="selectQuizOption(${index}, this)">${alternativa}</button>
+            <button class="action-button quiz-option-btn" data-index="${index}" onclick="selectQuizOption(${index}, this)">${alternativa}</button>
         `;
     });
     
@@ -626,9 +626,24 @@ function carregarAreaUpload(parqueId, atividadeId) {
 
     const inputFotoBadge = document.getElementById('input-foto-badge');
     const btnGerarBaixar = document.getElementById('btn-gerar-e-baixar');
+    const btnCompartilhar = document.getElementById('btn-compartilhar-social');
 
+    // Limpar event listeners
     inputFotoBadge.onchange = null;
     btnGerarBaixar.onclick = null;
+    btnCompartilhar.onclick = null;
+
+    // Desabilitar botões por padrão
+    btnGerarBaixar.disabled = true;
+    btnCompartilhar.disabled = true;
+    btnCompartilhar.classList.remove('active');
+
+    // Oculta/Mostra o botão Compartilhar se a API não estiver disponível
+    if (!navigator.share || !navigator.canShare) {
+        btnCompartilhar.style.display = 'none';
+    } else {
+        btnCompartilhar.style.display = 'block';
+    }
     
     inputFotoBadge.onchange = (event) => {
         const file = event.target.files[0];
@@ -638,11 +653,21 @@ function carregarAreaUpload(parqueId, atividadeId) {
                 userPhoto.src = e.target.result;
                 userPhoto.onload = () => {
                     drawPassportImage(parque, atividade, userPhoto);
+                    // Habilitar botões após carregar e desenhar a foto
+                    btnGerarBaixar.disabled = false;
+                    btnCompartilhar.disabled = false;
+                    btnCompartilhar.classList.add('active');
+                    btnCompartilhar.onclick = () => shareCanvasImage(parque.nome, atividade.nome);
                 };
             };
             reader.readAsDataURL(file);
         } else {
             drawPassportImage(parque, atividade, null);
+            // Desabilitar botões se não houver foto
+            btnGerarBaixar.disabled = true;
+            btnCompartilhar.disabled = true;
+            btnCompartilhar.classList.remove('active');
+            btnCompartilhar.onclick = null;
         }
     };
     
@@ -785,7 +810,7 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
 }
 
 function downloadCanvasImage(parqueNome, atividadeNome) {
-    if (!canvasContext) {
+    if (!canvasContext || !document.getElementById('input-foto-badge').files.length) {
         alert('Nenhuma imagem para baixar. Por favor, selecione uma foto.');
         return;
     }
@@ -799,6 +824,50 @@ function downloadCanvasImage(parqueNome, atividadeNome) {
     link.click();
     document.body.removeChild(link);
 }
+
+// --- NOVO: Lógica de Compartilhamento Nativo (Web Share API) ---
+async function shareCanvasImage(parqueNome, atividadeNome) {
+    if (!canvasContext || !document.getElementById('input-foto-badge').files.length) {
+        alert('Nenhuma imagem para compartilhar. Por favor, selecione uma foto.');
+        return;
+    }
+
+    const canvas = document.getElementById('passport-canvas');
+    
+    // Converte o canvas para Blob
+    canvas.toBlob(async (blob) => {
+        if (blob) {
+            try {
+                // Cria um arquivo a partir do Blob
+                const file = new File([blob], `trilhasdeminas_${parqueNome.toLowerCase().replace(/\s/g, '_')}_${atividadeNome.toLowerCase().replace(/\s/g, '_')}.png`, { type: 'image/png' });
+
+                // Verifica se a API de compartilhamento pode lidar com arquivos
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                    await navigator.share({
+                        files: [file],
+                        title: 'Trilhas de Minas - Check-in Concluído!',
+                        text: `Acabei de completar a atividade "${atividadeNome}" no Parque Estadual ${parqueNome} e ganhei um novo Badge! Venha explorar as Trilhas de Minas! #TrilhasDeMinas #TurismoMG`
+                    });
+                    console.log('Compartilhamento bem-sucedido');
+                } else {
+                    // Fallback para navegadores que não suportam compartilhamento de arquivos
+                    await navigator.share({
+                        title: 'Trilhas de Minas - Check-in Concluído!',
+                        text: `Acabei de completar a atividade "${atividadeNome}" no Parque Estadual ${parqueNome} e ganhei um novo Badge! Venha explorar as Trilhas de Minas! #TrilhasDeMinas #TurismoMG`,
+                        url: window.location.origin // URL base do app
+                    });
+                }
+            } catch (error) {
+                if (error.name !== 'AbortError') {
+                    console.error('Erro ao compartilhar:', error);
+                }
+            }
+        } else {
+            alert('Erro ao gerar a imagem para compartilhamento.');
+        }
+    }, 'image/png');
+}
+
 
 // --- Lógica do Roteamento (Hashchange) ---
 function lidarComHash() {
@@ -861,7 +930,9 @@ document.body.style.height = 'auto';
 // --- Inicialização da Aplicação ---
 function iniciarApp() {
     carregarBotoesParques();
-    ; 
+    
+    // Chamada inicial de lidarComHash para carregar o estado, caso o hash esteja setado (ex: deep link de check-in)
+    lidarComHash(); 
 
     const videoIntro = document.getElementById('video-intro');
     videoIntro.classList.add('fade-out'); 
@@ -965,7 +1036,7 @@ async function inicializar() {
             document.getElementById('app-container').style.display = 'flex';
             
             if (!checkinProcessado) {
-                ;
+                lidarComHash();
             }
         }
         
@@ -985,4 +1056,3 @@ async function inicializar() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
-
