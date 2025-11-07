@@ -1,4 +1,4 @@
-// script.js - CÓDIGO COMPLETO (FINAL COM CORREÇÕES NO CANVAS, BUG DE HOME E RESPONSIVIDADE)
+// script.js - CÓDIGO COMPLETO (FINAL COM AJUSTE CRÍTICO DE PROPORÇÃO DA FOTO E COORDENADAS)
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -15,7 +15,6 @@ let canvasContext = null;                // Contexto 2D do Canvas
 
 // Caminho para a sua imagem de fundo do passaporte (VOCÊ DEVE CRIAR ESTE ARQUIVO)
 passportTemplateImage.src = 'images/passport_template.png'; // Caminho fixo para o template 600x800
-// REMOVIDO: cornerFoldImage.src = 'images/corner_fold.png'; // Imagem da dobra da quina (NÃO SERÁ MAIS USADA)
 
 // Variáveis de estado do Quiz
 let currentQuizData = null; 
@@ -759,10 +758,11 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
     }
 
     // --- COORDENADAS E TAMANHOS DO FRAME DA FOTO ---
+    // NOVO AJUSTE: Altura aumentada para 60% para preservar o 4:5
     const photoX = canvas.width * 0.1;    
-    const photoY = canvas.height * 0.3;   
+    const photoY = canvas.height * 0.28;   
     const photoWidth = canvas.width * 0.8; 
-    const photoHeight = canvas.height * 0.55; 
+    const photoHeight = canvas.height * 0.6; 
 
     // 2. Desenha a Imagem do Usuário (dentro da moldura)
     if (userUploadedPhoto && userUploadedPhoto.complete && userUploadedPhoto.naturalWidth > 0) {
@@ -830,8 +830,6 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         canvasContext.stroke();
     }
     
-    // REMOVIDO: Código para desenhar a cornerFoldImage
-
     // --- 3. Adiciona Carimbo (Badge) e Textos (SOBRE A FOTO, AJUSTADO PARA RESPONSIVIDADE) ---
     
     // 3.1. Adiciona o Carimbo do Badge (Rotacionado e Reposicionado)
@@ -839,9 +837,9 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         canvasContext.save(); // Salva o estado antes da rotação
         
         // NOVAS COORDENADAS PARA O CARIMBO (AJUSTADAS)
-        const stampSize = canvas.width * 0.3;     // Aumentado para 30% da largura
-        const stampX = canvas.width * 0.03;      // Mais à esquerda
-        const stampY = canvas.height * 0.12;     // Mais para cima
+        const stampSize = canvas.width * 0.3;     // 30% da largura
+        const stampX = canvas.width * 0.03;      // 3% da largura
+        const stampY = canvas.height * 0.1;     // 10% da altura
         const rotationAngle = -25 * Math.PI / 180; // -25 graus para rotação
 
         // Ponto de rotação (o centro do carimbo)
@@ -862,8 +860,8 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
     canvasContext.textAlign = 'left';
     
     // NOVAS COORDENADAS PARA O TEXTO (AJUSTADAS)
-    const textStartX = canvas.width * 0.32;   // Mais à esquerda para aproximar do carimbo
-    let currentTextY = canvas.height * 0.15; // Mais para cima para aproximar do carimbo
+    const textStartX = canvas.width * 0.32;   // 32% da largura
+    let currentTextY = canvas.height * 0.13; // 13% da altura
 
     // LINHA 1: CHECK-IN REALIZADO
     canvasContext.font = `bold ${canvas.width * 0.036}px "Roboto Slab", serif`; // Fonte responsiva (22px para 600px de largura)
