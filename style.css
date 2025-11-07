@@ -187,22 +187,17 @@ header {
     color: white; 
 }
 
-/* --- Área Secundária (Park Detail/Check-ins) --- */
+/* --- Área Secundária (Park Detail/Check-ins) --- CORREÇÃO COMPLETA --- */
 #area-secundaria {
     position: fixed;
     top: 0;
-    /* CORREÇÃO CRÍTICA DO VAZAMENTO LATERAL */
-    right: 0; 
-    left: auto; 
+    right: 0;
     width: 100%;
-    /* Mantemos a largura máxima de 450px */
-    max-width: 450px; 
-    /* Removemos margin: 0 auto; */
-    
+    max-width: 450px;
+    height: 100vh;
     background-color: var(--cor-fundo);
     z-index: 1000;
-    /* Move para fora da tela (direita) */
-    transform: translateX(100%); 
+    transform: translateX(100%);
     transition: transform 0.3s ease-in-out;
     padding: 0;
     overflow-y: auto;
@@ -210,11 +205,12 @@ header {
     flex-direction: column;
     border-left: 1px solid #ccc;
     box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+    /* GARANTIR que não vaze em mobile */
+    box-sizing: border-box;
 }
 
 #area-secundaria.aberto {
-    /* Move de volta para a posição (o 0 é a borda direita) */
-    transform: translateX(0); 
+    transform: translateX(0);
 }
 
 .secundaria-header {
@@ -307,6 +303,13 @@ header {
     z-index: 1;
 }
 
+/* CORREÇÃO PARA MOBILE - garantir que não ultrapasse a tela */
+@media (max-width: 450px) {
+    #area-secundaria {
+        max-width: 100%;
+        border-left: none;
+    }
+}
 @media (max-width: 350px) {
     .badge-mascote-texto {
         padding-right: 0;
@@ -927,3 +930,4 @@ input[type="file"] {
 #user-photo-preview {
     display: none !important; /* Esconde a pré-visualização da tag img, pois o Canvas mostrará o preview */
 }
+
