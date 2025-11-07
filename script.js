@@ -1,4 +1,4 @@
-// script.js - CÓDIGO COMPLETO (FINAL COM CORREÇÕES NO CANVAS E BUG DE HOME)
+// script.js - CÓDIGO COMPLETO (FINAL COM CORREÇÕES NO CANVAS, BUG DE HOME E RESPONSIVIDADE)
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -11,13 +11,11 @@ let deferredPrompt;
 let passportTemplateImage = new Image(); // Imagem base do passaporte
 let stampImage = new Image();            // Imagem do carimbo do badge
 let userPhoto = new Image();             // Foto do usuário
-let cornerFoldImage = new Image();       // Imagem da dobra da quina (NOVO)
 let canvasContext = null;                // Contexto 2D do Canvas
 
 // Caminho para a sua imagem de fundo do passaporte (VOCÊ DEVE CRIAR ESTE ARQUIVO)
 passportTemplateImage.src = 'images/passport_template.png'; // Caminho fixo para o template 600x800
-// Imagem para a dobra da quina (NOVO)
-cornerFoldImage.src = 'images/corner_fold.png'; // CRIE ESTA IMAGEM PNG (ex: um triângulo ou adesivo)
+// REMOVIDO: cornerFoldImage.src = 'images/corner_fold.png'; // Imagem da dobra da quina (NÃO SERÁ MAIS USADA)
 
 // Variáveis de estado do Quiz
 let currentQuizData = null; 
@@ -673,6 +671,10 @@ function carregarAreaUpload(parqueId, atividadeId) {
     const canvas = document.getElementById('passport-canvas');
     canvasContext = canvas.getContext('2d');
     
+    // Configura a largura e altura intrínsecas para manter a proporção
+    canvas.width = 600; 
+    canvas.height = 800; 
+
     // Carrega as fontes do Google Fonts dinamicamente
     if (!document.getElementById('google-fonts-link')) {
         const link = document.createElement('link');
@@ -760,7 +762,7 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
     const photoX = canvas.width * 0.1;    
     const photoY = canvas.height * 0.3;   
     const photoWidth = canvas.width * 0.8; 
-    const photoHeight = canvas.height * 0.55; // Altura aumentada para 55% para preservar 4:5
+    const photoHeight = canvas.height * 0.55; 
 
     // 2. Desenha a Imagem do Usuário (dentro da moldura)
     if (userUploadedPhoto && userUploadedPhoto.complete && userUploadedPhoto.naturalWidth > 0) {
@@ -828,24 +830,18 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         canvasContext.stroke();
     }
     
-    // --- 3. Adiciona Quina Dobrada (SOBRE A FOTO) ---
-    if (cornerFoldImage.complete && cornerFoldImage.naturalWidth > 0) {
-        // Posição: Canto superior direito da foto
-        const foldSize = canvas.width * 0.15; // 15% da largura
-        const foldX = photoX + photoWidth - foldSize * 0.9; // Ajusta para a quina da foto
-        const foldY = photoY - foldSize * 0.1; // Ajusta para a quina da foto
-        canvasContext.drawImage(cornerFoldImage, foldX, foldY, foldSize, foldSize);
-    }
+    // REMOVIDO: Código para desenhar a cornerFoldImage
 
-    // --- 4. Adiciona Carimbo (Badge) e Textos (SOBRE A FOTO E A QUINA) ---
+    // --- 3. Adiciona Carimbo (Badge) e Textos (SOBRE A FOTO, AJUSTADO PARA RESPONSIVIDADE) ---
     
-    // 4.1. Adiciona o Carimbo do Badge (Rotacionado)
+    // 3.1. Adiciona o Carimbo do Badge (Rotacionado e Reposicionado)
     if (stampImage.complete && stampImage.naturalWidth > 0) {
         canvasContext.save(); // Salva o estado antes da rotação
         
-        const stampSize = canvas.width * 0.25; 
-        const stampX = canvas.width * 0.05;    
-        const stampY = canvas.height * 0.15;    // ABAIXADO PARA EVITAR CONFLITO COM O TÍTULO DO TEMPLATE
+        // NOVAS COORDENADAS PARA O CARIMBO (AJUSTADAS)
+        const stampSize = canvas.width * 0.3;     // Aumentado para 30% da largura
+        const stampX = canvas.width * 0.03;      // Mais à esquerda
+        const stampY = canvas.height * 0.12;     // Mais para cima
         const rotationAngle = -25 * Math.PI / 180; // -25 graus para rotação
 
         // Ponto de rotação (o centro do carimbo)
@@ -862,23 +858,24 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         canvasContext.restore(); // Restaura o estado (remove a rotação)
     }
 
-    // 4.2. Adiciona o Texto Dinâmico
+    // 3.2. Adiciona o Texto Dinâmico (AJUSTADO PARA RESPONSIVIDADE E PROXIMIDADE DO CARIMBO)
     canvasContext.textAlign = 'left';
     
-    const textStartX = canvas.width * 0.37; // Posição X para o início do texto
-    let currentTextY = canvas.height * 0.18; // ABAIXADO PARA EVITAR CONFLITO COM O TÍTULO DO TEMPLATE
+    // NOVAS COORDENADAS PARA O TEXTO (AJUSTADAS)
+    const textStartX = canvas.width * 0.32;   // Mais à esquerda para aproximar do carimbo
+    let currentTextY = canvas.height * 0.15; // Mais para cima para aproximar do carimbo
 
     // LINHA 1: CHECK-IN REALIZADO
-    canvasContext.font = 'bold 22px "Roboto Slab", serif'; 
+    canvasContext.font = `bold ${canvas.width * 0.036}px "Roboto Slab", serif`; // Fonte responsiva (22px para 600px de largura)
     canvasContext.fillStyle = '#4CAF50'; // Verde
     canvasContext.fillText('CHECK-IN REALIZADO', textStartX, currentTextY);
-    currentTextY += 22; // Espaçamento vertical ajustado (22px)
+    currentTextY += canvas.width * 0.036 + canvas.width * 0.005; // Espaçamento vertical responsivo
 
     // LINHA 2: Nome do Parque (COM "PARQUE ESTADUAL")
-    canvasContext.font = 'bold 18px "Lora", serif'; 
+    canvasContext.font = `bold ${canvas.width * 0.03}px "Lora", serif`; // Fonte responsiva (18px para 600px de largura)
     canvasContext.fillStyle = '#555';
     canvasContext.fillText(`PARQUE ESTADUAL ${parque.nome.toUpperCase()}`, textStartX, currentTextY); 
-    currentTextY += 20; // Espaçamento vertical ajustado (20px)
+    currentTextY += canvas.width * 0.03 + canvas.width * 0.005; // Espaçamento vertical responsivo
 
     // LINHA 3: Nome da Atividade
     canvasContext.fillText(atividade.nome.toUpperCase(), textStartX, currentTextY); 
