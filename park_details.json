@@ -178,7 +178,25 @@
       "a": ["Segunda a sexta, exceto feriados", "Terça a domingo e feriados", "Apenas finais de semana", "Aberto 24 horas por dia"],
       "correct": 1,
       "badge_id": "ibitipoca-quiz"
-    }
+    },
+{
+  "q": "Em qual município fica a maior parte do Parque Estadual do Ibitipoca?",
+  "a": ["Lima Duarte", "Juiz de Fora", "Carangola", "São João del-Rei"],
+  "correct": 0,
+  "badge_id": "ibitipoca-quiz"
+},
+{
+  "q": "Qual é o principal ecossistema presente no Parque Estadual do Ibitipoca?",
+  "a": ["Mata Atlântica", "Cerrado", "Caatinga", "Pampa"],
+  "correct": 0,
+  "badge_id": "ibitipoca-quiz"
+},
+{
+  "q": "Verdadeiro ou falso: O circuito 'Janela do Céu' é famoso por mirantes que oferecem vistas panorâmicas.",
+  "a": ["Verdadeiro", "Falso"],
+  "correct": 0,
+  "badge_id": "ibitipoca-quiz"
+}
         ],
         "badge_descricao": "Para este parque, você deve escanear QR Codes nas atividades (Janela do Céu, Pico do Pião, etc) para ganhar os badges."
     },
@@ -196,13 +214,265 @@
         "quiz_title": "Desafio do Pico",
         "quiz_description": "Prove que você conhece o Pico mais famoso de Ouro Preto.",
         "quiz": [
-            { "q": "Qual é o nome do pico mais alto do parque?", "a": ["Pico do Itacolomi", "Pico do Cruzeiro"], "correct": 0, "badge_id": "itacolomi-quiz" }
+  {
+    "q": "Em que ano foi criado o Parque Estadual do Itacolomi?",
+    "a": ["1960", "1967", "1975", "1983"],
+    "correct": 1,
+    "badge_id": "itacolomi-quiz"
+  },
+  {
+    "q": "Qual é a área aproximada do parque?",
+    "a": ["5.971 hectares", "7.543 hectares", "10.000 hectares", "3.200 hectares"],
+    "correct": 1,
+    "badge_id": "itacolomi-quiz"
+  },
+  {
+    "q": "O pico que dá nome ao parque, Pico do Itacolomi, possui altitude aproximada de:",
+    "a": ["1.200 metros", "1.500 metros", "1.772 metros", "2.000 metros"],
+    "correct": 2,
+    "badge_id": "itacolomi-quiz"
+  },
+  {
+    "q": "Verdadeiro ou falso: O parque está localizado nos municípios de Ouro Preto e Mariana (MG).",
+    "a": ["Verdadeiro", "Falso"],
+    "correct": 0,
+    "badge_id": "itacolomi-quiz"
+  },
+  {
+    "q": "Qual desses biomas ou formações vegetais predomina na parte mais elevada do parque?",
+    "a": ["Cerrado típico", "Campos rupestres", "Manguezal", "Restinga"],
+    "correct": 1,
+    "badge_id": "itacolomi-quiz"
+  },
+  {
+    "q": "Verdadeiro ou falso: O parque abriga espécies de fauna ameaçadas de extinção, como o lobo‑guará e o onça‑parda.",
+    "a": ["Verdadeiro", "Falso"],
+    "correct": 0,
+    "badge_id": "itacolomi-quiz"
+  },
+  {
+    "q": "Qual desses rios ou córregos é um dos que nascem no parque ou têm trechos protegidos por ele?",
+    "a": ["Rio São Francisco", "Rio Doce", Córrego dos Prazeres", "Rio Amazonas"],
+    "correct": 2,
+    "badge_id": "itacolomi-quiz"
+  },
+  {
+    "q": "O nome “Itacolomi” em língua tupi significa aproximadamente:",
+    "a": ["Pedra mãe", "Pedra menina", "Montanha sagrada", "Filho da montanha"],
+    "correct": 1,
+    "badge_id": "itacolomi-quiz"
+  },
+  {
+    "q": "Verdadeiro ou falso: Mais de 50% da vegetação do parque é composta por florestas montanas, e menos de 10% por campos rupestres.",
+    "a": ["Verdadeiro", "Falso"],
+    "correct": 1,
+    "badge_id": "itacolomi-quiz"
+  },
+  {
+    "q": "Qual dos seguintes usos históricos existe dentro do parque?",
+    "a": ["Antiga estação ferroviária de mineração", "Fábrica de processamento de chá", "Negócio de extração de diamantes", "Velha usina hidrelétrica colonial"],
+    "correct": 1,
+    "badge_id": "itacolomi-quiz"
+  },
+  {
+    "q": "Verdadeiro ou falso: O parque é administrado pelo Instituto Estadual de Florestas (IEF-MG).",
+    "a": ["Verdadeiro", "Falso"],
+    "correct": 0,
+    "badge_id": "itacolomi-quiz"
+  },
+  {
+    "q": "Qual das altitudes abaixo corresponde ao limite mínimo aproximado de altitude no parque?",
+    "a": ["700 metros", "1.000 metros", "1.300 metros", "1.600 metros"],
+    "correct": 0,
+    "badge_id": "itacolomi-quiz"
+  }
+
+        ],
+        "badge_descricao": "Para este parque, você deve escanear QR Codes em pontos de vista para ganhar os badges."
+    },
+
+    "lapagrande": {
+        "map_link": "https://maps.app.goo.gl/kWvu3BLT66GmW3ir8",
+        "instagram_link": "https://www.instagram.com/parqueestadualdalapagrande",
+        "info_content": "O Parque Estadual da Lapa Grande (PELG), criado em 2006 e ampliado em 2014, localiza-se em Montes Claros (MG) e possui 15.360 ha. Sua principal função é proteger o complexo de grutas e abrigos da Lapa Grande, importantes mananciais de água e refúgios de fauna e flora locais. A Lapa Grande, com 2,2 km, é uma das maiores cavernas do Estado e tem relevância histórica e cultural. O parque abriga formações calcárias, vegetação típica do cerrado e mata seca — zona de transição com a caatinga — e o histórico Casarão das Quebradas, antigo ponto de apoio aos tropeiros.",
+
+        "carousel_images": [ 
+            "https://ief.mg.gov.br/documents/51853/7561449/Portaria/2db00b75-028d-7498-b7c0-98afa6aa8eff",  
+            "https://ief.mg.gov.br/documents/51853/7561449/pe_lapa_grande_andre_sena_0001/90dbb60c-20b4-563a-27e0-7c460014ebd8",
+            "https://ief.mg.gov.br/documents/51853/7561449/Pintura_rupestre_da_Lapa_Pintada_2/9252d631-2d80-5e70-7d79-e006896f9afb",
+            "https://ief.mg.gov.br/documents/51853/7561449/C%C3%B3rrego_Lapa_Grande_2/8cf83926-34a0-f6f8-2ff4-e8c85e8146e2"
+        ],
+        
+        "quiz_title": "Desafio Lapa Grande",
+        "quiz_description": "Teste seu conhecimento sobre a Lapa Grande!",
+        "quiz": [
+  {
+    "q": "Em que ano foi criado o Parque Estadual da Lapa Grande?",
+    "a": ["1998", "2006", "2010", "2014"],
+    "correct": 1,
+    "badge_id": "lapagrande-quiz"
+  },
+  {
+    "q": "Qual é a área aproximada do parque?",
+    "a": ["7.000 hectares", "10.000 hectares", "15.360 hectares", "20.000 hectares"],
+    "correct": 2,
+    "badge_id": "lapagrande-quiz"
+  },
+  {
+    "q": "Em qual município de Minas Gerais se encontra principalmente o parque?",
+    "a": ["Montes Claros", "Belo Horizonte", "Ouro Preto", "Uberaba"],
+    "correct": 0,
+    "badge_id": "lapagrande-quiz"
+  },
+  {
+    "q": "Verdadeiro ou falso: O parque está localizado em zona de transição ecológica entre cerrado e caatinga.",
+    "a": ["Verdadeiro", "Falso"],
+    "correct": 0,
+    "badge_id": "lapagrande-quiz"
+  },
+  {
+    "q": "Qual é o nome da caverna mais emblemática do parque, com cerca de 2,2 km de extensão?",
+    "a": ["Gruta do Maquiné", "Gruta Lapa Grande", "Gruta da Lapinha", "Gruta Rei do Mato"],
+    "correct": 1,
+    "badge_id": "lapagrande-quiz"
+  },
+  {
+    "q": "Verdadeiro ou falso: Há mais de 50 cavidades registradas no parque.",
+    "a": ["Verdadeiro", "Falso"],
+    "correct": 0,
+    "badge_id": "lapagrande-quiz"
+  },
+  {
+    "q": "Qual bioma predomina no parque?",
+    "a": ["Mata Atlântica", "Pantanal", "Cerrado", "Pampa"],
+    "correct": 2,
+    "badge_id": "lapagrande-quiz"
+  },
+  {
+    "q": "O objetivo principal da criação do parque inclui proteger:",
+    "a": ["Complexo de grutas e mananciais de água", "Área urbana de expansão da cidade", "Fábricas abandonadas", "Área de mineração ativa"],
+    "correct": 0,
+    "badge_id": "lapagrande-quiz"
+  },
+  {
+    "q": "Verdadeiro ou falso: O parque possui trilhas para caminhada e também rotas para ciclismo.",
+    "a": ["Verdadeiro", "Falso"],
+    "correct": 0,
+    "badge_id": "lapagrande-quiz"
+  },
+  {
+    "q": "Qual dessas características geológicas se destaca no parque?",
+    "a": ["Campos de dunas costeiras", "Forma­ções de calcário e afloramentos cársticos", "Vulcões ativos", "Glaciações recentes"],
+    "correct": 1,
+    "badge_id": "lapagrande-quiz"
+  },
+  {
+    "q": "Verdadeiro ou falso: O parque administra-se sob o órgão estadual Instituto Estadual de Florestas (IEF-MG).",
+    "a": ["Verdadeiro", "Falso"],
+    "correct": 0,
+    "badge_id": "lapagrande-quiz"
+  },
+  {
+    "q": "Qual faixa de altitude aproxima-se para os afloramentos rochosos no parque?",
+    "a": ["200-400 metros", "400-600 metros", "650-1000 metros", "1200-1600 metros"],
+    "correct": 2,
+    "badge_id": "lapagrande-quiz"
+  }
+
+        ],
+        "badge_descricao": "Para este parque, você deve escanear QR Codes em pontos de vista para ganhar os badges."
+    },
+
+    "matadolimoeiro": {
+        "map_link": "https://goo.gl/maps/BHUyrmXHghXWNdMEA",
+        "instagram_link": "https://www.instagram.com/parque_do_limoeiro",
+        "info_content": "O maciço Florestal denominado Mata do Krambeck é um remanescente regenerado do Bioma Mata Atlântica, inicialmente recuperada por plantio comercial de espécies nativas e, em menor proporção,  de exóticas frutíferas, atualmente, com alta diversidade e características de Floresta Estacional Semidecidual em estágios variados de inicial a avançado, refletindo uma dinâmica natural e provedora de serviços ecossistêmicos e refúgio à fauna.",
+
+        "carousel_images": [ 
+            "https://ief.mg.gov.br/documents/51853/7572187/Portaria/7909d16e-b11c-7b93-29b4-d6f6c64204f0",  
+            "https://ief.mg.gov.br/documents/51853/7572187/Foto_-_05_-__PE_Limoeiro_-_Gruta_do_Limoeiro_8/f60fd6c0-86dc-9af1-e439-dbd8b01e46fe",
+            "https://ief.mg.gov.br/documents/51853/7572187/Ribeir%C3%A3o_3/807f2cfb-ac1e-dc9f-0d2d-77a6f1839b0e",
+            "https://ief.mg.gov.br/documents/51853/7572187/Cachoeira_do_Derrubado/b6850868-530a-3054-d047-d2c626f6cc18"
+        ],
+        
+        "quiz_title": "Desafio Mata do Limoeiro",
+        "quiz_description": "Teste seu conhecimento sobre a Lapa Grande!",
+        "quiz": [
+  {
+    "q": "Em que ano foi criado o Parque Estadual Mata do Limoeiro?",
+    "a": ["2005", "2011", "2015", "1999"],
+    "correct": 1,
+    "badge_id": "matadolimoeiro-quiz"
+  },
+  {
+    "q": "Qual é a área aproximada do parque?",
+    "a": ["1.000 hectares", "2.005,50 hectares", "5.000 hectares", "10.000 hectares"],
+    "correct": 1,
+    "badge_id": "matadolimoeiro-quiz"
+  },
+  {
+    "q": "Em qual distrito/município está localizado o parque?",
+    "a": ["Distrito de Ipoema, Município de Itabira", "Distrito de Ouro Preto, Município de Mariana", "Município de Belo Horizonte", "Distrito de Lapinha, Município de Santana do Riacho"],
+    "correct": 0,
+    "badge_id": "matadolimoeiro-quiz"
+  },
+  {
+    "q": "Verdadeiro ou falso: O parque abriga um dos maiores remanescentes de Mata Atlântica da região central de Minas Gerais.",
+    "a": ["Verdadeiro", "Falso"],
+    "correct": 0,
+    "badge_id": "matadolimoeiro-quiz"
+  },
+  {
+    "q": "Qual destes é um dos atrativos de cachoeira no parque?",
+    "a": ["Cachoeira do Paredão", "Cachoeira da Fumaça", "Cachoeira do Tabuleiro", "Cachoeira da Esmeralda"],
+    "correct": 0,
+    "badge_id": "matadolimoeiro-quiz"
+  },
+  {
+    "q": "Verdadeiro ou falso: O ingresso para visitação do parque custa aproximadamente R$ 12,00 (valor indicado nos últimos anos).",
+    "a": ["Verdadeiro", "Falso"],
+    "correct": 0,
+    "badge_id": "matadolimoeiro-quiz"
+  },
+  {
+    "q": "Qual órgão estadual administra o Parque Estadual Mata do Limoeiro?",
+    "a": ["Instituto Estadual de Florestas – IEF - MG", "IBAMA", "Prefeitura de Itabira", "Secretaria de Turismo de Minas Gerais"],
+    "correct": 0,
+    "badge_id": "matadolimoeiro-quiz"
+  },
+  {
+    "q": "Verdadeiro ou falso: O parque está na Serra do Espinhaço, a cerca de 7 km do Parque Nacional da Serra do Cipó.",
+    "a": ["Verdadeiro", "Falso"],
+    "correct": 0,
+    "badge_id": "matadolimoeiro-quiz"
+  },
+  {
+    "q": "Qual dos ecossistemas/vegetações abaixo está bem representado no parque?",
+    "a": ["Floresta Estacional Semidecidual", "Manguezal", "Deserto", "Pampas"],
+    "correct": 0,
+    "badge_id": "matadolimoeiro-quiz"
+  },
+  {
+    "q": "Verdadeiro ou falso: Um dos atrativos do parque é a ‘Trilha dos Sentidos’, feita com acompanhamento e explorando os sentidos do visitante.",
+    "a": ["Verdadeiro", "Falso"],
+    "correct": 0,
+    "badge_id": "matadolimoeiro-quiz"
+  },
+  {
+    "q": "Qual desses eventos ou projetos de educação ambiental ocorre no parque?",
+    "a": ["Ecofolia", "Festival de Inverno de Ouro Preto", "Bonito Festival de Música de Extrema", "Bienal do Livro de Minas Gerais"],
+    "correct": 0,
+    "badge_id": "matadolimoeiro-quiz"
+  },
+  {
+    "q": "Verdadeiro ou falso: Um dos novos atrativos do parque foi denominado ‘Corredeiras da Juventude’.",
+    "a": ["Verdadeiro", "Falso"],
+    "correct": 0,
+    "badge_id": "matadolimoeiro-quiz"
+  }
+
         ],
         "badge_descricao": "Para este parque, você deve escanear QR Codes em pontos de vista para ganhar os badges."
     }
 }
-
-
-
-
 
