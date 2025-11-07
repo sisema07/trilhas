@@ -59,34 +59,41 @@ self.addEventListener('activate', event => {
 });
 
 // Fetch: Servindo arquivos do cache, se disponíveis
+// CORREÇÃO na estratégia de fetch
 self.addEventListener('fetch', event => {
+    // Ignorar requisições não GET
+    if (event.request.method !== 'GET') return;
+    
     event.respondWith(
         caches.match(event.request)
             .then(response => {
+                // Retorna do cache se encontrado
                 if (response) {
                     return response;
                 }
-                return fetch(event.request).then(
-                    response => {
-                        if(!response || response.status !== 200 || response.type !== 'basic') {
-                            return response;
-                        }
-
-                        const responseToCache = response.clone();
-                        
-                        if (urlsToCache.some(url => event.request.url.includes(url.replace('./', '')))) {
-                           caches.open(CACHE_NAME)
-                               .then(cache => {
-                                   cache.put(event.request, responseToCache);
-                               });
-                        }
+                
+                // Faz requisição de rede
+                return fetch(event.request).then(response => {
+                    // Verifica se a resposta é válida
+                    if (!response || response.status !== 200 || response.type !== 'basic') {
                         return response;
                     }
-                );
+                    
+                    // Clona a resposta para cache
+                    const responseToCache = response.clone();
+                    
+                    caches.open(CACHE_NAME)
+                        .then(cache => {
+                            cache.put(event.request, responseToCache);
+                        });
+                    
+                    return response;
+                });
             })
             .catch(() => {
+                // Fallback para navegação
                 if (event.request.mode === 'navigate') {
-                    return caches.match('index.html'); 
+                    return caches.match('./index.html');
                 }
             })
     );
