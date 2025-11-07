@@ -117,7 +117,73 @@ header {
         max-width: 900px;
     }
 }
- 
+
+/* CORREÇÕES GERAIS DE RESPONSIVIDADE */
+@media (max-width: 480px) {
+    #botoes-parques {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+    
+    .botao-parque {
+        border-radius: 15px;
+        padding: 6px;
+    }
+    
+    .nome-parque {
+        font-size: 0.75rem;
+    }
+    
+    .icone-parque-principal, .logo-parque-principal {
+        margin-bottom: 2px;
+    }
+    
+    /* Garantir que imagens não ultrapassem containers */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    .park-carousel-container {
+        aspect-ratio: 4/3; /* Mais quadrado para mobile */
+    }
+}
+
+/* CORREÇÃO PARA IMAGENS NO CARROSSEL */
+.carousel-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* CORREÇÃO PARA O CANVAS DE COMPARTILHAMENTO */
+#passport-canvas {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ccc;
+    background: white;
+}
+
+/* CORREÇÃO PARA BOTÕES EM MOBILE */
+.action-button {
+    min-height: 44px; /* Tamanho mínimo para touch */
+    padding: 12px 8px;
+    font-size: 0.9rem;
+}
+
+/* CORREÇÃO PARA SCROLL EM MOBILE */
+#area-secundaria {
+    -webkit-overflow-scrolling: touch; /* Scroll suave no iOS */
+}
+
+/* CORREÇÃO PARA HEADER FIXO */
+.secundaria-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
 /* Botões em Geral: Estilos mantidos */
 .botao-parque {
     background-color: var(--cor-fundo);
@@ -930,4 +996,5 @@ input[type="file"] {
 #user-photo-preview {
     display: none !important; /* Esconde a pré-visualização da tag img, pois o Canvas mostrará o preview */
 }
+
 
