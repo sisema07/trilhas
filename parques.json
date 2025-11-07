@@ -208,6 +208,18 @@
             "descricao_curta": "Conheça as ruínas da antiga fábrica têxtil de Biribiri.", 
             "imagem_png": "badges/vilarejo-historico-badge.png" 
             },
+            "id": "mirante-da-cruzinha", 
+            "nome": "Mirante Casa dos Ventos", 
+            "icone": "fa-building-columns", 
+            "descricao_curta": "Contemple diversas montanhas da cordilheira do alto rio Jequitinhonha", 
+            "imagem_png": "badges/mirante-da-cruzinha.png" 
+            },
+            "id": "mirante-casa-dos-ventos", 
+            "nome": "Mirante da Cruzinha", 
+            "icone": "fa-building-columns", 
+            "descricao_curta": "Contemple diversas montanhas da cordilheira do alto rio Jequitinhonha", 
+            "imagem_png": "badges/mirante-casa-dos-ventos.png" 
+            },
             { 
             "id": "cachoeira1", 
             "nome": "Cachoeira Sentinela", 
@@ -285,6 +297,7 @@
         ]
     }
 }
+
 
 
 
