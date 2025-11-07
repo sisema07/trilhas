@@ -1,4 +1,4 @@
-/* style.css - CÓDIGO COMPLETO AJUSTADO (FINAL - COM ESTILOS DO CANVAS) */
+/* style.css - CÓDIGO COMPLETO AJUSTADO (FINAL COM CORREÇÃO DE VAZAMENTO LATERAL) */
 
 /* Variáveis de Cores e Estilos */
 :root {
@@ -187,11 +187,11 @@ header {
     color: white; 
 }
 
-/* style.css - APENAS A SEÇÃO #area-secundaria */
+/* --- Área Secundária (Park Detail/Check-ins) --- */
 #area-secundaria {
     position: fixed;
     top: 0;
-    /* Alinha à direita para evitar o corte em telas menores */
+    /* CORREÇÃO CRÍTICA DO VAZAMENTO LATERAL */
     right: 0; 
     left: auto; 
     width: 100%;
@@ -927,5 +927,3 @@ input[type="file"] {
 #user-photo-preview {
     display: none !important; /* Esconde a pré-visualização da tag img, pois o Canvas mostrará o preview */
 }
-
-
