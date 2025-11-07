@@ -161,6 +161,8 @@ function resetInterval() {
  * Processa a URL de check-in (ex: #checkin-biribiri-portaria)
  */
 function processarCheckin(parqueId, atividadeId) {
+    console.log(`Processando check-in: ${parqueId} - ${atividadeId}`);
+    
     if (ATIVIDADES_PARQUES[parqueId] && ATIVIDADES_PARQUES[parqueId].some(a => a.id === atividadeId)) {
         
         if (!estadoUsuario[parqueId]) {
@@ -174,26 +176,30 @@ function processarCheckin(parqueId, atividadeId) {
             estadoUsuario[parqueId][atividadeId] = true;
             salvarEstado();
             isNewBadge = true;
+            console.log(`Novo badge desbloqueado: ${parqueId}-${atividadeId}`);
         } 
         
-        // --- Mensagem Pop-up Customizada ---
-        if (isNewBadge) {
-             const popUpMessage = "Trilhas de Minas\n\n🎉 Novo Badge desbloqueado!\nConfira na área Check-ins";
-             alert(popUpMessage); 
-        } else {
-             const popUpMessage = "Trilhas de Minas\n\nEste Badge já estava desbloqueado!\nConfira na área Check-ins";
-             alert(popUpMessage); 
-        }
-        // ------------------------------------------
+        // Mensagem Pop-up Customizada
+        const message = isNewBadge 
+            ? "Trilhas de Minas\n\n🎉 Novo Badge desbloqueado!\nConfira na área Check-ins"
+            : "Trilhas de Minas\n\nEste Badge já estava desbloqueado!\nConfira na área Check-ins";
         
-        // Redireciona para a tela de Badges para o usuário ver a conquista
-        window.location.hash = 'premiacao';
+        // CORREÇÃO: Usar setTimeout para garantir que o alert não bloqueie a navegação
+        setTimeout(() => {
+            alert(message);
+            // CORREÇÃO: Navegação mais robusta para a tela de badges
+            window.location.hash = '#premiacao';
+            // Forçar atualização do estado
+            carregarPremios();
+        }, 100);
         
         return true;
+    } else {
+        console.error(`Atividade não encontrada: ${parqueId}-${atividadeId}`);
+        alert('Erro: Atividade não encontrada. Verifique o QR Code.');
+        return false;
     }
-    return false;
 }
-
 
 // --- Lógica de Navegação e Conteúdo (código omitido para brevidade, mas deve ser mantido) ---
 
@@ -1011,78 +1017,129 @@ async function inicializar() {
         registrarServiceWorker();
         
         const videoElement = document.getElementById('intro-video-element');
-        let checkinProcessado = false; 
-        let videoPlayed = false;
+        let checkinProcessado = false;
 
-        // Função para garantir que o app inicie
-        const ensureAppStarts = () => {
-            if (!videoPlayed) {
-                videoPlayed = true;
-                iniciarApp();
+        // Verificar SE HÁ hash de checkin na URL ANTES de qualquer coisa
+        const currentHash = window.location.hash;
+        if (currentHash.startsWith('#checkin-')) {
+            console.log('Check-in detectado na URL inicial:', currentHash);
+            const parts = currentHash.substring(1).split('-');
+            if (parts.length === 3) {
+                // Processa o check-in IMEDIATAMENTE
+                processarCheckin(parts[1], parts[2]);
+                checkinProcessado = true;
             }
-        };
-
-        // Adiciona o evento end, mas também o fallback de 3 segundos.
-        videoElement.addEventListener('ended', ensureAppStarts);
-        
-        // Verifica se há um hash de checkin na URL de entrada
-        if (window.location.hash.startsWith('#checkin-')) {
-             const parts = window.location.hash.substring(1).split('-');
-             processarCheckin(parts[1], parts[2]); 
-             checkinProcessado = true;
         }
 
-        // Lógica de primeira visita e auto-play
+        // Lógica de primeira visita (mantida, mas com melhor tratamento)
         if (localStorage.getItem('first_visit') !== 'false' && !checkinProcessado) {
             localStorage.setItem('first_visit', 'false');
             
             document.getElementById('video-intro').style.display = 'flex';
             videoElement.load();
-            videoElement.play().then(() => {
-                // Se o play começar, adiciona timeout para garantir
-                setTimeout(ensureAppStarts, 3000); 
-            }).catch(error => {
-                // Fallback imediato se o autoplay falhar
-                console.warn('Playback impedido. Iniciando App diretamente via fallback.', error);
-                ensureAppStarts(); 
-            });
-
+            
+            const playPromise = videoElement.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    setTimeout(() => {
+                        iniciarApp();
+                    }, 3000);
+                }).catch(error => {
+                    console.warn('Autoplay impedido. Iniciando app diretamente.', error);
+                    iniciarApp();
+                });
+            }
         } else {
-             // Não é a primeira visita ou o checkin já processou e redirecionou
-             document.getElementById('video-intro').style.display = 'none';
-             document.getElementById('app-container').style.display = 'flex'; 
-             lidarComHash();
+            // Não é primeira visita OU checkin já foi processado
+            document.getElementById('video-intro').style.display = 'none';
+            document.getElementById('app-container').style.display = 'flex';
+            
+            // Se não foi um check-in, processa o hash normalmente
+            if (!checkinProcessado) {
+                lidarComHash();
+            }
         }
         
     } catch (error) {
-        document.getElementById('app-container').style.display = 'flex';
-        document.getElementById('app-container').innerHTML = '<p style="text-align: center; color: red; margin-top: 50px; font-weight: bold;">ERRO DE CARREGAMENTO: Não foi possível carregar os dados. Verifique a sintaxe de todos os arquivos JSON e de imagens.</p>';
+        console.error('Erro fatal na inicialização:', error);
+        // Fallback robusto
         document.getElementById('video-intro').style.display = 'none';
-        console.error('Erro fatal ao carregar dados:', error);
+        document.getElementById('app-container').style.display = 'flex';
+        document.getElementById('app-container').innerHTML = `
+            <div style="text-align: center; padding: 20px;">
+                <p>Erro ao carregar o aplicativo. Recarregue a página.</p>
+                <button onclick="location.reload()" class="action-button">Recarregar</button>
+            </div>
+        `;
     }
 
-    // LÓGICA DO BOTÃO VOLTAR (AJUSTE CRÍTICO DE NAVEGAÇÃO)
+    // Configurar event listeners de navegação
+    configurarNavegacao();
+}
+
+function configurarNavegacao() {
+    // Botão voltar (já atualizado acima)
     document.getElementById('btn-voltar').addEventListener('click', () => {
         const hash = window.location.hash.substring(1);
         
         if (hash.startsWith('upload-')) {
-            window.location.hash = `premiacao`; 
+            window.location.hash = '#premiacao';
         } else if (hash === 'premiacao') {
-             window.location.hash = ''; 
-        } else if (DADOS_PARQUES.some(p => p.id === hash.split('-')[0])) {
-             window.location.hash = ''; 
-        } else if (hash !== '') {
-             window.location.hash = '';
+            window.location.hash = '';
+        } else if (hash.includes('-')) {
+            const parqueId = hash.split('-')[0];
+            window.location.hash = `#${parqueId}`;
+        } else if (DADOS_PARQUES.some(p => p.id === hash)) {
+            window.location.hash = '';
         } else {
             document.getElementById('area-secundaria').classList.remove('aberto');
+            document.getElementById('app-container').style.display = 'flex';
+            document.body.style.overflow = 'auto';
         }
     });
     
     document.getElementById('btn-home').addEventListener('click', () => {
-        window.location.hash = ''; 
+        window.location.hash = '';
+        document.getElementById('app-container').style.display = 'flex';
+        document.body.style.overflow = 'auto';
     });
 
     window.addEventListener('hashchange', lidarComHash);
 }
 
+    // CORREÇÃO COMPLETA DA LÓGICA DE NAVEGAÇÃO
+document.getElementById('btn-voltar').addEventListener('click', () => {
+    const hash = window.location.hash.substring(1);
+    console.log('Botão voltar clicado, hash atual:', hash);
+    
+    if (hash.startsWith('upload-')) {
+        window.location.hash = '#premiacao';
+    } else if (hash === 'premiacao') {
+        window.location.hash = '';
+    } else if (hash.includes('-')) {
+        // Está em detalhes do parque com ação (info/quiz/activities)
+        const parqueId = hash.split('-')[0];
+        window.location.hash = `#${parqueId}`;
+    } else if (DADOS_PARQUES.some(p => p.id === hash)) {
+        // Está na página principal do parque - volta para home
+        window.location.hash = '';
+    } else {
+        // Fallback - fecha a área secundária
+        document.getElementById('area-secundaria').classList.remove('aberto');
+        document.getElementById('app-container').style.display = 'flex';
+        document.body.style.overflow = 'auto';
+    }
+});
+
+document.getElementById('btn-home').addEventListener('click', () => {
+    console.log('Botão home clicado - voltando para home');
+    window.location.hash = '';
+    // Garantir que a área principal esteja visível
+    document.getElementById('app-container').style.display = 'flex';
+    document.body.style.overflow = 'auto';
+});
+    window.addEventListener('hashchange', lidarComHash);
+}
+
 document.addEventListener('DOMContentLoaded', inicializar);
+
