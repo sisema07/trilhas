@@ -76,6 +76,8 @@ body, html {
     flex-direction: column;
     width: 100%;
     box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 /* --- Header: Imagem de Título --- */
@@ -223,19 +225,19 @@ header {
     right: 0;
     width: 100%;
     max-width: 450px;
-    height: 100vh;
+    height: 100%;
     background-color: var(--cor-fundo);
     z-index: 1000;
     transform: translateX(100%);
     transition: transform 0.3s ease-in-out;
-    padding: 0;
-    overflow-y: auto;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
     border-left: 1px solid #ccc;
     box-shadow: -5px 0 15px rgba(0,0,0,0.1);
-    box-sizing: border-box;
-    -webkit-overflow-scrolling: touch; /* Scroll suave no iOS */
+    -webkit-overflow-scrolling: touch;
 }
 
 #area-secundaria.aberto {
@@ -489,7 +491,13 @@ header {
         aspect-ratio: 4/3; /* Mais quadrado para mobile */
     }
 }
-
+@media (max-width: 480px) {
+    #area-secundaria {
+        max-width: 100%;
+        border-left: none;
+        height: 100vh;
+    }
+}
 .park-carousel {
     display: flex;
     width: 100%;
@@ -965,3 +973,4 @@ img {
     max-width: 100%;
     height: auto;
 }
+
