@@ -187,18 +187,22 @@ header {
     color: white; 
 }
 
-/* --- Área Secundária (Park Detail/Check-ins) --- */
+/* style.css - APENAS A SEÇÃO #area-secundaria */
 #area-secundaria {
     position: fixed;
     top: 0;
-    left: 0;
+    /* Alinha à direita para evitar o corte em telas menores */
+    right: 0; 
+    left: auto; 
     width: 100%;
-    height: 100%;
+    /* Mantemos a largura máxima de 450px */
     max-width: 450px; 
-    margin: 0 auto;
+    /* Removemos margin: 0 auto; */
+    
     background-color: var(--cor-fundo);
     z-index: 1000;
-    transform: translateX(100%);
+    /* Move para fora da tela (direita) */
+    transform: translateX(100%); 
     transition: transform 0.3s ease-in-out;
     padding: 0;
     overflow-y: auto;
@@ -209,7 +213,8 @@ header {
 }
 
 #area-secundaria.aberto {
-    transform: translateX(0);
+    /* Move de volta para a posição (o 0 é a borda direita) */
+    transform: translateX(0); 
 }
 
 .secundaria-header {
@@ -922,4 +927,5 @@ input[type="file"] {
 #user-photo-preview {
     display: none !important; /* Esconde a pré-visualização da tag img, pois o Canvas mostrará o preview */
 }
+
 
