@@ -183,10 +183,15 @@
         "badge_descricao": "Para este parque, você deve escanear QR Codes nas atividades (Janela do Céu, Pico do Pião, etc) para ganhar os badges."
     },
     "itacolomi": {
-        "map_link": "URL_DO_GOOGLE_MAPS_ITACOLOMI",
-        "instagram_link": "URL_DO_INSTAGRAM_ITACOLOMI",
+        "map_link": "https://maps.app.goo.gl/q2mL48wSEeekgaQs9",
+        "instagram_link": "https://www.instagram.com/peitacolomi",
         "info_content": "O Pico do Itacolomi é a marca do parque. Com altitude de 1.772m, a trilha é desafiadora, mas a vista é incomparável, especialmente das duas formações rochosas inclinadas.",
-        "carousel_images": ["entradas/itacolomi.png"],
+
+        "carousel_images": [ 
+            "https://ief.mg.gov.br/documents/51853/7558741/Portaria/8e0b84fb-cdfc-39d0-f76f-76654d3fdc24",  
+            "https://ief.mg.gov.br/documents/51853/7558741/centro_visitantes/be8bfaff-c67e-03e5-4330-ba62705ff847",
+            "https://ief.mg.gov.br/documents/51853/7558741/Pico_do_Itacolomi/620babcf-2c5e-8d7a-685f-13993f750b24"
+        ],
         
         "quiz_title": "Desafio do Pico",
         "quiz_description": "Prove que você conhece o Pico mais famoso de Ouro Preto.",
@@ -196,6 +201,7 @@
         "badge_descricao": "Para este parque, você deve escanear QR Codes em pontos de vista para ganhar os badges."
     }
 }
+
 
 
 
