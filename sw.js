@@ -1,4 +1,4 @@
-const CACHE_NAME = 'trilhas-de-minas-v9'; // AUMENTANDO VERSÃO NOVAMENTE
+const CACHE_NAME = 'trilhas-de-minas-v10'; // AUMENTANDO VERSÃO NOVAMENTE
 const urlsToCache = [
     './',
     'index.html',
@@ -19,10 +19,13 @@ const urlsToCache = [
     'win.gif',
     
     // --- NOVO: IMAGENS DE BADGE (Para Carregamento Offline) ---
-    'badges/portaria-badge.png',
+    'badges/portaria-biribiri-badge.png',
     'badges/vilarejo-historico-badge.png',
     'badges/cachoeira-sentinela-badge.png',
-    'badges/cachoeira-dos-cristais-badge.png'
+    'badges/cachoeira-dos-cristais-badge.png',
+    
+    // --- IMAGENS DE TEMPLATE DO CANVAS ---
+    'images/passport_template.png' 
 ];
 
 // Instalação: Cache dos recursos
