@@ -182,11 +182,7 @@
         } 
     ],
     "ATIVIDADES_PARQUES": {
-        "ibitipoca": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "Teste seus conhecimentos para liberar este Badge!" },
-            { "id": "janela", "nome": "Janela do Céu", "icone": "fa-cloud-meatball", "descricao_curta": "A vista icônica do parque, cachoeira e horizonte sem fim." },
-            { "id": "pico", "nome": "Pico do Pião", "icone": "fa-mountain", "descricao_curta": "A subida ao ponto mais alto e a capela histórica no topo." }
-        ],
+
         "biribiri": [
             { 
             "id": "quiz", 
@@ -208,12 +204,14 @@
             "descricao_curta": "Conheça as ruínas da antiga fábrica têxtil de Biribiri.", 
             "imagem_png": "badges/vilarejo-historico-badge.png" 
             },
+            { 
             "id": "mirante-da-cruzinha", 
             "nome": "Mirante Casa dos Ventos", 
             "icone": "fa-building-columns", 
             "descricao_curta": "Contemple diversas montanhas da cordilheira do alto rio Jequitinhonha", 
             "imagem_png": "badges/mirante-da-cruzinha.png" 
             },
+            { 
             "id": "mirante-casa-dos-ventos", 
             "nome": "Mirante da Cruzinha", 
             "icone": "fa-building-columns", 
@@ -233,6 +231,28 @@
             "icone": "fa-water", 
             "descricao_curta": "É uma excelente opção para quem deseja se refrescar em suas águas cristalinas e desfrutar de um mergulho relaxante.", 
             "imagem_png": "badges/cachoeira-dos-cristais-badge.png" 
+            }
+        ],
+        "ibitipoca": [
+            { 
+            "id": "quiz", 
+            "nome": "Quiz: Conhecimento", 
+            "icone": "fa-brain", 
+            "descricao_curta": "Teste seus conhecimentos para liberar este Badge!" 
+            },
+            { 
+            "id": "janela-do-ceu", 
+            "nome": "Janela do Céu", 
+            "icone": "fa-cloud-meatball", 
+            "descricao_curta": "A vista icônica do parque, cachoeira e horizonte sem fim.",
+            "imagem_png": "badges/janela-do-ceu.png"
+            },
+            { 
+            "id": "pico-do-piao", 
+            "nome": "Pico do Pião", 
+            "icone": "fa-mountain", 
+            "descricao_curta": "A subida ao ponto mais alto e a capela histórica no topo.",
+            "imagem_png": "badges/pico-do-piao.png"
             }
         ],
         "serradorolamoca": [
@@ -297,6 +317,7 @@
         ]
     }
 }
+
 
 
 
