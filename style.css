@@ -818,10 +818,28 @@ header {
 /* --- ESTILOS ADICIONAIS PARA ÁREA DE COMPARTILHAMENTO (CANVAS) --- */
 
 #area-envio-foto {
-    padding: 20px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center; /* Centraliza os itens horizontalmente */
+    padding: 15px;
+    box-sizing: border-box; /* Inclui padding na largura total */
+}
+
+#badge-upload-titulo {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.2rem; /* Tamanho de fonte ajustável */
+    max-width: 90%; /* Limita a largura do título */
+}
+
+
+.upload-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    max-width: 400px; /* Limita a largura dos controles em telas maiores */
+    margin-top: 20px;
 }
 
 .upload-container {
@@ -840,6 +858,27 @@ header {
     color: var(--cor-texto);
 }
 
+.header, .footer {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.header .title {
+    white-space: nowrap; /* Evita quebras de linha indesejadas */
+    overflow: hidden;    /* Esconde o excesso se houver */
+    text-overflow: ellipsis; /* Adiciona "..." se o texto for cortado */
+    max-width: calc(100% - 100px); /* Ajusta a largura máxima para dar espaço aos ícones */
+}
+
+input[type="file"] {
+    width: 100%; /* Ocupa a largura total do contêiner */
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-sizing: border-box; /* Inclui padding e border na largura total */
+}
+
 #input-foto-badge {
     display: block;
     width: 100%;
@@ -850,6 +889,17 @@ header {
     background-color: white;
 }
 
+#btn-gerar-e-baixar {
+    background-color: var(--cor-principal); /* Supondo uma variável de cor principal */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    width: 100%; /* Ocupa a largura total do contêiner */
+    box-sizing: border-box;
+}
 /* Estilos para o Canvas e Pré-visualização */
 #output-image-preview {
     margin-top: 20px;
@@ -861,11 +911,15 @@ header {
 }
 
 #passport-canvas {
-    background-color: #e6e0d4; /* Cor de papel envelhecido para o canvas */
-    border-radius: 10px; /* Borda arredondada para o "passaporte" */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    max-width: 100%; /* Garante que o canvas não ultrapasse a largura do contêiner */
+    height: auto;    /* Mantém a proporção do canvas */
+    display: block;  /* Remove espaços extras de elementos inline */
+    margin: 0 auto;  /* Centraliza o canvas */
+    border: 1px solid #ccc; /* Uma pequena borda para visualização */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Sombra para destacar */
 }
 
 #user-photo-preview {
     display: none !important; /* Esconde a pré-visualização da tag img, pois o Canvas mostrará o preview */
 }
+
