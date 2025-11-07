@@ -1,4 +1,4 @@
-// script.js - CÓDIGO COMPLETO (FINAL COM AJUSTE DEFINITIVO DA PROPORÇÃO DA FOTO)
+// script.js - CÓDIGO COMPLETO (FINAL COM CORREÇÃO CRÍTICA DA LÓGICA DE ACESSO AO UPLOAD)
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -637,7 +637,10 @@ function carregarAreaUpload(parqueId, atividadeId) {
     const parque = DADOS_PARQUES.find(p => p.id === parqueId);
     const atividade = ATIVIDADES_PARQUES[parqueId]?.find(a => a.id === atividadeId);
     
-    // 1. Esconder áreas secundárias
+    // 1. FORÇA A SINCRONIZAÇÃO DO ESTADO PARA EVITAR BUGS DE ACESSO
+    estadoUsuario = JSON.parse(localStorage.getItem('trilhasDeMinasStatus')) || {};
+    
+    // 2. Esconder áreas secundárias
     document.getElementById('conteudo-parque-detalhe').style.display = 'none';
     document.getElementById('conteudo-premios').style.display = 'none';
     document.getElementById('area-envio-foto').style.display = 'block'; // Exibe a área de envio do HTML
@@ -757,9 +760,10 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         canvasContext.fillText('Carregue images/passport_template.png', 50, canvas.height / 2);
     }
 
-    // --- COORDENADAS E TAMANHOS DO FRAME DA FOTO ---
+    // --- COORDENADAS E TAMANHOS DO FRAME DA FOTO (AJUSTE CRÍTICO DE PROPORÇÃO) ---
+    // NOVO AJUSTE: Proporção muito mais vertical para preservar o 4:5 da foto do usuário
     const photoX = canvas.width * 0.1;    
-    const photoY = canvas.height * 0.28;   // Ajustado para cima
+    const photoY = canvas.height * 0.28;   
     const photoWidth = canvas.width * 0.8; 
     const photoHeight = canvas.height * 0.6; // Altura aumentada para 60% para preservar 4:5
 
@@ -838,7 +842,7 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         // NOVAS COORDENADAS PARA O CARIMBO (AJUSTADAS)
         const stampSize = canvas.width * 0.3;     
         const stampX = canvas.width * 0.03;      
-        const stampY = canvas.height * 0.1;     // Subiu para 10%
+        const stampY = canvas.height * 0.1;     // 10% da altura
         const rotationAngle = -25 * Math.PI / 180; 
 
         // Ponto de rotação (o centro do carimbo)
@@ -860,7 +864,7 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
     
     // NOVAS COORDENADAS PARA O TEXTO
     const textStartX = canvas.width * 0.32;   
-    let currentTextY = canvas.height * 0.13; // Subiu para 13%
+    let currentTextY = canvas.height * 0.13; // 13% da altura
 
     // LINHA 1: CHECK-IN REALIZADO
     canvasContext.font = `bold ${canvas.width * 0.036}px "Roboto Slab", serif`; 
