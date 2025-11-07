@@ -820,8 +820,9 @@ function lidarComHash() {
         return;
     }
     
-    document.body.style.overflow = 'hidden'; 
-    document.body.style.height = '100vh';
+document.body.style.overflow = 'auto';
+document.body.style.height = 'auto';
+
 
     if (hash.startsWith('checkin-')) {
         const parts = hash.split('-'); 
@@ -860,7 +861,7 @@ function lidarComHash() {
 // --- Inicialização da Aplicação ---
 function iniciarApp() {
     carregarBotoesParques();
-    lidarComHash(); 
+    ; 
 
     const videoIntro = document.getElementById('video-intro');
     videoIntro.classList.add('fade-out'); 
@@ -964,7 +965,7 @@ async function inicializar() {
             document.getElementById('app-container').style.display = 'flex';
             
             if (!checkinProcessado) {
-                lidarComHash();
+                ;
             }
         }
         
@@ -984,3 +985,4 @@ async function inicializar() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
+
