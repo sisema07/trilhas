@@ -1113,20 +1113,18 @@ function configurarBotaoIntro() {
     }
 }
 
-// CORREÇÃO: Lógica simplificada de navegação de volta (Botão Home)
+// CORREÇÃO: Lógica de navegação do Botão Home
 function configurarNavegacao() {
-    // REMOVIDO: A lógica de btn-voltar
-    
-    // NOVO: Apenas o btn-home permanece e volta para a home
+    // Apenas o btn-home permanece e volta para a home
     document.getElementById('btn-home').addEventListener('click', () => {
-        window.location.hash = '';
+        // CORREÇÃO: Força a navegação para a home
+        window.location.hash = ''; 
     });
 
     window.addEventListener('hashchange', lidarComHash);
     
-    configurarBotaoIntro(); // NOVO: Chama o configurador do botão introdutório
+    configurarBotaoIntro();
 }
-
 async function inicializar() {
     try {
         await carregarDados();
@@ -1187,3 +1185,4 @@ async function inicializar() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
+
