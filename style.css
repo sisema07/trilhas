@@ -1,4 +1,4 @@
-/* style.css - CÓDIGO COMPLETO AJUSTADO (COM CENTRALIZAÇÃO DE TÍTULOS E ESTILO GLASSMORPHISM) */
+/* style.css - CÓDIGO COMPLETO AJUSTADO (COM EFEITO GLOW NOS ÍCONES) */
 
 /* Variáveis de Cores e Estilos */
 :root {
@@ -189,6 +189,9 @@ header {
     margin-bottom: 3px;
     z-index: 2;
     position: relative;
+    /* NOVO EFEITO: Sombra sutil e elevação */
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2), 0 0 10px rgba(76, 175, 80, 0.5); /* Sombra 3D + Glow Verde */
+    transition: all 0.3s ease-in-out;
 }
 
 /* Estilo para as novas logos PNG nos botões */
@@ -200,6 +203,9 @@ header {
     z-index: 2;
     position: relative;
     object-fit: contain;
+    /* NOVO EFEITO: Sombra sutil (para simular elevação e destaque) */
+    filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.2)) drop-shadow(0 0 5px var(--cor-secundaria)); 
+    transition: all 0.3s ease-in-out;
 }
 
 .nome-parque {
@@ -209,6 +215,14 @@ header {
     position: relative;
     line-height: 1.2;
 }
+
+/* Efeito Hover/Ativo para reforçar o destaque */
+.botao-parque:hover .icone-parque-principal,
+.botao-parque:hover .logo-parque-principal {
+    transform: scale(1.1);
+    filter: drop-shadow(2px 2px 5px rgba(0,0,0,0.3)) drop-shadow(0 0 15px var(--cor-principal));
+}
+
 
 /* AJUSTE: Botão Check-ins (Remove o destaque padrão) */
 #btn-premiacao {
@@ -785,7 +799,7 @@ header {
     width: 300px;
     padding: 20px;
     /* Adiciona um fundo sutil relacionado à natureza para os modais pequenos */
-    background-image: url('images/nature-pattern.png'); /* Nota: Você precisará desta imagem */
+    background-image: url('images/nature-pattern.png'); 
     background-color: rgba(235, 245, 238, 0.85); 
     background-size: cover;
     background-blend-mode: overlay; 
