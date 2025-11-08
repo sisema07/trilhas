@@ -1,4 +1,4 @@
-const CACHE_NAME = 'trilhas-de-minas-v12'; // Versão atualizada do cache
+const CACHE_NAME = 'trilhas-de-minas-v13'; // Versão atualizada do cache (incrementado para forçar atualização)
 const urlsToCache = [
     './',
     'index.html',
@@ -6,14 +6,16 @@ const urlsToCache = [
     'script.js',
     'parques.json',
     'park_details.json', 
+    'fauna.json', // Adicionado
     'trilhas.mp4',
+    'manifest.json', // Adicionado
+    'logo.png', // Adicionado
+    'titulo.png', // Adicionado
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css',
     
-    // CORREÇÃO/MELHORIA: Incluindo os links de fontes para cache offline
+    // Links de fontes para cache offline (mantidos)
     'https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:wght@400;600;700&display=swap',
     'https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Roboto+Slab:wght@700&display=swap',
-    // IMPORTANTE: Adicionar também os arquivos de fonte .woff2/etc. se possível (O Google Fonts pode ser complicado para cache manual)
-    // Para simplificar, vou confiar nos links CSS. Se o problema persistir, a inclusão direta dos WOFF2 é necessária.
 
     // Logos
     'logos/biribiri.png',
@@ -38,20 +40,24 @@ const urlsToCache = [
     
     // Imagens diversas
     'fauna/jaguatirica.png',
-    'mascote-quiz-run.png',
+    'mascote-quiz-run.png', // Adicionado
     'win.gif',
     'qr.png',
-    'logo.png',
-    'titulo.png',
+    'images/nature-pattern.png', // Adicionado (se existir)
     
-    // Badges
+    // Badges (Verificados no parques.json)
     'badges/portaria-biribiri-badge.png',
     'badges/vilarejo-historico-badge.png',
     'badges/cachoeira-sentinela-badge.png',
     'badges/cachoeira-dos-cristais-badge.png',
+    'badges/mirante-da-cruzinha.png', // Adicionado
+    'badges/mirante-casa-dos-ventos.png', // Adicionado
+    'badges/janela-do-ceu.png', // Adicionado
+    'badges/pico-do-piao.png', // Adicionado
     
     // Template do Canvas
-    'images/passport_template.png'
+    'images/passport_template.png',
+    'images/default_stamp_fallback.png' // Adicionado
 ];
 
 // Instalação: Cache dos recursos
@@ -64,6 +70,8 @@ self.addEventListener('install', event => {
             })
             .catch(err => {
                 console.error('Falha ao adicionar arquivos ao cache:', err);
+                // Permite a falha na adição de alguns arquivos (ex: fontes externas)
+                return Promise.resolve();
             })
     );
 });
@@ -84,27 +92,43 @@ self.addEventListener('activate', event => {
     );
 });
 
-// Fetch: Servindo arquivos do cache, se disponíveis
+// Fetch: Estratégia Cache, then Network, with update (para recursos estáticos)
 self.addEventListener('fetch', event => {
     if (event.request.method !== 'GET') return;
     
+    // Evita tentar cachear URLs externas que não estão na lista (como as imagens aleatórias do unsplash)
+    const url = new URL(event.request.url);
+    if (url.origin !== location.origin && !urlsToCache.includes(url.href)) {
+        return event.respondWith(fetch(event.request));
+    }
+
     event.respondWith(
         caches.match(event.request)
             .then(response => {
+                // Se o arquivo estiver no cache, retorna
                 if (response) {
                     return response;
                 }
                 
+                // Se não estiver, faz a requisição à rede
                 return fetch(event.request).then(response => {
+                    
+                    // Verifica se a resposta é válida
                     if(!response || response.status !== 200 || response.type !== 'basic') {
                         return response;
                     }
 
+                    // Clona a resposta para o cache
                     const responseToCache = response.clone();
                     
-                    if (urlsToCache.some(url => event.request.url.includes(url.replace('./', '')))) {
+                    // Otimização: Cache apenas os arquivos que são essenciais (seja local ou externo na urlsToCache)
+                    const isLocalResource = url.origin === location.origin;
+                    const isExternalResourceToCache = urlsToCache.includes(url.href);
+
+                    if (isLocalResource || isExternalResourceToCache) {
                        caches.open(CACHE_NAME)
                            .then(cache => {
+                               // Limita o tamanho do cache se necessário, mas para o GitHub Pages simples, basta adicionar.
                                cache.put(event.request, responseToCache);
                            });
                     }
@@ -112,6 +136,7 @@ self.addEventListener('fetch', event => {
                 });
             })
             .catch(() => {
+                // Fallback para a página inicial se a navegação falhar offline
                 if (event.request.mode === 'navigate') {
                     return caches.match('./index.html');
                 }
