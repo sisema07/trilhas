@@ -1,10 +1,10 @@
-/* style.css - CÓDIGO COMPLETO AJUSTADO (GLOW OTIMIZADO PARA ESTABILIDADE E CONSISTÊNCIA) */
+/* style.css - CÓDIGO COMPLETO AJUSTADO (FIX NO GLOW INTERNO) */
 
 /* Variáveis de Cores e Estilos */
 :root {
     --cor-fundo: #ebf5ee; /* Verde/Beige claro, ideal para Neumorfismo */
-    --cor-principal: #4CAF50; /* Verde vibrante */
-    --cor-secundaria: #8BC34A; /* Verde mais suave para destaque */
+    --cor-principal: #4CAF50; /* Verde vibrante (Uso principal) */
+    --cor-secundaria: #8BC34A; /* Verde mais suave para destaque (Uso secundário) */
     --cor-texto: #333;
     --cor-texto-claro: #f0f0f0;
     --cor-sombra-clara: #ffffff;
@@ -16,8 +16,9 @@
     --sombra-neumorfismo-ativa: inset 4px 4px 8px 0 #a3b1c6, inset -4px -4px 8px 0 var(--cor-sombra-clara); 
     --sombra-neumorfismo-card: 4px 4px 8px 0 #a3b1c6, -4px -4px 8px 0 var(--cor-sombra-clara);
 
-    /* NOVO: Variável para Glow de Conquista (Amarelo/Dourado suave) */
-    --cor-glow-conquista: #FFC107; 
+    /* Variáveis de Cor para os Glows */
+    --cor-glow-verde: rgba(76, 175, 80, 0.7); /* Glow Verde para Atividades/Interação */
+    --cor-glow-conquista: rgba(255, 193, 7, 0.7); /* Glow Amarelo para Badges */
 }
 
 /* Reset Básico e Fundo */
@@ -76,7 +77,6 @@ body, html {
     margin: 0 auto;
     padding: 10px 10px 20px;
     min-height: 100vh;
-    /* CORREÇÃO: Deve ser 'display: flex' por padrão no HTML e aqui */
     display: flex; 
     flex-direction: column;
     width: 100%;
@@ -255,7 +255,6 @@ header {
     z-index: 1000;
     transform: translateX(100%);
     transition: transform 0.3s ease-in-out;
-    /* CORREÇÃO: Deve ser 'display: none' por padrão no HTML e controlado via JS */
     display: none; 
     flex-direction: column;
     overflow-y: auto;
@@ -357,25 +356,30 @@ header {
     transition: all 0.3s ease-in-out;
     position: relative;
     padding: 10px;
-    opacity: 0.5; /* Opacidade reduzida para itens Bloqueados/Desativados */
-    color: #888; /* Cor de texto mais neutra para bloqueado */
+    opacity: 0.5; 
+    color: #888; 
     font-style: italic;
     cursor: default;
     filter: none;
 }
 
 .icone-premio.desbloqueado {
-    /* Estilo de Desbloqueado/Ativado (Sombra interna de "pressionado") */
-    box-shadow: var(--sombra-neumorfismo-ativa), 0 0 10px 0 rgba(255, 193, 7, 0.6); /* NOVO: box-shadow Amarelo para Conquista */
-    color: var(--cor-principal); /* Cor principal para destaque */
+    /* MANTÉM o Neumorfismo de "pressionado" */
+    box-shadow: var(--sombra-neumorfismo-ativa); 
+    color: var(--cor-principal); 
     opacity: 1.0;
     font-style: normal;
     cursor: pointer;
     filter: none;
 }
 
+/* NOVO: Aplica o Glow Amarelo nos ÍCONES/IMAGENS do Badge Desbloqueado */
+.icone-premio.desbloqueado i, 
+.icone-premio.desbloqueado .badge-custom-img {
+    filter: drop-shadow(0 0 5px var(--cor-glow-conquista)) drop-shadow(0 0 2px var(--cor-glow-conquista));
+}
+
 .icone-premio:active.desbloqueado {
-    /* Efeito de clique apenas em itens ativados */
     box-shadow: var(--sombra-neumorfismo-card); 
     transform: scale(0.99); 
 }
@@ -390,10 +394,10 @@ header {
     text-align: center;
     font-weight: 500;
     line-height: 1.1;
-    color: inherit; /* Garante que a cor seja herdada de .icone-premio ou .icone-premio.desbloqueado */
+    color: inherit; 
 }
 
-/* NOVO: Estilo para Imagem PNG personalizada no Badge */
+/* Estilo para Imagem PNG personalizada no Badge */
 .badge-custom-img {
     width: 100%; 
     height: 100%;
@@ -469,7 +473,7 @@ header {
 
 @media (max-width: 480px) {
     .park-carousel-container {
-        aspect-ratio: 4/3; /* Mais quadrado para mobile */
+        aspect-ratio: 4/3; 
     }
 }
 
@@ -526,12 +530,12 @@ header {
     display: flex;
     align-items: center;
     justify-content: center; 
-    gap: 25px; /* Aumenta o espaçamento */
+    gap: 25px; 
     padding: 10px 20px;
 }
 
 .location-link-container span {
-    display: none; /* Remove a frase "Venha nos visitar" */
+    display: none; 
 }
 
 .location-icon-link {
@@ -588,7 +592,7 @@ header {
 }
 
 .action-button.info-btn {
-    font-size: 1.2rem; /* Aumenta o ícone 'i' */
+    font-size: 1.2rem; 
     padding: 12px 5px; 
 }
 .action-button.info-btn i {
@@ -709,44 +713,54 @@ header {
     padding: 0 10px;
 }
 
-/* Estilo do botão de Fauna/Atividade (PADRONIZADO COM OS BADGES) */
-.fauna-grid-item, .activity-grid-item {
-    background-color: var(--cor-fundo);
-    border-radius: 15px;
-    aspect-ratio: 1 / 1; 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+/* Estilo do item de Fauna/Atividade/Badge (Contêiner) */
+.fauna-grid-item, .activity-grid-item, .icone-premio {
+    /* Mantém o estilo base Neumórfico (Sem Glow no Contêiner) */
     box-shadow: var(--sombra-neumorfismo-externa);
-    transition: all 0.2s ease-in-out;
-    cursor: pointer;
-    padding: 5px;
-    min-height: 80px;
-    box-sizing: border-box;
-    opacity: 0.5; /* PADRONIZAÇÃO: Opacidade reduzida para itens bloqueados */
+    filter: none; /* Garante que não haja filtro no contêiner */
+}
+
+/* Ajusta cores e transparência para itens de grade não desbloqueados */
+.fauna-grid-item, .activity-grid-item {
+    opacity: 0.5;
     color: #888;
-    font-style: italic;
-    
-    /* NOVO: Glow Verde Otimizado para itens de interação desativados */
-    box-shadow: var(--sombra-neumorfismo-externa), 0 0 4px 0 rgba(76, 175, 80, 0.3);
 }
 
+/* ESTILO ATIVADO/DESBLOQUEADO (Fauna/Atividades - Glow Verde) */
 .activity-grid-item.desbloqueado, .fauna-grid-item.desbloqueado {
-    /* PADRONIZAÇÃO: Estilo de Desbloqueado/Ativado (Sombra interna) */
-    box-shadow: var(--sombra-neumorfismo-ativa), 0 0 8px 0 rgba(76, 175, 80, 0.6); /* NOVO: box-shadow Verde */
+    box-shadow: var(--sombra-neumorfismo-ativa);
     opacity: 1.0; 
-    color: var(--cor-texto); /* Texto escuro normal para itens desbloqueados */
-    font-style: normal;
+    color: var(--cor-texto); 
 }
 
-.fauna-grid-item:active.desbloqueado, .activity-grid-item:active.desbloqueado {
-    /* Efeito de clique */
-    box-shadow: var(--sombra-neumorfismo-card);
-    transform: scale(0.98);
+/* Aplica o GLOW VERDE aos ícones/imagens de Fauna/Atividade (Verde para Interação) */
+.activity-grid-item.desbloqueado i, 
+.fauna-grid-item.desbloqueado i,
+.activity-grid-item.desbloqueado img, 
+.fauna-grid-item.desbloqueado img {
+    /* Usamos filter: drop-shadow no elemento interno */
+    filter: drop-shadow(0 0 5px var(--cor-glow-verde)) drop-shadow(0 0 2px var(--cor-glow-verde));
+    transition: filter 0.3s ease-in-out;
+}
+/* No estado desativado, remove o glow (mantendo o ícone escuro) */
+.activity-grid-item i, .fauna-grid-item i,
+.activity-grid-item img, .fauna-grid-item img {
+    filter: none;
 }
 
+/* ESTILO ATIVADO/DESBLOQUEADO (Badges - Glow Amarelo) */
+.icone-premio.desbloqueado {
+    box-shadow: var(--sombra-neumorfismo-ativa); 
+    opacity: 1.0;
+    color: var(--cor-principal);
+}
+
+/* Aplica o GLOW AMARELO nos ÍCONES/IMAGENS do Badge Desbloqueado */
+.icone-premio.desbloqueado i, 
+.icone-premio.desbloqueado .badge-custom-img {
+    filter: drop-shadow(0 0 5px var(--cor-glow-conquista)) drop-shadow(0 0 2px var(--cor-glow-conquista));
+    transition: filter 0.3s ease-in-out;
+}
 
 .fauna-grid-item img, .activity-grid-item img {
     width: 60%; 
@@ -775,7 +789,7 @@ header {
     background-color: transparent; 
     border-radius: 10px;
     
-    /* OTIMIZAÇÃO: box-shadow combinando Neumorfismo + Glow Verde */
+    /* OTIMIZAÇÃO: box-shadow combinando Neumorfismo + Glow Verde no CONTÊINER */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(76, 175, 80, 0.7); 
     
     position: relative;
@@ -783,6 +797,7 @@ header {
     cursor: pointer; 
     transition: transform 0.2s;
     
+    /* Mantido o filtro para dar o glow no contêiner do QR, pois é apenas um elemento */
     filter: none; 
 }
 
