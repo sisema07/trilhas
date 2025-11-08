@@ -12,7 +12,7 @@ const DADOS_FAUNA = {
     ],
     "ibitipoca": [
         { "nome": "Sapo-Pingo-de-Ouro", "imagem": "sapo-pingo.png", "descricao": "O Sapo-Pingo-de-Ouro (Brachycephalus ibitipoca) é um pequeno sapo colorido, endêmico de Ibitipoca. Classificado como Criticamente em Perigo (CR). Sua sobrevivência é sensível a mudanças climáticas e à perda de habitat nas partes mais altas do parque. Texto ilustrativo.", "status": "CR" },
-        { "nome": "Macaco-Prego", "imagem": "macacoprego.png", "descricao": "O Macaco-Prego (Sapajus nigritus) é inteligente e social, sendo um dos primatas mais comuns da região. Está classificado como Pouco Preocupante (LC). Vive em grupos e se alimenta de frutos e insetos.", "status": "LC" }
+        { "nome": "Macaco-Prego", "imagem": "macacoprego.png", "descricao": "O Macaco-Prego (Sapajus nigritus) é inteligente e social, sendo um dos primatas mais comuns da região. Está classificado como Pouco Preocupante (LC). Vive em grupos e se alimenta de frutos e insetos. Texto ilustrativo.", "status": "LC" }
     ]
     // Adicionar dados de fauna para outros parques aqui
 };
@@ -247,6 +247,9 @@ function carregarPremios() {
     const listaPremios = document.getElementById('lista-icones-premios');
     listaPremios.innerHTML = '';
     
+    // ANEXAR EVENTO DE CLIQUE DO NOVO BOTÃO DE INSTRUÇÃO DE BADGES
+    document.getElementById('btn-badge-info').onclick = abrirModalBadgeInfo;
+
     for (const parqueId in ATIVIDADES_PARQUES) {
         const atividades = ATIVIDADES_PARQUES[parqueId];
         
@@ -262,8 +265,9 @@ function carregarPremios() {
 
             const isConcluida = estadoUsuario[parqueId][atividade.id];
 
+            // PADRONIZAÇÃO: Usa a mesma classe do item de atividade (activity-grid-item) para padronizar o estilo.
             const card = document.createElement('div');
-            card.className = `icone-premio ${isConcluida ? 'desbloqueado' : ''}`;
+            card.className = `activity-grid-item ${isConcluida ? 'desbloqueado' : ''}`;
             card.dataset.parqueId = parqueId;
             card.dataset.atividadeId = atividade.id;
             
@@ -293,6 +297,7 @@ function carregarPremios() {
 }
 
 function carregarConteudoPremiacao() {
+    fecharModais();
     document.getElementById('conteudo-parque-detalhe').style.display = 'none';
     document.getElementById('area-envio-foto').style.display = 'none';
 
@@ -333,6 +338,7 @@ function carregarConteudoFauna(parque, container) {
         fauna.forEach((animal, index) => {
             const imagePath = `fauna/${animal.imagem}`;
             
+            // PADRONIZAÇÃO: Usando a classe 'desbloqueado' apenas para garantir o estilo ativado
             html += `
                 <div class="fauna-grid-item desbloqueado" data-index="${index}" data-parque-id="${parque.id}" onclick="abrirModalFauna('${parque.id}', ${index})">
                     <img src="${imagePath}" alt="${animal.nome}">
@@ -363,14 +369,21 @@ window.abrirModalFauna = function(parqueId, index) {
     `;
     
     modal.classList.add('open');
-    modal.style.display = 'flex'; // Garante que o display seja flex
+    modal.style.display = 'flex'; 
 }
 
-// NOVO: Função para abrir o modal de instrução do QR Code (Pop-up ativado)
+// NOVO: Função para abrir o modal de instrução do QR Code
 window.abrirModalQr = function() {
     const modal = document.getElementById('qr-modal');
     modal.classList.add('open');
-    modal.style.display = 'flex'; // Garante que o display seja flex
+    modal.style.display = 'flex'; 
+}
+
+// NOVO: Função para abrir o modal de instrução de Badges (Tela de Premiação)
+window.abrirModalBadgeInfo = function() {
+    const modal = document.getElementById('badge-info-modal');
+    modal.classList.add('open');
+    modal.style.display = 'flex';
 }
 
 // Função para fechar qualquer modal
@@ -393,6 +406,9 @@ document.getElementById('fauna-modal').addEventListener('click', (e) => {
 });
 document.getElementById('qr-modal').addEventListener('click', (e) => {
     if (e.target.id === 'qr-modal') fecharModais();
+});
+document.getElementById('badge-info-modal')?.addEventListener('click', (e) => {
+    if (e.target.id === 'badge-info-modal') fecharModais();
 });
 
 
@@ -580,7 +596,6 @@ function carregarConteudoAtividades(parque, container) {
             }
 
             const isConcluida = estadoUsuario[parque.id][atividade.id];
-            // AJUSTE: O item bloqueado não tem a classe 'desbloqueado' e terá opacidade reduzida pelo CSS
             const desbloqueado = isConcluida ? 'desbloqueado' : ''; 
             const badgeId = `${parque.id}-${atividade.id}`;
             
@@ -591,7 +606,7 @@ function carregarConteudoAtividades(parque, container) {
                 badgeContent = `<i class="fas ${atividade.icone}"></i>`;
             }
             
-            // MUDANÇA: Novo layout de 3 colunas (activity-grid-item)
+            // PADRONIZAÇÃO: Usa activity-grid-item para padronizar o estilo
             html += `
                 <div class="activity-grid-item ${desbloqueado}" data-badge-id="${badgeId}" ${isConcluida ? `onclick="window.location.hash = 'upload-${badgeId}'"` : ''}>
                     ${badgeContent}
@@ -641,13 +656,19 @@ function carregarDetalhesParque(parqueId, action = 'info') {
         // Adiciona um novo listener que dispara a navegação via hash
         const actionListener = (e) => handleActionClick(e, parqueId);
         btn.addEventListener('click', actionListener);
-        btn.actionListener = actionListener; // Guarda a referência do listener
+        btn.actionListener = actionListener; // Guarda a referência do listener para ser removida
     });
-
+    
+    // CORREÇÃO: Garante que o botão 'info' seja ativado/recarregado corretamente
     const actionButton = document.querySelector(`.action-button[data-action="${action}"]`);
     if (actionButton) {
         actionButton.classList.add('active');
         carregarConteudoDinamico(parque, contentArea, action);
+    } else {
+         // Fallback para info se a ação não for válida
+         const defaultActionButton = document.querySelector(`.action-button[data-action="info"]`);
+         defaultActionButton?.classList.add('active');
+         carregarConteudoDinamico(parque, contentArea, 'info');
     }
     
     document.getElementById('conteudo-parque-detalhe').style.display = 'block';
@@ -1026,7 +1047,8 @@ function lidarComHash() {
     const parqueEncontrado = DADOS_PARQUES.find(p => p.id === parqueId);
 
     if (parqueEncontrado && parqueId !== 'premiacao') {
-        // CORREÇÃO: Força a action 'info' se nenhuma for especificada, o que corrige o bug de retorno.
+        // CORREÇÃO: Força a action 'info' se nenhuma for especificada para o primeiro carregamento
+        // E usa a action passada na URL para navegação interna.
         const action = parts.length > 1 ? parts[1] : 'info'; 
         carregarDetalhesParque(parqueId, action);
     } else {
@@ -1083,22 +1105,9 @@ async function carregarDados() {
     }
 }
 
-// CORREÇÃO: Lógica simplificada de navegação de volta (Botão Voltar)
+// SIMPLIFICAÇÃO: Configura apenas o botão Home
 function configurarNavegacao() {
-    document.getElementById('btn-voltar').addEventListener('click', () => {
-        const hash = window.location.hash.substring(1);
-        
-        if (hash.startsWith('upload-') || hash === 'premiacao') {
-            // Se estiver na tela de upload ou premiação, volta para a home
-            window.location.hash = ''; 
-        } else if (DADOS_PARQUES.some(p => p.id === hash.split('-')[0])) {
-            // Se estiver nos detalhes (info, fauna, quiz, activities), volta para a home
-            window.location.hash = '';
-        } else {
-            // Caso contrário, usa o histórico do navegador (útil para navegação entre info/fauna/quiz/activities)
-            window.history.back();
-        }
-    });
+    // REMOVIDO: Lógica do botão Voltar
     
     document.getElementById('btn-home').addEventListener('click', () => {
         window.location.hash = '';
