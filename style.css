@@ -1,4 +1,4 @@
-/* style.css - CÓDIGO COMPLETO AJUSTADO COM CORREÇÃO DE CONFLITO DE LAYOUT */
+/* style.css - CÓDIGO COMPLETO AJUSTADO (CORREÇÃO DE CONFLITO VISUAL E LAYOUT) */
 
 /* Variáveis de Cores e Estilos */
 :root {
@@ -285,7 +285,7 @@ header {
     width: 40px;
     height: 40px;
     cursor: pointer;
-    margin-right: 10px; /* Mantém espaço entre o botão e o título */
+    margin-right: 10px; 
     z-index: 20;
     min-height: 44px; /* Tamanho mínimo para touch */
     margin-left: 0; 
@@ -380,7 +380,6 @@ header {
 
 
 /* Estilo unificado para Badges (Premiação) e Itens de Atividade/Fauna */
-/* Aplica-se a: .icone-premio (obsoleto no JS), .activity-grid-item, .fauna-grid-item */
 .activity-grid-item, .fauna-grid-item {
     background-color: var(--cor-fundo);
     border-radius: 15px;
@@ -401,11 +400,27 @@ header {
     font-style: italic;
 }
 
-/* Devido à padronização no JS (L. 396 do script anterior), precisamos garantir que a classe antiga (icone-premio)
-   caso ainda seja usada, também tenha o estilo padronizado: */
-#lista-icones-premios .activity-grid-item {
-    padding: 10px; /* Ajuste de padding para caber melhor os badges */
+/* Adicionando regra para as imagens dentro dos itens padronizados */
+.activity-grid-item img, .fauna-grid-item img {
+    /* Garante que imagens como o passport_template não fiquem gigantes e desloquem o layout */
+    width: 60%; 
+    height: auto;
+    max-height: 60%;
+    object-fit: contain;
+    margin-bottom: 5px;
 }
+
+/* Correção para o item de Premiação: precisa de mais padding/espaço para o badge */
+#lista-icones-premios .activity-grid-item {
+    padding: 10px; 
+}
+
+/* Correção para a imagem dentro do badge de Premiação: é maior */
+#lista-icones-premios .activity-grid-item img {
+    width: 80%; /* Tamanho maior para badges individuais */
+    max-height: 80%;
+}
+
 
 /* Classe Desbloqueada/Ativada */
 .activity-grid-item.desbloqueado, .fauna-grid-item.desbloqueado {
