@@ -1,638 +1,9 @@
-
-// script.js - CÓDIGO COMPLETO CORRIGIDO (COM MODAIS MODERNOS E MODAL DE VITÓRIA DO QUIZ)
+// script.js - CÓDIGO COMPLETO FINAL AJUSTADO
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
 let DETALHES_PARQUES = {}; 
-// NOVO: Estrutura de dados da fauna local (Exemplos com texto ilustrativo)
-const DADOS_FAUNA = {
-    "biribiri": [
-{
-  "nome": "Carcará",
-  "imagem": "carcara.png",
-  "descricao": "Ave de rapina oportunista e onívora, facilmente reconhecida por seu voo lento e comportamento curioso. Vive em campos e áreas abertas.",
-  "status": "Pouco preocupante (Least Concern)",
-  "nome_cientifico": "Caracara plancus"
-},
-{
-  "nome": "Gambá",
-  "imagem": "gamba.png",
-  "descricao": "Marsupial de hábito noturno e alimentação variada (frutas, insetos e pequenos vertebrados). Adapta-se bem a diferentes ambientes.",
-  "status": "Pouco preocupante (Least Concern)",
-  "nome_cientifico": "Didelphis albiventris"
-},
-{
-  "nome": "Lobo-guará",
-  "imagem": "loboguara.png",
-  "descricao": "Canídeo de pernas longas, pelagem avermelhada e alimentação onívora (frutos, pequenos vertebrados e insetos). É uma das espécies mais emblemáticas do Cerrado e ocorre também no Parque Estadual do Biribiri.",
-  "status": "Vulnerável no Brasil (MMA 2022) / Near Threatened na IUCN",
-  "nome_cientifico": "Chrysocyon brachyurus"
-},
-{
-  "nome": "Onça-parda",
-  "imagem": "oncaparda.png",
-  "descricao": "Grande felino de ampla distribuição nas Américas. Atua como predador de topo e é fundamental para o equilíbrio ecológico.",
-  "status": "Pouco preocupante (Least Concern) na IUCN / Vulnerável em algumas regiões do Brasil",
-  "nome_cientifico": "Puma concolor"
-},
-{
-  "nome": "Tamanduá-bandeira",
-  "imagem": "tamanduabandeira.png",
-  "descricao": "Grande mamífero que se alimenta de formigas e cupins usando sua língua comprida e pegajosa. É sensível à perda de habitat e atropelamentos.",
-  "status": "Vulnerável no Brasil e na IUCN",
-  "nome_cientifico": "Myrmecophaga tridactyla"
-},
-{
-  "nome": "Tatu-canastra",
-  "imagem": "tatucanastra.png",
-  "descricao": "O maior dos tatus, podendo ultrapassar 50 kg. Vive em áreas de Cerrado e é um escavador habilidoso. Espécie difícil de ser observada.",
-  "status": "Vulnerável no Brasil e na IUCN",
-  "nome_cientifico": "Priodontes maximus"
-},
-{
-  "nome": "Veado-catingueiro",
-  "imagem": "veadocatingueiro.png",
-  "descricao": "Veado de pequeno a médio porte, típico de áreas abertas e de transição. Alimenta-se de folhas e frutos e é sensível à caça.",
-  "status": "Pouco preocupante (Least Concern)",
-  "nome_cientifico": "Mazama gouazoubira"
-}
-
-    ],
-    "ibitipoca": [
-        {
-  "nome": "Andorinhão-de-coleira-falha",
-  "imagem": "andorinhaodecoleirafalha.png",
-  "descricao": "Ave citada como parte da fauna do parque, especialmente para observação de aves. ([parquedoibitipoca.com.br](https://parquedoibitipoca.com.br/?utm_source=chatgpt.com))"
-},
-{
-  "nome": "Coati",
-  "imagem": "coati.png",
-  "descricao": "Mamífero citado como presente no parque, pertencente à família dos procionídeos. ([ief.mg.gov.br](https://www.ief.mg.gov.br/w/parque-estadual-do-ibitipoca-comemora-44-anos?utm_source=chatgpt.com))",
-  "status": "Não disponível detalhadamente",
-  "nome_cientifico": "Nasua nasua"
-},
-{
-  "nome": "Lobo-guará",
-  "imagem": "loboguara.png",
-  "descricao": "Canídeo de pernas longas, pelagem avermelhada, típico de áreas abertas e de transição. É citado como presente no parque. ([liferay.meioambiente.mg.gov.br](https://liferay.meioambiente.mg.gov.br/web/ief/w/parque-estadual-do-ibitipoca?utm_source=chatgpt.com))",
-  "status": "Vulnerável no Brasil / Near Threatened (IUCN)",
-  "nome_cientifico": "Chrysocyon brachyurus"
-},
-{
-  "nome": "Macaco-barbado",
-  "imagem": "macacobarbado.png",
-  "descricao": "Primata citado como presente no parque. ([ief.mg.gov.br](https://www.ief.mg.gov.br/w/parque-estadual-do-ibitipoca-comemora-44-anos?utm_source=chatgpt.com))"
-},
-{
-  "nome": "Onça-parda",
-  "imagem": "oncaparda.png",
-  "descricao": "Grande felino de ampla distribuição na América; citado como espécie presente no parque, embora com pressões regionais. ([ief.mg.gov.br](https://www.ief.mg.gov.br/w/parque-estadual-do-ibitipoca-comemora-44-anos?utm_source=chatgpt.com))",
-  "status": "Vulnerável no Brasil",
-  "nome_cientifico": "Puma concolor"
-},
-{
-  "nome": "Papagaio-do-peito-roxo",
-  "imagem": "papagaiodopeitoroxo.png",
-  "descricao": "Ave registrada no parque entre os destaques da fauna. ([liferay.meioambiente.mg.gov.br](https://liferay.meioambiente.mg.gov.br/web/ief/w/parque-estadual-do-ibitipoca?utm_source=chatgpt.com))"
-}
-
-    ],
-    "itacolomi": [
-{
-  "nome": "Andorinhão-de-coleira",
-  "imagem": "andorinhaodecoleira.png",
-  "descricao": "Ave migratória registrada no parque, citada entre as espécies raras e ameaçadas encontradas na unidade. :contentReference[oaicite:1]{index=1}",
-  "status": "Não disponível detalhadamente",
-  "nome_cientifico": ""
-},
-{
-  "nome": "Ave-pavó",
-  "imagem": "avepavo.png",
-  "descricao": "Ave destacada na fauna do parque como uma espécie rara e ameaçada de extinção. :contentReference[oaicite:2]{index=2}",
-  "status": "Não disponível detalhadamente",
-  "nome_cientifico": ""
-},
-{
-  "nome": "Gato-mourisco",
-  "imagem": "gatomourisco.png",
-  "descricao": "Pequeno felino silvestre mencionado entre os mamíferos presentes no parque. :contentReference[oaicite:3]{index=3}",
-  "status": "Não disponível detalhadamente",
-  "nome_cientifico": ""
-},
-{
-  "nome": "Lobo-guará",
-  "imagem": "loboguara.png",
-  "descricao": "Canídeo de pernas longas, pelagem avermelhada; citado como espécie rara e ameaçada que ocorre no parque. :contentReference[oaicite:4]{index=4}",
-  "status": "Vulnerável no Brasil / Quase Ameaçado (Near Threatened) pela IUCN",
-  "nome_cientifico": "Chrysocyon brachyurus"
-},
-{
-  "nome": "Onça-parda",
-  "imagem": "oncaparda.png",
-  "descricao": "Grande felino citado como presente no parque, sendo uma das espécies de mamíferos de topo registradas na unidade. :contentReference[oaicite:5]{index=5}",
-  "status": "Vulnerável no Brasil / Baixo risco em escala global (Least Concern) segundo IUCN",
-  "nome_cientifico": "Puma concolor"
-},
-{
-  "nome": "Tamanduá-mirim",
-  "imagem": "tamanduamirim.png",
-  "descricao": "Mamífero de pequeno porte especializado em ingerir formigas e cupins, mencionado entre os mamíferos da fauna do parque. :contentReference[oaicite:6]{index=6}",
-  "status": "Não disponível detalhadamente",
-  "nome_cientifico": ""
-}
-],
-
-    "matadolimoeiro": [
-{
-  "nome": "Gambá-de-orelha-branca",
-  "imagem": "gambadeorelhabranca.png",
-  "descricao": "Marsupial presente somente em áreas de Mata Atlântica, observado no parque como espécie rara. :contentReference[oaicite:1]{index=1}",
-  "nome_cientifico": "Didelphis aurita"
-},
-{
-  "nome": "Rato-do-mato",
-  "imagem": "ratodumato.png",
-  "descricao": "Roedor típico do Cerrado, citado como espécie rara observada dentro da unidade de conservação. :contentReference[oaicite:2]{index=2}",
-  "nome_cientifico": ""
-}
-
-],
-    "novabaden": [
-{
-  "nome": "Bugio-ruivo",
-  "imagem": "bugioruivo.png",
-  "descricao": "Primata do gênero Alouatta citado na unidade; presença confirmada em levantamentos e relatórios locais.",
-  "status": "Em Perigo (EN) — avaliação nacional / ICMBio",
-  "nome_cientifico": "Alouatta guariba"
-},
-{
-  "nome": "Canário-da-terra",
-  "imagem": "canariodaterra.png",
-  "descricao": "Ave passeriforme observada na região do parque e destacada em registros de avifauna locais."
-},
-{
-  "nome": "Jaguatirica",
-  "imagem": "jaguatirica.png",
-  "descricao": "Felino de médio porte citado entre os mamíferos registrados no parque."
-},
-{
-  "nome": "Lobo-guará",
-  "imagem": "loboguara.png",
-  "descricao": "Canídeo de pernas longas, frequentemente citado no diagnóstico faunístico do parque.",
-  "status": "Vulnerável (Brasil)",
-  "nome_cientifico": "Chrysocyon brachyurus"
-},
-{
-  "nome": "Martim-pescador-verde",
-  "imagem": "martimpescadorverde.png",
-  "descricao": "Ave típica de margens e corpos d'água; registrada em observações fotográficas no parque."
-},
-{
-  "nome": "Sagui-da-serra-escuro",
-  "imagem": "saguidaserraescuro.png",
-  "descricao": "Primata de pequeno porte relatado em levantamentos e menções locais; espécie de interesse conservacionista em MG.",
-  "status": "Constatado como ameaçado/regionalmente crítico em fontes locais",
-  "nome_cientifico": "Callithrix aurita"
-},
-{
-  "nome": "Veado-campeiro",
-  "imagem": "veadocampeiro.png",
-  "descricao": "Ungulado citado em diagnósticos antigos do parque (presença de veados na lista de mamíferos do plano de manejo)."
-}
-
-],
-    "paufurado": [
-{
-  "nome": "Arara-canindé",
-  "imagem": "araracaninde.png",
-  "descricao": "Grande psitacídeo de cores vibrantes (azul e amarelo), frequenta áreas com árvores de grande porte próximas a rios e rios temporários; citada entre as aves observadas na região do parque.",
-  "status": "Pouco preocupante (Least Concern) — IUCN",
-  "nome_cientifico": "Ara ararauna"
-},
-{
-  "nome": "Lobo-guará",
-  "imagem": "loboguara.png",
-  "descricao": "Canídeo de pernas longas e pelagem avermelhada, típico do Cerrado; relatado em levantamentos e documentos sobre a fauna do parque.",
-  "status": "Vulnerável (Brasil) / Near Threatened (IUCN)",
-  "nome_cientifico": "Chrysocyon brachyurus"
-},
-{
-  "nome": "Onça-parda",
-  "imagem": "oncaparda.png",
-  "descricao": "Grande felino (também chamado de puma) de ampla distribuição nas Américas; citado em diagnósticos e menções sobre a fauna do Pau Furado.",
-  "status": "Pouco preocupante (Least Concern) — IUCN / Vulnerável em avaliações regionais",
-  "nome_cientifico": "Puma concolor"
-},
-{
-  "nome": "Tamanduá-bandeira",
-  "imagem": "tamanduabandeira.png",
-  "descricao": "Mamífero de grande porte especializado em formigas e cupins, com longo focinho e língua pegajosa; citado como parte da fauna do parque.",
-  "status": "Vulnerável (IUCN e listas nacionais/regionais)",
-  "nome_cientifico": "Myrmecophaga tridactyla"
-},
-{
-  "nome": "Teiú",
-  "imagem": "teiu.png",
-  "descricao": "Grande lagarto (teiú) encontrado em ambientes abertos e bordas de mata; a herpetofauna do parque é descrita como rica, com ocorrência de teiús e diversas serpentes.",
-  "status": "Pouco preocupante (Least Concern) — IUCN",
-  "nome_cientifico": "Salvator merianae"
-},
-{
-  "nome": "Veado-campeiro",
-  "imagem": "veadocampeiro.png",
-  "descricao": "Ungulado citado em relatos sobre a presença de veados no parque; ocorre em áreas abertas e de transição dentro do bioma cerrado."
-}
-
-],
-    "picodoitambe": [
-{
-  "nome": "Crossodactylodes itambé",
-  "imagem": "crossodactylodesitambe.png",
-  "descricao": "Anfíbio descrito por pesquisadores a partir de estudos na região do Pico do Itambé; descoberta recente indica endemismos na área de campos rupestres."
-},
-{
-  "nome": "Lobo-guará",
-  "imagem": "loboguara.png",
-  "descricao": "Canídeo de pernas longas, de pelagem avermelhada, típico de campos rupestres e áreas de transição; citado entre as espécies de atenção no parque.",
-  "status": "Vulnerável (Brasil) / Near Threatened (IUCN)",
-  "nome_cientifico": "Chrysocyon brachyurus"
-},
-{
-  "nome": "Onça-parda",
-  "imagem": "oncaparda.png",
-  "descricao": "Grande felino (puma) registrado na região; espécie de predador de topo mencionada nas listas de fauna local.",
-  "status": "Pouco preocupante (Least Concern) — IUCN / Vulnerável em avaliações regionais",
-  "nome_cientifico": "Puma concolor"
-},
-{
-  "nome": "Tamanduá-bandeira",
-  "imagem": "tamanduabandeira.png",
-  "descricao": "Mamífero de grande porte especializado em formigas e cupins; mencionado em relatórios e guias sobre a fauna do parque.",
-  "status": "Vulnerável (Brasil / IUCN)",
-  "nome_cientifico": "Myrmecophaga tridactyla"
-},
-{
-  "nome": "Trinca-ferro",
-  "imagem": "trincaferro.png",
-  "descricao": "Passeriforme observado na área (registros de avifauna em bases de observadores indicam diversas espécies de aves registradas no parque)."
-}
-],
-    "riodoce": [
-{
-  "nome": "Anta",
-  "imagem": "anta.png",
-  "descricao": "Maior mamífero terrestre brasileiro, dispersora de sementes, registrada no parque.",
-  "status": "Vulnerável (Brasil)",
-  "nome_cientifico": "Tapirus terrestris"
-},
-{
-  "nome": "Bugio-ruivo",
-  "imagem": "bugioruivo.png",
-  "descricao": "Primata da Mata Atlântica observado no parque.",
-  "status": "Vulnerável (Brasil)",
-  "nome_cientifico": "Alouatta guariba"
-},
-{
-  "nome": "Lontra",
-  "imagem": "lontra.png",
-  "descricao": "Mamífero semi-aquático da família dos mustelídeos citado entre as espécies ameaçadas no parque.",
-  "status": "Vulnerável",
-  "nome_cientifico": "Lontra longicaudis"
-},
-{
-  "nome": "Muriqui-do-norte",
-  "imagem": "muriquidonorte.png",
-  "descricao": "Maior primata das Américas, presente no parque em remanescentes da Mata Atlântica.",
-  "status": "Em Perigo (EN)",
-  "nome_cientifico": "Brachyteles hypoxanthus"
-},
-{
-  "nome": "Onça-pintada",
-  "imagem": "oncapintada.png",
-  "descricao": "Maior felino das Américas, indicador de qualidade ecológica, encontrado no parque.",
-  "status": "Vulnerável",
-  "nome_cientifico": "Panthera onca"
-},
-{
-  "nome": "Onça-parda",
-  "imagem": "oncaparda.png",
-  "descricao": "Felino de grande porte citado entre os mamíferos da unidade de conservação.",
-  "status": "Pouco preocupante (Least Concern)",
-  "nome_cientifico": "Puma concolor"
-},
-{
-  "nome": "Tatu-canastra",
-  "imagem": "tatucanastra.png",
-  "descricao": "Maior espécie de tatu, mencionada entre as espécies ameaçadas presentes no parque.",
-  "status": "Vulnerável",
-  "nome_cientifico": "Priodontes maximus"
-}
-],
-    "riopreto": [
-{
-  "nome": "Jaguar-tirica",
-  "imagem": "jaguatirica.png",
-  "descricao": "Felino de médio porte citado entre as espécies ameaçadas presentes na unidade de conservação.",
-  "status": "Ameaçado",
-  "nome_cientifico": "Leopardus wiedii"
-},
-{
-  "nome": "Lobo-guará",
-  "imagem": "loboguara.png",
-  "descricao": "Canídeo de pernas longas e pelagem avermelhada, típico de formações de cerrado e campos rupestres; relatado como presente no parque. :contentReference[oaicite:1]{index=1}",
-  "status": "Vulnerável (Brasil) / Near Threatened (IUCN)",
-  "nome_cientifico": "Chrysocyon brachyurus"
-},
-{
-  "nome": "Tamanduá-bandeira",
-  "imagem": "tamanduabandeira.png",
-  "descricao": "Grande mamífero especializado em formigas e cupins, listado entre as espécies de fauna ameaçadas da unidade. :contentReference[oaicite:2]{index=2}",
-  "status": "Vulnerável",
-  "nome_cientifico": "Myrmecophaga tridactyla"
-},
-{
-  "nome": "Tatu-canastra",
-  "imagem": "tatucanastra.png",
-  "descricao": "O maior dos tatus, citado entre as espécies ameaçadas presentes no parque. :contentReference[oaicite:3]{index=3}",
-  "status": "Vulnerável",
-  "nome_cientifico": "Priodontes maximus"
-}
-
-],
-    "serradasararas": [
-{
-  "nome": "Arara-canindé",
-  "imagem": "araracaninde.png",
-  "descricao": "Psitacídeo de cores azul-e-amarelas, cria no parque em topos de chapada e paredões; citado como uma das espécies-símbolo da unidade.",
-  "status": "Vulnerável (Brasil)",
-  "nome_cientifico": "Ara ararauna"
-},
-{
-  "nome": "Arara-vermelha",
-  "imagem": "araravermelha.png",
-  "descricao": "Grande arara vermelha-alaranjada que também ocupa nichos na unidade, especialmente nas formações rochosas e veredas da serra.",
-  "status": "Vulnerável (Brasil / IUCN)",
-  "nome_cientifico": "Ara chloropterus"
-},
-{
-  "nome": "Gato-mourisco",
-  "imagem": "gatomourisco.png",
-  "descricao": "Pequeno felino silvestre citado entre os mamíferos da unidade, adaptado ao cerrado e vereda da região.",
-  "status": "Não disponível detalhadamente",
-  "nome_cientifico": ""
-},
-{
-  "nome": "Jaguatirica",
-  "imagem": "jaguatirica.png",
-  "descricao": "Felino de médio porte presente no parque, atuando como predador de borda de mata e vegetação de cerrado.",
-  "status": "Não disponível detalhadamente",
-  "nome_cientifico": "Leopardus pardalis"
-},
-{
-  "nome": "Lobo-guará",
-  "imagem": "loboguara.png",
-  "descricao": "Canídeo de pernas longas e pelagem avermelhada, típico de formações de cerrado; listado entre as espécies de atenção no parque.",
-  "status": "Vulnerável (Brasil) / Near Threatened (IUCN)",
-  "nome_cientifico": "Chrysocyon brachyurus"
-},
-{
-  "nome": "Onça-parda",
-  "imagem": "oncaparda.png",
-  "descricao": "Grande felino de ampla distribuição, registrado na unidade de conservação e considerado importante para a fauna da região.",
-  "status": "Pouco preocupante (Least Concern) / Vulnerável regionalmente",
-  "nome_cientifico": "Puma concolor"
-},
-{
-  "nome": "Tamanduá-bandeira",
-  "imagem": "tamanduabandeira.png",
-  "descricao": "Mamífero especializado em formigas e cupins, relatado como ocorrente no parque nas áreas de vereda.",
-  "status": "Vulnerável",
-  "nome_cientifico": "Myrmecophaga tridactyla"
-},
-{
-  "nome": "Veado-campeiro",
-  "imagem": "veadocampeiro.png",
-  "descricao": "Ungulado de áreas abertas e de transição, citado entre as espécies de mamíferos registradas no parque.",
-  "status": "Não disponível detalhadamente",
-  "nome_cientifico": "Ozotoceros bezoarticus"
-}
-
-],
-    "serradobrigadeiro": [
-{
-  "nome": "Bugio-ruivo",
-  "imagem": "bugioruivo.png",
-  "descricao": "Primata da Mata Atlântica observado no parque, citado como uma das espécies ameaçadas da região. :contentReference[oaicite:1]{index=1}",
-  "status": "Vulnerável (Brasil)",
-  "nome_cientifico": "Alouatta guariba"
-},
-{
-  "nome": "Jaguar-pintada",
-  "imagem": "jaguarpintada.png",
-  "descricao": "Maior felino das Américas, citado entre as espécies de fauna ameaçadas presentes na unidade. :contentReference[oaicite:2]{index=2}",
-  "status": "Vulnerável",
-  "nome_cientifico": "Panthera onca"
-},
-{
-  "nome": "Jaguatirica",
-  "imagem": "jaguatirica.png",
-  "descricao": "Felino de médio porte listado como presente no parque. :contentReference[oaicite:3]{index=3}"
-},
-{
-  "nome": "Lobo-guará",
-  "imagem": "loboguara.png",
-  "descricao": "Canídeo de pernas longas e pelagem avermelhada, típico de áreas de Mata Atlântica de altitude e citado no parque. :contentReference[oaicite:4]{index=4}",
-  "status": "Vulnerável (Brasil) / Near Threatened (IUCN)",
-  "nome_cientifico": "Chrysocyon brachyurus"
-},
-{
-  "nome": "Muriqui-do-norte",
-  "imagem": "muriquidonorte.png",
-  "descricao": "Maior primata das Américas, encontrado em grupos independentes dentro do parque, sendo espécie de destaque para conservação. :contentReference[oaicite:5]{index=5}",
-  "status": "Em Perigo (Endangered)",
-  "nome_cientifico": "Brachyteles hypoxanthus"
-},
-{
-  "nome": "Onça-parda",
-  "imagem": "oncaparda.png",
-  "descricao": "Felino de grande porte registrado no parque, aparece em estudos sobre mamíferos da unidade. :contentReference[oaicite:6]{index=6}",
-  "status": "Least Concern (IUCN)",
-  "nome_cientifico": "Puma concolor"
-},
-{
-  "nome": "Tamanduá-de-colete",
-  "imagem": "tamanduadecolete.png",
-  "descricao": "Mamífero especializado em formigas e cupins citado na fauna do parque. :contentReference[oaicite:7]{index=7}"
-}
-
-],
-    "serradointendente": [
-{
-  "nome": "Lobo-guará",
-  "imagem": "loboguara.png",
-  "descricao": "Canídeo de pernas longas, pelagem avermelhada, citado entre os mamíferos em risco na região da Serra do Intendente. :contentReference[oaicite:1]{index=1}",
-  "status": "Vulnerável (Brasil) / Near Threatened (IUCN)",
-  "nome_cientifico": "Chrysocyon brachyurus"
-},
-{
-  "nome": "Macaco-sauá-de-cara-preta",
-  "imagem": "macacosua­decarapreta.png",
-  "descricao": "Primata considerado raro, registrado pela primeira vez na Serra do Intendente, segundo levantamento ornitofaunístico da área. :contentReference[oaicite:2]{index=2}"
-},
-{
-  "nome": "Tamanduá-bandeira",
-  "imagem": "tamanduabandeira.png",
-  "descricao": "Grande mamífero especializado em formigas e cupins, citado como parte da fauna em risco presente no parque. :contentReference[oaicite:3]{index=3}",
-  "status": "Vulnerável",
-  "nome_cientifico": "Myrmecophaga tridactyla"
-},
-{
-  "nome": "Pedreiro-do-Espinhaço",
-  "imagem": "pedreirodoespinhaco.png",
-  "descricao": "Ave endêmica das porções mais elevadas da Serra do Espinhaço, identificada no Parque Estadual Serra do Intendente como ocorrente. :contentReference[oaicite:4]{index=4}"
-}
-
-],
-    "serradopapagaio": [
-{
-  "nome": "Jaguatirica",
-  "imagem": "jaguatirica.png",
-  "descricao": "Felino ágil citado nas listas de fauna do parque como presente nas áreas de floresta e campos de altitude. :contentReference[oaicite:1]{index=1}"
-},
-{
-  "nome": "Lobo-guará",
-  "imagem": "loboguara.png",
-  "descricao": "Canídeo de pernas longas, pelagem avermelhada; espécie típica de áreas de transição que ocorre no parque. :contentReference[oaicite:2]{index=2}",
-  "status": "Vulnerável (Brasil) / Near Threatened (IUCN)",
-  "nome_cientifico": "Chrysocyon brachyurus"
-},
-{
-  "nome": "Mono-carvoeiro",
-  "imagem": "monocarvoeiro.png",
-  "descricao": "Primata de grande porte da Mata Atlântica citado como uma das espécies de destaque para conservação na unidade. :contentReference[oaicite:3]{index=3}",
-  "status": "Em Perigo (Endangered)",
-  "nome_cientifico": "Brachyteles hypoxanthus"
-},
-{
-  "nome": "Onça-parda",
-  "imagem": "oncaparda.png",
-  "descricao": "Grande felino predador de topo registrado em levantamentos faunísticos no parque. :contentReference[oaicite:4]{index=4}",
-  "status": "Pouco preocupante (Least Concern) / Vulnerável regionalmente",
-  "nome_cientifico": "Puma concolor"
-},
-{
-  "nome": "Papagaio-do-peito-roxo",
-  "imagem": "papagaiodopeitoroxo.png",
-  "descricao": "Psitacídeo ameaçado que dá nome à unidade e é citado como espécie protegida no parque. :contentReference[oaicite:5]{index=5}",
-  "status": "Ameaçado",
-  "nome_cientifico": "Amazona vinacea"
-},
-{
-  "nome": "Tatu-canastra",
-  "imagem": "tatucanastra.png",
-  "descricao": "Maior das espécies de tatu, mencionada entre as espécies de solo do parque nas áreas de campos de altitude. :contentReference[oaicite:6]{index=6}",
-  "status": "Vulnerável (Brasil)",
-  "nome_cientifico": "Priodontes maximus"
-},
-{
-  "nome": "Veado-campeiro",
-  "imagem": "veadocampeiro.png",
-  "descricao": "Ungulado de áreas abertas observado no parque em áreas de campos e transição. :contentReference[oaicite:7]{index=7}"
-}
-
-],
-    "serradorolamoca": [
-{
-  "nome": "Jaguatirica",
-  "imagem": "jaguatirica.png",
-  "descricao": "Felino de médio porte registrado na unidade de conservação; presença confirmada em registros de mamíferos da região. ([turn0search12],[turn0search18])"
-},
-{
-  "nome": "Lobo-guará",
-  "imagem": "loboguara.png",
-  "descricao": "Canídeo de pernas longas, pelagem avermelhada, encontrado no parque — citado como uma das espécies-ameaçadas da unidade. ([turn0search4],[turn0search8])",
-  "status": "Vulnerável (Brasil) / Near Threatened (IUCN)",
-  "nome_cientifico": "Chrysocyon brachyurus"
-},
-{
-  "nome": "Onça-parda",
-  "imagem": "oncaparda.png",
-  "descricao": "Grande felino (puma) monitorado no parque, com exemplar jovem equipado com coleira de rastreamento. ([turn0search3],[turn0search10])",
-  "status": "Pouco preocupante (Least Concern) / Vulnerável regionalmente",
-  "nome_cientifico": "Puma concolor"
-},
-{
-  "nome": "Veado-campeiro",
-  "imagem": "veadocampeiro.png",
-  "descricao": "Ungulado típico de áreas de transição registrado dentre a mastofauna da unidade de conservação. ([turn0search18],[turn0search12])"
-},
-{
-  "nome": "Carcará",
-  "imagem": "carcara.png",
-  "descricao": "Ave de rapina visualmente observada com frequência na unidade, entre as principais aves da fauna local. ([turn0search4])"
-}
-
-],
-    "serraverde": [
-{
-  "nome": "Capivara",
-  "imagem": "capivara.png",
-  "descricao": "Mamífero grande de hábitos semi-aquáticos citado entre os mamíferos da unidade de conservação. :contentReference[oaicite:1]{index=1}"
-},
-{
-  "nome": "Cachorro-do-mato",
-  "imagem": "cachorrodomato.png",
-  "descricao": "Pequeno carnívoro silvestre presença confirmada nas listagens de mamíferos da área urbana remanescente do parque. :contentReference[oaicite:2]{index=2}"
-},
-{
-  "nome": "Gambá",
-  "imagem": "gamba.png",
-  "descricao": "Marsupial onívoro, listado entre os mamíferos de médio porte no parque. :contentReference[oaicite:3]{index=3}"
-},
-{
-  "nome": "Pica-pau-do-campo",
-  "imagem": "picapaudocampo.png",
-  "descricao": "Ave registrada nas trilhas do parque, especialmente mencionada na Trilha do Pica-Pau. :contentReference[oaicite:4]{index=4}"
-},
-{
-  "nome": "Tucano",
-  "imagem": "tucano.png",
-  "descricao": "Ave grande de bico colorido citada entre as aves observáveis no parque. :contentReference[oaicite:5]{index=5}"
-}
-
-],
-    "sumidouro": [
-{
-  "nome": "Gambá",
-  "imagem": "gamba.png",
-  "descricao": "Marsupial onívoro listado entre os mamíferos da unidade de conservação. :contentReference[oaicite:1]{index=1}"
-},
-{
-  "nome": "Gato-do-mato",
-  "imagem": "gatodomato.png",
-  "descricao": "Felino de médio porte citado no inventário de fauna do parque. :contentReference[oaicite:2]{index=2}"
-},
-{
-  "nome": "Lobo-guará",
-  "imagem": "loboguara.png",
-  "descricao": "Canídeo de pernas longas e pelagem avermelhada, citado como presente no parque. :contentReference[oaicite:3]{index=3}",
-  "status": "Vulnerável (Brasil) / Near Threatened (IUCN)",
-  "nome_cientifico": "Chrysocyon brachyurus"
-},
-{
-  "nome": "Tatu-galinha",
-  "imagem": "tatugalinha.png",
-  "descricao": "Espécie de tatu registrada entre os mamíferos do parque. :contentReference[oaicite:4]{index=4}"
-},
-{
-  "nome": "Veado-catingueiro",
-  "imagem": "veadocatingueiro.png",
-  "descricao": "Ungulado de médio porte citado no parque entre as espécies de mamíferos da área. :contentReference[oaicite:5]{index=5}"
-}
-
-]
-    // Adicionar dados de fauna para outros parques aqui
-};
+let DADOS_FAUNA = {}; // NOVO: Variável global para receber os dados do fauna.json
 
 let estadoUsuario = JSON.parse(localStorage.getItem('trilhasDeMinasStatus')) || {};
 let scrollPosition = 0;
@@ -1041,10 +412,10 @@ document.querySelectorAll('.close-modal').forEach(btn => {
 });
 
 // Garante que o modal feche ao clicar fora (no overlay)
-document.getElementById('fauna-modal').addEventListener('click', (e) => {
+document.getElementById('fauna-modal')?.addEventListener('click', (e) => {
     if (e.target.id === 'fauna-modal') fecharModais();
 });
-document.getElementById('qr-modal').addEventListener('click', (e) => {
+document.getElementById('qr-modal')?.addEventListener('click', (e) => {
     if (e.target.id === 'qr-modal') fecharModais();
 });
 document.getElementById('intro-modal')?.addEventListener('click', (e) => {
@@ -1713,19 +1084,13 @@ if (!hash || hash === 'home' || hash === '#') {
 }
 
 // --- Inicialização da Aplicação ---
+// CORREÇÃO: Lógica de inicialização reescrita para evitar travamento e duplicidade
 function iniciarApp() {
-
+    // REMOVEMOS: carregarBotoesParques(), fade-out e setTimeout duplicado.
     
-    // Chamada inicial de lidarComHash para carregar o estado, caso o hash esteja setado (ex: deep link de check-in)
-    lidarComHash(); 
-
-    const videoIntro = document.getElementById('video-intro');
-    videoIntro.classList.add('fade-out'); 
-    setTimeout(() => {
-        videoIntro.style.display = 'none';
-        document.getElementById('app-container').style.display = 'flex';
-        setupPwaInstallPrompt();
-    }, 1000); 
+    // Garante que o container principal esteja visível (vídeo já foi escondido)
+    document.getElementById('app-container').style.display = 'flex';
+    setupPwaInstallPrompt();
 
     const btnPremiacao = document.getElementById('btn-premiacao');
     if (btnPremiacao) {
@@ -1734,20 +1099,27 @@ function iniciarApp() {
             window.location.hash = `#premiacao`; 
         });
     }
+    
+    // A chamada lidarComHash() é feita diretamente na função 'inicializar'
+    // para garantir o carregamento do estado inicial após carregar todos os dados.
 }
 
 async function carregarDados() {
-    const [parquesResp, detalhesResp] = await Promise.all([
+    // CORREÇÃO: Adicionamos o fetch do fauna.json
+    const [parquesResp, detalhesResp, faunaResp] = await Promise.all([
         fetch('parques.json'),
-        fetch('park_details.json')
+        fetch('park_details.json'),
+        fetch('fauna.json') // NOVO FETCH
     ]);
     
     const parquesData = await parquesResp.json();
     const detalhesData = await detalhesResp.json();
+    const faunaData = await faunaResp.json(); // NOVO DADO
     
     DADOS_PARQUES = parquesData.DADOS_PARQUES;
     ATIVIDADES_PARQUES = parquesData.ATIVIDADES_PARQUES;
     DETALHES_PARQUES = detalhesData;
+    DADOS_FAUNA = faunaData; // Atribui os dados do fauna.json
     
     // MUDANÇA: Adiciona e-mail e telefone de exemplo em DETALHES_PARQUES para testes
     // Você deve atualizar isso com dados reais em park_details.json!
@@ -1802,6 +1174,8 @@ async function inicializar() {
                 checkinProcessado = true;
             }
         }
+        
+        carregarBotoesParques(); // NOVO: Carrega os botões sempre, após carregar os dados.
 
         if (localStorage.getItem('first_visit') !== 'false' && !checkinProcessado) {
             localStorage.setItem('first_visit', 'false');
@@ -1812,23 +1186,27 @@ async function inicializar() {
             const playPromise = videoElement.play();
             if (playPromise !== undefined) {
                 playPromise.then(() => {
+                    // Controla a transição do vídeo
+                    document.getElementById('video-intro').classList.add('fade-out');
                     setTimeout(() => {
-                        iniciarApp();
-                    }, 1000); // Reduzi o tempo para 1000ms para corresponder ao fade-out
+                        iniciarApp(); // Mostra o app após a animação
+                        lidarComHash(); // Garante o carregamento do estado inicial
+                    }, 1000); 
                 }).catch(error => {
                     console.warn('Autoplay impedido. Iniciando app diretamente.', error);
                     iniciarApp();
+                    lidarComHash(); // Garante o carregamento do estado inicial
                 });
             }
         } else {
             document.getElementById('video-intro').style.display = 'none';
             document.getElementById('app-container').style.display = 'flex';
             
-            // CORREÇÃO: Chama o carregamento dos botões (que estava faltando neste bloco)
-            carregarBotoesParques();
-
             if (!checkinProcessado) {
                 lidarComHash();
+            } else {
+                // Se um check-in foi processado, processarCheckin já cuida do hash, mas chamar lidarComHash aqui evita erros
+                lidarComHash(); 
             }
         }
         
@@ -1846,3 +1224,5 @@ async function inicializar() {
 
     configurarNavegacao();
 }
+
+document.addEventListener('DOMContentLoaded', inicializar);
