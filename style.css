@@ -1,4 +1,4 @@
-/* style.css - CÓDIGO COMPLETO AJUSTADO (COM EFEITO GLOW NOS ÍCONES) */
+/* style.css - CÓDIGO COMPLETO AJUSTADO (COM EFEITO GLOW PADRONIZADO) */
 
 /* Variáveis de Cores e Estilos */
 :root {
@@ -15,6 +15,9 @@
     /* AJUSTE: Sombra de clique (ativa) para respeitar o border-radius */
     --sombra-neumorfismo-ativa: inset 4px 4px 8px 0 #a3b1c6, inset -4px -4px 8px 0 var(--cor-sombra-clara); 
     --sombra-neumorfismo-card: 4px 4px 8px 0 #a3b1c6, -4px -4px 8px 0 var(--cor-sombra-clara);
+
+    /* NOVO: Variável para Glow de Conquista (Amarelo/Dourado suave) */
+    --cor-glow-conquista: #FFC107; 
 }
 
 /* Reset Básico e Fundo */
@@ -182,19 +185,19 @@ header {
     display: none; 
 }
  
-/* Ícone Principal (Font Awesome) */
+/* Ícone Principal (Font Awesome) - Com Efeito Glow Verde */
 .icone-parque-principal {
     font-size: 1.8rem; 
     color: var(--cor-principal);
     margin-bottom: 3px;
     z-index: 2;
     position: relative;
-    /* NOVO EFEITO: Sombra sutil e elevação */
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.2), 0 0 10px rgba(76, 175, 80, 0.5); /* Sombra 3D + Glow Verde */
+    /* EFEITO GLOW VERDE PADRÃO PARA ÍCONES */
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2), 0 0 10px rgba(76, 175, 80, 0.5); 
     transition: all 0.3s ease-in-out;
 }
 
-/* Estilo para as novas logos PNG nos botões */
+/* Estilo para as novas logos PNG nos botões - Com Efeito Glow Verde */
 .logo-parque-principal {
     width: 60%; 
     height: auto;
@@ -203,7 +206,7 @@ header {
     z-index: 2;
     position: relative;
     object-fit: contain;
-    /* NOVO EFEITO: Sombra sutil (para simular elevação e destaque) */
+    /* EFEITO GLOW VERDE PADRÃO PARA LOGOS */
     filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.2)) drop-shadow(0 0 5px var(--cor-secundaria)); 
     transition: all 0.3s ease-in-out;
 }
@@ -356,6 +359,9 @@ header {
     color: #888; /* Cor de texto mais neutra para bloqueado */
     font-style: italic;
     cursor: default;
+    
+    /* REMOVE GLOW para badges desativados */
+    filter: none;
 }
 
 .icone-premio.desbloqueado {
@@ -365,6 +371,9 @@ header {
     opacity: 1.0;
     font-style: normal;
     cursor: pointer;
+    
+    /* NOVO: EFEITO GLOW AMARELO PARA BADGE DESBLOQUEADO */
+    filter: drop-shadow(0 0 8px rgba(255, 193, 7, 0.6));
 }
 
 .icone-premio:active.desbloqueado {
@@ -393,6 +402,8 @@ header {
     object-fit: contain; 
     padding: 5px; 
     box-sizing: border-box;
+    /* Garante que o GLOW amarelo se aplique à imagem do badge também */
+    filter: inherit; 
 }
 
 /* Ajustes específicos para o Badge GRANDE de Check-ins */
@@ -612,7 +623,7 @@ header {
     font-size: 1.6rem;
     margin-top: 15px;
     text-transform: capitalize;
-    /* MUDANÇA SOLICITADA: Centralizar todos os títulos H3 dentro da área dinâmica */
+    /* Centralizar todos os títulos H3 dentro da área dinâmica */
     text-align: center;
 }
 
@@ -720,6 +731,9 @@ header {
     opacity: 0.5; /* PADRONIZAÇÃO: Opacidade reduzida para itens bloqueados */
     color: #888;
     font-style: italic;
+    
+    /* NOVO: Adiciona o Glow Verde ao item de Fauna/Atividade (Verde para Natureza/Interação) */
+    filter: drop-shadow(0 0 4px rgba(76, 175, 80, 0.3)); 
 }
 
 .activity-grid-item.desbloqueado, .fauna-grid-item.desbloqueado {
@@ -728,6 +742,9 @@ header {
     opacity: 1.0; 
     color: var(--cor-texto); /* Texto escuro normal para itens desbloqueados */
     font-style: normal;
+    
+    /* NOVO: Aumenta o Glow Verde ao desbloquear */
+    filter: drop-shadow(0 0 8px rgba(76, 175, 80, 0.6));
 }
 
 .fauna-grid-item:active.desbloqueado, .activity-grid-item:active.desbloqueado {
@@ -750,6 +767,27 @@ header {
     font-weight: 600;
     line-height: 1.1;
     color: inherit;
+}
+
+/* NOVO: Efeito Glow Verde para o QR Mascote Container */
+.qr-mascote-container {
+    width: 112px; 
+    height: 112px; 
+    flex-shrink: 0; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    background-color: transparent; 
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
+    position: relative;
+    margin-top: 10px;
+    cursor: pointer; 
+    transition: transform 0.2s;
+    
+    /* NOVO: Glow Verde no Botão QR Code */
+    filter: drop-shadow(0 0 5px rgba(76, 175, 80, 0.7)); 
 }
 
 
@@ -870,22 +908,7 @@ header {
 }
 
 /* AJUSTE: Aumento de 40% no tamanho (80px * 1.4 = 112px) */
-.qr-mascote-container {
-    width: 112px; 
-    height: 112px; 
-    flex-shrink: 0; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px;
-    background-color: transparent; 
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
-    position: relative;
-    margin-top: 10px;
-    cursor: pointer; 
-    transition: transform 0.2s;
-}
+/* (Estilo base ajustado na regra .qr-mascote-container acima) */
 
 .qr-mascote-container:active {
     transform: scale(0.95);
