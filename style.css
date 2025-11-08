@@ -1005,3 +1005,43 @@ img {
     max-width: 100%;
     height: auto;
 }
+
+/* --- NOVO ESTILO PARA ÍCONE DE DOWNLOAD NO MODAL DA FAUNA --- */
+#fauna-modal-body {
+    position: relative; /* Contêiner para posicionar o ícone de download */
+}
+
+#fauna-modal-body .download-icon-fauna {
+    position: absolute;
+    top: 55px; /* Ajuste para logo abaixo do título e botão 'x' */
+    right: 35px; /* Ajuste para o canto superior direito */
+    z-index: 10;
+    font-size: 1.5rem;
+    color: white; 
+    background-color: rgba(76, 175, 80, 0.7); /* Cor principal com transparência */
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.2s;
+}
+
+#fauna-modal-body .download-icon-fauna:hover {
+    background-color: var(--cor-principal);
+}
+
+#fauna-modal-body .download-icon-fauna i {
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+@media (max-width: 480px) {
+    #fauna-modal-body .download-icon-fauna {
+        top: 45px; /* Ajuste para mobile */
+        right: 20px;
+    }
+}
