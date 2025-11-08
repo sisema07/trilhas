@@ -205,14 +205,14 @@
             "imagem_png": "badges/vilarejo-historico-badge.png" 
             },
             { 
-            "id": "mirante-da-cruzinha", 
+            "id": "mirantedacruzinha", 
             "nome": "Mirante Casa dos Ventos", 
             "icone": "fa-building-columns", 
             "descricao_curta": "Contemple diversas montanhas da cordilheira do alto rio Jequitinhonha", 
             "imagem_png": "badges/mirante-da-cruzinha.png" 
             },
             { 
-            "id": "mirante-casa-dos-ventos", 
+            "id": "mirantecasadosventos", 
             "nome": "Mirante da Cruzinha", 
             "icone": "fa-building-columns", 
             "descricao_curta": "Contemple diversas montanhas da cordilheira do alto rio Jequitinhonha", 
@@ -241,14 +241,14 @@
             "descricao_curta": "Teste seus conhecimentos para liberar este Badge!" 
             },
             { 
-            "id": "janela-do-ceu", 
+            "id": "janeladoceu", 
             "nome": "Janela do Céu", 
             "icone": "fa-cloud-meatball", 
             "descricao_curta": "A vista icônica do parque, cachoeira e horizonte sem fim.",
             "imagem_png": "badges/janela-do-ceu.png"
             },
             { 
-            "id": "pico-do-piao", 
+            "id": "picodopiao", 
             "nome": "Pico do Pião", 
             "icone": "fa-mountain", 
             "descricao_curta": "A subida ao ponto mais alto e a capela histórica no topo.",
@@ -317,6 +317,7 @@
         ]
     }
 }
+
 
 
 
