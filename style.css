@@ -1,4 +1,4 @@
-/* style.css - CÓDIGO COMPLETO AJUSTADO (FINAL COM TODAS AS CORREÇÕES) */
+/* style.css - CÓDIGO COMPLETO AJUSTADO (COM CENTRALIZAÇÃO DE TÍTULOS E ESTILO GLASSMORPHISM) */
 
 /* Variáveis de Cores e Estilos */
 :root {
@@ -287,8 +287,6 @@ header {
 }
 
 /* Botão Voltar/Home - MUDANÇA: APENAS O HOME PERMANECE */
-/* #btn-voltar (REMOVIDO) */
-
 #btn-home {
     background: none;
     border: none;
@@ -309,8 +307,6 @@ header {
     padding: 20px;
     text-align: center;
 }
-
-/* REMOVIDO: badge-intro-text e badge-mascote-img/texto (Substituído por um botão que usa .botao-parque) */
 
 .premios-titulo {
     font-family: 'Bebas Neue', sans-serif;
@@ -602,6 +598,7 @@ header {
     font-size: 1.6rem;
     margin-top: 15px;
     text-transform: capitalize;
+    /* MUDANÇA SOLICITADA: Centralizar todos os títulos H3 dentro da área dinâmica */
     text-align: center;
 }
 
@@ -616,6 +613,61 @@ header {
     margin-top: -10px;
     text-align: center !important;
 }
+
+/* --- ESTILOS DE QUIZ --- */
+
+/* Estilo da Barra de Progresso */
+.progress-bar-container {
+    position: relative;
+    width: 90%;
+    max-width: 400px;
+    margin: 20px auto 30px;
+    height: 15px;
+    background-color: var(--cor-sombra-escura); 
+    border-radius: 8px;
+    box-shadow: var(--sombra-neumorfismo-interna); 
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 100%;
+}
+
+#quiz-progress {
+    height: 100%;
+    background-color: var(--cor-secundaria);
+    border-radius: 8px;
+    transition: width 0.4s ease-in-out;
+}
+
+/* Estilo para a Tela de Resultados (Win/Lose) */
+.result-classification {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+.success-badge-message {
+    font-weight: 700;
+    color: var(--cor-principal);
+    margin-bottom: 20px;
+}
+
+.win-animation-container {
+    width: 100px; 
+    height: 100px;
+    margin: 10px auto;
+}
+.win-gif-mascote {
+    max-width: 100%;
+    height: auto;
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(0, 150, 0, 0.4);
+}
+/* Fim dos Estilos de Quiz */
+
 
 /* --- ESTILOS DE GRID DE FAUNA (2 colunas) --- */
 #fauna-grid-dinamica {
@@ -733,7 +785,7 @@ header {
     width: 300px;
     padding: 20px;
     /* Adiciona um fundo sutil relacionado à natureza para os modais pequenos */
-    background-image: url('images/nature-pattern.png'); 
+    background-image: url('images/nature-pattern.png'); /* Nota: Você precisará desta imagem */
     background-color: rgba(235, 245, 238, 0.85); 
     background-size: cover;
     background-blend-mode: overlay; 
@@ -939,4 +991,3 @@ img {
     max-width: 100%;
     height: auto;
 }
-
