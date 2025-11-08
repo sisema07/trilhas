@@ -1,10 +1,9 @@
-
-// script.js - CÓDIGO COMPLETO CORRIGIDO (COM MODAIS MODERNOS E MODAL DE VITÓRIA DO QUIZ)
+// script.js - CÓDIGO COMPLETO REVISADO (FIX DE CONGELAMENTO)
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
 let DETALHES_PARQUES = {}; 
-// NOVO: Estrutura de dados da fauna local (Exemplos com texto ilustrativo)
+// ESTRUTURA DA FAUNA (Mantida no JS conforme código atual)
 const DADOS_FAUNA = {
     "biribiri": [
         { "nome": "Jaguatirica", "imagem": "jaguatirica.png", "descricao": "A Jaguatirica (Leopardus pardalis) é um predador noturno de porte médio da Mata Atlântica e do Cerrado. Está classificada como Quase Ameaçada (NT). É fundamental para o equilíbrio do ecossistema, mas sofre com a fragmentação de seu habitat e caça. Texto ilustrativo.", "status": "NT" },
@@ -15,23 +14,19 @@ const DADOS_FAUNA = {
         { "nome": "Sapo-Pingo-de-Ouro", "imagem": "sapo-pingo.png", "descricao": "O Sapo-Pingo-de-Ouro (Brachycephalus ibitipoca) é um pequeno sapo colorido, endêmico de Ibitipoca. Classificado como Criticamente em Perigo (CR). Sua sobrevivência é sensível a mudanças climáticas e à perda de habitat nas partes mais altas do parque. Texto ilustrativo.", "status": "CR" },
         { "nome": "Macaco-Prego", "imagem": "macacoprego.png", "descricao": "O Macaco-Prego (Sapajus nigritus) é inteligente e social, sendo um dos primatas mais comuns da região. Está classificada como Pouco Preocupante (LC). Vive em grupos e se alimenta de frutos e insetos.", "status": "LC" }
     ]
-    // Adicionar dados de fauna para outros parques aqui
 };
 
 let estadoUsuario = JSON.parse(localStorage.getItem('trilhasDeMinasStatus')) || {};
 let scrollPosition = 0;
 let deferredPrompt; 
 
-// NOVAS VARIÁVEIS PARA O CANVAS DE COMPARTILHAMENTO
 let passportTemplateImage = new Image();
 let stampImage = new Image();
 let userPhoto = new Image();
 let canvasContext = null;
 
-// Caminho para a sua imagem de fundo do passaporte
 passportTemplateImage.src = 'images/passport_template.png';
 
-// Variáveis de estado do Quiz
 let currentQuizData = null; 
 let currentQuizIndex = 0;   
 let quizScore = 0;          
@@ -297,8 +292,11 @@ function carregarPremios() {
 function carregarConteudoPremiacao() {
     document.getElementById('conteudo-parque-detalhe').style.display = 'none';
     document.getElementById('area-envio-foto').style.display = 'none';
+    
+    document.getElementById('app-container').style.display = 'none'; // Esconde Home
 
     const areaSecundaria = document.getElementById('area-secundaria');
+    areaSecundaria.style.display = 'flex'; // Garante que a área secundária está no display
     document.getElementById('secundaria-titulo').textContent = 'Seus Check-ins';
 
     document.getElementById('conteudo-premios').style.display = 'block';
@@ -425,10 +423,10 @@ document.querySelectorAll('.close-modal').forEach(btn => {
 });
 
 // Garante que o modal feche ao clicar fora (no overlay)
-document.getElementById('fauna-modal').addEventListener('click', (e) => {
+document.getElementById('fauna-modal')?.addEventListener('click', (e) => {
     if (e.target.id === 'fauna-modal') fecharModais();
 });
-document.getElementById('qr-modal').addEventListener('click', (e) => {
+document.getElementById('qr-modal')?.addEventListener('click', (e) => {
     if (e.target.id === 'qr-modal') fecharModais();
 });
 document.getElementById('intro-modal')?.addEventListener('click', (e) => {
@@ -1229,5 +1227,3 @@ async function inicializar() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
-
-
