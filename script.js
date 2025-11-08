@@ -3,16 +3,16 @@
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
 let DETALHES_PARQUES = {}; 
-// NOVO: Estrutura de dados da fauna local (Exemplos)
+// NOVO: Estrutura de dados da fauna local (Exemplos com texto ilustrativo)
 const DADOS_FAUNA = {
     "biribiri": [
-        { "nome": "Jaguatirica", "imagem": "jaguatirica.png", "descricao": "Um predador noturno de porte médio da Mata Atlântica e do Cerrado. Está classificada como Quase Ameaçada (NT). É fundamental para o equilíbrio do ecossistema.", "status": "NT" },
-        { "nome": "Tamanduá-Bandeira", "imagem": "tamandua.png", "descricao": "Um dos maiores mamíferos do Cerrado, conhecido por sua língua comprida. Classificado como Vulnerável (VU) no Brasil. Sua presença é um indicador de saúde ambiental.", "status": "VU" },
-        { "nome": "Lobo-Guará", "imagem": "loboguara.png", "descricao": "O maior canídeo da América do Sul, símbolo do Cerrado. Classificado como Quase Ameaçado (NT). Caçar e atropelamentos são as principais ameaças.", "status": "NT" }
+        { "nome": "Jaguatirica", "imagem": "jaguatirica.png", "descricao": "A Jaguatirica (Leopardus pardalis) é um predador noturno de porte médio da Mata Atlântica e do Cerrado. Está classificada como Quase Ameaçada (NT). É fundamental para o equilíbrio do ecossistema, mas sofre com a fragmentação de seu habitat e caça. Texto ilustrativo.", "status": "NT" },
+        { "nome": "Tamanduá-Bandeira", "imagem": "tamandua.png", "descricao": "O Tamanduá-Bandeira (Myrmecophaga tridactyla) é um dos maiores mamíferos do Cerrado, conhecido por sua língua comprida. Classificado como Vulnerável (VU) no Brasil. Sua presença é um indicador de saúde ambiental, mas ele é frequentemente vítima de atropelamentos em rodovias. Texto ilustrativo.", "status": "VU" },
+        { "nome": "Lobo-Guará", "imagem": "loboguara.png", "descricao": "O Lobo-Guará (Chrysocyon brachyurus) é o maior canídeo da América do Sul, símbolo do Cerrado. Classificado como Quase Ameaçado (NT). Caçar e atropelamentos são as principais ameaças. Ele desempenha um papel importante na dispersão de sementes. Texto ilustrativo.", "status": "NT" }
     ],
     "ibitipoca": [
-        { "nome": "Sapo-Pingo-de-Ouro", "imagem": "sapo-pingo.png", "descricao": "Pequeno sapo colorido, endêmico de Ibitipoca. Classificado como Criticamente em Perigo (CR). Sua sobrevivência é sensível a mudanças climáticas.", "status": "CR" },
-        { "nome": "Macaco-Prego", "imagem": "macacoprego.png", "descricao": "Inteligente e social, é um dos primatas mais comuns da região. Está classificado como Pouco Preocupante (LC).", "status": "LC" }
+        { "nome": "Sapo-Pingo-de-Ouro", "imagem": "sapo-pingo.png", "descricao": "O Sapo-Pingo-de-Ouro (Brachycephalus ibitipoca) é um pequeno sapo colorido, endêmico de Ibitipoca. Classificado como Criticamente em Perigo (CR). Sua sobrevivência é sensível a mudanças climáticas e à perda de habitat nas partes mais altas do parque. Texto ilustrativo.", "status": "CR" },
+        { "nome": "Macaco-Prego", "imagem": "macacoprego.png", "descricao": "O Macaco-Prego (Sapajus nigritus) é inteligente e social, sendo um dos primatas mais comuns da região. Está classificado como Pouco Preocupante (LC). Vive em grupos e se alimenta de frutos e insetos.", "status": "LC" }
     ]
     // Adicionar dados de fauna para outros parques aqui
 };
@@ -334,7 +334,7 @@ function carregarConteudoFauna(parque, container) {
             const imagePath = `fauna/${animal.imagem}`;
             
             html += `
-                <div class="fauna-grid-item" data-index="${index}" data-parque-id="${parque.id}" onclick="abrirModalFauna('${parque.id}', ${index})">
+                <div class="fauna-grid-item desbloqueado" data-index="${index}" data-parque-id="${parque.id}" onclick="abrirModalFauna('${parque.id}', ${index})">
                     <img src="${imagePath}" alt="${animal.nome}">
                     <span>${animal.nome}</span>
                 </div>
@@ -346,7 +346,7 @@ function carregarConteudoFauna(parque, container) {
     container.innerHTML = html;
 }
 
-// NOVO: Função para abrir o modal de detalhes da Fauna
+// NOVO: Função para abrir o modal de detalhes da Fauna (Pop-up ativado)
 window.abrirModalFauna = function(parqueId, index) {
     const animal = DADOS_FAUNA[parqueId][index];
     if (!animal) return;
@@ -363,18 +363,23 @@ window.abrirModalFauna = function(parqueId, index) {
     `;
     
     modal.classList.add('open');
+    modal.style.display = 'flex'; // Garante que o display seja flex
 }
 
-// NOVO: Função para abrir o modal de instrução do QR Code
+// NOVO: Função para abrir o modal de instrução do QR Code (Pop-up ativado)
 window.abrirModalQr = function() {
     const modal = document.getElementById('qr-modal');
     modal.classList.add('open');
+    modal.style.display = 'flex'; // Garante que o display seja flex
 }
 
 // Função para fechar qualquer modal
 function fecharModais() {
-    document.querySelectorAll('.modal-overlay').forEach(modal => {
+    document.querySelectorAll('.modal-overlay.open').forEach(modal => {
         modal.classList.remove('open');
+        setTimeout(() => {
+            modal.style.display = 'none';
+        }, 300); // Espera a transição de opacidade/visibilidade antes de ocultar
     });
 }
 
@@ -575,7 +580,8 @@ function carregarConteudoAtividades(parque, container) {
             }
 
             const isConcluida = estadoUsuario[parque.id][atividade.id];
-            const desbloqueado = isConcluida ? 'desbloqueado' : '';
+            // AJUSTE: O item bloqueado não tem a classe 'desbloqueado' e terá opacidade reduzida pelo CSS
+            const desbloqueado = isConcluida ? 'desbloqueado' : ''; 
             const badgeId = `${parque.id}-${atividade.id}`;
             
             let badgeContent;
@@ -601,7 +607,7 @@ function carregarConteudoAtividades(parque, container) {
 }
 
 function carregarDetalhesParque(parqueId, action = 'info') {
-    fecharModais(); // Garante que nenhum modal esteja aberto
+    fecharModais(); 
     const parque = DADOS_PARQUES.find(p => p.id === parqueId);
     const detalhes = DETALHES_PARQUES[parqueId];
     
@@ -662,7 +668,7 @@ function carregarConteudoDinamico(parque, container, action) {
         case 'info':
             carregarConteudoInfo(parque, container);
             break;
-        case 'fauna': // NOVO
+        case 'fauna': 
             carregarConteudoFauna(parque, container);
             break;
         case 'quiz':
@@ -676,7 +682,7 @@ function carregarConteudoDinamico(parque, container, action) {
 
 // --- Lógica de Upload/Compartilhamento (CANVAS) ---
 function carregarAreaUpload(parqueId, atividadeId) {
-    fecharModais(); // Garante que nenhum modal esteja aberto
+    fecharModais(); 
     const parque = DADOS_PARQUES.find(p => p.id === parqueId);
     const atividade = ATIVIDADES_PARQUES[parqueId]?.find(a => a.id === atividadeId);
     
@@ -978,6 +984,7 @@ function lidarComHash() {
     }
     
     document.getElementById('install-prompt').style.display = 'none';
+    fecharModais(); // Garante que modais sejam fechados ao navegar
 
     // Se o hash está vazio, volta para a home e garante que o container principal esteja visível.
     if (!hash || hash === 'home' || hash === '#') {
@@ -1019,8 +1026,8 @@ function lidarComHash() {
     const parqueEncontrado = DADOS_PARQUES.find(p => p.id === parqueId);
 
     if (parqueEncontrado && parqueId !== 'premiacao') {
-        // MUDANÇA: Inclui 'fauna' como ação possível
-        const action = parts.length > 1 ? parts[1] : 'info';
+        // CORREÇÃO: Força a action 'info' se nenhuma for especificada, o que corrige o bug de retorno.
+        const action = parts.length > 1 ? parts[1] : 'info'; 
         carregarDetalhesParque(parqueId, action);
     } else {
         window.location.hash = ''; 
@@ -1085,7 +1092,7 @@ function configurarNavegacao() {
             // Se estiver na tela de upload ou premiação, volta para a home
             window.location.hash = ''; 
         } else if (DADOS_PARQUES.some(p => p.id === hash.split('-')[0])) {
-            // Se estiver nos detalhes (info, quiz, activities), volta para a home
+            // Se estiver nos detalhes (info, fauna, quiz, activities), volta para a home
             window.location.hash = '';
         } else {
             // Caso contrário, usa o histórico do navegador (útil para navegação entre info/fauna/quiz/activities)
