@@ -12,7 +12,8 @@
     /* Sombras Aprimoradas */
     --sombra-neumorfismo-interna: inset 4px 4px 8px 0 #a3b1c6, inset -4px -4px 8px 0 var(--cor-sombra-clara);
     --sombra-neumorfismo-externa: 8px 8px 16px 0 rgba(0,0,0,0.1), -8px -8px 16px 0 var(--cor-sombra-clara);
-    --sombra-neumorfismo-ativa: inset 3px 3px 6px 0 #a3b1c6, inset -3px -3px 6px 0 var(--cor-sombra-clara); 
+    /* AJUSTE: Sombra de clique (ativa) para respeitar o border-radius */
+    --sombra-neumorfismo-ativa: inset 4px 4px 8px 0 #a3b1c6, inset -4px -4px 8px 0 var(--cor-sombra-clara); 
     --sombra-neumorfismo-card: 4px 4px 8px 0 #a3b1c6, -4px -4px 8px 0 var(--cor-sombra-clara);
 }
 
@@ -170,6 +171,7 @@ header {
     box-sizing: border-box;
 }
 
+/* AJUSTE: Usando a sombra interna corrigida para o efeito de clique */
 .botao-parque:active {
     box-shadow: var(--sombra-neumorfismo-ativa);
     transform: scale(0.98);
@@ -208,15 +210,20 @@ header {
     line-height: 1.2;
 }
 
-/* Estilo Botão Check-ins */
+/* AJUSTE: Botão Check-ins (Remove o destaque padrão) */
 #btn-premiacao {
-    background-color: var(--cor-secundaria); 
-    color: white;
-    box-shadow: 6px 6px 10px 0 rgba(139, 195, 74, 0.4), -6px -6px 10px 0 var(--cor-sombra-clara);
+    background-color: var(--cor-fundo); 
+    color: var(--cor-texto);
+    box-shadow: var(--sombra-neumorfismo-externa);
 }
 #btn-premiacao .icone-parque-principal {
-    color: white; 
+    color: var(--cor-principal); 
 }
+#btn-premiacao:active {
+    box-shadow: var(--sombra-neumorfismo-ativa);
+    transform: scale(0.98);
+}
+
 
 /* --- Área Secundária (Park Detail/Check-ins) - CORREÇÃO CRÍTICA --- */
 #area-secundaria {
@@ -568,20 +575,18 @@ header {
     line-height: 1;
 }
 
-.location-icon-link:first-child {
-    color: #DB4437; /* Vermelho/Maps */
+/* Mapeando as cores para a nova ordem: Maps, Instagram, Telefone, Email */
+.location-icon-link:nth-child(1) { /* Maps */
+    color: #DB4437; 
 }
-
-/* NOVO: Estilo para os novos ícones de contato */
-.location-icon-link.contact-icon:nth-child(2) {
-    color: #3f51b5; /* Azul/Telefone */
+.location-icon-link:nth-child(2) { /* Instagram */
+    color: #E1306C;
 }
-.location-icon-link.contact-icon:nth-child(3) {
-    color: #FF9800; /* Laranja/Email */
+.location-icon-link:nth-child(3) { /* Telefone */
+    color: #3f51b5; 
 }
-
-.location-icon-link:last-child {
-    color: #E1306C; /* Rosa/Instagram */
+.location-icon-link:nth-child(4) { /* Email */
+    color: #FF9800; 
 }
 
 .separator {
@@ -661,8 +666,7 @@ header {
     text-align: center !important;
 }
 
-/* --- ESTILOS DE LISTA DE ATIVIDADES (LISTA COM DESCRIÇÃO) --- */
-/* NOVO: Estilo para a grade de Fauna (2 colunas) */
+/* --- ESTILOS DE GRID DE FAUNA (2 colunas) --- */
 #fauna-grid-dinamica {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -671,7 +675,7 @@ header {
     padding: 0 10px;
 }
 
-/* NOVO: Estilo para a grade de Atividades (3 colunas, apenas imagem e título) */
+/* --- ESTILOS DE GRID DE ATIVIDADES (3 colunas, apenas imagem e título) --- */
 #lista-atividades-dinamica {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 3 Colunas */
@@ -696,6 +700,11 @@ header {
     padding: 5px;
     min-height: 80px;
     box-sizing: border-box;
+    opacity: 0.5; /* AJUSTE: Opacidade reduzida para itens bloqueados */
+}
+
+.activity-grid-item.desbloqueado, .fauna-grid-item.desbloqueado {
+    opacity: 1.0; /* Opacidade total para itens desbloqueados/clicáveis */
 }
 
 .fauna-grid-item:active, .activity-grid-item:active {
@@ -718,15 +727,6 @@ header {
     color: var(--cor-texto);
 }
 
-/* Estilos de Lista Antiga (Removidos/Sobrescritos pela nova grade) */
-.activity-list-item {
-    /* Mantido apenas para itens desbloqueados que precisam de estilo de clique */
-    transition: all 0.2s;
-    opacity: 1.0; /* Garantir que desbloqueados sejam visíveis */
-}
-.activity-list-item.desbloqueado {
-    box-shadow: var(--sombra-neumorfismo-interna);
-}
 
 /* --- ESTILOS DO MODAL (Pop-up Moderno) --- */
 .modal-overlay {
@@ -829,10 +829,10 @@ header {
     text-transform: none !important; 
 }
 
-/* NOVO: Botão QR Code (Ancora Clicável) */
+/* AJUSTE: Aumento de 40% no tamanho (80px * 1.4 = 112px) */
 .qr-mascote-container {
-    width: 80px; 
-    height: 80px; 
+    width: 112px; 
+    height: 112px; 
     flex-shrink: 0; 
     display: flex;
     align-items: center;
@@ -843,7 +843,7 @@ header {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
     position: relative;
     margin-top: 10px;
-    cursor: pointer; /* Torna o cursor de clique */
+    cursor: pointer; 
     transition: transform 0.2s;
 }
 
