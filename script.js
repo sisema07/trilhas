@@ -1,9 +1,9 @@
-// script.js - CÓDIGO COMPLETO FINAL AJUSTADO
+// script.js - CÓDIGO COMPLETO FINAL AJUSTADO (VERSÃO CORRIGIDA E MELHORADA)
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
 let DETALHES_PARQUES = {}; 
-let DADOS_FAUNA = {}; // NOVO: Variável global para receber os dados do fauna.json
+let DADOS_FAUNA = {}; 
 
 let estadoUsuario = JSON.parse(localStorage.getItem('trilhasDeMinasStatus')) || {};
 let scrollPosition = 0;
@@ -23,6 +23,7 @@ let currentQuizData = null;
 let currentQuizIndex = 0;   
 let quizScore = 0;          
 
+// --- FUNÇÕES DE ESTADO, PWA E SERVICE WORKER ---
 function salvarEstado() {
     localStorage.setItem('trilhasDeMinasStatus', JSON.stringify(estadoUsuario));
 }
@@ -40,12 +41,13 @@ function setupPwaInstallPrompt() {
         e.preventDefault();
         deferredPrompt = e;
         
+        // Verifica se a instalação já foi aceita/rejeitada permanentemente
         if (!window.matchMedia('(display-mode: standalone)').matches && localStorage.getItem('pwa_prompt_shown') !== 'true') {
             document.getElementById('install-prompt').style.display = 'block';
         }
     });
 
-    document.getElementById('install-btn').addEventListener('click', () => {
+    document.getElementById('install-btn')?.addEventListener('click', () => {
         document.getElementById('install-prompt').style.display = 'none';
         deferredPrompt.prompt();
         deferredPrompt.userChoice.then((choiceResult) => {
@@ -55,16 +57,19 @@ function setupPwaInstallPrompt() {
                 console.log('Usuário recusou a instalação PWA');
             }
             deferredPrompt = null;
+            // Marca para não mostrar novamente
             localStorage.setItem('pwa_prompt_shown', 'true');
         });
     });
 
-    document.getElementById('close-prompt').addEventListener('click', () => {
+    document.getElementById('close-prompt')?.addEventListener('click', () => {
         document.getElementById('install-prompt').style.display = 'none';
+        // Marca para não mostrar novamente
         localStorage.setItem('pwa_prompt_shown', 'true');
     });
 }
 
+// --- LÓGICA DO CARROSSEL ---
 let currentCarouselIndex = 0;
 let carouselImages = [];
 let carouselInterval = null;
@@ -73,6 +78,8 @@ function setupCarousel(parqueId, images) {
     const carouselElement = document.getElementById('park-carousel');
     const dotsElement = document.getElementById('carousel-dots');
     
+    if (!carouselElement || !dotsElement) return;
+
     carouselElement.innerHTML = '';
     dotsElement.innerHTML = '';
     
@@ -99,15 +106,21 @@ function setupCarousel(parqueId, images) {
     if (images.length > 1) {
         dotsElement.style.display = 'flex';
         resetInterval();
+        // Garante que o listener não seja duplicado
+        carouselElement.removeEventListener('scroll', handleScroll);
         carouselElement.addEventListener('scroll', handleScroll);
     } else {
         dotsElement.style.display = 'none';
         carouselElement.removeEventListener('scroll', handleScroll);
+        clearInterval(carouselInterval);
+        carouselInterval = null;
     }
 }
 
 function handleScroll() {
     const carouselElement = document.getElementById('park-carousel');
+    if (!carouselElement) return;
+    
     const scrollLeft = carouselElement.scrollLeft;
     const width = carouselElement.offsetWidth;
     let index = Math.round(scrollLeft / width); 
@@ -120,6 +133,8 @@ function handleScroll() {
 
 function showSlide(index, shouldScroll = true) {
     const carouselElement = document.getElementById('park-carousel');
+    if (!carouselElement) return;
+
     const dots = document.querySelectorAll('.dot');
     
     if (index >= carouselImages.length) {
@@ -150,14 +165,17 @@ function resetInterval() {
     if (carouselInterval) {
         clearInterval(carouselInterval);
     }
-    carouselInterval = setInterval(nextSlide, 4000); 
+    // Intervalo reduzido para 3 segundos para um carrossel mais dinâmico
+    carouselInterval = setInterval(nextSlide, 3000); 
 }
 
 // --- FLUXO PRINCIPAL DE CHECK-IN (QR CODE) ---
 function processarCheckin(parqueId, atividadeId) {
     console.log(`Processando check-in: ${parqueId} - ${atividadeId}`);
     
-    if (ATIVIDADES_PARQUES[parqueId] && ATIVIDADES_PARQUES[parqueId].some(a => a.id === atividadeId)) {
+    const atividadeExiste = ATIVIDADES_PARQUES[parqueId] && ATIVIDADES_PARQUES[parqueId].some(a => a.id === atividadeId);
+
+    if (atividadeExiste) {
         
         if (!estadoUsuario[parqueId]) {
             estadoUsuario[parqueId] = {};
@@ -165,7 +183,13 @@ function processarCheckin(parqueId, atividadeId) {
 
         let isNewBadge = false;
 
-        if (!estadoUsuario[parqueId][atividadeId]) {
+        // Garante que 'quiz' não seja desbloqueado por QR codes de trilhas/pontos
+        if (atividadeId === 'quiz') {
+            console.warn('Tentativa de check-in em badge de quiz. Ignorado.');
+            // Continua, mas com a mensagem de badge já desbloqueado se o hash for quiz
+            isNewBadge = estadoUsuario[parqueId][atividadeId] !== true;
+
+        } else if (!estadoUsuario[parqueId][atividadeId]) {
             estadoUsuario[parqueId][atividadeId] = true;
             salvarEstado();
             isNewBadge = true;
@@ -176,6 +200,8 @@ function processarCheckin(parqueId, atividadeId) {
             ? "Trilhas de Minas\n\n🎉 Novo Badge desbloqueado!\nConfira na área Check-ins"
             : "Trilhas de Minas\n\nEste Badge já estava desbloqueado!\nConfira na área Check-ins";
         
+        // CORREÇÃO CRÍTICA: Se o check-in for feito, o hash é forçado para 'premiacao'
+        // para evitar que a URL de checkin persista.
         setTimeout(() => {
             alert(message);
             window.location.hash = '#premiacao';
@@ -186,10 +212,13 @@ function processarCheckin(parqueId, atividadeId) {
     } else {
         console.error(`Atividade não encontrada: ${parqueId}-${atividadeId}`);
         alert('Erro: Atividade não encontrada. Verifique o QR Code.');
+        // Limpa o hash de erro
+        window.location.hash = ''; 
         return false;
     }
 }
 
+// --- CARREGAMENTO DE BOTÕES E PRÊMIOS ---
 function carregarBotaoParque(parque) {
     const button = document.createElement('a');
     button.href = `#${parque.id}`;
@@ -214,6 +243,7 @@ function carregarBotaoParque(parque) {
     if (parque.id === 'premiacao') {
         button.id = 'btn-premiacao';
     } else {
+        // CORREÇÃO: Usar click para forçar a navegação via hash
         button.addEventListener('click', (e) => {
             e.preventDefault();
             window.location.hash = `#${parque.id}`;
@@ -225,6 +255,8 @@ function carregarBotaoParque(parque) {
 
 function carregarBotoesParques() {
     const container = document.getElementById('botoes-parques');
+    if (!container) return;
+    
     container.innerHTML = '';
     DADOS_PARQUES.forEach(parque => {
         container.appendChild(carregarBotaoParque(parque));
@@ -233,6 +265,8 @@ function carregarBotoesParques() {
 
 function carregarPremios() {
     const listaPremios = document.getElementById('lista-icones-premios');
+    if (!listaPremios) return;
+
     listaPremios.innerHTML = '';
     
     for (const parqueId in ATIVIDADES_PARQUES) {
@@ -243,7 +277,7 @@ function carregarPremios() {
         }
 
         atividades.forEach(atividade => {
-            // CORREÇÃO: Inicializa a atividade para 'false' apenas se ela não existir no estado
+            // Inicializa a atividade para 'false' apenas se ela não existir no estado
             if (typeof estadoUsuario[parqueId][atividade.id] === 'undefined') {
                 estadoUsuario[parqueId][atividade.id] = false;
             }
@@ -251,7 +285,6 @@ function carregarPremios() {
             const isConcluida = estadoUsuario[parqueId][atividade.id];
 
             const card = document.createElement('div');
-            // PADRONIZAÇÃO: Agora as classes garantem o mesmo estilo que a área de atividades
             card.className = `icone-premio ${isConcluida ? 'desbloqueado' : ''}`;
             card.dataset.parqueId = parqueId;
             card.dataset.atividadeId = atividade.id;
@@ -270,6 +303,7 @@ function carregarPremios() {
             listaPremios.appendChild(card);
             
             if (isConcluida) {
+                 // Permite o clique no card apenas se o badge estiver desbloqueado
                  card.addEventListener('click', () => {
                     const parqueIdClick = card.dataset.parqueId;
                     const atividadeIdClick = card.dataset.atividadeId;
@@ -282,6 +316,7 @@ function carregarPremios() {
 }
 
 function carregarConteudoPremiacao() {
+    // Esconde outras áreas
     document.getElementById('conteudo-parque-detalhe').style.display = 'none';
     document.getElementById('area-envio-foto').style.display = 'none';
 
@@ -293,9 +328,12 @@ function carregarConteudoPremiacao() {
     carregarPremios();
     
     areaSecundaria.classList.add('aberto');
+    // Garante que a área secundária esteja visível (ajuste para mobile)
+    areaSecundaria.style.display = 'flex'; 
     areaSecundaria.scrollTop = 0;
 }
 
+// --- CARREGAMENTO DE CONTEÚDO DINÂMICO ---
 function carregarConteudoInfo(parque, container) {
     const detalhes = DETALHES_PARQUES[parque.id] || {};
     container.innerHTML = `
@@ -307,7 +345,6 @@ function carregarConteudoInfo(parque, container) {
     `;
 }
 
-// NOVO: Função para carregar o conteúdo da Fauna
 function carregarConteudoFauna(parque, container) {
     const fauna = DADOS_FAUNA[parque.id] || [];
     
@@ -322,8 +359,9 @@ function carregarConteudoFauna(parque, container) {
         fauna.forEach((animal, index) => {
             const imagePath = `fauna/${animal.imagem}`;
             
+            // Usamos uma IIFE para garantir que a função seja exposta no escopo global (window)
             html += `
-                <div class="fauna-grid-item desbloqueado" data-index="${index}" data-parque-id="${parque.id}" onclick="abrirModalFauna('${parque.id}', ${index})">
+                <div class="fauna-grid-item desbloqueado" data-index="${index}" data-parque-id="${parque.id}" onclick="window.abrirModalFauna('${parque.id}', ${index})">
                     <img src="${imagePath}" alt="${animal.nome}">
                     <span>${animal.nome}</span>
                 </div>
@@ -335,13 +373,15 @@ function carregarConteudoFauna(parque, container) {
     container.innerHTML = html;
 }
 
-// NOVO: Função para abrir o modal de detalhes da Fauna (Pop-up ativado)
+// Expõe as funções de modal no escopo global (window)
 window.abrirModalFauna = function(parqueId, index) {
-    const animal = DADOS_FAUNA[parqueId][index];
+    const animal = DADOS_FAUNA[parqueId] && DADOS_FAUNA[parqueId][index];
     if (!animal) return;
 
     const modal = document.getElementById('fauna-modal');
     const modalBody = document.getElementById('fauna-modal-body');
+    if (!modal || !modalBody) return;
+
     const imagePath = `fauna/${animal.imagem}`;
     
     modalBody.innerHTML = `
@@ -352,17 +392,16 @@ window.abrirModalFauna = function(parqueId, index) {
     `;
     
     modal.classList.add('open');
-    modal.style.display = 'flex'; // Garante que o display seja flex
+    modal.style.display = 'flex';
 }
 
-// NOVO: Função para abrir o modal de instrução do QR Code (Pop-up ativado)
 window.abrirModalQr = function() {
     const modal = document.getElementById('qr-modal');
+    if (!modal) return;
     modal.classList.add('open');
-    modal.style.display = 'flex'; // Garante que o display seja flex
+    modal.style.display = 'flex';
 }
 
-// NOVO: Função para abrir o modal introdutório de Check-in
 window.abrirModalIntro = function() {
     const modal = document.getElementById('intro-modal');
     const modalBody = document.getElementById('intro-modal-body');
@@ -375,10 +414,10 @@ window.abrirModalIntro = function() {
     }
 }
 
-// NOVO: Função para abrir o modal de sucesso do Quiz
 window.abrirModalQuizWin = function(score, total) {
     const modal = document.getElementById('quiz-win-modal');
     const modalBody = document.getElementById('quiz-win-modal-body');
+    if (!modal || !modalBody) return;
     
     modalBody.innerHTML = `
         <div style="text-align: center; padding: 10px;">
@@ -393,48 +432,36 @@ window.abrirModalQuizWin = function(score, total) {
     `;
 
     modal.classList.add('open');
-    modal.style.display = 'flex'; // Garante que o display seja flex
+    modal.style.display = 'flex';
 }
 
-// Função para fechar qualquer modal
 function fecharModais() {
     document.querySelectorAll('.modal-overlay.open').forEach(modal => {
         modal.classList.remove('open');
         setTimeout(() => {
+            // Oculta completamente após a transição
             modal.style.display = 'none';
-        }, 300); // Espera a transição de opacidade/visibilidade antes de ocultar
+        }, 300); 
     });
 }
 
-// Adiciona listener para fechar modais ao clicar no X ou no overlay
-document.querySelectorAll('.close-modal').forEach(btn => {
-    btn.addEventListener('click', fecharModais);
-});
+// Configura listeners de fechar modal (chamado em 'inicializar')
+function configurarFechamentoModais() {
+    // Adiciona listener para fechar modais ao clicar no X
+    document.querySelectorAll('.close-modal').forEach(btn => {
+        btn.addEventListener('click', fecharModais);
+    });
 
-// Garante que o modal feche ao clicar fora (no overlay)
-document.getElementById('fauna-modal')?.addEventListener('click', (e) => {
-    if (e.target.id === 'fauna-modal') fecharModais();
-});
-document.getElementById('qr-modal')?.addEventListener('click', (e) => {
-    if (e.target.id === 'qr-modal') fecharModais();
-});
-document.getElementById('intro-modal')?.addEventListener('click', (e) => {
-    if (e.target.id === 'intro-modal') fecharModais();
-});
-document.getElementById('quiz-win-modal')?.addEventListener('click', (e) => {
-    if (e.target.id === 'quiz-win-modal') fecharModais();
-});
-
-
-// Função de clique para navegação por hash (usada em carregarDetalhesParque)
-function handleActionClick(event, parqueId) {
-    event.preventDefault();
-    const newAction = event.target.dataset.action;
-    window.location.hash = `#${parqueId}-${newAction}`; 
+    // Garante que o modal feche ao clicar fora (no overlay)
+    ['fauna-modal', 'qr-modal', 'intro-modal', 'quiz-win-modal'].forEach(id => {
+        document.getElementById(id)?.addEventListener('click', (e) => {
+            if (e.target.id === id) fecharModais();
+        });
+    });
 }
 
+// --- LÓGICA DO QUIZ ---
 function carregarConteudoQuiz(parque, container) {
-    // Fecha quaisquer modais abertos antes de carregar o quiz
     fecharModais(); 
     
     const detalhes = DETALHES_PARQUES[parque.id] || {};
@@ -448,7 +475,6 @@ function carregarConteudoQuiz(parque, container) {
     }
 
     if (isQuizCompleted) {
-        // Se já completou, apenas mostra o botão para ir aos badges, sem pop-up.
         container.innerHTML = `
             <div style="text-align: center; padding: 20px;">
                 <h3 style="color: var(--cor-secundaria);">Parabéns!</h3>
@@ -486,8 +512,8 @@ function carregarConteudoQuiz(parque, container) {
 
 function carregarProximaQuestao() {
     const area = document.getElementById('quiz-question-area');
-    const nextQuestionBtn = document.getElementById('quiz-next-btn');
-    
+    if (!area) return;
+
     if (currentQuizIndex >= currentQuizData.length) {
         finalizarQuiz();
         return;
@@ -496,13 +522,16 @@ function carregarProximaQuestao() {
     const questao = currentQuizData[currentQuizIndex];
     
     let optionsHtml = '';
-    questao.a.forEach((alternativa, index) => {
+    // CORREÇÃO: Usar Array.isArray para garantir que 'a' é um array
+    const alternativas = Array.isArray(questao.a) ? questao.a : [];
+    
+    alternativas.forEach((alternativa, index) => {
+        // CORREÇÃO: Garante que a função selectQuizOption esteja no escopo global para o onclick
         optionsHtml += `
-            <button class="action-button quiz-option-btn" data-index="${index}" onclick="selectQuizOption(${index}, this)">${alternativa}</button>
+            <button class="action-button quiz-option-btn" data-index="${index}" onclick="window.selectQuizOption(${index}, this)">${alternativa}</button>
         `;
     });
     
-    // Transição para dar um efeito mais suave
     area.style.opacity = '0';
     setTimeout(() => {
         area.innerHTML = `
@@ -512,14 +541,13 @@ function carregarProximaQuestao() {
                 ${optionsHtml}
             </div>
         `;
-        area.style.opacity = '1'; // Fade-in da nova pergunta
-    }, 200); // Transição rápida
-    
-    if(nextQuestionBtn) nextQuestionBtn.style.display = 'none';
+        area.style.opacity = '1'; 
+    }, 200); 
     
     atualizarBarraProgresso();
 }
 
+// Expõe a função de seleção de quiz
 window.selectQuizOption = function(selectedIndex, buttonElement) {
     const buttons = document.querySelectorAll('.quiz-option-btn');
     buttons.forEach(btn => btn.disabled = true);
@@ -533,6 +561,7 @@ window.selectQuizOption = function(selectedIndex, buttonElement) {
     } else {
         buttonElement.style.backgroundColor = '#f44336'; 
         buttonElement.style.color = 'white';
+        // Destaca a resposta correta
         document.querySelector(`.quiz-option-btn[data-index="${questao.correct}"]`)?.classList.add('active');
     }
     
@@ -543,21 +572,31 @@ window.selectQuizOption = function(selectedIndex, buttonElement) {
 }
 
 function atualizarBarraProgresso() {
+    const quizProgress = document.getElementById('quiz-progress');
+    if (!quizProgress) return;
+    
     const progress = (currentQuizIndex / currentQuizData.length) * 100;
-    document.getElementById('quiz-progress').style.width = `${progress}%`;
+    quizProgress.style.width = `${progress}%`;
 }
 
 function finalizarQuiz() {
     const area = document.getElementById('quiz-question-area');
+    const quizProgress = document.getElementById('quiz-progress');
+    if (!area || !quizProgress) return;
+
     const total = currentQuizData.length;
+    // O hash deve ser um ID de parque válido, então usamos DADOS_PARQUES para encontrar
     const parqueId = window.location.hash.substring(1).split('-')[0];
+    const parque = DADOS_PARQUES.find(p => p.id === parqueId);
     
+    if (!parque) return;
+
     const requiredScore = Math.ceil(total * 0.75); 
     
     if (quizScore >= requiredScore) { 
         const badgeId = currentQuizData[0].badge_id || 'quiz';
         
-        // 1. Marca o badge como conquistado
+        // Marca o badge como conquistado
         if (ATIVIDADES_PARQUES[parqueId]?.find(a => a.id === badgeId)) {
             if (!(estadoUsuario[parqueId] && estadoUsuario[parqueId][badgeId])) {
                 if (!estadoUsuario[parqueId]) estadoUsuario[parqueId] = {};
@@ -566,19 +605,17 @@ function finalizarQuiz() {
             }
         }
         
-        // 2. Limpa a área do quiz para mostrar o resultado estático antes do modal
         area.innerHTML = `
             <div style="text-align: center; padding: 20px;">
                 <p class="result-classification" style="color: var(--cor-secundaria);">Quiz Concluído!</p>
                 <p>Você acertou ${quizScore} de ${total}.</p>
             </div>
         `;
-        document.getElementById('quiz-progress').style.width = '100%';
+        quizProgress.style.width = '100%';
 
-        // 3. Abre o novo modal de sucesso com o GIF
         setTimeout(() => {
             abrirModalQuizWin(quizScore, total);
-        }, 500); // Dá um pequeno delay antes de abrir o modal
+        }, 500); 
         
     } else {
         // CÓDIGO PARA FALHA NO QUIZ
@@ -586,24 +623,24 @@ function finalizarQuiz() {
             <div style="text-align: center; padding: 20px;">
                 <p class="result-classification" style="color: #f44336;">Tente Novamente!</p>
                 <p style="margin-bottom: 20px;">Você acertou ${quizScore} de ${total}. Você precisa de ${requiredScore} acertos para ganhar o Badge.</p>
-                <button class="action-button active" onclick="carregarConteudoQuiz(DADOS_PARQUES.find(p => p.id === '${parqueId}'), document.getElementById('dynamic-content-area'))">Reiniciar Quiz</button>
+                <button class="action-button active" onclick="window.location.hash = '${parqueId}-quiz'">Reiniciar Quiz</button>
             </div>
         `;
         area.innerHTML = resultadoHtml;
-        document.getElementById('quiz-progress').style.width = '100%';
+        quizProgress.style.width = '100%';
     }
 }
 
+// --- CARREGAMENTO DE ATIVIDADES ---
 function carregarConteudoAtividades(parque, container) {
     const atividades = ATIVIDADES_PARQUES[parque.id] || [];
     
-    // MUDANÇA: O botão QR Code agora chama abrirModalQr()
     let html = `
         <div class="activity-instructions">
             <div class="instruction-text">
                 <h3>Escaneie os QR codes</h3>
             </div>
-            <div class="qr-mascote-container activity-mascote-anchor" onclick="abrirModalQr()">
+            <div class="qr-mascote-container activity-mascote-anchor" onclick="window.abrirModalQr()">
                 <img src="qr.png" alt="Mascote escaneando QR Code" class="qr-mascote-img">
             </div>
         </div>
@@ -622,7 +659,6 @@ function carregarConteudoAtividades(parque, container) {
             }
 
             const isConcluida = estadoUsuario[parque.id][atividade.id];
-            // AJUSTE: O item bloqueado não tem a classe 'desbloqueado' e terá opacidade reduzida pelo CSS
             const desbloqueado = isConcluida ? 'desbloqueado' : ''; 
             const badgeId = `${parque.id}-${atividade.id}`;
             
@@ -633,9 +669,11 @@ function carregarConteudoAtividades(parque, container) {
                 badgeContent = `<i class="fas ${atividade.icone}"></i>`;
             }
             
-            // MUDANÇA: Novo layout de 3 colunas (activity-grid-item)
+            // Corrige o onclick para ser seguro
+            const onClickAction = isConcluida ? `onclick="window.location.hash = 'upload-${parque.id}-${atividade.id}'"` : '';
+
             html += `
-                <div class="activity-grid-item ${desbloqueado}" data-badge-id="${badgeId}" ${isConcluida ? `onclick="window.location.hash = 'upload-${parque.id}-${atividade.id}'"` : ''}>
+                <div class="activity-grid-item ${desbloqueado}" data-badge-id="${badgeId}" ${onClickAction}>
                     ${badgeContent}
                     <span>${atividade.nome}</span> 
                 </div>
@@ -648,6 +686,7 @@ function carregarConteudoAtividades(parque, container) {
     container.innerHTML = html; 
 }
 
+// --- CARREGAMENTO DE DETALHES DO PARQUE ---
 function carregarDetalhesParque(parqueId, action = 'info') {
     fecharModais(); 
     const parque = DADOS_PARQUES.find(p => p.id === parqueId);
@@ -659,13 +698,14 @@ function carregarDetalhesParque(parqueId, action = 'info') {
         return;
     }
 
+    // Esconde outras áreas
     document.getElementById('conteudo-premios').style.display = 'none';
     document.getElementById('area-envio-foto').style.display = 'none';
 
     const areaSecundaria = document.getElementById('area-secundaria');
     document.getElementById('secundaria-titulo').textContent = parque.nome;
     
-    // MUDANÇA: Links de Contato (Telefone e E-mail)
+    // Mapeamento dos links de contato (Garantindo que os elementos existam)
     document.getElementById('map-link-icon').href = detalhes.map_link || '#';
     document.getElementById('insta-link-icon').href = detalhes.instagram_link || '#';
     document.getElementById('phone-link-icon').href = `tel:${detalhes.phone || ''}`;
@@ -675,33 +715,39 @@ function carregarDetalhesParque(parqueId, action = 'info') {
     
     const contentArea = document.getElementById('dynamic-content-area');
     
-    // CORREÇÃO CRÍTICA: Configura o listener uma única vez e força a ação via hash.
+    // Configuração dos listeners para os botões de ação (Info, Fauna, Quiz, Atividades)
     document.querySelectorAll('.action-button[data-action]').forEach(btn => {
-        // Usa uma flag para configurar o listener apenas uma vez
-        if (!btn.actionListenerSetup) {
-             const actionListener = (e) => {
-                e.preventDefault();
-                const newAction = e.target.closest('.action-button').dataset.action;
-                window.location.hash = `#${parqueId}-${newAction}`; 
-             };
-             btn.addEventListener('click', actionListener);
-             btn.actionListenerSetup = true;
+        // Remove listener anterior antes de adicionar
+        if (btn.actionListenerSetup) {
+             btn.removeEventListener('click', btn.actionListenerSetup);
         }
+        
+        const actionListener = (e) => {
+           e.preventDefault();
+           const newAction = e.target.closest('.action-button').dataset.action;
+           window.location.hash = `#${parqueId}-${newAction}`; 
+        };
+        btn.addEventListener('click', actionListener);
+        btn.actionListenerSetup = actionListener; // Armazena o listener para remoção futura
     });
 
 
     const actionButton = document.querySelector(`.action-button[data-action="${action}"]`);
-    if (actionButton) {
-        // Garante que a classe 'active' seja aplicada corretamente
-        document.querySelectorAll('.action-button[data-action]').forEach(btn => btn.classList.remove('active'));
-        actionButton.classList.add('active');
-        
-        carregarConteudoDinamico(parque, contentArea, action);
-    }
     
+    // Aplica a classe 'active'
+    document.querySelectorAll('.action-button[data-action]').forEach(btn => btn.classList.remove('active'));
+    if (actionButton) {
+        actionButton.classList.add('active');
+    }
+        
+    // Carrega o conteúdo dinâmico
+    carregarConteudoDinamico(parque, contentArea, action);
+
     document.getElementById('conteudo-parque-detalhe').style.display = 'block';
     
     areaSecundaria.classList.add('aberto');
+    // Garante que a área secundária esteja visível
+    areaSecundaria.style.display = 'flex'; 
     areaSecundaria.scrollTop = 0;
 }
 
@@ -733,11 +779,14 @@ function carregarAreaUpload(parqueId, atividadeId) {
     
     document.getElementById('conteudo-parque-detalhe').style.display = 'none';
     document.getElementById('conteudo-premios').style.display = 'none';
-    document.getElementById('area-envio-foto').style.display = 'block';
+
+    const areaEnvioFoto = document.getElementById('area-envio-foto');
+    if (!areaEnvioFoto) return;
+    areaEnvioFoto.style.display = 'block';
 
     if (!parque || !atividade) {
         document.getElementById('secundaria-titulo').textContent = 'Erro';
-        document.getElementById('area-envio-foto').innerHTML = '<p>Badge não encontrado.</p>';
+        areaEnvioFoto.innerHTML = '<p>Badge não encontrado.</p>';
         return;
     }
 
@@ -747,15 +796,34 @@ function carregarAreaUpload(parqueId, atividadeId) {
     
     if (!isConcluida) {
         document.getElementById('secundaria-titulo').textContent = 'Acesso Negado';
-        document.getElementById('area-envio-foto').innerHTML = `
+        areaEnvioFoto.innerHTML = `
             <p style="text-align: center; padding: 20px;">Você precisa escanear o QR Code de ${atividade.nome} para liberar o compartilhamento!</p>
             <button class="action-button active" onclick="window.location.hash='premiacao'" style="width: 100%; max-width: 300px; margin: 20px auto;">Voltar para Badges</button>
         `;
         return;
     }
     
-    const badgeTituloElement = document.getElementById('badge-upload-titulo');
-    badgeTituloElement.textContent = `Compartilhar Badge: ${atividade.nome} (${parque.nome})`;
+    // Reconstrói a área de upload para garantir listeners e estado limpo
+    areaEnvioFoto.innerHTML = `
+        <h2 id="badge-upload-titulo" style="text-align: center; margin-bottom: 20px;">Compartilhar Badge: ${atividade.nome} (${parque.nome})</h2>
+        <div class="upload-container">
+            <p>Selecione uma foto sua na trilha para carimbar:</p>
+            <input type="file" id="input-foto-badge" accept="image/*">
+            
+            <div id="output-image-preview">
+                <canvas id="passport-canvas" width="600" height="800" style="border: 1px solid #ccc; display: block; margin: 20px auto; max-width: 100%; height: auto;"></canvas>
+            </div>
+            
+            <button id="btn-gerar-e-baixar" class="action-button" style="margin-top: 20px; width: 100%;" disabled>
+                <i class="fas fa-download"></i> Baixar Foto com Check-in
+            </button>
+            
+            <button id="btn-compartilhar-social" class="action-button" style="margin-top: 10px; width: 100%;" disabled>
+                <i class="fas fa-share-alt"></i> Compartilhar
+            </button>
+        </div>
+    `;
+
 
     const canvas = document.getElementById('passport-canvas');
     canvasContext = canvas.getContext('2d');
@@ -763,6 +831,7 @@ function carregarAreaUpload(parqueId, atividadeId) {
     canvas.width = 600; 
     canvas.height = 800; 
 
+    // Garante que as fontes do canvas estejam carregadas
     if (!document.getElementById('google-fonts-link')) {
         const link = document.createElement('link');
         link.id = 'google-fonts-link';
@@ -774,16 +843,6 @@ function carregarAreaUpload(parqueId, atividadeId) {
     const inputFotoBadge = document.getElementById('input-foto-badge');
     const btnGerarBaixar = document.getElementById('btn-gerar-e-baixar');
     const btnCompartilhar = document.getElementById('btn-compartilhar-social');
-
-    // Limpar event listeners
-    btnGerarBaixar.onclick = null; 
-    btnCompartilhar.onclick = null; 
-    inputFotoBadge.onchange = null;
-    
-    // Desabilitar botões por padrão até que a foto seja carregada
-    btnGerarBaixar.disabled = true;
-    btnCompartilhar.disabled = true;
-    btnCompartilhar.classList.remove('active');
 
     // Oculta/Mostra o botão Compartilhar se a API não estiver disponível
     if (!navigator.share) {
@@ -803,7 +862,9 @@ function carregarAreaUpload(parqueId, atividadeId) {
                     // Habilitar botões após carregar e desenhar a foto
                     btnGerarBaixar.disabled = false;
                     btnCompartilhar.disabled = false;
-                    btnCompartilhar.classList.add('active');
+                    btnGerarBaixar.classList.add('active'); // Estilo ativo
+                    btnCompartilhar.classList.add('active'); // Estilo ativo
+                    // Reconfigura o clique
                     btnCompartilhar.onclick = () => shareCanvasImage(parque.nome, atividade.nome);
                 };
             };
@@ -813,11 +874,13 @@ function carregarAreaUpload(parqueId, atividadeId) {
             // Desabilitar botões se não houver foto
             btnGerarBaixar.disabled = true;
             btnCompartilhar.disabled = true;
+            btnGerarBaixar.classList.remove('active');
             btnCompartilhar.classList.remove('active');
             btnCompartilhar.onclick = null;
         }
     };
     
+    // Configura a imagem do badge
     if (atividade.imagem_png) {
         stampImage.src = atividade.imagem_png.startsWith('badges/') ? atividade.imagem_png : `badges/${atividade.imagem_png}`;
     } else {
@@ -836,134 +899,155 @@ function carregarAreaUpload(parqueId, atividadeId) {
     };
     
     document.getElementById('area-secundaria').classList.add('aberto');
+    document.getElementById('area-secundaria').style.display = 'flex';
     document.getElementById('area-secundaria').scrollTop = 0;
 }
 
+// O Canvas Drawing é mantido, mas as fontes precisam de um tempo para carregar no Canvas
 function drawPassportImage(parque, atividade, userUploadedPhoto) {
     if (!canvasContext) return;
 
     const canvas = canvasContext.canvas;
     
-    canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+    // Funcao interna para desenhar com segurança apos fontes carregadas
+    const performDraw = () => {
+        canvasContext.clearRect(0, 0, canvas.width, canvas.height);
 
-    if (passportTemplateImage.complete && passportTemplateImage.naturalWidth > 0) {
-        canvasContext.drawImage(passportTemplateImage, 0, 0, canvas.width, canvas.height);
-    } else {
-        canvasContext.fillStyle = '#e6e0d4';
-        canvasContext.fillRect(0, 0, canvas.width, canvas.height);
-        canvasContext.fillStyle = '#333';
-        canvasContext.font = '20px Arial';
-        canvasContext.fillText('Carregue images/passport_template.png', 50, canvas.height / 2);
-    }
-
-    const photoX = canvas.width * 0.1;    
-    const photoY = canvas.height * 0.28;   
-    const photoWidth = canvas.width * 0.8; 
-    const photoHeight = canvas.height * 0.6;
-
-    if (userUploadedPhoto && userUploadedPhoto.complete && userUploadedPhoto.naturalWidth > 0) {
-        
-        const cornerRadius = photoWidth * 0.05;
-        
-        canvasContext.save();
-        
-        canvasContext.beginPath();
-        canvasContext.moveTo(photoX + cornerRadius, photoY);
-        canvasContext.lineTo(photoX + photoWidth - cornerRadius, photoY);
-        canvasContext.quadraticCurveTo(photoX + photoWidth, photoY, photoX + photoWidth, photoY + cornerRadius);
-        canvasContext.lineTo(photoX + photoWidth, photoY + photoHeight - cornerRadius);
-        canvasContext.quadraticCurveTo(photoX + photoWidth, photoY + photoHeight, photoX + photoWidth - cornerRadius, photoY + photoHeight);
-        canvasContext.lineTo(photoX + cornerRadius, photoY + photoHeight);
-        canvasContext.quadraticCurveTo(photoX, photoY + photoHeight, photoX, photoY + photoHeight - cornerRadius);
-        canvasContext.lineTo(photoX, photoY + cornerRadius);
-        canvasContext.quadraticCurveTo(photoX, photoY, photoX + cornerRadius, photoY);
-        canvasContext.closePath();
-        
-        canvasContext.clip();
-        
-        const imgAspectRatio = userUploadedPhoto.naturalWidth / userUploadedPhoto.naturalHeight;
-        const frameAspectRatio = photoWidth / photoHeight;
-        
-        let sx, sy, sWidth, sHeight;
-        
-        if (imgAspectRatio > frameAspectRatio) {
-            sHeight = userUploadedPhoto.naturalHeight;
-            sWidth = sHeight * frameAspectRatio;
-            sx = (userUploadedPhoto.naturalWidth - sWidth) / 2;
-            sy = 0;
+        // 1. Desenha o Template do Passaporte
+        if (passportTemplateImage.complete && passportTemplateImage.naturalWidth > 0) {
+            canvasContext.drawImage(passportTemplateImage, 0, 0, canvas.width, canvas.height);
         } else {
-            sWidth = userUploadedPhoto.naturalWidth;
-            sHeight = sWidth / frameAspectRatio;
-            sx = 0;
-            sy = (userUploadedPhoto.naturalHeight - sHeight) / 2;
+            // Fallback de fundo
+            canvasContext.fillStyle = '#e6e0d4';
+            canvasContext.fillRect(0, 0, canvas.width, canvas.height);
+            canvasContext.fillStyle = '#333';
+            canvasContext.font = '20px Arial';
+            canvasContext.fillText('Carregue images/passport_template.png', 50, canvas.height / 2);
+        }
+
+        const photoX = canvas.width * 0.1;    
+        const photoY = canvas.height * 0.28;   
+        const photoWidth = canvas.width * 0.8; 
+        const photoHeight = canvas.height * 0.6;
+
+        // 2. Desenha a Foto do Usuário (com clip/border-radius)
+        if (userUploadedPhoto && userUploadedPhoto.complete && userUploadedPhoto.naturalWidth > 0) {
+            
+            const cornerRadius = photoWidth * 0.05;
+            
+            canvasContext.save();
+            
+            canvasContext.beginPath();
+            canvasContext.moveTo(photoX + cornerRadius, photoY);
+            canvasContext.lineTo(photoX + photoWidth - cornerRadius, photoY);
+            canvasContext.quadraticCurveTo(photoX + photoWidth, photoY, photoX + photoWidth, photoY + cornerRadius);
+            canvasContext.lineTo(photoX + photoWidth, photoY + photoHeight - cornerRadius);
+            canvasContext.quadraticCurveCurveTo(photoX + photoWidth, photoY + photoHeight, photoX + photoWidth - cornerRadius, photoY + photoHeight);
+            canvasContext.lineTo(photoX + cornerRadius, photoY + photoHeight);
+            canvasContext.quadraticCurveTo(photoX, photoY + photoHeight, photoX, photoY + photoHeight - cornerRadius);
+            canvasContext.lineTo(photoX, photoY + cornerRadius);
+            canvasContext.quadraticCurveTo(photoX, photoY, photoX + cornerRadius, photoY);
+            canvasContext.closePath();
+            
+            canvasContext.clip();
+            
+            const imgAspectRatio = userUploadedPhoto.naturalWidth / userUploadedPhoto.naturalHeight;
+            const frameAspectRatio = photoWidth / photoHeight;
+            
+            let sx, sy, sWidth, sHeight;
+            
+            if (imgAspectRatio > frameAspectRatio) {
+                sHeight = userUploadedPhoto.naturalHeight;
+                sWidth = sHeight * frameAspectRatio;
+                sx = (userUploadedPhoto.naturalWidth - sWidth) / 2;
+                sy = 0;
+            } else {
+                sWidth = userUploadedPhoto.naturalWidth;
+                sHeight = sWidth / frameAspectRatio;
+                sx = 0;
+                sy = (userUploadedPhoto.naturalHeight - sHeight) / 2;
+            }
+            
+            canvasContext.drawImage(userUploadedPhoto, sx, sy, sWidth, sHeight, photoX, photoY, photoWidth, photoHeight);
+            
+            canvasContext.restore();
+
+            // Borda verde
+            canvasContext.strokeStyle = '#4CAF50';
+            canvasContext.lineWidth = 4;
+            
+            canvasContext.beginPath();
+            canvasContext.moveTo(photoX + cornerRadius, photoY);
+            canvasContext.lineTo(photoX + photoWidth - cornerRadius, photoY);
+            canvasContext.quadraticCurveTo(photoX + photoWidth, photoY, photoX + photoWidth, photoY + cornerRadius);
+            canvasContext.lineTo(photoX + photoWidth, photoY + photoHeight - cornerRadius);
+            canvasContext.quadraticCurveTo(photoX + photoWidth, photoY + photoHeight, photoX + photoWidth - cornerRadius, photoY + photoHeight);
+            canvasContext.lineTo(photoX + cornerRadius, photoY + photoHeight);
+            canvasContext.quadraticCurveTo(photoX, photoY + photoHeight, photoX, photoY + photoHeight - cornerRadius);
+            canvasContext.lineTo(photoX, photoY + cornerRadius);
+            canvasContext.quadraticCurveTo(photoX, photoY, photoX + cornerRadius, photoY);
+            canvasContext.closePath();
+            canvasContext.stroke();
         }
         
-        canvasContext.drawImage(userUploadedPhoto, sx, sy, sWidth, sHeight, photoX, photoY, photoWidth, photoHeight);
+        // 3. Desenha o Carimbo (Badge)
+        if (stampImage.complete && stampImage.naturalWidth > 0) {
+            canvasContext.save();
+            
+            const stampSize = canvas.width * 0.3;     
+            const stampX = canvas.width * 0.03;      
+            const stampY = canvas.height * 0.1;
+            const rotationAngle = -25 * Math.PI / 180;
+
+            const centerX = stampX + stampSize / 2;
+            const centerY = stampY + stampSize / 2;
+
+            canvasContext.translate(centerX, centerY);
+            canvasContext.rotate(rotationAngle);
+            canvasContext.translate(-centerX, -centerY);
+
+            canvasContext.drawImage(stampImage, stampX, stampY, stampSize, stampSize);
+            
+            canvasContext.restore();
+        }
+
+        // 4. Desenha o Texto
+        canvasContext.textAlign = 'left';
         
-        canvasContext.restore();
+        const textStartX = canvas.width * 0.32;   
+        let currentTextY = canvas.height * 0.13;
 
-        canvasContext.strokeStyle = '#4CAF50';
-        canvasContext.lineWidth = 4;
-        
-        canvasContext.beginPath();
-        canvasContext.moveTo(photoX + cornerRadius, photoY);
-        canvasContext.lineTo(photoX + photoWidth - cornerRadius, photoY);
-        canvasContext.quadraticCurveTo(photoX + photoWidth, photoY, photoX + photoWidth, photoY + cornerRadius);
-        canvasContext.lineTo(photoX + photoWidth, photoY + photoHeight - cornerRadius);
-        canvasContext.quadraticCurveTo(photoX + photoWidth, photoY + photoHeight, photoX + photoWidth - cornerRadius, photoY + photoHeight);
-        canvasContext.lineTo(photoX + cornerRadius, photoY + photoHeight);
-        canvasContext.quadraticCurveTo(photoX, photoY + photoHeight, photoX, photoY + photoHeight - cornerRadius);
-        canvasContext.lineTo(photoX, photoY + cornerRadius);
-        canvasContext.quadraticCurveTo(photoX, photoY, photoX + cornerRadius, photoY);
-        canvasContext.closePath();
-        canvasContext.stroke();
-    }
-    
-    if (stampImage.complete && stampImage.naturalWidth > 0) {
-        canvasContext.save();
-        
-        const stampSize = canvas.width * 0.3;     
-        const stampX = canvas.width * 0.03;      
-        const stampY = canvas.height * 0.1;
-        const rotationAngle = -25 * Math.PI / 180;
+        // Título "CHECK-IN REALIZADO"
+        canvasContext.font = `bold ${canvas.width * 0.036}px "Roboto Slab", serif`; 
+        canvasContext.fillStyle = '#4CAF50';
+        canvasContext.fillText('CHECK-IN REALIZADO', textStartX, currentTextY);
+        currentTextY += canvas.width * 0.036 + canvas.width * 0.005; 
 
-        const centerX = stampX + stampSize / 2;
-        const centerY = stampY + stampSize / 2;
+        // Nome do Parque
+        canvasContext.font = `bold ${canvas.width * 0.03}px "Lora", serif`; 
+        canvasContext.fillStyle = '#555';
+        canvasContext.fillText(`PARQUE ESTADUAL ${parque.nome.toUpperCase()}`, textStartX, currentTextY); 
+        currentTextY += canvas.width * 0.03 + canvas.width * 0.005; 
 
-        canvasContext.translate(centerX, centerY);
-        canvasContext.rotate(rotationAngle);
-        canvasContext.translate(-centerX, -centerY);
+        // Nome da Atividade
+        canvasContext.fillText(atividade.nome.toUpperCase(), textStartX, currentTextY); 
+    };
 
-        canvasContext.drawImage(stampImage, stampX, stampY, stampSize, stampSize);
-        
-        canvasContext.restore();
-    }
-
-    canvasContext.textAlign = 'left';
-    
-    const textStartX = canvas.width * 0.32;   
-    let currentTextY = canvas.height * 0.13;
-
-    canvasContext.font = `bold ${canvas.width * 0.036}px "Roboto Slab", serif`; 
-    canvasContext.fillStyle = '#4CAF50';
-    canvasContext.fillText('CHECK-IN REALIZADO', textStartX, currentTextY);
-    currentTextY += canvas.width * 0.036 + canvas.width * 0.005; 
-
-    canvasContext.font = `bold ${canvas.width * 0.03}px "Lora", serif`; 
-    canvasContext.fillStyle = '#555';
-    canvasContext.fillText(`PARQUE ESTADUAL ${parque.nome.toUpperCase()}`, textStartX, currentTextY); 
-    currentTextY += canvas.width * 0.03 + canvas.width * 0.005; 
-
-    canvasContext.fillText(atividade.nome.toUpperCase(), textStartX, currentTextY); 
+    // Timeout para esperar a possível carga de fontes (prática comum em canvas)
+    setTimeout(performDraw, 100);
 }
 
 function downloadCanvasImage(parqueNome, atividadeNome) {
+    // Verifica se a foto foi carregada (necessário para o desenho final)
     if (!canvasContext || !document.getElementById('input-foto-badge').files.length) {
         alert('Nenhuma imagem para baixar. Por favor, selecione uma foto.');
         return;
     }
 
     const canvas = document.getElementById('passport-canvas');
+    // Força a renderização final com a foto do usuário
+    drawPassportImage(DADOS_PARQUES.find(p => p.id === parqueNome.toLowerCase()), ATIVIDADES_PARQUES[parqueNome.toLowerCase()].find(a => a.nome === atividadeNome), userPhoto);
+
     const dataURL = canvas.toDataURL('image/png'); 
     const link = document.createElement('a');
     link.download = `trilhasdeminas_${parqueNome.toLowerCase().replace(/\s/g, '_')}_${atividadeNome.toLowerCase().replace(/\s/g, '_')}.png`;
@@ -982,14 +1066,16 @@ async function shareCanvasImage(parqueNome, atividadeNome) {
 
     const canvas = document.getElementById('passport-canvas');
     
-    // Converte o canvas para Blob
+    // Força a renderização final com a foto do usuário antes de compartilhar
+    const parque = DADOS_PARQUES.find(p => p.nome === parqueNome);
+    const atividade = ATIVIDADES_PARQUES[parque.id].find(a => a.nome === atividadeNome);
+    drawPassportImage(parque, atividade, userPhoto);
+
     canvas.toBlob(async (blob) => {
         if (blob) {
             try {
-                // Cria um arquivo a partir do Blob
                 const file = new File([blob], `trilhasdeminas_${parqueNome.toLowerCase().replace(/\s/g, '_')}_${atividadeNome.toLowerCase().replace(/\s/g, '_')}.png`, { type: 'image/png' });
 
-                // Verifica se a API de compartilhamento pode lidar com arquivos
                 if (navigator.canShare && navigator.canShare({ files: [file] })) {
                     await navigator.share({
                         files: [file],
@@ -1002,7 +1088,7 @@ async function shareCanvasImage(parqueNome, atividadeNome) {
                     await navigator.share({
                         title: 'Trilhas de Minas - Check-in Concluído!',
                         text: `Acabei de completar a atividade "${atividadeNome}" no Parque Estadual ${parqueNome} e ganhei um novo Badge! Venha explorar as Trilhas de Minas! #TrilhasDeMinas #TurismoMG`,
-                        url: window.location.origin // URL base do app
+                        url: window.location.origin 
                     });
                 }
             } catch (error) {
@@ -1022,32 +1108,44 @@ function lidarComHash() {
     const fullHash = window.location.hash;
     const hash = fullHash.substring(1);
     
+    // Para o carrossel em qualquer navegação
     if (carouselInterval) {
         clearInterval(carouselInterval);
+        carouselInterval = null;
     }
     
     document.getElementById('install-prompt').style.display = 'none';
-    fecharModais(); // Garante que modais sejam fechados ao navegar
+    fecharModais(); 
+
+    const appContainer = document.getElementById('app-container');
+    const areaSecundaria = document.getElementById('area-secundaria');
 
     // Se o hash está vazio, volta para a home e garante que o container principal esteja visível.
-if (!hash || hash === 'home' || hash === '#') {
-        document.getElementById('area-secundaria').classList.remove('aberto');
+    if (!hash || hash === 'home') {
+        // Logica para FECHAMENTO COMPLETO (Instrução do usuário)
+        areaSecundaria.classList.remove('aberto');
+        areaSecundaria.style.display = 'none'; // Oculta a área secundária completamente
         
-        // CORREÇÃO CRÍTICA: Garante que o container principal esteja visível
-        document.getElementById('app-container').style.display = 'flex';
+        appContainer.style.display = 'flex'; // Garante o container principal visível
         
-        // Garante que a área secundária está oculta (embora 'aberto' já faça isso)
-        document.getElementById('area-secundaria').style.display = 'none';
-
         document.body.style.overflow = 'auto';
         document.body.style.height = 'auto';
+        
+        // CORREÇÃO CRÍTICA: Limpa o hash para evitar a volta para a última tela
+        if (fullHash !== '') {
+            window.location.hash = '';
+        }
+        
         setupPwaInstallPrompt(); 
         return;
     }
     
+    // Se há hash, prepara para mostrar a área secundária
     document.body.style.overflow = 'hidden'; 
     document.body.style.height = '100vh';
-
+    appContainer.style.display = 'flex'; // Mantém o principal visível
+    areaSecundaria.style.display = 'flex'; // Torna a secundária flexível
+    
     if (hash.startsWith('checkin-')) {
         const parts = hash.split('-'); 
         if (parts.length === 3) {
@@ -1075,83 +1173,87 @@ if (!hash || hash === 'home' || hash === '#') {
     const parqueEncontrado = DADOS_PARQUES.find(p => p.id === parqueId);
 
     if (parqueEncontrado && parqueId !== 'premiacao') {
-        // CORREÇÃO: Força a action 'info' se nenhuma for especificada, o que corrige o bug de retorno.
         const action = parts.length > 1 ? parts[1] : 'info'; 
         carregarDetalhesParque(parqueId, action);
     } else {
+        // Se o hash for inválido, volta para a home
         window.location.hash = ''; 
     }
 }
 
 // --- Inicialização da Aplicação ---
-// CORREÇÃO: Lógica de inicialização reescrita para evitar travamento e duplicidade
 function iniciarApp() {
-    // REMOVEMOS: carregarBotoesParques(), fade-out e setTimeout duplicado.
     
-    // Garante que o container principal esteja visível (vídeo já foi escondido)
     document.getElementById('app-container').style.display = 'flex';
     setupPwaInstallPrompt();
 
+    // Configura o listener para o botão de check-ins (se existir)
     const btnPremiacao = document.getElementById('btn-premiacao');
     if (btnPremiacao) {
-        btnPremiacao.addEventListener('click', (e) => {
+        // Remove listener anterior antes de adicionar (segurança contra duplicação)
+        btnPremiacao.removeEventListener('click', btnPremiacao.clickListener); 
+        const clickListener = (e) => {
             e.preventDefault();
             window.location.hash = `#premiacao`; 
-        });
+        };
+        btnPremiacao.addEventListener('click', clickListener);
+        btnPremiacao.clickListener = clickListener;
     }
-    
-    // A chamada lidarComHash() é feita diretamente na função 'inicializar'
-    // para garantir o carregamento do estado inicial após carregar todos os dados.
 }
 
 async function carregarDados() {
-    // CORREÇÃO: Adicionamos o fetch do fauna.json
     const [parquesResp, detalhesResp, faunaResp] = await Promise.all([
         fetch('parques.json'),
         fetch('park_details.json'),
-        fetch('fauna.json') // NOVO FETCH
+        fetch('fauna.json') 
     ]);
     
     const parquesData = await parquesResp.json();
     const detalhesData = await detalhesResp.json();
-    const faunaData = await faunaResp.json(); // NOVO DADO
+    const faunaData = await faunaResp.json(); 
     
     DADOS_PARQUES = parquesData.DADOS_PARQUES;
     ATIVIDADES_PARQUES = parquesData.ATIVIDADES_PARQUES;
     DETALHES_PARQUES = detalhesData;
-    DADOS_FAUNA = faunaData; // Atribui os dados do fauna.json
+    DADOS_FAUNA = faunaData; 
     
-    // MUDANÇA: Adiciona e-mail e telefone de exemplo em DETALHES_PARQUES para testes
-    // Você deve atualizar isso com dados reais em park_details.json!
+    // Adiciona e-mail e telefone de exemplo em DETALHES_PARQUES se não existirem
     if (DETALHES_PARQUES['biribiri']) {
-        DETALHES_PARQUES['biribiri'].phone = '5531999999999'; 
-        DETALHES_PARQUES['biribiri'].email = 'contato.biribiri@exemplo.com'; 
+        DETALHES_PARQUES['biribiri'].phone = DETALHES_PARQUES['biribiri'].phone || '5531999999999'; 
+        DETALHES_PARQUES['biribiri'].email = DETALHES_PARQUES['biribiri'].email || 'contato.biribiri@exemplo.com'; 
     }
     if (DETALHES_PARQUES['ibitipoca']) {
-        DETALHES_PARQUES['ibitipoca'].phone = '5532988888888'; 
-        DETALHES_PARQUES['ibitipoca'].email = 'contato.ibitipoca@exemplo.com'; 
+        DETALHES_PARQUES['ibitipoca'].phone = DETALHES_PARQUES['ibitipoca'].phone || '5532988888888'; 
+        DETALHES_PARQUES['ibitipoca'].email = DETALHES_PARQUES['ibitipoca'].email || 'contato.ibitipoca@exemplo.com'; 
     }
 }
 
-// NOVO: Função para configurar o clique do novo botão introdutório de Check-in
 function configurarBotaoIntro() {
     const btnIntro = document.getElementById('btn-intro-checkin');
     if (btnIntro) {
         btnIntro.addEventListener('click', (e) => {
             e.preventDefault();
-            abrirModalIntro();
+            window.abrirModalIntro(); // Usando a função exposta no escopo global
         });
     }
 }
 
-// CORREÇÃO: Lógica de navegação do Botão Home
 function configurarNavegacao() {
-    // Apenas o btn-home permanece e volta para a home
-    document.getElementById('btn-home').addEventListener('click', () => {
-        // CORREÇÃO: Força a navegação para a home
-        window.location.hash = ''; 
-    });
+    // Configura o botão Home (apenas um listener)
+    const btnHome = document.getElementById('btn-home');
+    if (btnHome) {
+        // Garante que o listener não seja duplicado
+        btnHome.removeEventListener('click', btnHome.clickListener);
+        const clickListener = () => {
+             // Redireciona para a Home (hash vazio)
+            window.location.hash = ''; 
+        };
+        btnHome.addEventListener('click', clickListener);
+        btnHome.clickListener = clickListener;
+    }
 
+    // Garante que o listener de hashchange seja único
+    window.removeEventListener('hashchange', lidarComHash);
     window.addEventListener('hashchange', lidarComHash);
     
     configurarBotaoIntro();
@@ -1161,8 +1263,11 @@ async function inicializar() {
     try {
         await carregarDados();
         registrarServiceWorker();
-        
+        configurarFechamentoModais();
+        carregarBotoesParques(); // Carrega os botões com os dados
+
         const videoElement = document.getElementById('intro-video-element');
+        const videoIntro = document.getElementById('video-intro');
         let checkinProcessado = false;
 
         const currentHash = window.location.hash;
@@ -1170,59 +1275,64 @@ async function inicializar() {
             console.log('Check-in detectado na URL inicial:', currentHash);
             const parts = currentHash.substring(1).split('-');
             if (parts.length === 3) {
-                processarCheckin(parts[1], parts[2]);
+                // processarCheckin já chama lidarComHash via window.location.hash = '#premiacao'
+                processarCheckin(parts[1], parts[2]); 
                 checkinProcessado = true;
             }
         }
         
-        carregarBotoesParques(); // NOVO: Carrega os botões sempre, após carregar os dados.
+        configurarNavegacao(); // Configura a navegação e o botão home
 
-        if (localStorage.getItem('first_visit') !== 'false' && !checkinProcessado) {
+        if (localStorage.getItem('first_visit') !== 'false' && !checkinProcessado && videoElement && videoIntro) {
             localStorage.setItem('first_visit', 'false');
             
-            document.getElementById('video-intro').style.display = 'flex';
+            videoIntro.style.display = 'flex';
             videoElement.load();
             
             const playPromise = videoElement.play();
             if (playPromise !== undefined) {
                 playPromise.then(() => {
-                    // Controla a transição do vídeo
-                    document.getElementById('video-intro').classList.add('fade-out');
+                    // Espera o final do vídeo (ou um tempo limite)
                     setTimeout(() => {
-                        iniciarApp(); // Mostra o app após a animação
-                        lidarComHash(); // Garante o carregamento do estado inicial
-                    }, 1000); 
+                         videoIntro.classList.add('fade-out');
+                         setTimeout(() => {
+                            videoIntro.style.display = 'none';
+                            iniciarApp(); // Mostra o app após a animação
+                            lidarComHash(); // Garante o carregamento do estado inicial (Home)
+                         }, 1000); 
+                    }, videoElement.duration * 1000 || 5000); // Usa duração ou 5s como fallback
                 }).catch(error => {
                     console.warn('Autoplay impedido. Iniciando app diretamente.', error);
+                    videoIntro.style.display = 'none';
                     iniciarApp();
-                    lidarComHash(); // Garante o carregamento do estado inicial
+                    lidarComHash(); 
                 });
             }
         } else {
-            document.getElementById('video-intro').style.display = 'none';
-            document.getElementById('app-container').style.display = 'flex';
-            
+            if (videoIntro) videoIntro.style.display = 'none';
+            iniciarApp();
             if (!checkinProcessado) {
-                lidarComHash();
-            } else {
-                // Se um check-in foi processado, processarCheckin já cuida do hash, mas chamar lidarComHash aqui evita erros
+                // Se não for um check-in, lida com o hash atual (ou Home)
                 lidarComHash(); 
             }
+            // Se for checkinProcessado, lidarComHash será chamado dentro de processarCheckin
         }
         
     } catch (error) {
         console.error('Erro fatal na inicialização:', error);
+        // Fallback de erro
         document.getElementById('video-intro').style.display = 'none';
-        document.getElementById('app-container').style.display = 'flex';
-        document.getElementById('app-container').innerHTML = `
-            <div style="text-align: center; padding: 20px;">
-                <p>Erro ao carregar o aplicativo. Recarregue a página.</p>
-                <button onclick="location.reload()" class="action-button">Recarregar</button>
-            </div>
-        `;
+        const appContainer = document.getElementById('app-container');
+        if (appContainer) {
+            appContainer.style.display = 'flex';
+            appContainer.innerHTML = `
+                <div style="text-align: center; padding: 20px;">
+                    <p>Erro ao carregar o aplicativo. Recarregue a página.</p>
+                    <button onclick="location.reload()" class="action-button">Recarregar</button>
+                </div>
+            `;
+        }
     }
-
-    configurarNavegacao();
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
