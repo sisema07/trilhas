@@ -373,7 +373,6 @@ function carregarConteudoFauna(parque, container) {
     container.innerHTML = html;
 }
 
-// Expõe as funções de modal no escopo global (window)
 window.abrirModalFauna = function(parqueId, index) {
     const animal = DADOS_FAUNA[parqueId] && DADOS_FAUNA[parqueId][index];
     if (!animal) return;
@@ -383,21 +382,36 @@ window.abrirModalFauna = function(parqueId, index) {
     if (!modal || !modalBody) return;
 
     const imagePath = `fauna/${animal.imagem}`;
-    
+    const fileName = `${animal.nome.toLowerCase().replace(/\s/g, '_')}_${parqueId}.png`;
+
+    // Função de download que será executada ao clicar no botão
+    const downloadFunction = (path, name) => {
+        // Cria um link temporário
+        const link = document.createElement('a');
+        link.href = path;
+        link.download = name; // Nome do arquivo a ser baixado
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     modalBody.innerHTML = `
         <h4>${animal.nome}</h4>
         <img src="${imagePath}" alt="${animal.nome}">
         <p><strong>Status de Conservação (IUCN):</strong> ${animal.status || 'Não Classificado'}</p>
         <p>${animal.descricao}</p>
+        
+        <button id="btn-fauna-download" class="action-button active" 
+            style="width: 100%; margin-top: 15px;">
+            <i class="fas fa-download"></i> Baixar Imagem
+        </button>
     `;
-    
-    modal.classList.add('open');
-    modal.style.display = 'flex';
-}
 
-window.abrirModalQr = function() {
-    const modal = document.getElementById('qr-modal');
-    if (!modal) return;
+    // Anexa o listener de clique ao novo botão
+    document.getElementById('btn-fauna-download').addEventListener('click', () => {
+        downloadFunction(imagePath, fileName);
+    });
+    
     modal.classList.add('open');
     modal.style.display = 'flex';
 }
@@ -1336,3 +1350,4 @@ async function inicializar() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
+
