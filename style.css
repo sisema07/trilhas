@@ -1,4 +1,4 @@
-/* style.css - CÓDIGO COMPLETO AJUSTADO (COM OTMIZAÇÃO DO GLOW PARA CORRIGIR TRAVAMENTO) */
+/* style.css - CÓDIGO COMPLETO AJUSTADO (GLOW OTIMIZADO PARA ESTABILIDADE E CONSISTÊNCIA) */
 
 /* Variáveis de Cores e Estilos */
 :root {
@@ -76,7 +76,8 @@ body, html {
     margin: 0 auto;
     padding: 10px 10px 20px;
     min-height: 100vh;
-    display: flex;
+    /* CORREÇÃO: Deve ser 'display: flex' por padrão no HTML e aqui */
+    display: flex; 
     flex-direction: column;
     width: 100%;
     box-sizing: border-box;
@@ -254,7 +255,8 @@ header {
     z-index: 1000;
     transform: translateX(100%);
     transition: transform 0.3s ease-in-out;
-    display: flex;
+    /* CORREÇÃO: Deve ser 'display: none' por padrão no HTML e controlado via JS */
+    display: none; 
     flex-direction: column;
     overflow-y: auto;
     overflow-x: hidden;
@@ -359,20 +361,17 @@ header {
     color: #888; /* Cor de texto mais neutra para bloqueado */
     font-style: italic;
     cursor: default;
-    
     filter: none;
 }
 
 .icone-premio.desbloqueado {
     /* Estilo de Desbloqueado/Ativado (Sombra interna de "pressionado") */
-    box-shadow: var(--sombra-neumorfismo-ativa), 0 0 10px 0 rgba(255, 193, 7, 0.6); /* NOVO: box-shadow Amarelo */
+    box-shadow: var(--sombra-neumorfismo-ativa), 0 0 10px 0 rgba(255, 193, 7, 0.6); /* NOVO: box-shadow Amarelo para Conquista */
     color: var(--cor-principal); /* Cor principal para destaque */
     opacity: 1.0;
     font-style: normal;
     cursor: pointer;
-    
-    /* REMOVIDO: filter: drop-shadow(0 0 8px rgba(255, 193, 7, 0.6)); */
-    filter: none; 
+    filter: none;
 }
 
 .icone-premio:active.desbloqueado {
@@ -401,7 +400,6 @@ header {
     object-fit: contain; 
     padding: 5px; 
     box-sizing: border-box;
-    /* REMOVIDO: filter: inherit; */
     filter: none;
 }
 
@@ -731,19 +729,16 @@ header {
     color: #888;
     font-style: italic;
     
-    /* REMOVIDO: filter: drop-shadow (CAUSA TRAVAMENTO) */
-    filter: none; 
+    /* NOVO: Glow Verde Otimizado para itens de interação desativados */
+    box-shadow: var(--sombra-neumorfismo-externa), 0 0 4px 0 rgba(76, 175, 80, 0.3);
 }
 
 .activity-grid-item.desbloqueado, .fauna-grid-item.desbloqueado {
-    /* Estilo de Desbloqueado/Ativado (Sombra interna) */
+    /* PADRONIZAÇÃO: Estilo de Desbloqueado/Ativado (Sombra interna) */
     box-shadow: var(--sombra-neumorfismo-ativa), 0 0 8px 0 rgba(76, 175, 80, 0.6); /* NOVO: box-shadow Verde */
     opacity: 1.0; 
     color: var(--cor-texto); /* Texto escuro normal para itens desbloqueados */
     font-style: normal;
-    
-    /* REMOVIDO: filter: drop-shadow */
-    filter: none;
 }
 
 .fauna-grid-item:active.desbloqueado, .activity-grid-item:active.desbloqueado {
@@ -781,14 +776,13 @@ header {
     border-radius: 10px;
     
     /* OTIMIZAÇÃO: box-shadow combinando Neumorfismo + Glow Verde */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 0 5px 0 rgba(76, 175, 80, 0.7); 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(76, 175, 80, 0.7); 
     
     position: relative;
     margin-top: 10px;
     cursor: pointer; 
     transition: transform 0.2s;
     
-    /* REMOVIDO: filter: drop-shadow */
     filter: none; 
 }
 
