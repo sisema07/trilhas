@@ -1,4 +1,4 @@
-/* style.css - CÓDIGO COMPLETO AJUSTADO (FINAL COM TODAS AS CORREÇÕES) */
+/* style.css - CÓDIGO COMPLETO AJUSTADO COM CORREÇÃO DE CONFLITO DE LAYOUT */
 
 /* Variáveis de Cores e Estilos */
 :root {
@@ -285,10 +285,10 @@ header {
     width: 40px;
     height: 40px;
     cursor: pointer;
-    margin-right: 10px; /* Movido para o lado esquerdo */
+    margin-right: 10px; /* Mantém espaço entre o botão e o título */
     z-index: 20;
     min-height: 44px; /* Tamanho mínimo para touch */
-    margin-left: 0; /* Remove margin-left: auto */
+    margin-left: 0; 
 }
 
 #secundaria-titulo {
@@ -296,7 +296,7 @@ header {
     font-size: 1.25rem;
     flex-grow: 1; 
     text-align: center; /* Centraliza o título */
-    margin-right: 40px; /* Compensa o espaço que o Home ocupava na direita, mantendo o título centralizado visualmente */
+    margin-right: 40px; /* Compensa o espaço para centralizar o título, já que só tem um botão */
 }
 
 /* --- Estilos da Área de Check-ins (Badges) --- */
@@ -348,9 +348,10 @@ header {
     margin-bottom: 15px;
 }
 
-/* --- ESTILOS PADRONIZADOS DOS BADGES (PREMIAÇÃO E ATIVIDADES) --- */
-/* Item de Premiação (Grande Grid) */
+/* --- CORREÇÃO: LAYOUT GRID ESPECÍFICO --- */
+/* Item de Premiação (Grid Responsivo de Badges) */
 #lista-icones-premios {
+    /* CORREÇÃO CRÍTICA: Restaura o grid responsivo */
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
     gap: 15px;
@@ -358,7 +359,7 @@ header {
     padding: 0;
 }
 
-/* Item de Atividade (3 Colunas) */
+/* Item de Atividade (Grid Fixo de 3 Colunas) */
 #lista-atividades-dinamica {
     display: grid;
     grid-template-columns: repeat(3, 1fr); 
@@ -367,8 +368,20 @@ header {
     padding: 0 10px;
 }
 
+/* Item de Fauna (Grid Fixo de 2 Colunas) */
+#fauna-grid-dinamica {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+    padding: 0 10px;
+}
+/* --- FIM CORREÇÃO: LAYOUT GRID ESPECÍFICO --- */
+
+
 /* Estilo unificado para Badges (Premiação) e Itens de Atividade/Fauna */
-.icone-premio, .activity-grid-item, .fauna-grid-item {
+/* Aplica-se a: .icone-premio (obsoleto no JS), .activity-grid-item, .fauna-grid-item */
+.activity-grid-item, .fauna-grid-item {
     background-color: var(--cor-fundo);
     border-radius: 15px;
     aspect-ratio: 1 / 1; 
@@ -388,7 +401,14 @@ header {
     font-style: italic;
 }
 
-.icone-premio.desbloqueado, .activity-grid-item.desbloqueado, .fauna-grid-item.desbloqueado {
+/* Devido à padronização no JS (L. 396 do script anterior), precisamos garantir que a classe antiga (icone-premio)
+   caso ainda seja usada, também tenha o estilo padronizado: */
+#lista-icones-premios .activity-grid-item {
+    padding: 10px; /* Ajuste de padding para caber melhor os badges */
+}
+
+/* Classe Desbloqueada/Ativada */
+.activity-grid-item.desbloqueado, .fauna-grid-item.desbloqueado {
     box-shadow: var(--sombra-neumorfismo-interna);
     opacity: 1.0; /* Opacidade total para itens DESBLOQUEADOS */
     cursor: pointer;
@@ -397,46 +417,9 @@ header {
 }
 
 /* Efeito de clique padronizado */
-.icone-premio.desbloqueado:active, .activity-grid-item.desbloqueado:active, .fauna-grid-item.desbloqueado:active {
+.activity-grid-item.desbloqueado:active, .fauna-grid-item.desbloqueado:active {
     box-shadow: var(--sombra-neumorfismo-ativa);
     transform: scale(0.98);
-}
-
-/* --- Estilos da Página de Detalhes do Parque --- */
-#conteudo-parque-detalhe {
-    padding: 0 0 20px 0;
-}
-
-/* 2. Área de Visitação (Maps + Contato + Instagram) */
-.location-link-container {
-    display: flex;
-    align-items: center;
-    justify-content: center; 
-    gap: 25px; 
-    padding: 10px 20px;
-}
-
-.location-icon-link {
-    color: #444; 
-    font-size: 1.6rem;
-    transition: color 0.2s;
-    width: 35px;
-    text-align: center;
-    line-height: 1;
-}
-
-/* Mapeando as cores para a nova ordem: Maps, Instagram, Telefone, Email */
-.location-icon-link:nth-child(1) { /* Maps */
-    color: #DB4437; 
-}
-.location-icon-link:nth-child(2) { /* Instagram */
-    color: #E1306C;
-}
-.location-icon-link:nth-child(3) { /* Telefone */
-    color: #3f51b5; 
-}
-.location-icon-link:nth-child(4) { /* Email */
-    color: #FF9800; 
 }
 
 
@@ -533,4 +516,14 @@ header {
     cursor: pointer; 
     transition: transform 0.2s;
 }
-/* ... (outros estilos não modificados para brevidade) */
+
+.qr-mascote-container:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); 
+}
+
+.qr-mascote-img {
+    width: 90%; 
+    height: 90%;
+    object-fit: contain;
+}
