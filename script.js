@@ -1,4 +1,4 @@
-// script.js - CÓDIGO COMPLETO CORRIGIDO (COM INCENTIVOS E MASCOTE RUNNER/VIDAS)
+// script.js - CÓDIGO COMPLETO CORRIGIDO (COM LAYOUT E COMPARTILHAMENTO)
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -12,13 +12,10 @@ const DADOS_FAUNA = {
     ],
     "ibitipoca": [
         { "nome": "Sapo-Pingo-de-Ouro", "imagem": "sapo-pingo.png", "descricao": "O Sapo-Pingo-de-Ouro (Brachycephalus ibitipoca) é um pequeno sapo colorido, endêmico de Ibitipoca. Classificado como Criticamente em Perigo (CR). Sua sobrevivência é sensível a mudanças climáticas e à perda de habitat nas partes mais altas do parque. Texto ilustrativo.", "status": "CR" },
-        { "nome": "Macaco-Prego", "imagem": "macacoprego.png", "descricao": "O Macaco-Prego (Sapajus nigritus) é inteligente e social, sendo um dos primatas mais comuns da região. Está classificada como Pouco Preocupante (LC). Vive em grupos e se alimenta de frutos e insetos.", "status": "LC" }
+        { "nome": "Macaco-Prego", "imagem": "macacoprego.png", "descricao": "O Macaco-Prego (Sapajus nigritus) é inteligente e social, sendo um dos primatas mais comuns da região. Está classificado como Pouco Preocupante (LC). Vive em grupos e se alimenta de frutos e insetos.", "status": "LC" }
     ]
     // Adicionar dados de fauna para outros parques aqui
 };
-
-// NOVO: Variável de chances/erros
-const MAX_ERROS = 3; 
 
 let estadoUsuario = JSON.parse(localStorage.getItem('trilhasDeMinasStatus')) || {};
 let scrollPosition = 0;
@@ -36,8 +33,7 @@ passportTemplateImage.src = 'images/passport_template.png';
 // Variáveis de estado do Quiz
 let currentQuizData = null; 
 let currentQuizIndex = 0;   
-let quizScore = 0;
-let quizErrors = 0; // NOVO: Contador de erros (vidas)        
+let quizScore = 0;          
 
 function salvarEstado() {
     localStorage.setItem('trilhasDeMinasStatus', JSON.stringify(estadoUsuario));
@@ -171,7 +167,7 @@ function resetInterval() {
 
 // --- FLUXO PRINCIPAL DE CHECK-IN (QR CODE) ---
 function processarCheckin(parqueId, atividadeId) {
-    console.log(`Processando check-in: ${parqueId} - atividadeId`);
+    console.log(`Processando check-in: ${parqueId} - ${atividadeId}`);
     
     if (ATIVIDADES_PARQUES[parqueId] && ATIVIDADES_PARQUES[parqueId].some(a => a.id === atividadeId)) {
         
@@ -450,11 +446,10 @@ function carregarConteudoQuiz(parque, container) {
         return;
     }
 
-    // Inicialização da pontuação e erros para a nova rodada
-    currentQuizIndex = 0;   
+    currentQuizIndex = 0;
     quizScore = 0;
-    quizErrors = 0;
     
+    // REMOÇÃO: Removida a imagem do mascote e o texto descritivo
     container.innerHTML = `
         <div class="quiz-header-content" style="display: block; text-align: center;">
             <h3>${detalhes.quiz_title || 'Desafio do Conhecimento'}</h3>
@@ -464,16 +459,6 @@ function carregarConteudoQuiz(parque, container) {
             <div class="progress-bar">
                 <div id="quiz-progress" style="width: 0%;"></div>
             </div>
-        </div>
-        
-        <div id="quiz-feedback-display">
-            <div id="lives-container">
-                <span class="feedback-label">Vidas Restantes:</span>
-                <i class="fas fa-heart quiz-life-icon active" data-life="1"></i>
-                <i class="fas fa-heart quiz-life-icon active" data-life="2"></i>
-                <i class="fas fa-heart quiz-life-icon active" data-life="3"></i>
-            </div>
-            <img id="quiz-mascote-feedback" src="logo.png" alt="Mascote Feedback" class="quiz-feedback-mascote">
         </div>
 
         <div id="quiz-question-area">
@@ -501,67 +486,18 @@ function carregarProximaQuestao() {
         `;
     });
     
-    // Transição para dar um efeito mais suave
-    area.style.opacity = '0';
-    setTimeout(() => {
-        area.innerHTML = `
-            <h4 style="margin-bottom: 20px;">Questão ${currentQuizIndex + 1}/${currentQuizData.length}:</h4>
-            <p style="font-weight: 700; font-size: 1.1rem; text-align: center;">${questao.q}</p>
-            <div class="action-buttons-container" style="flex-direction: column; gap: 10px; margin-top: 20px;">
-                ${optionsHtml}
-            </div>
-        `;
-        area.style.opacity = '1'; // Fade-in da nova pergunta
-    }, 200); // Transição rápida
+    area.innerHTML = `
+        <h4 style="margin-bottom: 20px;">Questão ${currentQuizIndex + 1}/${currentQuizData.length}:</h4>
+        <p style="font-weight: 700; font-size: 1.1rem; text-align: center;">${questao.q}</p>
+        <div class="action-buttons-container" style="flex-direction: column; gap: 10px; margin-top: 20px;">
+            ${optionsHtml}
+        </div>
+    `;
     
     if(nextQuestionBtn) nextQuestionBtn.style.display = 'none';
     
     atualizarBarraProgresso();
 }
-
-// NOVO: Função para trocar a imagem do mascote (feedback)
-function atualizarMascoteFeedback(acertou) {
-    const mascote = document.getElementById('quiz-mascote-feedback');
-    // Você precisará de imagens "mascote-feliz.png" e "mascote-triste.png"
-    const happyImg = 'logo.png'; // Usando logo.png como feliz por simplicidade, mude para mascote-feliz.png
-    const sadImg = 'qr.png'; // Usando qr.png como triste por simplicidade, mude para mascote-triste.png
-
-    if (mascote) {
-        mascote.src = acertou ? happyImg : sadImg;
-        mascote.style.animation = 'none'; // Reseta a animação se for o caso
-        
-        setTimeout(() => {
-            mascote.src = 'logo.png'; // Volta para a imagem padrão (neutra)
-        }, 600);
-    }
-}
-
-// NOVO: Função para remover uma vida e dar feedback visual
-function atualizarVidas() {
-    // Seleciona o ícone de vida correspondente ao número de erros (1, 2 ou 3)
-    const vidaPerdida = document.querySelector(`.quiz-life-icon.active[data-life="${quizErrors}"]`);
-    
-    // Se não encontrou o ícone *ativo* com o número atual de erros, tenta encontrar o último ativo
-    if (!vidaPerdida) {
-        // Encontra o último coração ATIVO (o mais alto data-life)
-        const allLives = document.querySelectorAll('.quiz-life-icon');
-        let lastActiveLife = null;
-        for (let i = allLives.length - 1; i >= 0; i--) {
-            if (allLives[i].classList.contains('active')) {
-                lastActiveLife = allLives[i];
-                break;
-            }
-        }
-        if (lastActiveLife) {
-            lastActiveLife.classList.remove('active');
-            lastActiveLife.classList.add('lost');
-        }
-    } else {
-        vidaPerdida.classList.remove('active');
-        vidaPerdida.classList.add('lost');
-    }
-}
-
 
 window.selectQuizOption = function(selectedIndex, buttonElement) {
     const buttons = document.querySelectorAll('.quiz-option-btn');
@@ -573,40 +509,24 @@ window.selectQuizOption = function(selectedIndex, buttonElement) {
     if (isCorrect) {
         buttonElement.classList.add('active'); 
         quizScore++;
-        atualizarMascoteFeedback(true); // Mascote feliz
     } else {
         buttonElement.style.backgroundColor = '#f44336'; 
         buttonElement.style.color = 'white';
         document.querySelector(`.quiz-option-btn[data-index="${questao.correct}"]`)?.classList.add('active');
-        
-        // NOVO: Registra o erro e atualiza as vidas
-        quizErrors++;
-        atualizarMascoteFeedback(false); // Mascote triste
-        atualizarVidas();
     }
     
-    if (quizErrors >= MAX_ERROS) {
-         // NOVO: Falha total do quiz
-         setTimeout(() => {
-             finalizarQuiz(true); // Passa true para indicar falha por erros
-         }, 800);
-         return; 
-    }
-
     setTimeout(() => {
         currentQuizIndex++;
         carregarProximaQuestao();
-    }, 800); // REDUÇÃO DE TEMPO para 800ms
+    }, 1500);
 }
 
 function atualizarBarraProgresso() {
     const progress = (currentQuizIndex / currentQuizData.length) * 100;
     document.getElementById('quiz-progress').style.width = `${progress}%`;
-    
-    // NOVO: Remove a lógica do Mascote Runner aqui. O mascote de feedback é estático.
 }
 
-function finalizarQuiz(falhaPorErros = false) {
+function finalizarQuiz() {
     const area = document.getElementById('quiz-question-area');
     const total = currentQuizData.length;
     const parqueId = window.location.hash.substring(1).split('-')[0];
@@ -614,16 +534,7 @@ function finalizarQuiz(falhaPorErros = false) {
     let resultadoHtml;
     const requiredScore = Math.ceil(total * 0.75); 
     
-    if (falhaPorErros) {
-        // NOVO: Falha por limite de erros
-        resultadoHtml = `
-            <div style="text-align: center; padding: 20px;">
-                <p class="result-classification" style="color: #f44336;">Fim de Jogo!</p>
-                <p style="margin-bottom: 25px; font-weight: 700;">Você atingiu o limite de ${MAX_ERROS} erros. Tente novamente para conquistar o Badge!</p>
-                <button class="action-button active" onclick="carregarConteudoQuiz(DADOS_PARQUES.find(p => p.id === '${parqueId}'), document.getElementById('dynamic-content-area'))">Reiniciar Quiz</button>
-            </div>
-        `;
-    } else if (quizScore >= requiredScore) { 
+    if (quizScore >= requiredScore) { 
         const badgeId = currentQuizData[0].badge_id || 'quiz';
         if (ATIVIDADES_PARQUES[parqueId]?.find(a => a.id === badgeId)) {
             if (!(estadoUsuario[parqueId] && estadoUsuario[parqueId][badgeId])) {
@@ -645,22 +556,10 @@ function finalizarQuiz(falhaPorErros = false) {
             </div>
         `;
     } else {
-        // --- MUDANÇA: MENSAGENS DE INCENTIVO ---
-        let incentiveMessage;
-        
-        if (quizScore >= requiredScore * 0.8) { 
-            incentiveMessage = "Quase lá! Você está muito perto de desvendar este parque. Mais uma tentativa e o Badge será seu!";
-        } else if (quizScore >= requiredScore * 0.5) { 
-            incentiveMessage = "Mandou bem! Continue explorando o parque para aprender mais e completar o desafio na próxima rodada.";
-        } else { 
-            incentiveMessage = "Não desanime! Use as informações nas abas do parque (Fauna e Info) para te ajudar na próxima tentativa!";
-        }
-        
         resultadoHtml = `
             <div style="text-align: center; padding: 20px;">
                 <p class="result-classification" style="color: #f44336;">Tente Novamente!</p>
-                <p style="margin-bottom: 10px; font-weight: 700;">Você acertou ${quizScore} de ${total}.</p>
-                <p style="margin-bottom: 25px;">**${incentiveMessage}**</p>
+                <p style="margin-bottom: 20px;">Você acertou ${quizScore} de ${total}. Você precisa de ${requiredScore} acertos para ganhar o Badge.</p>
                 <button class="action-button active" onclick="carregarConteudoQuiz(DADOS_PARQUES.find(p => p.id === '${parqueId}'), document.getElementById('dynamic-content-area'))">Reiniciar Quiz</button>
             </div>
         `;
@@ -782,6 +681,7 @@ function carregarDetalhesParque(parqueId, action = 'info') {
 }
 
 function carregarConteudoDinamico(parque, container, action) {
+    // A ativação do botão agora é feita em carregarDetalhesParque() para evitar duplicação.
     
     switch (action) {
         case 'info':
@@ -907,7 +807,7 @@ function carregarAreaUpload(parqueId, atividadeId) {
         if (inputFotoBadge.files.length > 0) { 
             downloadCanvasImage(parque.nome, atividade.nome);
         } else {
-            alert('Nenhuma imagem para baixar. Por favor, selecione uma foto.');
+            alert('Por favor, selecione uma foto antes de baixar o check-in.');
         }
     };
     
@@ -1213,19 +1113,18 @@ function configurarBotaoIntro() {
     }
 }
 
-// CORREÇÃO: Lógica simplificada de navegação de volta (Botão Home)
+// CORREÇÃO: Lógica de navegação do Botão Home
 function configurarNavegacao() {
     // Apenas o btn-home permanece e volta para a home
     document.getElementById('btn-home').addEventListener('click', () => {
         // CORREÇÃO: Força a navegação para a home
-        window.location.hash = '';
+        window.location.hash = ''; 
     });
 
     window.addEventListener('hashchange', lidarComHash);
     
     configurarBotaoIntro();
 }
-
 async function inicializar() {
     try {
         await carregarDados();
@@ -1286,3 +1185,4 @@ async function inicializar() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
+
