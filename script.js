@@ -1,5 +1,4 @@
-
-// script.js - CÓDIGO COMPLETO CORRIGIDO (COM MODAIS MODERNOS E MODAL DE VITÓRIA DO QUIZ)
+// script.js - CÓDIGO COMPLETO CORRIGIDO (FIX FINAL DE CONGELAMENTO NA HOME)
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -295,10 +294,15 @@ function carregarPremios() {
 }
 
 function carregarConteudoPremiacao() {
+    // Esconde a área de detalhes do parque (se estiver visível)
     document.getElementById('conteudo-parque-detalhe').style.display = 'none';
     document.getElementById('area-envio-foto').style.display = 'none';
 
+    // Garante que o app container esteja oculto
+    document.getElementById('app-container').style.display = 'none';
+
     const areaSecundaria = document.getElementById('area-secundaria');
+    areaSecundaria.style.display = 'flex'; // Garante que a área secundária está no display
     document.getElementById('secundaria-titulo').textContent = 'Seus Check-ins';
 
     document.getElementById('conteudo-premios').style.display = 'block';
@@ -672,6 +676,10 @@ function carregarDetalhesParque(parqueId, action = 'info') {
         return;
     }
 
+    // CORREÇÃO CRÍTICA: Esconde o container principal e garante que a área secundária está visível
+    document.getElementById('app-container').style.display = 'none'; 
+    document.getElementById('area-secundaria').style.display = 'flex';
+    
     document.getElementById('conteudo-premios').style.display = 'none';
     document.getElementById('area-envio-foto').style.display = 'none';
 
@@ -747,6 +755,9 @@ function carregarAreaUpload(parqueId, atividadeId) {
     document.getElementById('conteudo-parque-detalhe').style.display = 'none';
     document.getElementById('conteudo-premios').style.display = 'none';
     document.getElementById('area-envio-foto').style.display = 'block';
+
+    document.getElementById('app-container').style.display = 'none'; // Esconde o principal
+    document.getElementById('area-secundaria').style.display = 'flex'; // Mostra o secundário
 
     if (!parque || !atividade) {
         document.getElementById('secundaria-titulo').textContent = 'Erro';
@@ -1043,21 +1054,24 @@ function lidarComHash() {
     fecharModais(); // Garante que modais sejam fechados ao navegar
 
     // Se o hash está vazio, volta para a home e garante que o container principal esteja visível.
-if (!hash || hash === 'home' || hash === '#') {
+    if (!hash || hash === 'home' || hash === '#') {
         document.getElementById('area-secundaria').classList.remove('aberto');
         
         // CORREÇÃO CRÍTICA: Garante que o container principal esteja visível
         document.getElementById('app-container').style.display = 'flex';
-        
-        // Garante que a área secundária está oculta (embora 'aberto' já faça isso)
+        // Garante que a área secundária está oculta
         document.getElementById('area-secundaria').style.display = 'none';
-
+        
         document.body.style.overflow = 'auto';
         document.body.style.height = 'auto';
         setupPwaInstallPrompt(); 
         return;
     }
     
+    // CORREÇÃO CRÍTICA: Garante que o app container esteja oculto ANTES da transição lateral
+    document.getElementById('app-container').style.display = 'none';
+    document.getElementById('area-secundaria').style.display = 'flex'; 
+
     document.body.style.overflow = 'hidden'; 
     document.body.style.height = '100vh';
 
@@ -1103,13 +1117,43 @@ function iniciarApp() {
     // Chamada inicial de lidarComHash para carregar o estado, caso o hash esteja setado (ex: deep link de check-in)
     lidarComHash(); 
 
-    const videoIntro = document.getElementById('video-intro');
-    videoIntro.classList.add('fade-out'); 
-    setTimeout(() => {
-        videoIntro.style.display = 'none';
+    const videoElement = document.getElementById('intro-video-element');
+    videoElement.style.display = 'block'; // Garante que o vídeo está visível antes de tentar tocar
+
+    // Verifica se é a primeira visita ou se houve um erro na navegação anterior
+    const isFirstVisit = localStorage.getItem('first_visit') !== 'false';
+    const isDeepLink = window.location.hash.startsWith('#checkin-');
+
+    if (isFirstVisit && !isDeepLink) {
+        localStorage.setItem('first_visit', 'false');
+        
+        document.getElementById('video-intro').style.display = 'flex';
+        videoElement.load();
+        
+        const playPromise = videoElement.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                setTimeout(() => {
+                    document.getElementById('video-intro').classList.add('fade-out');
+                    setTimeout(() => {
+                        document.getElementById('video-intro').style.display = 'none';
+                        document.getElementById('app-container').style.display = 'flex';
+                        setupPwaInstallPrompt();
+                    }, 1000); 
+                }, 3000);
+            }).catch(error => {
+                console.warn('Autoplay impedido. Iniciando app diretamente.', error);
+                document.getElementById('video-intro').style.display = 'none';
+                document.getElementById('app-container').style.display = 'flex';
+                setupPwaInstallPrompt();
+            });
+        }
+    } else {
+        document.getElementById('video-intro').style.display = 'none';
         document.getElementById('app-container').style.display = 'flex';
-        setupPwaInstallPrompt();
-    }, 1000); 
+        lidarComHash(); // Lida com a hash imediatamente se não houver intro
+    }
+
 
     const btnPremiacao = document.getElementById('btn-premiacao');
     if (btnPremiacao) {
@@ -1119,6 +1163,7 @@ function iniciarApp() {
         });
     }
 }
+
 
 async function carregarDados() {
     const [parquesResp, detalhesResp] = await Promise.all([
@@ -1156,12 +1201,12 @@ function configurarBotaoIntro() {
     }
 }
 
-// CORREÇÃO: Lógica de navegação do Botão Home
+// CORREÇÃO: Lógica simplificada de navegação de volta (Botão Home)
 function configurarNavegacao() {
     // Apenas o btn-home permanece e volta para a home
     document.getElementById('btn-home').addEventListener('click', () => {
         // CORREÇÃO: Força a navegação para a home
-        window.location.hash = ''; 
+        window.location.hash = '';
     });
 
     window.addEventListener('hashchange', lidarComHash);
@@ -1174,44 +1219,7 @@ async function inicializar() {
         await carregarDados();
         registrarServiceWorker();
         
-        const videoElement = document.getElementById('intro-video-element');
-        let checkinProcessado = false;
-
-        const currentHash = window.location.hash;
-        if (currentHash.startsWith('#checkin-')) {
-            console.log('Check-in detectado na URL inicial:', currentHash);
-            const parts = currentHash.substring(1).split('-');
-            if (parts.length === 3) {
-                processarCheckin(parts[1], parts[2]);
-                checkinProcessado = true;
-            }
-        }
-
-        if (localStorage.getItem('first_visit') !== 'false' && !checkinProcessado) {
-            localStorage.setItem('first_visit', 'false');
-            
-            document.getElementById('video-intro').style.display = 'flex';
-            videoElement.load();
-            
-            const playPromise = videoElement.play();
-            if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    setTimeout(() => {
-                        iniciarApp();
-                    }, 3000);
-                }).catch(error => {
-                    console.warn('Autoplay impedido. Iniciando app diretamente.', error);
-                    iniciarApp();
-                });
-            }
-        } else {
-            document.getElementById('video-intro').style.display = 'none';
-            document.getElementById('app-container').style.display = 'flex';
-            
-            if (!checkinProcessado) {
-                lidarComHash();
-            }
-        }
+        iniciarApp();
         
     } catch (error) {
         console.error('Erro fatal na inicialização:', error);
@@ -1229,5 +1237,3 @@ async function inicializar() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
-
-
