@@ -384,12 +384,11 @@ window.abrirModalFauna = function(parqueId, index) {
     const imagePath = `fauna/${animal.imagem}`;
     const fileName = `${animal.nome.toLowerCase().replace(/\s/g, '_')}_${parqueId}.png`;
 
-    // Função de download que será executada ao clicar no botão
+    // Função de download (mantida)
     const downloadFunction = (path, name) => {
-        // Cria um link temporário
         const link = document.createElement('a');
         link.href = path;
-        link.download = name; // Nome do arquivo a ser baixado
+        link.download = name;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -398,17 +397,18 @@ window.abrirModalFauna = function(parqueId, index) {
     modalBody.innerHTML = `
         <h4>${animal.nome}</h4>
         <img src="${imagePath}" alt="${animal.nome}">
+        
+        <a href="#" id="btn-fauna-download" class="download-icon-fauna" title="Baixar imagem">
+            <i class="fas fa-arrow-down"></i>
+        </a>
+        
         <p><strong>Status de Conservação (IUCN):</strong> ${animal.status || 'Não Classificado'}</p>
         <p>${animal.descricao}</p>
-        
-        <button id="btn-fauna-download" class="action-button active" 
-            style="width: 100%; margin-top: 15px;">
-            <i class="fas fa-download"></i> Baixar Imagem
-        </button>
     `;
 
-    // Anexa o listener de clique ao novo botão
-    document.getElementById('btn-fauna-download').addEventListener('click', () => {
+    // Anexa o listener de clique ao novo ícone
+    document.getElementById('btn-fauna-download').addEventListener('click', (e) => {
+        e.preventDefault(); // Impede a navegação padrão do <a>
         downloadFunction(imagePath, fileName);
     });
     
@@ -1350,4 +1350,5 @@ async function inicializar() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
+
 
