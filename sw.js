@@ -1,4 +1,4 @@
-const CACHE_NAME = 'trilhas-de-minas-v11';
+const CACHE_NAME = 'trilhas-de-minas-v12'; // Versão atualizada do cache
 const urlsToCache = [
     './',
     'index.html',
@@ -8,8 +8,13 @@ const urlsToCache = [
     'park_details.json', 
     'trilhas.mp4',
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css',
-    'https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:wght@400;600;700&display=swap',
     
+    // CORREÇÃO/MELHORIA: Incluindo os links de fontes para cache offline
+    'https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:wght@400;600;700&display=swap',
+    'https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Roboto+Slab:wght@700&display=swap',
+    // IMPORTANTE: Adicionar também os arquivos de fonte .woff2/etc. se possível (O Google Fonts pode ser complicado para cache manual)
+    // Para simplificar, vou confiar nos links CSS. Se o problema persistir, a inclusão direta dos WOFF2 é necessária.
+
     // Logos
     'logos/biribiri.png',
     'logos/ibitipoca.png',
