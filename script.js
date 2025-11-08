@@ -3,6 +3,20 @@
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
 let DETALHES_PARQUES = {}; 
+// NOVO: Estrutura de dados da fauna local (Exemplos)
+const DADOS_FAUNA = {
+    "biribiri": [
+        { "nome": "Jaguatirica", "imagem": "jaguatirica.png", "descricao": "Um predador noturno de porte médio da Mata Atlântica e do Cerrado. Está classificada como Quase Ameaçada (NT). É fundamental para o equilíbrio do ecossistema.", "status": "NT" },
+        { "nome": "Tamanduá-Bandeira", "imagem": "tamandua.png", "descricao": "Um dos maiores mamíferos do Cerrado, conhecido por sua língua comprida. Classificado como Vulnerável (VU) no Brasil. Sua presença é um indicador de saúde ambiental.", "status": "VU" },
+        { "nome": "Lobo-Guará", "imagem": "loboguara.png", "descricao": "O maior canídeo da América do Sul, símbolo do Cerrado. Classificado como Quase Ameaçado (NT). Caçar e atropelamentos são as principais ameaças.", "status": "NT" }
+    ],
+    "ibitipoca": [
+        { "nome": "Sapo-Pingo-de-Ouro", "imagem": "sapo-pingo.png", "descricao": "Pequeno sapo colorido, endêmico de Ibitipoca. Classificado como Criticamente em Perigo (CR). Sua sobrevivência é sensível a mudanças climáticas.", "status": "CR" },
+        { "nome": "Macaco-Prego", "imagem": "macacoprego.png", "descricao": "Inteligente e social, é um dos primatas mais comuns da região. Está classificado como Pouco Preocupante (LC).", "status": "LC" }
+    ]
+    // Adicionar dados de fauna para outros parques aqui
+};
+
 let estadoUsuario = JSON.parse(localStorage.getItem('trilhasDeMinasStatus')) || {};
 let scrollPosition = 0;
 let deferredPrompt; 
@@ -163,7 +177,7 @@ function processarCheckin(parqueId, atividadeId) {
 
         let isNewBadge = false;
 
-        if (!estadoUsuario[parqueId][atividadeId]) { // Correção: Garante que só seja novo se não estava presente
+        if (!estadoUsuario[parqueId][atividadeId]) {
             estadoUsuario[parqueId][atividadeId] = true;
             salvarEstado();
             isNewBadge = true;
@@ -275,7 +289,7 @@ function carregarPremios() {
             }
         });
     }
-    salvarEstado(); // Salva o estado após inicializar todos os novos badges
+    salvarEstado();
 }
 
 function carregarConteudoPremiacao() {
@@ -304,7 +318,80 @@ function carregarConteudoInfo(parque, container) {
     `;
 }
 
-// CORREÇÃO: Função para gerenciar o clique dos botões de ação dinamicamente
+// NOVO: Função para carregar o conteúdo da Fauna
+function carregarConteudoFauna(parque, container) {
+    const fauna = DADOS_FAUNA[parque.id] || [];
+    
+    let html = `
+        <h3>Fauna Local</h3>
+        <div id="fauna-grid-dinamica">
+    `;
+
+    if (fauna.length === 0) {
+        html += '<p style="text-align: center; margin-top: 20px;">Nenhuma fauna catalogada para este parque.</p>';
+    } else {
+        fauna.forEach((animal, index) => {
+            const imagePath = `fauna/${animal.imagem}`;
+            
+            html += `
+                <div class="fauna-grid-item" data-index="${index}" data-parque-id="${parque.id}" onclick="abrirModalFauna('${parque.id}', ${index})">
+                    <img src="${imagePath}" alt="${animal.nome}">
+                    <span>${animal.nome}</span>
+                </div>
+            `;
+        });
+    }
+
+    html += '</div>';
+    container.innerHTML = html;
+}
+
+// NOVO: Função para abrir o modal de detalhes da Fauna
+window.abrirModalFauna = function(parqueId, index) {
+    const animal = DADOS_FAUNA[parqueId][index];
+    if (!animal) return;
+
+    const modal = document.getElementById('fauna-modal');
+    const modalBody = document.getElementById('fauna-modal-body');
+    const imagePath = `fauna/${animal.imagem}`;
+    
+    modalBody.innerHTML = `
+        <h4>${animal.nome}</h4>
+        <img src="${imagePath}" alt="${animal.nome}">
+        <p><strong>Status de Conservação (IUCN):</strong> ${animal.status || 'Não Classificado'}</p>
+        <p>${animal.descricao}</p>
+    `;
+    
+    modal.classList.add('open');
+}
+
+// NOVO: Função para abrir o modal de instrução do QR Code
+window.abrirModalQr = function() {
+    const modal = document.getElementById('qr-modal');
+    modal.classList.add('open');
+}
+
+// Função para fechar qualquer modal
+function fecharModais() {
+    document.querySelectorAll('.modal-overlay').forEach(modal => {
+        modal.classList.remove('open');
+    });
+}
+
+// Adiciona listener para fechar modais ao clicar no X ou no overlay
+document.querySelectorAll('.close-modal').forEach(btn => {
+    btn.addEventListener('click', fecharModais);
+});
+
+document.getElementById('fauna-modal').addEventListener('click', (e) => {
+    if (e.target.id === 'fauna-modal') fecharModais();
+});
+document.getElementById('qr-modal').addEventListener('click', (e) => {
+    if (e.target.id === 'qr-modal') fecharModais();
+});
+
+
+// Função de clique para navegação por hash (usada em carregarDetalhesParque)
 function handleActionClick(event, parqueId) {
     event.preventDefault();
     const newAction = event.target.dataset.action;
@@ -340,16 +427,11 @@ function carregarConteudoQuiz(parque, container) {
     currentQuizIndex = 0;
     quizScore = 0;
     
-    const faunaImgPath = parque.fauna_parque_png ? `fauna/${parque.fauna_parque_png}` : 'fauna/default.png'; 
-    
+    // REMOÇÃO: Removida a imagem do mascote e o texto descritivo
     container.innerHTML = `
-        <div class="quiz-header-content">
-            <img src="${faunaImgPath}" alt="Mascote do Parque" class="quiz-fauna-img">
-            <div class="quiz-header-text">
-                <h3>${detalhes.quiz_title || 'Desafio do Conhecimento'}</h3>
-                <p style="font-size: 0.9rem;">${detalhes.quiz_description || 'Responda corretamente para liberar um badge exclusivo!'}</p>
+        <div class="quiz-header-content" style="display: block; text-align: center;">
+            <h3>${detalhes.quiz_title || 'Desafio do Conhecimento'}</h3>
             </div>
-        </div>
         
         <div class="progress-bar-container">
             <div class="progress-bar">
@@ -428,7 +510,6 @@ function finalizarQuiz() {
     const parqueId = window.location.hash.substring(1).split('-')[0];
     
     let resultadoHtml;
-    // CORREÇÃO: 75% de acerto
     const requiredScore = Math.ceil(total * 0.75); 
     
     if (quizScore >= requiredScore) { 
@@ -469,12 +550,13 @@ function finalizarQuiz() {
 function carregarConteudoAtividades(parque, container) {
     const atividades = ATIVIDADES_PARQUES[parque.id] || [];
     
+    // MUDANÇA: O botão QR Code agora chama abrirModalQr()
     let html = `
         <div class="activity-instructions">
             <div class="instruction-text">
                 <h3>Escaneie os QR codes</h3>
             </div>
-            <div class="qr-mascote-container activity-mascote-anchor">
+            <div class="qr-mascote-container activity-mascote-anchor" onclick="abrirModalQr()">
                 <img src="qr.png" alt="Mascote escaneando QR Code" class="qr-mascote-img">
             </div>
         </div>
@@ -487,33 +569,27 @@ function carregarConteudoAtividades(parque, container) {
         html += '<p style="text-align: center; margin-top: 20px;">Nenhuma atividade cadastrada para este parque.</p>';
     } else {
         atividades.forEach(atividade => {
-            // CORREÇÃO: Garante que o estado seja inicializado se o badge for recém-adicionado
             if (!estadoUsuario[parque.id]) estadoUsuario[parque.id] = {};
             if (typeof estadoUsuario[parque.id][atividade.id] === 'undefined') {
                 estadoUsuario[parque.id][atividade.id] = false;
             }
 
-            const desbloqueado = estadoUsuario[parque.id][atividade.id] ? 'desbloqueado' : '';
+            const isConcluida = estadoUsuario[parque.id][atividade.id];
+            const desbloqueado = isConcluida ? 'desbloqueado' : '';
             const badgeId = `${parque.id}-${atividade.id}`;
             
             let badgeContent;
             if (atividade.imagem_png) {
-                badgeContent = `<img src="${atividade.imagem_png}" alt="${atividade.nome}" class="badge-custom-img">`;
+                badgeContent = `<img src="${atividade.imagem_png}" alt="${atividade.nome}">`;
             } else {
                 badgeContent = `<i class="fas ${atividade.icone}"></i>`;
             }
             
+            // MUDANÇA: Novo layout de 3 colunas (activity-grid-item)
             html += `
-                <div class="activity-list-item ${desbloqueado}" data-badge-id="${badgeId}">
-                    <div class="icone-premio">
-                        ${badgeContent}
-                        <span>${atividade.nome}</span> 
-                    </div>
-                    
-                    <div class="activity-description-box">
-                        <h4>${atividade.nome}</h4>
-                        <p>${atividade.descricao_curta || 'Descrição pendente.'}</p>
-                    </div>
+                <div class="activity-grid-item ${desbloqueado}" data-badge-id="${badgeId}" ${isConcluida ? `onclick="window.location.hash = 'upload-${badgeId}'"` : ''}>
+                    ${badgeContent}
+                    <span>${atividade.nome}</span> 
                 </div>
             `;
         });
@@ -522,17 +598,10 @@ function carregarConteudoAtividades(parque, container) {
 
     html += '</div>';
     container.innerHTML = html; 
-
-    document.querySelectorAll('#lista-atividades-dinamica .activity-list-item.desbloqueado').forEach(item => {
-        item.addEventListener('click', (event) => {
-            const badgeId = event.currentTarget.dataset.badge-id;
-            window.location.hash = `upload-${badgeId}`; 
-        });
-    });
 }
 
-// CORREÇÃO: Remove a lógica de anexar/remover listeners para evitar duplicação.
 function carregarDetalhesParque(parqueId, action = 'info') {
+    fecharModais(); // Garante que nenhum modal esteja aberto
     const parque = DADOS_PARQUES.find(p => p.id === parqueId);
     const detalhes = DETALHES_PARQUES[parqueId];
     
@@ -548,14 +617,16 @@ function carregarDetalhesParque(parqueId, action = 'info') {
     const areaSecundaria = document.getElementById('area-secundaria');
     document.getElementById('secundaria-titulo').textContent = parque.nome;
     
+    // MUDANÇA: Links de Contato (Telefone e E-mail)
     document.getElementById('map-link-icon').href = detalhes.map_link || '#';
     document.getElementById('insta-link-icon').href = detalhes.instagram_link || '#';
-    
+    document.getElementById('phone-link-icon').href = `tel:${detalhes.phone || ''}`;
+    document.getElementById('email-link-icon').href = `mailto:${detalhes.email || ''}`;
+
     setupCarousel(parqueId, detalhes.carousel_images || []);
     
     const contentArea = document.getElementById('dynamic-content-area');
     
-    // Apenas define o estado ativo e carrega o conteúdo.
     document.querySelectorAll('.action-button[data-action]').forEach(btn => {
         btn.classList.remove('active');
         // CORREÇÃO: Remove o listener antigo antes de adicionar o novo para garantir unicidade
@@ -591,6 +662,9 @@ function carregarConteudoDinamico(parque, container, action) {
         case 'info':
             carregarConteudoInfo(parque, container);
             break;
+        case 'fauna': // NOVO
+            carregarConteudoFauna(parque, container);
+            break;
         case 'quiz':
             carregarConteudoQuiz(parque, container);
             break;
@@ -602,6 +676,7 @@ function carregarConteudoDinamico(parque, container, action) {
 
 // --- Lógica de Upload/Compartilhamento (CANVAS) ---
 function carregarAreaUpload(parqueId, atividadeId) {
+    fecharModais(); // Garante que nenhum modal esteja aberto
     const parque = DADOS_PARQUES.find(p => p.id === parqueId);
     const atividade = ATIVIDADES_PARQUES[parqueId]?.find(a => a.id === atividadeId);
     
@@ -636,8 +711,6 @@ function carregarAreaUpload(parqueId, atividadeId) {
     const canvas = document.getElementById('passport-canvas');
     canvasContext = canvas.getContext('2d');
     
-    // CORREÇÃO: Definindo um tamanho base para o canvas, mas o CSS ainda o redimensiona.
-    // Mantido o 600x800, mas com o CSS a responsividade é garantida.
     canvas.width = 600; 
     canvas.height = 800; 
 
@@ -654,7 +727,6 @@ function carregarAreaUpload(parqueId, atividadeId) {
     const btnCompartilhar = document.getElementById('btn-compartilhar-social');
 
     // Limpar event listeners
-    // Garante que o evento de clique não se acumule na navegação de volta para a tela de upload
     btnGerarBaixar.onclick = null; 
     btnCompartilhar.onclick = null; 
     inputFotoBadge.onchange = null;
@@ -707,7 +779,7 @@ function carregarAreaUpload(parqueId, atividadeId) {
     drawPassportImage(parque, atividade, null);
 
     btnGerarBaixar.onclick = () => {
-        if (inputFotoBadge.files.length > 0) { // Verifica se um arquivo foi selecionado
+        if (inputFotoBadge.files.length > 0) { 
             downloadCanvasImage(parque.nome, atividade.nome);
         } else {
             alert('Por favor, selecione uma foto antes de baixar o check-in.');
@@ -852,7 +924,7 @@ function downloadCanvasImage(parqueNome, atividadeNome) {
     document.body.removeChild(link);
 }
 
-// --- NOVO: Lógica de Compartilhamento Nativo (Web Share API) ---
+// --- Lógica de Compartilhamento Nativo (Web Share API) ---
 async function shareCanvasImage(parqueNome, atividadeNome) {
     if (!canvasContext || !document.getElementById('input-foto-badge').files.length) {
         alert('Nenhuma imagem para compartilhar. Por favor, selecione uma foto.');
@@ -917,7 +989,7 @@ function lidarComHash() {
         return;
     }
     
-    document.body.style.overflow = 'hidden'; // Garante que o scroll só ocorra na área-secundaria
+    document.body.style.overflow = 'hidden'; 
     document.body.style.height = '100vh';
 
     if (hash.startsWith('checkin-')) {
@@ -947,10 +1019,10 @@ function lidarComHash() {
     const parqueEncontrado = DADOS_PARQUES.find(p => p.id === parqueId);
 
     if (parqueEncontrado && parqueId !== 'premiacao') {
+        // MUDANÇA: Inclui 'fauna' como ação possível
         const action = parts.length > 1 ? parts[1] : 'info';
         carregarDetalhesParque(parqueId, action);
     } else {
-        // CORREÇÃO: Se o hash não for reconhecido, volta para a home para evitar tela em branco
         window.location.hash = ''; 
     }
 }
@@ -974,7 +1046,7 @@ function iniciarApp() {
     if (btnPremiacao) {
         btnPremiacao.addEventListener('click', (e) => {
             e.preventDefault();
-            window.location.hash = `#premiacao`; // Redireciona corretamente para a área de premiação
+            window.location.hash = `#premiacao`; 
         });
     }
 }
@@ -991,6 +1063,17 @@ async function carregarDados() {
     DADOS_PARQUES = parquesData.DADOS_PARQUES;
     ATIVIDADES_PARQUES = parquesData.ATIVIDADES_PARQUES;
     DETALHES_PARQUES = detalhesData;
+    
+    // MUDANÇA: Adiciona e-mail e telefone de exemplo em DETALHES_PARQUES para testes
+    // Você deve atualizar isso com dados reais em park_details.json!
+    if (DETALHES_PARQUES['biribiri']) {
+        DETALHES_PARQUES['biribiri'].phone = '5531999999999'; 
+        DETALHES_PARQUES['biribiri'].email = 'contato.biribiri@exemplo.com'; 
+    }
+    if (DETALHES_PARQUES['ibitipoca']) {
+        DETALHES_PARQUES['ibitipoca'].phone = '5532988888888'; 
+        DETALHES_PARQUES['ibitipoca'].email = 'contato.ibitipoca@exemplo.com'; 
+    }
 }
 
 // CORREÇÃO: Lógica simplificada de navegação de volta (Botão Voltar)
@@ -1005,12 +1088,11 @@ function configurarNavegacao() {
             // Se estiver nos detalhes (info, quiz, activities), volta para a home
             window.location.hash = '';
         } else {
-            // Caso contrário, usa o histórico do navegador (útil para navegação entre info/quiz/activities)
+            // Caso contrário, usa o histórico do navegador (útil para navegação entre info/fauna/quiz/activities)
             window.history.back();
         }
     });
     
-    // CORREÇÃO: Lógica simplificada de navegação de volta (Botão Home)
     document.getElementById('btn-home').addEventListener('click', () => {
         window.location.hash = '';
     });
