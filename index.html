@@ -41,19 +41,16 @@
 
     <section id="area-secundaria">
         <div class="secundaria-header">
-            <button id="btn-voltar"><i class="fas fa-arrow-left"></i></button>
-            <h2 id="secundaria-titulo"></h2>
             <button id="btn-home"><i class="fas fa-home"></i></button>
-        </div>
+            <h2 id="secundaria-titulo"></h2>
+            </div>
         
         <div id="conteudo-premios" style="display: none;">
             
-            <div class="badge-intro-text">
-                <div class="badge-mascote-texto">
-                    <p>Visite os Parques Estaduais de Minas Gerais, faça check-ins nos QR codes das atividades e receba Badges que aparecerão aqui.</p>
-                    <p>Depois de ativado, clique no Badge e compartilhe sua foto com check-in nas redes sociais!</p>
-                </div>
-                <img src="logo.png" alt="Mascote Trilhas de Minas" class="badge-mascote-img">
+            <div class="badge-intro-container">
+                <button id="btn-badge-info" class="badge-info-button">
+                    <img src="logo.png" alt="Informações Badge" class="badge-info-img">
+                </button>
             </div>
 
             <p class="premios-titulo" style="font-size: 1.4rem; margin-top: 30px;">Confira seus Badges aqui</p>
@@ -135,6 +132,16 @@
             <button class="close-modal"><i class="fas fa-times"></i></button>
             <div id="qr-modal-body" style="text-align: center; padding: 10px;">
                 <p style="font-size: 1.1rem; font-weight: 600; color: var(--cor-principal);">Procure QR Codes próximos as atividades do parque listadas abaixo, abra o leitor do celular e escaneie para fazer o check-in e liberar o badge!</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="badge-info-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content small-modal">
+            <button class="close-modal"><i class="fas fa-times"></i></button>
+            <div id="badge-info-modal-body" style="text-align: center; padding: 10px;">
+                <p style="font-size: 1.1rem; font-weight: 600; color: var(--cor-principal);">Visite os Parques Estaduais de Minas Gerais, faça check-ins nos QR codes das atividades e receba Badges que aparecerão aqui.</p>
+                <p style="font-size: 1.0rem; margin-top: 10px; color: #555;">Depois de ativado, clique no Badge e compartilhe sua foto com check-in nas redes sociais!</p>
             </div>
         </div>
     </div>
