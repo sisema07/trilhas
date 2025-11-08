@@ -1,4 +1,5 @@
-// script.js - CÓDIGO COMPLETO CORRIGIDO (COM LAYOUT E COMPARTILHAMENTO)
+
+// script.js - CÓDIGO COMPLETO CORRIGIDO (COM MODAIS MODERNOS E MODAL DE VITÓRIA DO QUIZ)
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -12,7 +13,7 @@ const DADOS_FAUNA = {
     ],
     "ibitipoca": [
         { "nome": "Sapo-Pingo-de-Ouro", "imagem": "sapo-pingo.png", "descricao": "O Sapo-Pingo-de-Ouro (Brachycephalus ibitipoca) é um pequeno sapo colorido, endêmico de Ibitipoca. Classificado como Criticamente em Perigo (CR). Sua sobrevivência é sensível a mudanças climáticas e à perda de habitat nas partes mais altas do parque. Texto ilustrativo.", "status": "CR" },
-        { "nome": "Macaco-Prego", "imagem": "macacoprego.png", "descricao": "O Macaco-Prego (Sapajus nigritus) é inteligente e social, sendo um dos primatas mais comuns da região. Está classificado como Pouco Preocupante (LC). Vive em grupos e se alimenta de frutos e insetos.", "status": "LC" }
+        { "nome": "Macaco-Prego", "imagem": "macacoprego.png", "descricao": "O Macaco-Prego (Sapajus nigritus) é inteligente e social, sendo um dos primatas mais comuns da região. Está classificada como Pouco Preocupante (LC). Vive em grupos e se alimenta de frutos e insetos.", "status": "LC" }
     ]
     // Adicionar dados de fauna para outros parques aqui
 };
@@ -264,7 +265,7 @@ function carregarPremios() {
 
             const card = document.createElement('div');
             // PADRONIZAÇÃO: Agora as classes garantem o mesmo estilo que a área de atividades
-            card.className = `icone-premio ${isConcluida ? 'desbloqueado' : ''}`; 
+            card.className = `icone-premio ${isConcluida ? 'desbloqueado' : ''}`;
             card.dataset.parqueId = parqueId;
             card.dataset.atividadeId = atividade.id;
             
@@ -387,6 +388,27 @@ window.abrirModalIntro = function() {
     }
 }
 
+// NOVO: Função para abrir o modal de sucesso do Quiz
+window.abrirModalQuizWin = function(score, total) {
+    const modal = document.getElementById('quiz-win-modal');
+    const modalBody = document.getElementById('quiz-win-modal-body');
+    
+    modalBody.innerHTML = `
+        <div style="text-align: center; padding: 10px;">
+            <p class="result-classification" style="color: var(--cor-secundaria);">Conhecimento de Mestre!</p>
+            <div class="win-animation-container">
+                <img src="win.gif" alt="Quiz Concluído" class="win-gif-mascote">
+            </div>
+            <p class="success-badge-message">Parabéns! Você ganhou o badge do Quiz!</p>
+            <p style="margin-bottom: 20px;">Pontuação: ${score} de ${total}</p>
+            <button class="action-button active" onclick="fecharModais(); window.location.hash='premiacao'">Ver Meus Badges</button>
+        </div>
+    `;
+
+    modal.classList.add('open');
+    modal.style.display = 'flex'; // Garante que o display seja flex
+}
+
 // Função para fechar qualquer modal
 function fecharModais() {
     document.querySelectorAll('.modal-overlay.open').forEach(modal => {
@@ -402,6 +424,7 @@ document.querySelectorAll('.close-modal').forEach(btn => {
     btn.addEventListener('click', fecharModais);
 });
 
+// Garante que o modal feche ao clicar fora (no overlay)
 document.getElementById('fauna-modal').addEventListener('click', (e) => {
     if (e.target.id === 'fauna-modal') fecharModais();
 });
@@ -410,6 +433,9 @@ document.getElementById('qr-modal').addEventListener('click', (e) => {
 });
 document.getElementById('intro-modal')?.addEventListener('click', (e) => {
     if (e.target.id === 'intro-modal') fecharModais();
+});
+document.getElementById('quiz-win-modal')?.addEventListener('click', (e) => {
+    if (e.target.id === 'quiz-win-modal') fecharModais();
 });
 
 
@@ -421,6 +447,9 @@ function handleActionClick(event, parqueId) {
 }
 
 function carregarConteudoQuiz(parque, container) {
+    // Fecha quaisquer modais abertos antes de carregar o quiz
+    fecharModais(); 
+    
     const detalhes = DETALHES_PARQUES[parque.id] || {};
     currentQuizData = detalhes.quiz || [];
     const badgeQuiz = ATIVIDADES_PARQUES[parque.id]?.find(a => a.id === 'quiz');
@@ -432,6 +461,7 @@ function carregarConteudoQuiz(parque, container) {
     }
 
     if (isQuizCompleted) {
+        // Se já completou, apenas mostra o botão para ir aos badges, sem pop-up.
         container.innerHTML = `
             <div style="text-align: center; padding: 20px;">
                 <h3 style="color: var(--cor-secundaria);">Parabéns!</h3>
@@ -449,7 +479,6 @@ function carregarConteudoQuiz(parque, container) {
     currentQuizIndex = 0;
     quizScore = 0;
     
-    // REMOÇÃO: Removida a imagem do mascote e o texto descritivo
     container.innerHTML = `
         <div class="quiz-header-content" style="display: block; text-align: center;">
             <h3>${detalhes.quiz_title || 'Desafio do Conhecimento'}</h3>
@@ -486,13 +515,18 @@ function carregarProximaQuestao() {
         `;
     });
     
-    area.innerHTML = `
-        <h4 style="margin-bottom: 20px;">Questão ${currentQuizIndex + 1}/${currentQuizData.length}:</h4>
-        <p style="font-weight: 700; font-size: 1.1rem; text-align: center;">${questao.q}</p>
-        <div class="action-buttons-container" style="flex-direction: column; gap: 10px; margin-top: 20px;">
-            ${optionsHtml}
-        </div>
-    `;
+    // Transição para dar um efeito mais suave
+    area.style.opacity = '0';
+    setTimeout(() => {
+        area.innerHTML = `
+            <h4 style="margin-bottom: 20px;">Questão ${currentQuizIndex + 1}/${currentQuizData.length}:</h4>
+            <p style="font-weight: 700; font-size: 1.1rem; text-align: center;">${questao.q}</p>
+            <div class="action-buttons-container" style="flex-direction: column; gap: 10px; margin-top: 20px;">
+                ${optionsHtml}
+            </div>
+        `;
+        area.style.opacity = '1'; // Fade-in da nova pergunta
+    }, 200); // Transição rápida
     
     if(nextQuestionBtn) nextQuestionBtn.style.display = 'none';
     
@@ -531,11 +565,12 @@ function finalizarQuiz() {
     const total = currentQuizData.length;
     const parqueId = window.location.hash.substring(1).split('-')[0];
     
-    let resultadoHtml;
     const requiredScore = Math.ceil(total * 0.75); 
     
     if (quizScore >= requiredScore) { 
         const badgeId = currentQuizData[0].badge_id || 'quiz';
+        
+        // 1. Marca o badge como conquistado
         if (ATIVIDADES_PARQUES[parqueId]?.find(a => a.id === badgeId)) {
             if (!(estadoUsuario[parqueId] && estadoUsuario[parqueId][badgeId])) {
                 if (!estadoUsuario[parqueId]) estadoUsuario[parqueId] = {};
@@ -544,29 +579,32 @@ function finalizarQuiz() {
             }
         }
         
-        resultadoHtml = `
+        // 2. Limpa a área do quiz para mostrar o resultado estático antes do modal
+        area.innerHTML = `
             <div style="text-align: center; padding: 20px;">
-                <div class="win-animation-container">
-                    <img src="win.gif" alt="Quiz Concluído" class="win-gif-mascote">
-                </div>
-                <p class="result-classification">Conhecimento de Mestre!</p>
-                <p class="success-badge-message">Parabéns! Você ganhou o badge do Quiz!</p>
-                <p>Pontuação: ${quizScore} de ${total}</p>
-                <button class="action-button active" onclick="window.location.hash='premiacao'">Ver Meus Badges</button>
+                <p class="result-classification" style="color: var(--cor-secundaria);">Quiz Concluído!</p>
+                <p>Você acertou ${quizScore} de ${total}.</p>
             </div>
         `;
+        document.getElementById('quiz-progress').style.width = '100%';
+
+        // 3. Abre o novo modal de sucesso com o GIF
+        setTimeout(() => {
+            abrirModalQuizWin(quizScore, total);
+        }, 500); // Dá um pequeno delay antes de abrir o modal
+        
     } else {
-        resultadoHtml = `
+        // CÓDIGO PARA FALHA NO QUIZ
+        let resultadoHtml = `
             <div style="text-align: center; padding: 20px;">
                 <p class="result-classification" style="color: #f44336;">Tente Novamente!</p>
                 <p style="margin-bottom: 20px;">Você acertou ${quizScore} de ${total}. Você precisa de ${requiredScore} acertos para ganhar o Badge.</p>
                 <button class="action-button active" onclick="carregarConteudoQuiz(DADOS_PARQUES.find(p => p.id === '${parqueId}'), document.getElementById('dynamic-content-area'))">Reiniciar Quiz</button>
             </div>
         `;
+        area.innerHTML = resultadoHtml;
+        document.getElementById('quiz-progress').style.width = '100%';
     }
-    
-    area.innerHTML = resultadoHtml;
-    document.getElementById('quiz-progress').style.width = '100%';
 }
 
 function carregarConteudoAtividades(parque, container) {
@@ -681,7 +719,6 @@ function carregarDetalhesParque(parqueId, action = 'info') {
 }
 
 function carregarConteudoDinamico(parque, container, action) {
-    // A ativação do botão agora é feita em carregarDetalhesParque() para evitar duplicação.
     
     switch (action) {
         case 'info':
@@ -807,7 +844,7 @@ function carregarAreaUpload(parqueId, atividadeId) {
         if (inputFotoBadge.files.length > 0) { 
             downloadCanvasImage(parque.nome, atividade.nome);
         } else {
-            alert('Por favor, selecione uma foto antes de baixar o check-in.');
+            alert('Nenhuma imagem para baixar. Por favor, selecione uma foto.');
         }
     };
     
@@ -1113,18 +1150,19 @@ function configurarBotaoIntro() {
     }
 }
 
-// CORREÇÃO: Lógica de navegação do Botão Home
+// CORREÇÃO: Lógica simplificada de navegação de volta (Botão Home)
 function configurarNavegacao() {
     // Apenas o btn-home permanece e volta para a home
     document.getElementById('btn-home').addEventListener('click', () => {
         // CORREÇÃO: Força a navegação para a home
-        window.location.hash = ''; 
+        window.location.hash = '';
     });
 
     window.addEventListener('hashchange', lidarComHash);
     
     configurarBotaoIntro();
 }
+
 async function inicializar() {
     try {
         await carregarDados();
@@ -1185,4 +1223,3 @@ async function inicializar() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
-
