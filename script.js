@@ -1,4 +1,4 @@
-// script.js - CÓDIGO COMPLETO CORRIGIDO (BUG INFO/LAYOUT/MODAIS)
+// script.js - CÓDIGO COMPLETO CORRIGIDO (COM LAYOUT E COMPARTILHAMENTO)
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -12,7 +12,7 @@ const DADOS_FAUNA = {
     ],
     "ibitipoca": [
         { "nome": "Sapo-Pingo-de-Ouro", "imagem": "sapo-pingo.png", "descricao": "O Sapo-Pingo-de-Ouro (Brachycephalus ibitipoca) é um pequeno sapo colorido, endêmico de Ibitipoca. Classificado como Criticamente em Perigo (CR). Sua sobrevivência é sensível a mudanças climáticas e à perda de habitat nas partes mais altas do parque. Texto ilustrativo.", "status": "CR" },
-        { "nome": "Macaco-Prego", "imagem": "macacoprego.png", "descricao": "O Macaco-Prego (Sapajus nigritus) é inteligente e social, sendo um dos primatas mais comuns da região. Está classificado como Pouco Preocupante (LC). Vive em grupos e se alimenta de frutos e insetos. Texto ilustrativo.", "status": "LC" }
+        { "nome": "Macaco-Prego", "imagem": "macacoprego.png", "descricao": "O Macaco-Prego (Sapajus nigritus) é inteligente e social, sendo um dos primatas mais comuns da região. Está classificado como Pouco Preocupante (LC). Vive em grupos e se alimenta de frutos e insetos.", "status": "LC" }
     ]
     // Adicionar dados de fauna para outros parques aqui
 };
@@ -247,9 +247,6 @@ function carregarPremios() {
     const listaPremios = document.getElementById('lista-icones-premios');
     listaPremios.innerHTML = '';
     
-    // ANEXAR EVENTO DE CLIQUE DO NOVO BOTÃO DE INSTRUÇÃO DE BADGES
-    document.getElementById('btn-badge-info').onclick = abrirModalBadgeInfo;
-
     for (const parqueId in ATIVIDADES_PARQUES) {
         const atividades = ATIVIDADES_PARQUES[parqueId];
         
@@ -265,17 +262,15 @@ function carregarPremios() {
 
             const isConcluida = estadoUsuario[parqueId][atividade.id];
 
-            // PADRONIZAÇÃO: Usa a classe do item de atividade (activity-grid-item) para padronizar o estilo.
             const card = document.createElement('div');
-            // MUDANÇA: Usando a classe activity-grid-item para padronizar
-            card.className = `activity-grid-item ${isConcluida ? 'desbloqueado' : ''}`; 
+            // PADRONIZAÇÃO: Agora as classes garantem o mesmo estilo que a área de atividades
+            card.className = `icone-premio ${isConcluida ? 'desbloqueado' : ''}`; 
             card.dataset.parqueId = parqueId;
             card.dataset.atividadeId = atividade.id;
             
             let badgeContent;
             if (atividade.imagem_png) {
-                // CORREÇÃO: Usando a classe genérica para imagens dentro de itens padronizados
-                badgeContent = `<img src="${atividade.imagem_png}" alt="${atividade.nome}">`; 
+                badgeContent = `<img src="${atividade.imagem_png}" alt="${atividade.nome}" class="badge-custom-img">`;
             } else {
                 badgeContent = `<i class="fas ${atividade.icone}"></i>`;
             }
@@ -299,7 +294,6 @@ function carregarPremios() {
 }
 
 function carregarConteudoPremiacao() {
-    fecharModais();
     document.getElementById('conteudo-parque-detalhe').style.display = 'none';
     document.getElementById('area-envio-foto').style.display = 'none';
 
@@ -340,7 +334,6 @@ function carregarConteudoFauna(parque, container) {
         fauna.forEach((animal, index) => {
             const imagePath = `fauna/${animal.imagem}`;
             
-            // PADRONIZAÇÃO: Usando a classe 'desbloqueado' apenas para garantir o estilo ativado
             html += `
                 <div class="fauna-grid-item desbloqueado" data-index="${index}" data-parque-id="${parque.id}" onclick="abrirModalFauna('${parque.id}', ${index})">
                     <img src="${imagePath}" alt="${animal.nome}">
@@ -371,21 +364,27 @@ window.abrirModalFauna = function(parqueId, index) {
     `;
     
     modal.classList.add('open');
-    modal.style.display = 'flex'; 
+    modal.style.display = 'flex'; // Garante que o display seja flex
 }
 
-// NOVO: Função para abrir o modal de instrução do QR Code
+// NOVO: Função para abrir o modal de instrução do QR Code (Pop-up ativado)
 window.abrirModalQr = function() {
     const modal = document.getElementById('qr-modal');
     modal.classList.add('open');
-    modal.style.display = 'flex'; 
+    modal.style.display = 'flex'; // Garante que o display seja flex
 }
 
-// NOVO: Função para abrir o modal de instrução de Badges (Tela de Premiação)
-window.abrirModalBadgeInfo = function() {
-    const modal = document.getElementById('badge-info-modal');
-    modal.classList.add('open');
-    modal.style.display = 'flex';
+// NOVO: Função para abrir o modal introdutório de Check-in
+window.abrirModalIntro = function() {
+    const modal = document.getElementById('intro-modal');
+    const modalBody = document.getElementById('intro-modal-body');
+    const hiddenContent = document.getElementById('badge-intro-content-hidden');
+    
+    if (modal && modalBody && hiddenContent) {
+        modalBody.innerHTML = hiddenContent.innerHTML;
+        modal.classList.add('open');
+        modal.style.display = 'flex';
+    }
 }
 
 // Função para fechar qualquer modal
@@ -409,8 +408,8 @@ document.getElementById('fauna-modal').addEventListener('click', (e) => {
 document.getElementById('qr-modal').addEventListener('click', (e) => {
     if (e.target.id === 'qr-modal') fecharModais();
 });
-document.getElementById('badge-info-modal')?.addEventListener('click', (e) => {
-    if (e.target.id === 'badge-info-modal') fecharModais();
+document.getElementById('intro-modal')?.addEventListener('click', (e) => {
+    if (e.target.id === 'intro-modal') fecharModais();
 });
 
 
@@ -418,7 +417,6 @@ document.getElementById('badge-info-modal')?.addEventListener('click', (e) => {
 function handleActionClick(event, parqueId) {
     event.preventDefault();
     const newAction = event.target.dataset.action;
-    // CORREÇÃO: Força a navegação via hash para que a função lidarComHash processe a ação
     window.location.hash = `#${parqueId}-${newAction}`; 
 }
 
@@ -599,6 +597,7 @@ function carregarConteudoAtividades(parque, container) {
             }
 
             const isConcluida = estadoUsuario[parque.id][atividade.id];
+            // AJUSTE: O item bloqueado não tem a classe 'desbloqueado' e terá opacidade reduzida pelo CSS
             const desbloqueado = isConcluida ? 'desbloqueado' : ''; 
             const badgeId = `${parque.id}-${atividade.id}`;
             
@@ -609,9 +608,9 @@ function carregarConteudoAtividades(parque, container) {
                 badgeContent = `<i class="fas ${atividade.icone}"></i>`;
             }
             
-            // PADRONIZAÇÃO: Usa activity-grid-item para padronizar o estilo
+            // MUDANÇA: Novo layout de 3 colunas (activity-grid-item)
             html += `
-                <div class="activity-grid-item ${desbloqueado}" data-badge-id="${badgeId}" ${isConcluida ? `onclick="window.location.hash = 'upload-${badgeId}'"` : ''}>
+                <div class="activity-grid-item ${desbloqueado}" data-badge-id="${badgeId}" ${isConcluida ? `onclick="window.location.hash = 'upload-${parque.id}-${atividade.id}'"` : ''}>
                     ${badgeContent}
                     <span>${atividade.nome}</span> 
                 </div>
@@ -651,28 +650,28 @@ function carregarDetalhesParque(parqueId, action = 'info') {
     
     const contentArea = document.getElementById('dynamic-content-area');
     
+    // CORREÇÃO CRÍTICA: Configura o listener uma única vez e força a ação via hash.
     document.querySelectorAll('.action-button[data-action]').forEach(btn => {
-        btn.classList.remove('active');
-        // CORREÇÃO: Remove o listener antigo antes de adicionar o novo para garantir unicidade
-        btn.removeEventListener('click', btn.actionListener); 
-        
-        // Adiciona um novo listener que dispara a navegação via hash
-        const actionListener = (e) => handleActionClick(e, parqueId);
-        btn.addEventListener('click', actionListener);
-        btn.actionListener = actionListener; // Guarda a referência do listener para ser removida
+        // Usa uma flag para configurar o listener apenas uma vez
+        if (!btn.actionListenerSetup) {
+             const actionListener = (e) => {
+                e.preventDefault();
+                const newAction = e.target.closest('.action-button').dataset.action;
+                window.location.hash = `#${parqueId}-${newAction}`; 
+             };
+             btn.addEventListener('click', actionListener);
+             btn.actionListenerSetup = true;
+        }
     });
-    
-    // CORREÇÃO FINAL: A chamada para carregarConteudoDinamico deve usar a função
-    // e NÃO tentar recarregar o hash, pois o hash já está configurado (exceto se for info)
+
+
     const actionButton = document.querySelector(`.action-button[data-action="${action}"]`);
     if (actionButton) {
+        // Garante que a classe 'active' seja aplicada corretamente
+        document.querySelectorAll('.action-button[data-action]').forEach(btn => btn.classList.remove('active'));
         actionButton.classList.add('active');
+        
         carregarConteudoDinamico(parque, contentArea, action);
-    } else {
-         // Fallback para info se a ação não for válida
-         const defaultActionButton = document.querySelector(`.action-button[data-action="info"]`);
-         defaultActionButton?.classList.add('active');
-         carregarConteudoDinamico(parque, contentArea, 'info');
     }
     
     document.getElementById('conteudo-parque-detalhe').style.display = 'block';
@@ -682,30 +681,21 @@ function carregarDetalhesParque(parqueId, action = 'info') {
 }
 
 function carregarConteudoDinamico(parque, container, action) {
-    document.querySelectorAll('.action-button[data-action]').forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.dataset.action === action) {
-            btn.classList.add('active');
-        }
-    });
+    // A ativação do botão agora é feita em carregarDetalhesParque() para evitar duplicação.
     
-    // CORREÇÃO: Tratamento especial para o botão 'info'
-    if (action === 'info') {
-        // Se a ação for 'info', recarregamos o conteúdo diretamente sem mudar o hash
-        // Isso resolve o problema de 'info' não recarregar após a primeira vez.
-        carregarConteudoInfo(parque, container);
-    } else {
-        switch (action) {
-            case 'fauna': 
-                carregarConteudoFauna(parque, container);
-                break;
-            case 'quiz':
-                carregarConteudoQuiz(parque, container);
-                break;
-            case 'activities':
-                carregarConteudoAtividades(parque, container);
-                break;
-        }
+    switch (action) {
+        case 'info':
+            carregarConteudoInfo(parque, container);
+            break;
+        case 'fauna': 
+            carregarConteudoFauna(parque, container);
+            break;
+        case 'quiz':
+            carregarConteudoQuiz(parque, container);
+            break;
+        case 'activities':
+            carregarConteudoAtividades(parque, container);
+            break;
     }
 }
 
@@ -1051,11 +1041,12 @@ function lidarComHash() {
 
     const parts = hash.split('-');
     const parqueId = parts[0];
-    const action = parts.length > 1 ? parts[1] : 'info';
 
     const parqueEncontrado = DADOS_PARQUES.find(p => p.id === parqueId);
 
     if (parqueEncontrado && parqueId !== 'premiacao') {
+        // CORREÇÃO: Força a action 'info' se nenhuma for especificada, o que corrige o bug de retorno.
+        const action = parts.length > 1 ? parts[1] : 'info'; 
         carregarDetalhesParque(parqueId, action);
     } else {
         window.location.hash = ''; 
@@ -1111,22 +1102,29 @@ async function carregarDados() {
     }
 }
 
-// SIMPLIFICAÇÃO: Configura apenas o botão Home
+// NOVO: Função para configurar o clique do novo botão introdutório de Check-in
+function configurarBotaoIntro() {
+    const btnIntro = document.getElementById('btn-intro-checkin');
+    if (btnIntro) {
+        btnIntro.addEventListener('click', (e) => {
+            e.preventDefault();
+            abrirModalIntro();
+        });
+    }
+}
+
+// CORREÇÃO: Lógica simplificada de navegação de volta (Botão Home)
 function configurarNavegacao() {
-    // #btn-home agora atua como o botão Home/Voltar
+    // REMOVIDO: A lógica de btn-voltar
+    
+    // NOVO: Apenas o btn-home permanece e volta para a home
     document.getElementById('btn-home').addEventListener('click', () => {
-        const hash = window.location.hash.substring(1);
-        
-        // Se estiver nos detalhes do parque (qualquer aba), volta para a home
-        if (DADOS_PARQUES.some(p => p.id === hash.split('-')[0]) || hash === 'premiacao') {
-             window.location.hash = ''; 
-        } else {
-             // Caso contrário, volta para a home (útil se estiver em /upload-...)
-             window.location.hash = ''; 
-        }
+        window.location.hash = '';
     });
 
     window.addEventListener('hashchange', lidarComHash);
+    
+    configurarBotaoIntro(); // NOVO: Chama o configurador do botão introdutório
 }
 
 async function inicializar() {
