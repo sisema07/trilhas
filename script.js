@@ -267,13 +267,15 @@ function carregarPremios() {
 
             // PADRONIZAÇÃO: Usa a classe do item de atividade (activity-grid-item) para padronizar o estilo.
             const card = document.createElement('div');
-            card.className = `activity-grid-item ${isConcluida ? 'desbloqueado' : ''}`;
+            // MUDANÇA: Usando a classe activity-grid-item para padronizar
+            card.className = `activity-grid-item ${isConcluida ? 'desbloqueado' : ''}`; 
             card.dataset.parqueId = parqueId;
             card.dataset.atividadeId = atividade.id;
             
             let badgeContent;
             if (atividade.imagem_png) {
-                badgeContent = `<img src="${atividade.imagem_png}" alt="${atividade.nome}">`;
+                // CORREÇÃO: Usando a classe genérica para imagens dentro de itens padronizados
+                badgeContent = `<img src="${atividade.imagem_png}" alt="${atividade.nome}">`; 
             } else {
                 badgeContent = `<i class="fas ${atividade.icone}"></i>`;
             }
@@ -660,7 +662,8 @@ function carregarDetalhesParque(parqueId, action = 'info') {
         btn.actionListener = actionListener; // Guarda a referência do listener para ser removida
     });
     
-    // CORREÇÃO: Garante que o botão 'info' seja ativado/recarregado corretamente
+    // CORREÇÃO FINAL: A chamada para carregarConteudoDinamico deve usar a função
+    // e NÃO tentar recarregar o hash, pois o hash já está configurado (exceto se for info)
     const actionButton = document.querySelector(`.action-button[data-action="${action}"]`);
     if (actionButton) {
         actionButton.classList.add('active');
@@ -686,25 +689,23 @@ function carregarConteudoDinamico(parque, container, action) {
         }
     });
     
-    switch (action) {
-        case 'info':
-            // Correção: Se já está em info, forçamos a atualização do hash
-            if (window.location.hash.includes('-info')) {
-                carregarConteudoInfo(parque, container);
-            } else {
-                // Se a URL não tem a ação, navegamos para garantir que a função 'lidarComHash' trate a mudança
-                 window.location.hash = `#${parque.id}-info`;
-            }
-            break;
-        case 'fauna': 
-            carregarConteudoFauna(parque, container);
-            break;
-        case 'quiz':
-            carregarConteudoQuiz(parque, container);
-            break;
-        case 'activities':
-            carregarConteudoAtividades(parque, container);
-            break;
+    // CORREÇÃO: Tratamento especial para o botão 'info'
+    if (action === 'info') {
+        // Se a ação for 'info', recarregamos o conteúdo diretamente sem mudar o hash
+        // Isso resolve o problema de 'info' não recarregar após a primeira vez.
+        carregarConteudoInfo(parque, container);
+    } else {
+        switch (action) {
+            case 'fauna': 
+                carregarConteudoFauna(parque, container);
+                break;
+            case 'quiz':
+                carregarConteudoQuiz(parque, container);
+                break;
+            case 'activities':
+                carregarConteudoAtividades(parque, container);
+                break;
+        }
     }
 }
 
