@@ -1043,9 +1043,15 @@ function lidarComHash() {
     fecharModais(); // Garante que modais sejam fechados ao navegar
 
     // Se o hash está vazio, volta para a home e garante que o container principal esteja visível.
-    if (!hash || hash === 'home' || hash === '#') {
+if (!hash || hash === 'home' || hash === '#') {
         document.getElementById('area-secundaria').classList.remove('aberto');
+        
+        // CORREÇÃO CRÍTICA: Garante que o container principal esteja visível
         document.getElementById('app-container').style.display = 'flex';
+        
+        // Garante que a área secundária está oculta (embora 'aberto' já faça isso)
+        document.getElementById('area-secundaria').style.display = 'none';
+
         document.body.style.overflow = 'auto';
         document.body.style.height = 'auto';
         setupPwaInstallPrompt(); 
@@ -1223,4 +1229,5 @@ async function inicializar() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
+
 
