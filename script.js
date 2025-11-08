@@ -1150,12 +1150,12 @@ function configurarBotaoIntro() {
     }
 }
 
-// CORREÇÃO: Lógica simplificada de navegação de volta (Botão Home)
+// CORREÇÃO: Lógica de navegação do Botão Home
 function configurarNavegacao() {
     // Apenas o btn-home permanece e volta para a home
     document.getElementById('btn-home').addEventListener('click', () => {
         // CORREÇÃO: Força a navegação para a home
-        window.location.hash = '';
+        window.location.hash = ''; 
     });
 
     window.addEventListener('hashchange', lidarComHash);
@@ -1223,3 +1223,4 @@ async function inicializar() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
+
