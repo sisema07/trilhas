@@ -1,4 +1,4 @@
-// script.js - CÓDIGO COMPLETO CORRIGIDO (COM LAYOUT E COMPARTILHAMENTO)
+// script.js - CÓDIGO COMPLETO CORRIGIDO (COM INCENTIVOS E MASCOTE RUNNER)
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -12,7 +12,7 @@ const DADOS_FAUNA = {
     ],
     "ibitipoca": [
         { "nome": "Sapo-Pingo-de-Ouro", "imagem": "sapo-pingo.png", "descricao": "O Sapo-Pingo-de-Ouro (Brachycephalus ibitipoca) é um pequeno sapo colorido, endêmico de Ibitipoca. Classificado como Criticamente em Perigo (CR). Sua sobrevivência é sensível a mudanças climáticas e à perda de habitat nas partes mais altas do parque. Texto ilustrativo.", "status": "CR" },
-        { "nome": "Macaco-Prego", "imagem": "macacoprego.png", "descricao": "O Macaco-Prego (Sapajus nigritus) é inteligente e social, sendo um dos primatas mais comuns da região. Está classificado como Pouco Preocupante (LC). Vive em grupos e se alimenta de frutos e insetos.", "status": "LC" }
+        { "nome": "Macaco-Prego", "imagem": "macacoprego.png", "descricao": "O Macaco-Prego (Sapajus nigritus) é inteligente e social, sendo um dos primatas mais comuns da região. Está classificada como Pouco Preocupante (LC). Vive em grupos e se alimenta de frutos e insetos.", "status": "LC" }
     ]
     // Adicionar dados de fauna para outros parques aqui
 };
@@ -167,7 +167,7 @@ function resetInterval() {
 
 // --- FLUXO PRINCIPAL DE CHECK-IN (QR CODE) ---
 function processarCheckin(parqueId, atividadeId) {
-    console.log(`Processando check-in: ${parqueId} - ${atividadeId}`);
+    console.log(`Processando check-in: ${parqueId} - atividadeId`);
     
     if (ATIVIDADES_PARQUES[parqueId] && ATIVIDADES_PARQUES[parqueId].some(a => a.id === atividadeId)) {
         
@@ -458,6 +458,7 @@ function carregarConteudoQuiz(parque, container) {
         <div class="progress-bar-container">
             <div class="progress-bar">
                 <div id="quiz-progress" style="width: 0%;"></div>
+                <img id="quiz-mascote-runner" src="mascote-quiz-run.png" alt="Mascote Correndo" class="quiz-runner-mascote">
             </div>
         </div>
 
@@ -486,13 +487,18 @@ function carregarProximaQuestao() {
         `;
     });
     
-    area.innerHTML = `
-        <h4 style="margin-bottom: 20px;">Questão ${currentQuizIndex + 1}/${currentQuizData.length}:</h4>
-        <p style="font-weight: 700; font-size: 1.1rem; text-align: center;">${questao.q}</p>
-        <div class="action-buttons-container" style="flex-direction: column; gap: 10px; margin-top: 20px;">
-            ${optionsHtml}
-        </div>
-    `;
+    // Transição para dar um efeito mais suave
+    area.style.opacity = '0';
+    setTimeout(() => {
+        area.innerHTML = `
+            <h4 style="margin-bottom: 20px;">Questão ${currentQuizIndex + 1}/${currentQuizData.length}:</h4>
+            <p style="font-weight: 700; font-size: 1.1rem; text-align: center;">${questao.q}</p>
+            <div class="action-buttons-container" style="flex-direction: column; gap: 10px; margin-top: 20px;">
+                ${optionsHtml}
+            </div>
+        `;
+        area.style.opacity = '1'; // Fade-in da nova pergunta
+    }, 200); // Transição rápida
     
     if(nextQuestionBtn) nextQuestionBtn.style.display = 'none';
     
@@ -518,12 +524,21 @@ window.selectQuizOption = function(selectedIndex, buttonElement) {
     setTimeout(() => {
         currentQuizIndex++;
         carregarProximaQuestao();
-    }, 1500);
+    }, 800); // REDUÇÃO DE TEMPO para 800ms
 }
 
 function atualizarBarraProgresso() {
     const progress = (currentQuizIndex / currentQuizData.length) * 100;
     document.getElementById('quiz-progress').style.width = `${progress}%`;
+    
+    // NOVO: Move o mascote
+    const mascote = document.getElementById('quiz-mascote-runner');
+    if (mascote) {
+        // Ajusta a posição para que ele vá de 0% (início) a 100% (fim da barra)
+        // Subtrai 5% para centralizar o mascote (que tem largura) sobre a porcentagem
+        const mascotePosition = Math.max(0, progress - 5); 
+        mascote.style.transform = `translateX(${mascotePosition}%)`;
+    }
 }
 
 function finalizarQuiz() {
@@ -556,10 +571,22 @@ function finalizarQuiz() {
             </div>
         `;
     } else {
+        // --- MUDANÇA: MENSAGENS DE INCENTIVO ---
+        let incentiveMessage;
+        
+        if (quizScore >= requiredScore * 0.8) { 
+            incentiveMessage = "Quase lá! Você está muito perto de desvendar este parque. Mais uma tentativa e o Badge será seu!";
+        } else if (quizScore >= requiredScore * 0.5) { 
+            incentiveMessage = "Mandou bem! Continue explorando o parque para aprender mais e completar o desafio na próxima rodada.";
+        } else { 
+            incentiveMessage = "Não desanime! Use as informações nas abas do parque (Fauna e Info) para te ajudar na próxima tentativa!";
+        }
+        
         resultadoHtml = `
             <div style="text-align: center; padding: 20px;">
                 <p class="result-classification" style="color: #f44336;">Tente Novamente!</p>
-                <p style="margin-bottom: 20px;">Você acertou ${quizScore} de ${total}. Você precisa de ${requiredScore} acertos para ganhar o Badge.</p>
+                <p style="margin-bottom: 10px; font-weight: 700;">Você acertou ${quizScore} de ${total}.</p>
+                <p style="margin-bottom: 25px;">**${incentiveMessage}**</p>
                 <button class="action-button active" onclick="carregarConteudoQuiz(DADOS_PARQUES.find(p => p.id === '${parqueId}'), document.getElementById('dynamic-content-area'))">Reiniciar Quiz</button>
             </div>
         `;
@@ -681,7 +708,6 @@ function carregarDetalhesParque(parqueId, action = 'info') {
 }
 
 function carregarConteudoDinamico(parque, container, action) {
-    // A ativação do botão agora é feita em carregarDetalhesParque() para evitar duplicação.
     
     switch (action) {
         case 'info':
@@ -1113,18 +1139,19 @@ function configurarBotaoIntro() {
     }
 }
 
-// CORREÇÃO: Lógica de navegação do Botão Home
+// CORREÇÃO: Lógica simplificada de navegação de volta (Botão Home)
 function configurarNavegacao() {
     // Apenas o btn-home permanece e volta para a home
     document.getElementById('btn-home').addEventListener('click', () => {
         // CORREÇÃO: Força a navegação para a home
-        window.location.hash = ''; 
+        window.location.hash = '';
     });
 
     window.addEventListener('hashchange', lidarComHash);
     
     configurarBotaoIntro();
 }
+
 async function inicializar() {
     try {
         await carregarDados();
@@ -1185,4 +1212,3 @@ async function inicializar() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
-
