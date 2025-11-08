@@ -163,7 +163,7 @@ function processarCheckin(parqueId, atividadeId) {
 
         let isNewBadge = false;
 
-        if (!estadoUsuario[parqueId][atividadeId]) {
+        if (!estadoUsuario[parqueId][atividadeId]) { // Correção: Garante que só seja novo se não estava presente
             estadoUsuario[parqueId][atividadeId] = true;
             salvarEstado();
             isNewBadge = true;
@@ -237,12 +237,16 @@ function carregarPremios() {
         const atividades = ATIVIDADES_PARQUES[parqueId];
         
         if (!estadoUsuario[parqueId]) {
-             estadoUsuario[parqueId] = atividades.reduce((acc, a) => ({ ...acc, [a.id]: false }), {});
-             salvarEstado();
+             estadoUsuario[parqueId] = {};
         }
 
         atividades.forEach(atividade => {
-            const isConcluida = estadoUsuario[parqueId] && estadoUsuario[parqueId][atividade.id];
+            // CORREÇÃO: Inicializa a atividade para 'false' apenas se ela não existir no estado
+            if (typeof estadoUsuario[parqueId][atividade.id] === 'undefined') {
+                estadoUsuario[parqueId][atividade.id] = false;
+            }
+
+            const isConcluida = estadoUsuario[parqueId][atividade.id];
 
             const card = document.createElement('div');
             card.className = `icone-premio ${isConcluida ? 'desbloqueado' : ''}`;
@@ -271,6 +275,7 @@ function carregarPremios() {
             }
         });
     }
+    salvarEstado(); // Salva o estado após inicializar todos os novos badges
 }
 
 function carregarConteudoPremiacao() {
@@ -297,6 +302,13 @@ function carregarConteudoInfo(parque, container) {
         <h3>O que esperar</h3>
         <p>${parque.descricao || 'O parque é um local ideal para explorar a natureza.'}</p>
     `;
+}
+
+// CORREÇÃO: Função para gerenciar o clique dos botões de ação dinamicamente
+function handleActionClick(event, parqueId) {
+    event.preventDefault();
+    const newAction = event.target.dataset.action;
+    window.location.hash = `#${parqueId}-${newAction}`; 
 }
 
 function carregarConteudoQuiz(parque, container) {
@@ -416,7 +428,8 @@ function finalizarQuiz() {
     const parqueId = window.location.hash.substring(1).split('-')[0];
     
     let resultadoHtml;
-    const requiredScore = Math.ceil(total * 0.75);
+    // CORREÇÃO: 75% de acerto
+    const requiredScore = Math.ceil(total * 0.75); 
     
     if (quizScore >= requiredScore) { 
         const badgeId = currentQuizData[0].badge_id || 'quiz';
@@ -474,7 +487,13 @@ function carregarConteudoAtividades(parque, container) {
         html += '<p style="text-align: center; margin-top: 20px;">Nenhuma atividade cadastrada para este parque.</p>';
     } else {
         atividades.forEach(atividade => {
-            const desbloqueado = estadoUsuario[parque.id] && estadoUsuario[parque.id][atividade.id] ? 'desbloqueado' : '';
+            // CORREÇÃO: Garante que o estado seja inicializado se o badge for recém-adicionado
+            if (!estadoUsuario[parque.id]) estadoUsuario[parque.id] = {};
+            if (typeof estadoUsuario[parque.id][atividade.id] === 'undefined') {
+                estadoUsuario[parque.id][atividade.id] = false;
+            }
+
+            const desbloqueado = estadoUsuario[parque.id][atividade.id] ? 'desbloqueado' : '';
             const badgeId = `${parque.id}-${atividade.id}`;
             
             let badgeContent;
@@ -499,18 +518,20 @@ function carregarConteudoAtividades(parque, container) {
             `;
         });
     }
+    salvarEstado();
 
     html += '</div>';
     container.innerHTML = html; 
 
     document.querySelectorAll('#lista-atividades-dinamica .activity-list-item.desbloqueado').forEach(item => {
         item.addEventListener('click', (event) => {
-            const badgeId = event.currentTarget.dataset.badgeId;
+            const badgeId = event.currentTarget.dataset.badge-id;
             window.location.hash = `upload-${badgeId}`; 
         });
     });
 }
 
+// CORREÇÃO: Remove a lógica de anexar/remover listeners para evitar duplicação.
 function carregarDetalhesParque(parqueId, action = 'info') {
     const parque = DADOS_PARQUES.find(p => p.id === parqueId);
     const detalhes = DETALHES_PARQUES[parqueId];
@@ -534,14 +555,16 @@ function carregarDetalhesParque(parqueId, action = 'info') {
     
     const contentArea = document.getElementById('dynamic-content-area');
     
+    // Apenas define o estado ativo e carrega o conteúdo.
     document.querySelectorAll('.action-button[data-action]').forEach(btn => {
         btn.classList.remove('active');
-        btn.onclick = null;
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const newAction = e.target.dataset.action;
-            carregarConteudoDinamico(parque, contentArea, newAction); 
-        });
+        // CORREÇÃO: Remove o listener antigo antes de adicionar o novo para garantir unicidade
+        btn.removeEventListener('click', btn.actionListener); 
+        
+        // Adiciona um novo listener que dispara a navegação via hash
+        const actionListener = (e) => handleActionClick(e, parqueId);
+        btn.addEventListener('click', actionListener);
+        btn.actionListener = actionListener; // Guarda a referência do listener
     });
 
     const actionButton = document.querySelector(`.action-button[data-action="${action}"]`);
@@ -613,6 +636,8 @@ function carregarAreaUpload(parqueId, atividadeId) {
     const canvas = document.getElementById('passport-canvas');
     canvasContext = canvas.getContext('2d');
     
+    // CORREÇÃO: Definindo um tamanho base para o canvas, mas o CSS ainda o redimensiona.
+    // Mantido o 600x800, mas com o CSS a responsividade é garantida.
     canvas.width = 600; 
     canvas.height = 800; 
 
@@ -629,17 +654,18 @@ function carregarAreaUpload(parqueId, atividadeId) {
     const btnCompartilhar = document.getElementById('btn-compartilhar-social');
 
     // Limpar event listeners
+    // Garante que o evento de clique não se acumule na navegação de volta para a tela de upload
+    btnGerarBaixar.onclick = null; 
+    btnCompartilhar.onclick = null; 
     inputFotoBadge.onchange = null;
-    btnGerarBaixar.onclick = null;
-    btnCompartilhar.onclick = null;
-
-    // Desabilitar botões por padrão
+    
+    // Desabilitar botões por padrão até que a foto seja carregada
     btnGerarBaixar.disabled = true;
     btnCompartilhar.disabled = true;
     btnCompartilhar.classList.remove('active');
 
     // Oculta/Mostra o botão Compartilhar se a API não estiver disponível
-    if (!navigator.share || !navigator.canShare) {
+    if (!navigator.share) {
         btnCompartilhar.style.display = 'none';
     } else {
         btnCompartilhar.style.display = 'block';
@@ -676,11 +702,12 @@ function carregarAreaUpload(parqueId, atividadeId) {
     } else {
         stampImage.src = 'images/default_stamp_fallback.png'; 
     }
-    
+
+    // Desenha o canvas inicial (sem foto do usuário)
     drawPassportImage(parque, atividade, null);
 
     btnGerarBaixar.onclick = () => {
-        if (inputFotoBadge.files.length > 0) {
+        if (inputFotoBadge.files.length > 0) { // Verifica se um arquivo foi selecionado
             downloadCanvasImage(parque.nome, atividade.nome);
         } else {
             alert('Por favor, selecione uma foto antes de baixar o check-in.');
@@ -880,6 +907,7 @@ function lidarComHash() {
     
     document.getElementById('install-prompt').style.display = 'none';
 
+    // Se o hash está vazio, volta para a home e garante que o container principal esteja visível.
     if (!hash || hash === 'home' || hash === '#') {
         document.getElementById('area-secundaria').classList.remove('aberto');
         document.getElementById('app-container').style.display = 'flex';
@@ -889,9 +917,8 @@ function lidarComHash() {
         return;
     }
     
-document.body.style.overflow = 'auto';
-document.body.style.height = 'auto';
-
+    document.body.style.overflow = 'hidden'; // Garante que o scroll só ocorra na área-secundaria
+    document.body.style.height = '100vh';
 
     if (hash.startsWith('checkin-')) {
         const parts = hash.split('-'); 
@@ -923,6 +950,7 @@ document.body.style.height = 'auto';
         const action = parts.length > 1 ? parts[1] : 'info';
         carregarDetalhesParque(parqueId, action);
     } else {
+        // CORREÇÃO: Se o hash não for reconhecido, volta para a home para evitar tela em branco
         window.location.hash = ''; 
     }
 }
@@ -946,7 +974,7 @@ function iniciarApp() {
     if (btnPremiacao) {
         btnPremiacao.addEventListener('click', (e) => {
             e.preventDefault();
-            window.location.hash = `#${btnPremiacao.dataset.parqueId}`; 
+            window.location.hash = `#premiacao`; // Redireciona corretamente para a área de premiação
         });
     }
 }
@@ -965,32 +993,26 @@ async function carregarDados() {
     DETALHES_PARQUES = detalhesData;
 }
 
+// CORREÇÃO: Lógica simplificada de navegação de volta (Botão Voltar)
 function configurarNavegacao() {
     document.getElementById('btn-voltar').addEventListener('click', () => {
         const hash = window.location.hash.substring(1);
-        console.log('Botão voltar clicado, hash atual:', hash);
         
-        if (hash.startsWith('upload-')) {
-            window.location.hash = '#premiacao';
-        } else if (hash === 'premiacao') {
-            window.location.hash = '';
-        } else if (hash.includes('-')) {
-            const parqueId = hash.split('-')[0];
-            window.location.hash = `#${parqueId}`;
-        } else if (DADOS_PARQUES.some(p => p.id === hash)) {
+        if (hash.startsWith('upload-') || hash === 'premiacao') {
+            // Se estiver na tela de upload ou premiação, volta para a home
+            window.location.hash = ''; 
+        } else if (DADOS_PARQUES.some(p => p.id === hash.split('-')[0])) {
+            // Se estiver nos detalhes (info, quiz, activities), volta para a home
             window.location.hash = '';
         } else {
-            document.getElementById('area-secundaria').classList.remove('aberto');
-            document.getElementById('app-container').style.display = 'flex';
-            document.body.style.overflow = 'auto';
+            // Caso contrário, usa o histórico do navegador (útil para navegação entre info/quiz/activities)
+            window.history.back();
         }
     });
     
+    // CORREÇÃO: Lógica simplificada de navegação de volta (Botão Home)
     document.getElementById('btn-home').addEventListener('click', () => {
-        console.log('Botão home clicado - voltando para home');
         window.location.hash = '';
-        document.getElementById('app-container').style.display = 'flex';
-        document.body.style.overflow = 'auto';
     });
 
     window.addEventListener('hashchange', lidarComHash);
