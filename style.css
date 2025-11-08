@@ -1,4 +1,4 @@
-/* style.css - CÓDIGO COMPLETO AJUSTADO (CORREÇÃO DE CONFLITO VISUAL E LAYOUT) */
+/* style.css - CÓDIGO COMPLETO AJUSTADO (CORREÇÃO FINAL DE LAYOUT E ISOLAMENTO DE IMAGENS) */
 
 /* Variáveis de Cores e Estilos */
 :root {
@@ -400,9 +400,9 @@ header {
     font-style: italic;
 }
 
-/* Adicionando regra para as imagens dentro dos itens padronizados */
+/* CORREÇÃO CRÍTICA: ISOLAR ESTILOS DE IMAGEM DA GRID (DEVE AFETAR SÓ OS ITENS PEQUENOS) */
 .activity-grid-item img, .fauna-grid-item img {
-    /* Garante que imagens como o passport_template não fiquem gigantes e desloquem o layout */
+    /* Garante que imagens de carrossel NÃO sejam afetadas, apenas imagens dentro dos itens */
     width: 60%; 
     height: auto;
     max-height: 60%;
@@ -437,6 +437,27 @@ header {
     transform: scale(0.98);
 }
 
+
+/* --- Estilos do Carrossel e Conteúdo do Parque --- */
+
+/* Garante que a imagem do carrossel use 100% do seu container e não 60% */
+.park-carousel-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Garante que a imagem de fauna no modal seja grande */
+#fauna-modal-body img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    /* Remove qualquer limitação de tamanho de 60% que poderia ter vazado */
+    width: 100%; 
+    max-height: none; 
+}
 
 /* --- ESTILOS DO MODAL (Pop-up Moderno - Glassmorphism) --- */
 .modal-overlay {
