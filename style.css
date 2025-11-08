@@ -1,4 +1,4 @@
-/* style.css - CÓDIGO COMPLETO AJUSTADO (FIX NO GLOW INTERNO) */
+/* style.css - CÓDIGO COMPLETO AJUSTADO (FIX DE RENDERIZAÇÃO E GLOW OTIMIZADO) */
 
 /* Variáveis de Cores e Estilos */
 :root {
@@ -16,7 +16,7 @@
     --sombra-neumorfismo-ativa: inset 4px 4px 8px 0 #a3b1c6, inset -4px -4px 8px 0 var(--cor-sombra-clara); 
     --sombra-neumorfismo-card: 4px 4px 8px 0 #a3b1c6, -4px -4px 8px 0 var(--cor-sombra-clara);
 
-    /* Variáveis de Cor para os Glows */
+    /* Variáveis de Cor para os Glows OTIMIZADAS (para uso em box-shadow) */
     --cor-glow-verde: rgba(76, 175, 80, 0.7); /* Glow Verde para Atividades/Interação */
     --cor-glow-conquista: rgba(255, 193, 7, 0.7); /* Glow Amarelo para Badges */
 }
@@ -193,7 +193,7 @@ header {
     margin-bottom: 3px;
     z-index: 2;
     position: relative;
-    /* EFEITO GLOW VERDE PADRÃO PARA ÍCONES */
+    /* EFEITO GLOW VERDE PADRÃO PARA ÍCONES (Mantido, pois funciona aqui) */
     text-shadow: 1px 1px 3px rgba(0,0,0,0.2), 0 0 10px rgba(76, 175, 80, 0.5); 
     transition: all 0.3s ease-in-out;
 }
@@ -207,7 +207,7 @@ header {
     z-index: 2;
     position: relative;
     object-fit: contain;
-    /* EFEITO GLOW VERDE PADRÃO PARA LOGOS */
+    /* EFEITO GLOW VERDE PADRÃO PARA LOGOS (Mantido, pois funciona aqui) */
     filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.2)) drop-shadow(0 0 5px var(--cor-secundaria)); 
     transition: all 0.3s ease-in-out;
 }
@@ -370,14 +370,22 @@ header {
     opacity: 1.0;
     font-style: normal;
     cursor: pointer;
+    /* NOVO: Box Shadow Amarelo (Glow) */
+    box-shadow: var(--sombra-neumorfismo-ativa), 0 0 10px 0 rgba(255, 193, 7, 0.7);
     filter: none;
 }
 
-/* NOVO: Aplica o Glow Amarelo nos ÍCONES/IMAGENS do Badge Desbloqueado */
-.icone-premio.desbloqueado i, 
-.icone-premio.desbloqueado .badge-custom-img {
+/* Aplica o Glow Amarelo nos ÍCONES/IMAGENS do Badge Desbloqueado */
+/* Este glow deve ser aplicado APENAS se a imagem não preenche o contêiner (como nos logos/ícones vetoriais) */
+.icone-premio.desbloqueado i {
     filter: drop-shadow(0 0 5px var(--cor-glow-conquista)) drop-shadow(0 0 2px var(--cor-glow-conquista));
+    transition: filter 0.3s ease-in-out;
 }
+.icone-premio.desbloqueado .badge-custom-img {
+    /* Mantido apenas para evitar o filtro, o box-shadow já trata o glow no contêiner */
+    filter: none;
+}
+
 
 .icone-premio:active.desbloqueado {
     box-shadow: var(--sombra-neumorfismo-card); 
@@ -717,7 +725,7 @@ header {
 .fauna-grid-item, .activity-grid-item, .icone-premio {
     /* Mantém o estilo base Neumórfico (Sem Glow no Contêiner) */
     box-shadow: var(--sombra-neumorfismo-externa);
-    filter: none; /* Garante que não haja filtro no contêiner */
+    filter: none;
 }
 
 /* Ajusta cores e transparência para itens de grade não desbloqueados */
@@ -726,20 +734,22 @@ header {
     color: #888;
 }
 
-/* ESTILO ATIVADO/DESBLOQUEADO (Fauna/Atividades - Glow Verde) */
+/* ESTILO ATIVADO/DESBLOQUEADO (Fauna/Atividades - Glow Verde no Contêiner) */
 .activity-grid-item.desbloqueado, .fauna-grid-item.desbloqueado {
-    box-shadow: var(--sombra-neumorfismo-ativa);
+    /* MANTÉM o Neumorfismo de "pressionado" */
+    box-shadow: var(--sombra-neumorfismo-ativa), 0 0 8px 0 var(--cor-glow-verde); 
     opacity: 1.0; 
     color: var(--cor-texto); 
+    filter: none;
 }
 
-/* Aplica o GLOW VERDE aos ícones/imagens de Fauna/Atividade (Verde para Interação) */
+/* Aplica o GLOW VERDE nos ÍCONES/IMAGENS de Fauna/Atividade (Verde para Interação) */
 .activity-grid-item.desbloqueado i, 
 .fauna-grid-item.desbloqueado i,
 .activity-grid-item.desbloqueado img, 
 .fauna-grid-item.desbloqueado img {
-    /* Usamos filter: drop-shadow no elemento interno */
-    filter: drop-shadow(0 0 5px var(--cor-glow-verde)) drop-shadow(0 0 2px var(--cor-glow-verde));
+    /* OTIMIZAÇÃO: Filtro no elemento interno, agora é mais seguro devido ao fix de navegação */
+    filter: drop-shadow(0 0 3px var(--cor-glow-verde)) drop-shadow(0 0 1px var(--cor-glow-verde));
     transition: filter 0.3s ease-in-out;
 }
 /* No estado desativado, remove o glow (mantendo o ícone escuro) */
@@ -748,34 +758,29 @@ header {
     filter: none;
 }
 
-/* ESTILO ATIVADO/DESBLOQUEADO (Badges - Glow Amarelo) */
+
+/* ESTILO ATIVADO/DESBLOQUEADO (Badges - Glow Amarelo no Contêiner) */
 .icone-premio.desbloqueado {
-    box-shadow: var(--sombra-neumorfismo-ativa); 
+    /* MANTÉM o Neumorfismo de "pressionado" */
+    box-shadow: var(--sombra-neumorfismo-ativa), 0 0 10px 0 var(--cor-glow-conquista); /* NOVO: Box Shadow Amarelo (Glow) */
     opacity: 1.0;
     color: var(--cor-principal);
+    filter: none;
 }
 
-/* Aplica o GLOW AMARELO nos ÍCONES/IMAGENS do Badge Desbloqueado */
+/* Aplica o Glow Amarelo nos ÍCONES/IMAGENS do Badge Desbloqueado */
 .icone-premio.desbloqueado i, 
 .icone-premio.desbloqueado .badge-custom-img {
     filter: drop-shadow(0 0 5px var(--cor-glow-conquista)) drop-shadow(0 0 2px var(--cor-glow-conquista));
     transition: filter 0.3s ease-in-out;
 }
 
-.fauna-grid-item img, .activity-grid-item img {
-    width: 60%; 
-    height: auto;
-    max-height: 60%;
-    object-fit: contain;
-    margin-bottom: 5px;
+
+.icone-premio:active.desbloqueado {
+    box-shadow: var(--sombra-neumorfismo-card); 
+    transform: scale(0.99); 
 }
 
-.fauna-grid-item span, .activity-grid-item span {
-    font-size: 0.8rem;
-    font-weight: 600;
-    line-height: 1.1;
-    color: inherit;
-}
 
 /* NOVO: Efeito Glow Verde Otimizado para o QR Mascote Container */
 .qr-mascote-container {
@@ -789,16 +794,20 @@ header {
     background-color: transparent; 
     border-radius: 10px;
     
-    /* OTIMIZAÇÃO: box-shadow combinando Neumorfismo + Glow Verde no CONTÊINER */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 0 8px 0 rgba(76, 175, 80, 0.7); 
+    /* Box-shadow Verde (APLICADO NO CONTÊINER) */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 0 10px 0 var(--cor-glow-verde); 
     
     position: relative;
     margin-top: 10px;
     cursor: pointer; 
     transition: transform 0.2s;
     
-    /* Mantido o filtro para dar o glow no contêiner do QR, pois é apenas um elemento */
     filter: none; 
+}
+
+/* GARANTE que a imagem interna do QR não tenha filtro adicional */
+.qr-mascote-container img {
+    filter: none;
 }
 
 
