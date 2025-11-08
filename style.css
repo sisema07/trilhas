@@ -1,4 +1,4 @@
-/* style.css - CÓDIGO COMPLETO AJUSTADO (COM EFEITO GLOW PADRONIZADO) */
+/* style.css - CÓDIGO COMPLETO AJUSTADO (COM OTMIZAÇÃO DO GLOW PARA CORRIGIR TRAVAMENTO) */
 
 /* Variáveis de Cores e Estilos */
 :root {
@@ -360,20 +360,19 @@ header {
     font-style: italic;
     cursor: default;
     
-    /* REMOVE GLOW para badges desativados */
     filter: none;
 }
 
 .icone-premio.desbloqueado {
     /* Estilo de Desbloqueado/Ativado (Sombra interna de "pressionado") */
-    box-shadow: var(--sombra-neumorfismo-ativa); 
+    box-shadow: var(--sombra-neumorfismo-ativa), 0 0 10px 0 rgba(255, 193, 7, 0.6); /* NOVO: box-shadow Amarelo */
     color: var(--cor-principal); /* Cor principal para destaque */
     opacity: 1.0;
     font-style: normal;
     cursor: pointer;
     
-    /* NOVO: EFEITO GLOW AMARELO PARA BADGE DESBLOQUEADO */
-    filter: drop-shadow(0 0 8px rgba(255, 193, 7, 0.6));
+    /* REMOVIDO: filter: drop-shadow(0 0 8px rgba(255, 193, 7, 0.6)); */
+    filter: none; 
 }
 
 .icone-premio:active.desbloqueado {
@@ -402,8 +401,8 @@ header {
     object-fit: contain; 
     padding: 5px; 
     box-sizing: border-box;
-    /* Garante que o GLOW amarelo se aplique à imagem do badge também */
-    filter: inherit; 
+    /* REMOVIDO: filter: inherit; */
+    filter: none;
 }
 
 /* Ajustes específicos para o Badge GRANDE de Check-ins */
@@ -732,19 +731,19 @@ header {
     color: #888;
     font-style: italic;
     
-    /* NOVO: Adiciona o Glow Verde ao item de Fauna/Atividade (Verde para Natureza/Interação) */
-    filter: drop-shadow(0 0 4px rgba(76, 175, 80, 0.3)); 
+    /* REMOVIDO: filter: drop-shadow (CAUSA TRAVAMENTO) */
+    filter: none; 
 }
 
 .activity-grid-item.desbloqueado, .fauna-grid-item.desbloqueado {
-    /* PADRONIZAÇÃO: Estilo de Desbloqueado/Ativado (Sombra interna) */
-    box-shadow: var(--sombra-neumorfismo-ativa);
+    /* Estilo de Desbloqueado/Ativado (Sombra interna) */
+    box-shadow: var(--sombra-neumorfismo-ativa), 0 0 8px 0 rgba(76, 175, 80, 0.6); /* NOVO: box-shadow Verde */
     opacity: 1.0; 
     color: var(--cor-texto); /* Texto escuro normal para itens desbloqueados */
     font-style: normal;
     
-    /* NOVO: Aumenta o Glow Verde ao desbloquear */
-    filter: drop-shadow(0 0 8px rgba(76, 175, 80, 0.6));
+    /* REMOVIDO: filter: drop-shadow */
+    filter: none;
 }
 
 .fauna-grid-item:active.desbloqueado, .activity-grid-item:active.desbloqueado {
@@ -769,7 +768,7 @@ header {
     color: inherit;
 }
 
-/* NOVO: Efeito Glow Verde para o QR Mascote Container */
+/* NOVO: Efeito Glow Verde Otimizado para o QR Mascote Container */
 .qr-mascote-container {
     width: 112px; 
     height: 112px; 
@@ -780,14 +779,17 @@ header {
     padding: 5px;
     background-color: transparent; 
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
+    
+    /* OTIMIZAÇÃO: box-shadow combinando Neumorfismo + Glow Verde */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 0 5px 0 rgba(76, 175, 80, 0.7); 
+    
     position: relative;
     margin-top: 10px;
     cursor: pointer; 
     transition: transform 0.2s;
     
-    /* NOVO: Glow Verde no Botão QR Code */
-    filter: drop-shadow(0 0 5px rgba(76, 175, 80, 0.7)); 
+    /* REMOVIDO: filter: drop-shadow */
+    filter: none; 
 }
 
 
@@ -908,8 +910,6 @@ header {
 }
 
 /* AJUSTE: Aumento de 40% no tamanho (80px * 1.4 = 112px) */
-/* (Estilo base ajustado na regra .qr-mascote-container acima) */
-
 .qr-mascote-container:active {
     transform: scale(0.95);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); 
