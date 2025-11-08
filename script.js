@@ -1,4 +1,4 @@
-// script.js - CÓDIGO COMPLETO CORRIGIDO (COM LAYOUT E COMPARTILHAMENTO)
+// script.js - CÓDIGO COMPLETO CORRIGIDO (BUG INFO/LAYOUT/MODAIS)
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -265,7 +265,7 @@ function carregarPremios() {
 
             const isConcluida = estadoUsuario[parqueId][atividade.id];
 
-            // PADRONIZAÇÃO: Usa a mesma classe do item de atividade (activity-grid-item) para padronizar o estilo.
+            // PADRONIZAÇÃO: Usa a classe do item de atividade (activity-grid-item) para padronizar o estilo.
             const card = document.createElement('div');
             card.className = `activity-grid-item ${isConcluida ? 'desbloqueado' : ''}`;
             card.dataset.parqueId = parqueId;
@@ -273,7 +273,7 @@ function carregarPremios() {
             
             let badgeContent;
             if (atividade.imagem_png) {
-                badgeContent = `<img src="${atividade.imagem_png}" alt="${atividade.nome}" class="badge-custom-img">`;
+                badgeContent = `<img src="${atividade.imagem_png}" alt="${atividade.nome}">`;
             } else {
                 badgeContent = `<i class="fas ${atividade.icone}"></i>`;
             }
@@ -416,6 +416,7 @@ document.getElementById('badge-info-modal')?.addEventListener('click', (e) => {
 function handleActionClick(event, parqueId) {
     event.preventDefault();
     const newAction = event.target.dataset.action;
+    // CORREÇÃO: Força a navegação via hash para que a função lidarComHash processe a ação
     window.location.hash = `#${parqueId}-${newAction}`; 
 }
 
@@ -687,7 +688,13 @@ function carregarConteudoDinamico(parque, container, action) {
     
     switch (action) {
         case 'info':
-            carregarConteudoInfo(parque, container);
+            // Correção: Se já está em info, forçamos a atualização do hash
+            if (window.location.hash.includes('-info')) {
+                carregarConteudoInfo(parque, container);
+            } else {
+                // Se a URL não tem a ação, navegamos para garantir que a função 'lidarComHash' trate a mudança
+                 window.location.hash = `#${parque.id}-info`;
+            }
             break;
         case 'fauna': 
             carregarConteudoFauna(parque, container);
@@ -1043,13 +1050,11 @@ function lidarComHash() {
 
     const parts = hash.split('-');
     const parqueId = parts[0];
+    const action = parts.length > 1 ? parts[1] : 'info';
 
     const parqueEncontrado = DADOS_PARQUES.find(p => p.id === parqueId);
 
     if (parqueEncontrado && parqueId !== 'premiacao') {
-        // CORREÇÃO: Força a action 'info' se nenhuma for especificada para o primeiro carregamento
-        // E usa a action passada na URL para navegação interna.
-        const action = parts.length > 1 ? parts[1] : 'info'; 
         carregarDetalhesParque(parqueId, action);
     } else {
         window.location.hash = ''; 
@@ -1107,10 +1112,17 @@ async function carregarDados() {
 
 // SIMPLIFICAÇÃO: Configura apenas o botão Home
 function configurarNavegacao() {
-    // REMOVIDO: Lógica do botão Voltar
-    
+    // #btn-home agora atua como o botão Home/Voltar
     document.getElementById('btn-home').addEventListener('click', () => {
-        window.location.hash = '';
+        const hash = window.location.hash.substring(1);
+        
+        // Se estiver nos detalhes do parque (qualquer aba), volta para a home
+        if (DADOS_PARQUES.some(p => p.id === hash.split('-')[0]) || hash === 'premiacao') {
+             window.location.hash = ''; 
+        } else {
+             // Caso contrário, volta para a home (útil se estiver em /upload-...)
+             window.location.hash = ''; 
+        }
     });
 
     window.addEventListener('hashchange', lidarComHash);
