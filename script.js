@@ -416,6 +416,13 @@ window.abrirModalFauna = function(parqueId, index) {
     modal.style.display = 'flex';
 }
 
+window.abrirModalQr = function() {
+    const modal = document.getElementById('qr-modal');
+    if (!modal) return;
+    modal.classList.add('open');
+    modal.style.display = 'flex';
+}
+
 window.abrirModalIntro = function() {
     const modal = document.getElementById('intro-modal');
     const modalBody = document.getElementById('intro-modal-body');
@@ -720,10 +727,48 @@ function carregarDetalhesParque(parqueId, action = 'info') {
     document.getElementById('secundaria-titulo').textContent = parque.nome;
     
     // Mapeamento dos links de contato (Garantindo que os elementos existam)
+
+    // 1. Maps e Instagram (originais)
     document.getElementById('map-link-icon').href = detalhes.map_link || '#';
     document.getElementById('insta-link-icon').href = detalhes.instagram_link || '#';
-    document.getElementById('phone-link-icon').href = `tel:${detalhes.phone || ''}`;
-    document.getElementById('email-link-icon').href = `mailto:${detalhes.email || ''}`;
+    
+    // 2. YouTube (NOVO)
+    const youtubeIcon = document.getElementById('youtube-link-icon');
+    if (youtubeIcon) {
+        youtubeIcon.href = detalhes.youtube_channel || '#';
+        // Controla visibilidade se o link não existir
+        youtubeIcon.style.display = detalhes.youtube_channel ? 'flex' : 'none';
+    }
+
+    // 3. Site (NOVO)
+    const siteIcon = document.getElementById('site-link-icon');
+    if (siteIcon) {
+        siteIcon.href = detalhes.site_link || '#';
+        siteIcon.style.display = detalhes.site_link ? 'flex' : 'none';
+    }
+    
+    // 4. WhatsApp (NOVO)
+    const whatsappIcon = document.getElementById('whatsapp-link-icon');
+    if (whatsappIcon) {
+        whatsappIcon.href = detalhes.whatsapp ? `https://wa.me/${detalhes.whatsapp.replace(/\+/g, '')}` : '#'; 
+        // Correção: Remove o '+' do telefone ao enviar para wa.me, se houver
+        whatsappIcon.style.display = detalhes.whatsapp ? 'flex' : 'none';
+    }
+
+    // 5. Telefone
+    const phoneIcon = document.getElementById('phone-link-icon');
+    if (phoneIcon) {
+        phoneIcon.href = detalhes.phone ? `tel:${detalhes.phone}` : '#';
+        phoneIcon.style.display = detalhes.phone ? 'flex' : 'none';
+    }
+    
+    // 6. E-mail
+    const emailIcon = document.getElementById('email-link-icon');
+    if (emailIcon) {
+        emailIcon.href = detalhes.email ? `mailto:${detalhes.email}` : '#';
+        emailIcon.style.display = detalhes.email ? 'flex' : 'none';
+    }
+
 
     setupCarousel(parqueId, detalhes.carousel_images || []);
     
@@ -956,7 +1001,7 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             canvasContext.lineTo(photoX + photoWidth - cornerRadius, photoY);
             canvasContext.quadraticCurveTo(photoX + photoWidth, photoY, photoX + photoWidth, photoY + cornerRadius);
             canvasContext.lineTo(photoX + photoWidth, photoY + photoHeight - cornerRadius);
-            canvasContext.quadraticCurveCurveTo(photoX + photoWidth, photoY + photoHeight, photoX + photoWidth - cornerRadius, photoY + photoHeight);
+            canvasContext.quadraticCurveTo(photoX + photoWidth, photoY + photoHeight, photoX + photoWidth - cornerRadius, photoY + photoHeight);
             canvasContext.lineTo(photoX + cornerRadius, photoY + photoHeight);
             canvasContext.quadraticCurveTo(photoX, photoY + photoHeight, photoX, photoY + photoHeight - cornerRadius);
             canvasContext.lineTo(photoX, photoY + cornerRadius);
@@ -1231,15 +1276,7 @@ async function carregarDados() {
     DETALHES_PARQUES = detalhesData;
     DADOS_FAUNA = faunaData; 
     
-    // Adiciona e-mail e telefone de exemplo em DETALHES_PARQUES se não existirem
-    if (DETALHES_PARQUES['biribiri']) {
-        DETALHES_PARQUES['biribiri'].phone = DETALHES_PARQUES['biribiri'].phone || '5531999999999'; 
-        DETALHES_PARQUES['biribiri'].email = DETALHES_PARQUES['biribiri'].email || 'contato.biribiri@exemplo.com'; 
-    }
-    if (DETALHES_PARQUES['ibitipoca']) {
-        DETALHES_PARQUES['ibitipoca'].phone = DETALHES_PARQUES['ibitipoca'].phone || '5532988888888'; 
-        DETALHES_PARQUES['ibitipoca'].email = DETALHES_PARQUES['ibitipoca'].email || 'contato.ibitipoca@exemplo.com'; 
-    }
+    // A remoção do fallback de dados antigos de e-mail/telefone garante que apenas os dados do JSON sejam usados.
 }
 
 function configurarBotaoIntro() {
@@ -1350,5 +1387,3 @@ async function inicializar() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
-
-
