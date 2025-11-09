@@ -2,95 +2,93 @@
     "biribiri": {
         "map_link": "https://maps.app.goo.gl/y4s13W1jcMCM6DxM9",
         "instagram_link": "https://www.instagram.com/parquedobiribiri",
-        "phone": "+553835326698", 
+        "phone": "+553835326698",
         "email": "parque.biribiri@meioambiente.mg.gov.br",
         "info_content": "Localizado em Diamantina, no coração da Serra do Espinhaço, o Parque Estadual do Biribiri encanta visitantes com suas paisagens naturais, cachoeiras cristalinas e rica biodiversidade do bioma Cerrado. Criado em 1998 e com quase 17 mil hectares, o parque integra uma área reconhecida pela UNESCO como Reserva da Biosfera. Entre montanhas e campos rupestres acima dos 900 metros de altitude, o visitante encontra uma grande variedade de espécies de fauna e flora, incluindo algumas ameaçadas de extinção — como o lobo-guará, a sussuarana, o veado-campeiro, além de belas sempre-vivas, orquídeas e bromélias. O nome “Biribiri” vem do tupi-guarani e significa “grande buraco”, em referência a uma antiga formação geológica da região. Foi ali que, no século XIX, o bispo Dom João Antônio Felício dos Santos fundou uma fábrica de tecidos, com o objetivo de gerar trabalho e renda para jovens da região. A antiga Vila de Biribiri, com suas casas coloniais brancas e azuis, igreja e ruínas históricas, é hoje um dos principais pontos de visitação e um verdadeiro retorno no tempo. Além de sua importância natural e histórica, o parque abriga sítios arqueológicos com pinturas rupestres, o famoso “Caminho dos Escravos” e trilhas que levam a cachoeiras deslumbrantes, como as de Sentinela e Cristina — perfeitas para quem busca contato direto com a natureza e aventura. A visitação é permitida todos os dias, das 8h às 17h30, com acesso pela portaria localizada na Avenida Geraldo Edson do Nascimento, nº 600, em Diamantina. Com boa sinalização e estrutura básica de apoio, o Parque Estadual do Biribiri é um destino imperdível para quem deseja vivenciar o equilíbrio entre natureza, história e cultura no coração das montanhas mineiras.",
-
-        "carousel_images": [ 
-            "entradas/portaria-biribiri.png",  
+        "carousel_images": [
+            "entradas/portaria-biribiri.png",
             "imagens/biribiri/vilarejo-historico.jpg",
-            "imagens/biribiri/cachoeira-sentinela.jpg", 
-            "imagens/biribiri/cachoeira-cristais.png", 
+            "imagens/biribiri/cachoeira-sentinela.jpg",
+            "imagens/biribiri/cachoeira-cristais.png",
             "imagens/biribiri/caminho-escravos.png",
-            "imagens/biribiri/poco-agua-limpa.jpg",   
+            "imagens/biribiri/poco-agua-limpa.jpg",
             "imagens/biribiri/poco-estudante.png"
         ],
-        
         "quiz_title": "Desafio do Biribiri",
         "quiz_description": "Teste seus conhecimentos sobre o patrimônio histórico e as cachoeiras do Biribiri para ganhar seu primeiro badge!",
         "quiz": [
-           { 
-           "q": "O Parque Estadual do Biribiri fica próximo a qual cidade mineira?", 
-           "a": ["Diamantina", "Ouro Preto", "São João del-Rei"], 
-           "correct": 0, 
-           "badge_id": "quiz" 
-           },
-           { 
-           "q": "O vilarejo de Biribiri foi fundado para abrigar operários de uma antiga fábrica têxtil.", 
-           "a": ["Verdadeiro", "Falso"], 
-           "correct": 0, 
-           "badge_id": "quiz" 
-           },
-           { 
-           "q": "Qual é o nome da famosa cachoeira de águas cristalinas do parque?", 
-           "a": ["Cachoeira dos Cristais", "Cachoeira do Sentinela", "Cachoeira do Biribiri"], 
-           "correct": 2, 
-           "badge_id": "quiz" 
-           },
-           { 
-           "q": "A entrada no Parque do Biribiri é gratuita.", 
-           "a": ["Verdadeiro", "Falso"], 
-           "correct": 0, 
-           "badge_id": "quiz" 
-           },
-           { 
-           "q": "Em que década o vilarejo de Biribiri foi desativado?", 
-           "a": ["1970", "1960", "1950"], 
-           "correct": 1, 
-           "badge_id": "quiz" 
-           },
-           { 
-           "q": "O parque é administrado pelo Instituto Estadual de Florestas (IEF-MG).", 
-           "a": ["Verdadeiro", "Falso"], 
-           "correct": 0, 
-           "badge_id": "quiz" 
-           },
-           { 
-           "q": "Qual bioma predominante no Parque do Biribiri?", 
-           "a": ["Cerrado", "Mata Atlântica", "Caatinga"], 
-           "correct": 0, 
-           "badge_id": "quiz" 
-           },
-           { 
-           "q": "É permitido acampar dentro do parque.", 
-           "a": ["Verdadeiro", "Falso"], 
-           "correct": 1, 
-           "badge_id": "quiz" 
-           },
-           { 
-           "q": "O acesso principal ao parque é feito por uma estrada de terra.", 
-           "a": ["Verdadeiro", "Falso"], 
-           "correct": 0, 
-           "badge_id": "quiz" 
-           },
-           { 
-           "q": "O nome “Biribiri” tem origem em um pássaro da região.", 
-           "a": ["Verdadeiro", "Falso"], 
-           "correct": 0, 
-           "badge_id": "quiz" 
-           },
-           { 
-           "q": "Quantas cachoeiras principais existem no parque?", 
-           "a": ["Duas", "Três", "Quatro"], 
-           "correct": 1, 
-           "badge_id": "quiz" 
-           },
-           { 
-           "q": "A antiga fábrica têxtil de Biribiri ainda está em funcionamento.", 
-           "a": ["Verdadeiro", "Falso"], 
-           "correct": 1, 
-           "badge_id": "quiz" 
-           }
+            {
+                "q": "O Parque Estadual do Biribiri fica próximo a qual cidade mineira?",
+                "a": ["Diamantina", "Ouro Preto", "São João del-Rei"],
+                "correct": 0,
+                "badge_id": "quiz"
+            },
+            {
+                "q": "O vilarejo de Biribiri foi fundado para abrigar operários de uma antiga fábrica têxtil.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "quiz"
+            },
+            {
+                "q": "Qual é o nome da famosa cachoeira de águas cristalinas do parque?",
+                "a": ["Cachoeira dos Cristais", "Cachoeira do Sentinela", "Cachoeira do Biribiri"],
+                "correct": 2,
+                "badge_id": "quiz"
+            },
+            {
+                "q": "A entrada no Parque do Biribiri é gratuita.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "quiz"
+            },
+            {
+                "q": "Em que década o vilarejo de Biribiri foi desativado?",
+                "a": ["1970", "1960", "1950"],
+                "correct": 1,
+                "badge_id": "quiz"
+            },
+            {
+                "q": "O parque é administrado pelo Instituto Estadual de Florestas (IEF-MG).",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "quiz"
+            },
+            {
+                "q": "Qual bioma predominante no Parque do Biribiri?",
+                "a": ["Cerrado", "Mata Atlântica", "Caatinga"],
+                "correct": 0,
+                "badge_id": "quiz"
+            },
+            {
+                "q": "É permitido acampar dentro do parque.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 1,
+                "badge_id": "quiz"
+            },
+            {
+                "q": "O acesso principal ao parque é feito por uma estrada de terra.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "quiz"
+            },
+            {
+                "q": "O nome “Biribiri” tem origem em um pássaro da região.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "quiz"
+            },
+            {
+                "q": "Quantas cachoeiras principais existem no parque?",
+                "a": ["Duas", "Três", "Quatro"],
+                "correct": 1,
+                "badge_id": "quiz"
+            },
+            {
+                "q": "A antiga fábrica têxtil de Biribiri ainda está em funcionamento.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 1,
+                "badge_id": "quiz"
+            }
         ],
         "badge_descricao": "Para este parque, você deve escanear QR Codes nas trilhas para ganhar os badges."
     },
@@ -99,109 +97,107 @@
         "instagram_link": "https://www.instagram.com/parquedoibitipoca",
         "whatsapp": "+5532998618829",
         "email": "contato.ibitipoca@parquetur.com.br",
-        "site_link": "https://parquedoibitipoca.com.br/"
+        "site_link": "https://parquedoibitipoca.com.br/",
         "info_content": "No alto da Serra da Mantiqueira, entre os municípios de Lima Duarte e Santa Rita do Ibitipoca, está um dos destinos naturais mais fascinantes de Minas Gerais: o Parque Estadual do Ibitipoca. Criado em 1973, o parque possui 1.488 hectares de paisagens surpreendentes, grutas, montanhas, cachoeiras e trilhas que revelam toda a beleza da Mata Atlântica e dos campos rupestres. O nome Ibitipoca vem do tupi-guarani e significa Serra que estoura ou Serra estourada, referência às frequentes descargas elétricas (raios) e à presença de inúmeras cavernas. É um dos parques mais visitados e reconhecidos do Brasil, sendo um dos principais cartões-postais do ecoturismo mineiro. O parque está situado em uma área de divisor de águas entre as bacias dos rios Grande e Paraíba do Sul, e abriga uma vegetação diversificada: bromélias, orquídeas, cactos, samambaias e liquens que se misturam a belas candeias cobertas por barba-de-velho. Entre seus principais atrativos estão as cachoeiras, piscinas naturais e grutas de quartzito, como a famosa Ponte de Pedra, esculpida pela força da água ao longo dos séculos. A fauna é igualmente encantadora: é possível encontrar espécies ameaçadas como o lobo-guará, a onça-parda e o sauá, além de outros moradores ilustres como o bugio, o papagaio-do-peito-roxo, o coati e o andorinhão-de-coleira-falha. Uma curiosidade - uma espécie de perereca descoberta na região recebeu o nome Hyla ibitipoca, em homenagem ao parque. Desde 2023, a administração do uso público é realizada pela Parquetur, por meio de concessão de 30 anos. A empresa é responsável pela conservação ambiental, melhorias na infraestrutura e pelo atendimento aos visitantes. O Parque Estadual do Ibitipoca conta com excelente estrutura, incluindo Centro de Visitantes, área de camping, trilhas sinalizadas, lanchonete, restaurante, loja de souvenires, auditório, enfermaria e biblioteca — tudo pensado para oferecer conforto e segurança em meio à natureza. A visitação ocorre de terça a domingo e feriados, das 7h às 17h. Mais informações, agendamento e ingressos estão disponíveis em parquedoibitipoca.com.br 📍 Como chegar - Partindo de Belo Horizonte, siga pela BR-040 em direção ao Rio de Janeiro, acesse o trevo para a BR-267 até Lima Duarte, e depois percorra 26 km de estrada não pavimentada até o distrito de Conceição de Ibitipoca. Dali são mais 3 km até a portaria do parque. Também é possível chegar pela MG-338, via Barbacena, Ibertioga e Santa Rita do Ibitipoca — trajeto de belas paisagens, mas que exige atenção à sinalização.",
-
-        "carousel_images": [ 
-            "entradas/portaria-ibitipoca.png",  
+        "carousel_images": [
+            "entradas/portaria-ibitipoca.png",
             "imagens/ibitipoca/centro-de-visitantes.png",
-            "imagens/ibitipoca/cruzeiro.png", 
+            "imagens/ibitipoca/cruzeiro.png",
             "imagens/ibitipoca/janela-do-ceu.png"
         ],
-        
         "quiz_title": "O Mistério de Ibitipoca",
         "quiz_description": "Desvende os segredos de Ibitipoca com este quiz!",
         "quiz": [
-    { 
-      "q": "Qual é o ponto turístico mais famoso de Ibitipoca?",
-      "a": ["Pico do Itacolomi", "Janela do Céu", "Cachoeira do Tabuleiro", "Parque Nacional da Lagoa Santa"],
-      "correct": 1,
-      "badge_id": "ibitipoca-quiz"
-    },
-    { 
-      "q": "O nome Ibitipoca, de origem tupi, significa:",
-      "a": ["Pico Bonito", "Serra do Trovão", "Pousada da Pedra", "Lugar de pedra quebrada"],
-      "correct": 3,
-      "badge_id": "ibitipoca-quiz"
-    },
-    {
-      "q": "Em quais municípios está localizado o Parque Estadual do Ibitipoca?",
-      "a": ["Ouro Preto e Mariana", "Lima Duarte e Santa Rita de Ibitipoca", "Belo Horizonte e Sabará", "Juiz de Fora e Muriaé"],
-      "correct": 1,
-      "badge_id": "ibitipoca-quiz"
-    },
-    {
-      "q": "Quantos circuitos de visita o parque possui (os circuitos principais)?",
-      "a": ["Um", "Dois", "Três", "Quatro"],
-      "correct": 2,
-      "badge_id": "ibitipoca-quiz"
-    },
-    {
-      "q": "Qual destes é um dos circuitos do parque?",
-      "a": ["Circuito do Itacolomi", "Circuito Janela do Céu", "Circuito da Pampulha", "Circuito do Morro do Chapéu"],
-      "correct": 1,
-      "badge_id": "ibitipoca-quiz"
-    },
-    {
-      "q": "Aproximadamente qual é a extensão do roteiro Janela do Céu (ida e volta)?",
-      "a": ["3 km", "8 km", "16 km", "30 km"],
-      "correct": 2,
-      "badge_id": "ibitipoca-quiz"
-    },
-    {
-      "q": "Em que ano o Parque Estadual do Ibitipoca foi criado?",
-      "a": ["1920", "1973", "1998", "2005"],
-      "correct": 1,
-      "badge_id": "ibitipoca-quiz"
-    },
-    {
-      "q": "Qual órgão é responsável pela administração do parque (no âmbito estadual)?",
-      "a": ["Instituto Estadual de Florestas (IEF-MG)", "IBAMA", "ICMBio", "Prefeitura de Lima Duarte"],
-      "correct": 0,
-      "badge_id": "ibitipoca-quiz"
-    },
-    {
-      "q": "O parque possui limitação de visitantes diária para determinados roteiros (como Janela do Céu). Isso é:",
-      "a": ["Falso — não há limite algum", "Verdadeiro — há limite diário para alguns circuitos", "Somente em feriados há limite", "Só para grupos escolares"],
-      "correct": 1,
-      "badge_id": "ibitipoca-quiz"
-    },
-    {
-      "q": "Qual é a área aproximada do Parque Estadual do Ibitipoca?",
-      "a": ["500 hectares", "1.488 hectares", "10.000 hectares", "50 hectares"],
-      "correct": 1,
-      "badge_id": "ibitipoca-quiz"
-    },
-    {
-      "q": "Qual destes atrativos é encontrado dentro do parque?",
-      "a": ["Cachoeirinha", "Morro da Garça", "Pico da Bandeira", "Lagoa da Pampulha"],
-      "correct": 0,
-      "badge_id": "ibitipoca-quiz"
-    },
-    {
-      "q": "Os dias de funcionamento do parque, segundo o site oficial, são:",
-      "a": ["Segunda a sexta, exceto feriados", "Terça a domingo e feriados", "Apenas finais de semana", "Aberto 24 horas por dia"],
-      "correct": 1,
-      "badge_id": "ibitipoca-quiz"
-    },
-{
-  "q": "Em qual município fica a maior parte do Parque Estadual do Ibitipoca?",
-  "a": ["Lima Duarte", "Juiz de Fora", "Carangola", "São João del-Rei"],
-  "correct": 0,
-  "badge_id": "ibitipoca-quiz"
-},
-{
-  "q": "Qual é o principal ecossistema presente no Parque Estadual do Ibitipoca?",
-  "a": ["Mata Atlântica", "Cerrado", "Caatinga", "Pampa"],
-  "correct": 0,
-  "badge_id": "ibitipoca-quiz"
-},
-{
-  "q": "Verdadeiro ou falso: O circuito 'Janela do Céu' é famoso por mirantes que oferecem vistas panorâmicas.",
-  "a": ["Verdadeiro", "Falso"],
-  "correct": 0,
-  "badge_id": "ibitipoca-quiz"
-}
+            {
+                "q": "Qual é o ponto turístico mais famoso de Ibitipoca?",
+                "a": ["Pico do Itacolomi", "Janela do Céu", "Cachoeira do Tabuleiro", "Parque Nacional da Lagoa Santa"],
+                "correct": 1,
+                "badge_id": "ibitipoca-quiz"
+            },
+            {
+                "q": "O nome Ibitipoca, de origem tupi, significa:",
+                "a": ["Pico Bonito", "Serra do Trovão", "Pousada da Pedra", "Lugar de pedra quebrada"],
+                "correct": 3,
+                "badge_id": "ibitipoca-quiz"
+            },
+            {
+                "q": "Em quais municípios está localizado o Parque Estadual do Ibitipoca?",
+                "a": ["Ouro Preto e Mariana", "Lima Duarte e Santa Rita de Ibitipoca", "Belo Horizonte e Sabará", "Juiz de Fora e Muriaé"],
+                "correct": 1,
+                "badge_id": "ibitipoca-quiz"
+            },
+            {
+                "q": "Quantos circuitos de visita o parque possui (os circuitos principais)?",
+                "a": ["Um", "Dois", "Três", "Quatro"],
+                "correct": 2,
+                "badge_id": "ibitipoca-quiz"
+            },
+            {
+                "q": "Qual destes é um dos circuitos do parque?",
+                "a": ["Circuito do Itacolomi", "Circuito Janela do Céu", "Circuito da Pampulha", "Circuito do Morro do Chapéu"],
+                "correct": 1,
+                "badge_id": "ibitipoca-quiz"
+            },
+            {
+                "q": "Aproximadamente qual é a extensão do roteiro Janela do Céu (ida e volta)?",
+                "a": ["3 km", "8 km", "16 km", "30 km"],
+                "correct": 2,
+                "badge_id": "ibitipoca-quiz"
+            },
+            {
+                "q": "Em que ano o Parque Estadual do Ibitipoca foi criado?",
+                "a": ["1920", "1973", "1998", "2005"],
+                "correct": 1,
+                "badge_id": "ibitipoca-quiz"
+            },
+            {
+                "q": "Qual órgão é responsável pela administração do parque (no âmbito estadual)?",
+                "a": ["Instituto Estadual de Florestas (IEF-MG)", "IBAMA", "ICMBio", "Prefeitura de Lima Duarte"],
+                "correct": 0,
+                "badge_id": "ibitipoca-quiz"
+            },
+            {
+                "q": "O parque possui limitação de visitantes diária para determinados roteiros (como Janela do Céu). Isso é:",
+                "a": ["Falso — não há limite algum", "Verdadeiro — há limite diário para alguns circuitos", "Somente em feriados há limite", "Só para grupos escolares"],
+                "correct": 1,
+                "badge_id": "ibitipoca-quiz"
+            },
+            {
+                "q": "Qual é a área aproximada do Parque Estadual do Ibitipoca?",
+                "a": ["500 hectares", "1.488 hectares", "10.000 hectares", "50 hectares"],
+                "correct": 1,
+                "badge_id": "ibitipoca-quiz"
+            },
+            {
+                "q": "Qual destes atrativos é encontrado dentro do parque?",
+                "a": ["Cachoeirinha", "Morro da Garça", "Pico da Bandeira", "Lagoa da Pampulha"],
+                "correct": 0,
+                "badge_id": "ibitipoca-quiz"
+            },
+            {
+                "q": "Os dias de funcionamento do parque, segundo o site oficial, são:",
+                "a": ["Segunda a sexta, exceto feriados", "Terça a domingo e feriados", "Apenas finais de semana", "Aberto 24 horas por dia"],
+                "correct": 1,
+                "badge_id": "ibitipoca-quiz"
+            },
+            {
+                "q": "Em qual município fica a maior parte do Parque Estadual do Ibitipoca?",
+                "a": ["Lima Duarte", "Juiz de Fora", "Carangola", "São João del-Rei"],
+                "correct": 0,
+                "badge_id": "ibitipoca-quiz"
+            },
+            {
+                "q": "Qual é o principal ecossistema presente no Parque Estadual do Ibitipoca?",
+                "a": ["Mata Atlântica", "Cerrado", "Caatinga", "Pampa"],
+                "correct": 0,
+                "badge_id": "ibitipoca-quiz"
+            },
+            {
+                "q": "Verdadeiro ou falso: O circuito 'Janela do Céu' é famoso por mirantes que oferecem vistas panorâmicas.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "ibitipoca-quiz"
+            }
         ],
         "badge_descricao": "Para este parque, você deve escanear QR Codes nas atividades (Janela do Céu, Pico do Pião, etc) para ganhar os badges."
     },
@@ -212,297 +208,283 @@
         "email": "peitacolomi@meioambiente.mg.gov.br",
         "site_link": "https://parquedoitacolomi.com.br/",
         "info_content": "Entre as históricas cidades de Ouro Preto e Mariana, o Parque Estadual do Itacolomi guarda não apenas belezas naturais impressionantes, mas também parte viva da história de Minas Gerais. Criado em 1967, o parque abrange 7.543 hectares de paisagens exuberantes do bioma Mata Atlântica, combinando natureza, cultura e memória da Estrada Real. Seu principal destaque é o Pico do Itacolomi, com 1.772 metros de altitude, que servia como ponto de referência para os antigos viajantes e bandeirantes — motivo pelo qual ficou conhecido como o “Farol dos Bandeirantes”. O nome Itacolomi vem do tupi e significa “pedra menino”, alusão à forma do pico que lembra uma pedra menor ao lado de uma maior, como mãe e filho. Dentro do parque, a antiga Fazenda São José do Manso é um belo exemplo da arquitetura colonial e já foi um importante polo produtor de chá no início do século XX. Hoje, abriga espaços de visitação, como o Museu do Chá, a Casa Bandeirista e a Capela de São José, que completam o charme histórico do local. A vegetação é marcada por quaresmeiras, candeias e campos de altitude com afloramentos rochosos. Suas matas abrigam diversas nascentes que formam os córregos e rios que deságuam no rio Gualaxo do Sul, contribuindo para a bacia do rio Doce. A fauna também é rica e variada — é possível avistar lobos-guará, onças-pardas, macacos, tatus, pacas, capivaras e aves raras como a ave-pavó, o andorinhão-de-coleira e beija-flores. Mais de 200 espécies de aves já foram registradas no parque, tornando-o um verdadeiro paraíso para observadores da natureza. O Parque Estadual do Itacolomi conta com excelente infraestrutura: Centro de Visitantes, Museu do Chá, área de camping, trilhas sinalizadas, área de convivência com quiosques e churrasqueiras, auditório, alojamentos e Casa de Hóspedes. A visitação acontece de terça a domingo, das 8h às 17h (com credenciamento até as 16h). 📍 Como chegar: A partir de Belo Horizonte, siga pela BR-040 sentido Rio de Janeiro até o acesso à BR-356 (Rodovia dos Inconfidentes). Continue até Ouro Preto e, de lá, siga em direção a Mariana por cerca de 7 km, até o trevo onde está o Hospital Santa Casa de Misericórdia e a portaria do parque. O trajeto é todo asfaltado, e há sinalização desde a BR-040. Da portaria até o Centro de Visitantes são 5 km de estrada de terra, com limite de velocidade de 30 km/h. Também há transporte público saindo do centro de Ouro Preto (linhas Cooperouro, Pocinho ou Hospital) e táxi-lotação sentido bairro Bauxita. Com suas trilhas, mirantes e herança cultural, o Itacolomi é um destino que une história, natureza e aventura em um só lugar — um convite perfeito para explorar as montanhas e tradições de Minas Gerais.",
-
-        "carousel_images": [ 
-            "https://ief.mg.gov.br/documents/51853/7558741/Portaria/8e0b84fb-cdfc-39d0-f76f-76654d3fdc24",  
+        "carousel_images": [
+            "https://ief.mg.gov.br/documents/51853/7558741/Portaria/8e0b84fb-cdfc-39d0-f76f-76654d3fdc24",
             "https://ief.mg.gov.br/documents/51853/7558741/centro_visitantes/be8bfaff-c67e-03e5-4330-ba62705ff847",
             "https://ief.mg.gov.br/documents/51853/7558741/Pico_do_Itacolomi/620babcf-2c5e-8d7a-685f-13993f750b24",
             "https://ief.mg.gov.br/documents/51853/7558741/casa-bandeirista/6ef259c4-1e3a-233c-3f96-bee0a5dc01a1"
         ],
-        
         "quiz_title": "Desafio do Pico",
         "quiz_description": "Prove que você conhece o Pico mais famoso de Ouro Preto.",
         "quiz": [
-    {
-      "q": "Em que ano foi criado o Parque Estadual do Itacolomi?",
-      "a": ["1960", "1967", "1975", "1983"],
-      "correct": 1,
-      "badge_id": "itacolomi-quiz"
-    },
-    {
-      "q": "Qual é a área aproximada do parque?",
-      "a": ["5.971 hectares", "7.543 hectares", "10.000 hectares", "3.200 hectares"],
-      "correct": 1,
-      "badge_id": "itacolomi-quiz"
-    },
-    {
-      "q": "O pico que dá nome ao parque, Pico do Itacolomi, possui altitude aproximada de:",
-      "a": ["1.200 metros", "1.500 metros", "1.772 metros", "2.000 metros"],
-      "correct": 2,
-      "badge_id": "itacolomi-quiz"
-    },
-    {
-      "q": "Verdadeiro ou falso: O parque está localizado nos municípios de Ouro Preto e Mariana (MG).",
-      "a": ["Verdadeiro", "Falso"],
-      "correct": 0,
-      "badge_id": "itacolomi-quiz"
-    },
-    {
-      "q": "Qual desses biomas ou formações vegetais predomina na parte mais elevada do parque?",
-      "a": ["Cerrado típico", "Campos rupestres", "Manguezal", "Restinga"],
-      "correct": 1,
-      "badge_id": "itacolomi-quiz"
-    },
-    {
-      "q": "Verdadeiro ou falso: O parque abriga espécies de fauna ameaçadas de extinção, como o lobo‑guará e o onça‑parda.",
-      "a": ["Verdadeiro", "Falso"],
-      "correct": 0,
-      "badge_id": "itacolomi-quiz"
-    },
-    {
-      "q": "Qual desses rios ou córregos é um dos que nascem no parque ou têm trechos protegidos por ele?",
-      "a": ["Rio São Francisco", "Rio Doce", "Córrego dos Prazeres", "Rio Amazonas"],
-      "correct": 2,
-      "badge_id": "itacolomi-quiz"
-    },
-    {
-      "q": "O nome “Itacolomi” em língua tupi significa aproximadamente:",
-      "a": ["Pedra mãe", "Pedra menina", "Montanha sagrada", "Filho da montanha"],
-      "correct": 1,
-      "badge_id": "itacolomi-quiz"
-    },
-    {
-      "q": "Verdadeiro ou falso: Mais de 50% da vegetação do parque é composta por florestas montanas, e menos de 10% por campos rupestres.",
-      "a": ["Verdadeiro", "Falso"],
-      "correct": 1,
-      "badge_id": "itacolomi-quiz"
-    },
-    {
-      "q": "Qual dos seguintes usos históricos existe dentro do parque?",
-      "a": ["Antiga estação ferroviária de mineração", "Fábrica de processamento de chá", "Negócio de extração de diamantes", "Velha usina hidrelétrica colonial"],
-      "correct": 1,
-      "badge_id": "itacolomi-quiz"
-    },
-    {
-      "q": "Verdadeiro ou falso: O parque é administrado pelo Instituto Estadual de Florestas (IEF-MG).",
-      "a": ["Verdadeiro", "Falso"],
-      "correct": 0,
-      "badge_id": "itacolomi-quiz"
-    },
-    {
-      "q": "Qual das altitudes abaixo corresponde ao limite mínimo aproximado de altitude no parque?",
-      "a": ["700 metros", "1.000 metros", "1.300 metros", "1.600 metros"],
-      "correct": 0,
-      "badge_id": "itacolomi-quiz"
-    }
-
+            {
+                "q": "Em que ano foi criado o Parque Estadual do Itacolomi?",
+                "a": ["1960", "1967", "1975", "1983"],
+                "correct": 1,
+                "badge_id": "itacolomi-quiz"
+            },
+            {
+                "q": "Qual é a área aproximada do parque?",
+                "a": ["5.971 hectares", "7.543 hectares", "10.000 hectares", "3.200 hectares"],
+                "correct": 1,
+                "badge_id": "itacolomi-quiz"
+            },
+            {
+                "q": "O pico que dá nome ao parque, Pico do Itacolomi, possui altitude aproximada de:",
+                "a": ["1.200 metros", "1.500 metros", "1.772 metros", "2.000 metros"],
+                "correct": 2,
+                "badge_id": "itacolomi-quiz"
+            },
+            {
+                "q": "Verdadeiro ou falso: O parque está localizado nos municípios de Ouro Preto e Mariana (MG).",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "itacolomi-quiz"
+            },
+            {
+                "q": "Qual desses biomas ou formações vegetais predomina na parte mais elevada do parque?",
+                "a": ["Cerrado típico", "Campos rupestres", "Manguezal", "Restinga"],
+                "correct": 1,
+                "badge_id": "itacolomi-quiz"
+            },
+            {
+                "q": "Verdadeiro ou falso: O parque abriga espécies de fauna ameaçadas de extinção, como o lobo‑guará e o onça‑parda.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "itacolomi-quiz"
+            },
+            {
+                "q": "Qual desses rios ou córregos é um dos que nascem no parque ou têm trechos protegidos por ele?",
+                "a": ["Rio São Francisco", "Rio Doce", "Córrego dos Prazeres", "Rio Amazonas"],
+                "correct": 2,
+                "badge_id": "itacolomi-quiz"
+            },
+            {
+                "q": "O nome “Itacolomi” em língua tupi significa aproximadamente:",
+                "a": ["Pedra mãe", "Pedra menina", "Montanha sagrada", "Filho da montanha"],
+                "correct": 1,
+                "badge_id": "itacolomi-quiz"
+            },
+            {
+                "q": "Verdadeiro ou falso: Mais de 50% da vegetação do parque é composta por florestas montanas, e menos de 10% por campos rupestres.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 1,
+                "badge_id": "itacolomi-quiz"
+            },
+            {
+                "q": "Qual dos seguintes usos históricos existe dentro do parque?",
+                "a": ["Antiga estação ferroviária de mineração", "Fábrica de processamento de chá", "Negócio de extração de diamantes", "Velha usina hidrelétrica colonial"],
+                "correct": 1,
+                "badge_id": "itacolomi-quiz"
+            },
+            {
+                "q": "Verdadeiro ou falso: O parque é administrado pelo Instituto Estadual de Florestas (IEF-MG).",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "itacolomi-quiz"
+            },
+            {
+                "q": "Qual das altitudes abaixo corresponde ao limite mínimo aproximado de altitude no parque?",
+                "a": ["700 metros", "1.000 metros", "1.300 metros", "1.600 metros"],
+                "correct": 0,
+                "badge_id": "itacolomi-quiz"
+            }
         ],
         "badge_descricao": "Para este parque, você deve escanear QR Codes em pontos de vista para ganhar os badges."
     },
-
     "lapagrande": {
         "map_link": "https://goo.gl/maps/DG8sCjtVrnVJFFYa9",
         "instagram_link": "https://www.instagram.com/parqueestadualdalapagrande",
         "phone": "+553821016850",
         "whatsapp": "+5538999960828",
         "email": "pelapagrande@meioambiente.mg.gov.br",
-        "youtube_channel": "https://www.youtube.com/c/ParqueEstadualdaLapaGrande"
+        "youtube_channel": "https://www.youtube.com/c/ParqueEstadualdaLapaGrande",
         "info_content": "Localizado em Montes Claros, no norte de Minas Gerais, o Parque Estadual da Lapa Grande é um dos maiores tesouros naturais do Cerrado. Criado em 2006 e ampliado em 2014, o parque protege mais de 15 mil hectares de paisagens únicas, abrigando importantes mananciais de água que abastecem a região e um complexo de grutas impressionantes. Entre as mais de 50 cavidades registradas, destaca-se a famosa Gruta da Lapa Grande — uma das maiores do estado, com 2,2 km de extensão. Além de seu valor geológico, a gruta guarda grande importância histórica e cultural, sendo conhecida e frequentada desde os primeiros tempos da cidade de Montes Claros. A paisagem do parque é marcada por afloramentos rochosos de calcário que chegam a mais de mil metros de altitude, onde crescem espécies típicas como cactos e bromélias. A vegetação predominante é do bioma Cerrado, com árvores retorcidas e resistentes, além da mata seca, que transforma completamente o visual entre as estações seca e chuvosa. O parque está em uma zona de transição entre Cerrado e Caatinga, o que torna sua biodiversidade ainda mais rica. Outro atrativo histórico é o Casarão das Quebradas, uma construção centenária que servia de apoio aos tropeiros que cruzavam a região com mantimentos. O local preserva a memória do modo de vida sertanejo e a ligação entre natureza e cultura no norte de Minas. A infraestrutura do parque conta com portaria, centro de visitantes, sede administrativa, área de convivência e trilhas bem sinalizadas. A visitação é aberta ao público aos sábados, domingos e feriados, das 8h às 16h. De terça a sexta, o parque recebe visitas de grupos e instituições mediante agendamento prévio. 📍 Como chegar: Partindo do centro de Montes Claros, siga pela Avenida Deputado Esteves Rodrigues e depois pela Rua Santa Maria, em direção à Unimontes. Em seguida, vire à direita em direção ao bairro Barcelona Park e continue até o bairro Vila Atlântica. A partir dali, são cerca de 5 km de estrada de terra até a entrada do parque. Com sua combinação de cavernas, nascentes, trilhas e história, o Parque Estadual da Lapa Grande é um convite para quem busca tranquilidade, natureza e descoberta no coração do Cerrado mineiro.",
-
-        "carousel_images": [ 
-            "https://ief.mg.gov.br/documents/51853/7561449/Portaria/2db00b75-028d-7498-b7c0-98afa6aa8eff",  
+        "carousel_images": [
+            "https://ief.mg.gov.br/documents/51853/7561449/Portaria/2db00b75-028d-7498-b7c0-98afa6aa8eff",
             "https://ief.mg.gov.br/documents/51853/7561449/pe_lapa_grande_andre_sena_0001/90dbb60c-20b4-563a-27e0-7c460014ebd8",
             "https://ief.mg.gov.br/documents/51853/7561449/Pintura_rupestre_da_Lapa_Pintada_2/9252d631-2d80-5e70-7d79-e006896f9afb",
             "https://ief.mg.gov.br/documents/51853/7561449/C%C3%B3rrego_Lapa_Grande_2/8cf83926-34a0-f6f8-2ff4-e8c85e8146e2"
         ],
-        
         "quiz_title": "Desafio Lapa Grande",
         "quiz_description": "Teste seu conhecimento sobre a Lapa Grande!",
         "quiz": [
-    {
-      "q": "Em que ano foi criado o Parque Estadual da Lapa Grande?",
-      "a": ["1998", "2006", "2010", "2014"],
-      "correct": 1,
-      "badge_id": "lapagrande-quiz"
-    },
-    {
-      "q": "Qual é a área aproximada do parque?",
-      "a": ["7.000 hectares", "10.000 hectares", "15.360 hectares", "20.000 hectares"],
-      "correct": 2,
-      "badge_id": "lapagrande-quiz"
-    },
-    {
-      "q": "Em qual município de Minas Gerais se encontra principalmente o parque?",
-      "a": ["Montes Claros", "Belo Horizonte", "Ouro Preto", "Uberaba"],
-      "correct": 0,
-      "badge_id": "lapagrande-quiz"
-    },
-    {
-      "q": "Verdadeiro ou falso: O parque está localizado em zona de transição ecológica entre cerrado e caatinga.",
-      "a": ["Verdadeiro", "Falso"],
-      "correct": 0,
-      "badge_id": "lapagrande-quiz"
-    },
-    {
-      "q": "Qual é o nome da caverna mais emblemática do parque, com cerca de 2,2 km de extensão?",
-      "a": ["Gruta do Maquiné", "Gruta Lapa Grande", "Gruta da Lapinha", "Gruta Rei do Mato"],
-      "correct": 1,
-      "badge_id": "lapagrande-quiz"
-    },
-    {
-      "q": "Verdadeiro ou falso: Há mais de 50 cavidades registradas no parque.",
-      "a": ["Verdadeiro", "Falso"],
-      "correct": 0,
-      "badge_id": "lapagrande-quiz"
-    },
-    {
-      "q": "Qual bioma predomina no parque?",
-      "a": ["Mata Atlântica", "Pantanal", "Cerrado", "Pampa"],
-      "correct": 2,
-      "badge_id": "lapagrande-quiz"
-    },
-    {
-      "q": "O objetivo principal da criação do parque inclui proteger:",
-      "a": ["Complexo de grutas e mananciais de água", "Área urbana de expansão da cidade", "Fábricas abandonadas", "Área de mineração ativa"],
-      "correct": 0,
-      "badge_id": "lapagrande-quiz"
-    },
-    {
-      "q": "Verdadeiro ou falso: O parque possui trilhas para caminhada e também rotas para ciclismo.",
-      "a": ["Verdadeiro", "Falso"],
-      "correct": 0,
-      "badge_id": "lapagrande-quiz"
-    },
-    {
-      "q": "Qual dessas características geológicas se destaca no parque?",
-      "a": ["Campos de dunas costeiras", "Forma­ções de calcário e afloramentos cársticos", "Vulcões ativos", "Glaciações recentes"],
-      "correct": 1,
-      "badge_id": "lapagrande-quiz"
-    },
-    {
-      "q": "Verdadeiro ou falso: O parque administra-se sob o órgão estadual Instituto Estadual de Florestas (IEF-MG).",
-      "a": ["Verdadeiro", "Falso"],
-      "correct": 0,
-      "badge_id": "lapagrande-quiz"
-    },
-    {
-      "q": "Qual faixa de altitude aproxima-se para os afloramentos rochosos no parque?",
-      "a": ["200-400 metros", "400-600 metros", "650-1000 metros", "1200-1600 metros"],
-      "correct": 2,
-      "badge_id": "lapagrande-quiz"
-    }
-
+            {
+                "q": "Em que ano foi criado o Parque Estadual da Lapa Grande?",
+                "a": ["1998", "2006", "2010", "2014"],
+                "correct": 1,
+                "badge_id": "lapagrande-quiz"
+            },
+            {
+                "q": "Qual é a área aproximada do parque?",
+                "a": ["7.000 hectares", "10.000 hectares", "15.360 hectares", "20.000 hectares"],
+                "correct": 2,
+                "badge_id": "lapagrande-quiz"
+            },
+            {
+                "q": "Em qual município de Minas Gerais se encontra principalmente o parque?",
+                "a": ["Montes Claros", "Belo Horizonte", "Ouro Preto", "Uberaba"],
+                "correct": 0,
+                "badge_id": "lapagrande-quiz"
+            },
+            {
+                "q": "Verdadeiro ou falso: O parque está localizado em zona de transição ecológica entre cerrado e caatinga.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "lapagrande-quiz"
+            },
+            {
+                "q": "Qual é o nome da caverna mais emblemática do parque, com cerca de 2,2 km de extensão?",
+                "a": ["Gruta do Maquiné", "Gruta Lapa Grande", "Gruta da Lapinha", "Gruta Rei do Mato"],
+                "correct": 1,
+                "badge_id": "lapagrande-quiz"
+            },
+            {
+                "q": "Verdadeiro ou falso: Há mais de 50 cavidades registradas no parque.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "lapagrande-quiz"
+            },
+            {
+                "q": "Qual bioma predomina no parque?",
+                "a": ["Mata Atlântica", "Pantanal", "Cerrado", "Pampa"],
+                "correct": 2,
+                "badge_id": "lapagrande-quiz"
+            },
+            {
+                "q": "O objetivo principal da criação do parque inclui proteger:",
+                "a": ["Complexo de grutas e mananciais de água", "Área urbana de expansão da cidade", "Fábricas abandonadas", "Área de mineração ativa"],
+                "correct": 0,
+                "badge_id": "lapagrande-quiz"
+            },
+            {
+                "q": "Verdadeiro ou falso: O parque possui trilhas para caminhada e também rotas para ciclismo.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "lapagrande-quiz"
+            },
+            {
+                "q": "Qual dessas características geológicas se destaca no parque?",
+                "a": ["Campos de dunas costeiras", "Forma­ções de calcário e afloramentos cársticos", "Vulcões ativos", "Glaciações recentes"],
+                "correct": 1,
+                "badge_id": "lapagrande-quiz"
+            },
+            {
+                "q": "Verdadeiro ou falso: O parque administra-se sob o órgão estadual Instituto Estadual de Florestas (IEF-MG).",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "lapagrande-quiz"
+            },
+            {
+                "q": "Qual faixa de altitude aproxima-se para os afloramentos rochosos no parque?",
+                "a": ["200-400 metros", "400-600 metros", "650-1000 metros", "1200-1600 metros"],
+                "correct": 2,
+                "badge_id": "lapagrande-quiz"
+            }
         ],
         "badge_descricao": "Para este parque, você deve escanear QR Codes em pontos de vista para ganhar os badges."
     },
-
-        "matadokrambeck": {
+    "matadokrambeck": {
         "map_link": "https://maps.app.goo.gl/ZYBEn1oZvppwBe996",
         "phone": "+5532999658261",
         "email": "pematakrambeck@meioambiente.mg.gov.br",
-        "info_content": "No município de Juiz de Fora, em plena Zona da Mata mineira, o Parque Estadual Mata do Krambeck é um verdadeiro refúgio urbano da natureza: com cerca de 292 hectares de remanescente de Mata Atlântica, foi criado em 21 de outubro de 2022 pelo Decreto nº 48.522.⁠ A área representa uma floresta estacional semidecidual em diversos estágios de regeneração, margeando o rio Paraibuna e diversos córregos de águas límpidas. Antes Unidade de Proteção Ambiental, a região já era reconhecida como “coração verde” da cidade.⁠ Com solos antigos de gnaisses e granitos, altitudes entre aproximadamente 685 m e 820 m, clima subtropical de altitude (Cwa) e média pluviométrica anual em torno de 1.500 mm, a Mata do Krambeck oferece trilhas de natureza, refúgio para fauna e flora, serviços ecossistêmicos e oportunidade de educação ambiental.⁠ Entre os destaques, encontra-se a palmeira-juçara (Euterpe edulis), espécie ameaçada de extinção que ocorre em densidade significativa na unidade.⁠ Embora ainda com acesso restrito e em fase de implantação plena de gestão, o parque tem como objetivos o lazer, a pesquisa, a conservação e a educação ambiental, em consonância com sua condição de unidade de proteção integral em meio à malha urbana.⁠ Com sua localização estratégica, a Mata do Krambeck é uma oportunidade única para quem busca a natureza em meio à cidade — restando preservar e valorizar um trecho importante da Mata Atlântica em Minas Gerais."
-
-        "carousel_images": [ 
-            "https://ief.mg.gov.br/documents/d/ief/whatsapp-image-2025-10-10-at-16-43-09-jpeg",  
+        "info_content": "No município de Juiz de Fora, em plena Zona da Mata mineira, o Parque Estadual Mata do Krambeck é um verdadeiro refúgio urbano da natureza: com cerca de 292 hectares de remanescente de Mata Atlântica, foi criado em 21 de outubro de 2022 pelo Decreto nº 48.522.⁠ A área representa uma floresta estacional semidecidual em diversos estágios de regeneração, margeando o rio Paraibuna e diversos córregos de águas límpidas. Antes Unidade de Proteção Ambiental, a região já era reconhecida como “coração verde” da cidade.⁠ Com solos antigos de gnaisses e granitos, altitudes entre aproximadamente 685 m e 820 m, clima subtropical de altitude (Cwa) e média pluviométrica anual em torno de 1.500 mm, a Mata do Krambeck oferece trilhas de natureza, refúgio para fauna e flora, serviços ecossistêmicos e oportunidade de educação ambiental.⁠ Entre os destaques, encontra-se a palmeira-juçara (Euterpe edulis), espécie ameaçada de extinção que ocorre em densidade significativa na unidade.⁠ Embora ainda com acesso restrito e em fase de implantação plena de gestão, o parque tem como objetivos o lazer, a pesquisa, a conservação e a educação ambiental, em consonância com sua condição de unidade de proteção integral em meio à malha urbana.⁠ Com sua localização estratégica, a Mata do Krambeck é uma oportunidade única para quem busca a natureza em meio à cidade — restando preservar e valorizar um trecho importante da Mata Atlântica em Minas Gerais.",
+        "carousel_images": [
+            "https://ief.mg.gov.br/documents/d/ief/whatsapp-image-2025-10-10-at-16-43-09-jpeg",
             "https://ief.mg.gov.br/documents/d/ief/whatsapp-image-2025-10-10-at-16-27-39-jpeg",
-            "https://ief.mg.gov.br/documents/d/ief/whatsapp-image-2025-10-10-at-16-27-36-jpeg"            
-        ],
-        },   
-
+            "https://ief.mg.gov.br/documents/d/ief/whatsapp-image-2025-10-10-at-16-27-36-jpeg"
+        ]
+    },
     "matadolimoeiro": {
         "map_link": "https://goo.gl/maps/BHUyrmXHghXWNdMEA",
         "instagram_link": "https://www.instagram.com/parque_do_limoeiro",
         "phone": "+553138392829",
         "email": "parquemata.limoeiro@meioambiente.mg.gov.br",
-        "info_content": "No distrito de Ipoema, município de Itabira, Minas Gerais, o Parque Estadual Mata do Limoeiro oferece uma imersão na natureza entre os biomas da Mata Atlântica e do Cerrado, criado em 22 de março de 2011 pelo Decreto 45.566.⁠ Seu nome homenageia a antiga Fazenda do Limoeiro que ocupava a região. A vegetação abriga fragmentos de mata atlântica e de cerrado, conferindo grande diversidade biológica — já foram identificadas espécies ameaçadas como a samambaiaçu, a braúna-preta e o jacarandá-caviúna.⁠ Na fauna, destacam-se espécies raras como o rato-do-mato e o gambá-de-orelha-branca, características de áreas de Mata Atlântica.⁠ A proximidade com a área urbana do distrito de Ipoema facilita o acesso e, desde o final de 2013, o parque tem recebido visitantes em crescimento, aproveitando sua beleza natural nas encostas da Serra do Espinhaço.⁠ A estrutura disponível contempla portaria, trilhas bem sinalizadas, sede administrativa e centro de visitantes para acolher o público com segurança.⁠ 📍 Visitação: todos os dias, das 8h às 17h.⁠ 📍 Como chegar: a partir de Belo Horizonte, siga pela BR-381 sentido João Monlevade até o acesso ao município de Bom Jesus do Amparo. Depois percorra cerca de 6 km até a sede e continue por estrada pavimentada (~13 km) até o distrito de Ipoema, onde placas indicam a direção para o parque.⁠ Com paisagens, trilhas e cachoeiras acessíveis, o Parque Estadual Mata do Limoeiro é uma excelente opção para quem busca contato com a natureza e biodiversidade em Minas Gerais.",
-
-        "carousel_images": [ 
-            "https://ief.mg.gov.br/documents/51853/7572187/Portaria/7909d16e-b11c-7b93-29b4-d6f6c64204f0",  
+        "info_content": "No distrito de Ipoema, município de Itabira, Minas Gerais, o Parque Estadual Mata do Limoeiro oferece uma imersão na natureza entre os biomas da Mata Atlântica e do Cerrado, criado em 22 de março de 2011 pelo Decreto 45.566.⁠ Seu nome homenageia a antiga Fazenda do Limoeiro que ocupava a região. A vegetação abriga fragmentos de mata atlântica e de cerrado, conferindo grande diversidade biológica — já foram identificadas espécies ameaçadas como a samambaiaçu, a braúna-preta e o jacarandá-caviúna.⁠ Na fauna, destacam-se espécies raras como o rato-do-mato e o gambá-de-orelha-branca, características de áreas de Mata Atlântica.⁠ A proximidade com a área urbana do distrito de Ipoema facilita o acesso e, desde o final de 2013, o parque tem recebido visitantes em crescimento, aproveitando sua beleza natural nas encostas da Serra do Espinhaço.⁠ A estrutura disponível contempla portaria, trilhas estruturadas e sinalizadas, sede administrativa e centro de visitantes para acolher o público com segurança.⁠ 📍 Visitação: todos os dias, das 8h às 17h.⁠ 📍 Como chegar: a partir de Belo Horizonte, siga pela BR-381 sentido João Monlevade até o acesso ao município de Bom Jesus do Amparo. Depois percorra cerca de 6 km até a sede e continue por estrada pavimentada (~13 km) até o distrito de Ipoema, onde placas indicam a direção para o parque.⁠ Com paisagens, trilhas e cachoeiras acessíveis, o Parque Estadual Mata do Limoeiro é uma excelente opção para quem busca contato com a natureza e biodiversidade em Minas Gerais.",
+        "carousel_images": [
+            "https://ief.mg.gov.br/documents/51853/7572187/Portaria/7909d16e-b11c-7b93-29b4-d6f6c64204f0",
             "https://ief.mg.gov.br/documents/51853/7572187/Foto_-_05_-__PE_Limoeiro_-_Gruta_do_Limoeiro_8/f60fd6c0-86dc-9af1-e439-dbd8b01e46fe",
             "https://ief.mg.gov.br/documents/51853/7572187/Ribeir%C3%A3o_3/807f2cfb-ac1e-dc9f-0d2d-77a6f1839b0e",
             "https://ief.mg.gov.br/documents/51853/7572187/Cachoeira_do_Derrubado/b6850868-530b-3054-d047-d2c626f6cc18"
         ],
-        
         "quiz_title": "Desafio Mata do Limoeiro",
         "quiz_description": "Teste seu conhecimento sobre a Lapa Grande!",
         "quiz": [
-    {
-      "q": "Em que ano foi criado o Parque Estadual Mata do Limoeiro?",
-      "a": ["2005", "2011", "2015", "1999"],
-      "correct": 1,
-      "badge_id": "matadolimoeiro-quiz"
-    },
-    {
-      "q": "Qual é a área aproximada do parque?",
-      "a": ["1.000 hectares", "2.005,50 hectares", "5.000 hectares", "10.000 hectares"],
-      "correct": 1,
-      "badge_id": "matadolimoeiro-quiz"
-    },
-    {
-      "q": "Em qual distrito/município está localizado o parque?",
-      "a": ["Distrito de Ipoema, Município de Itabira", "Distrito de Ouro Preto, Município de Mariana", "Município de Belo Horizonte", "Distrito de Lapinha, Município de Santana do Riacho"],
-      "correct": 0,
-      "badge_id": "matadolimoeiro-quiz"
-    },
-    {
-      "q": "Verdadeiro ou falso: O parque abriga um dos maiores remanescentes de Mata Atlântica da região central de Minas Gerais.",
-      "a": ["Verdadeiro", "Falso"],
-      "correct": 0,
-      "badge_id": "matadolimoeiro-quiz"
-    },
-    {
-      "q": "Qual destes é um dos atrativos de cachoeira no parque?",
-      "a": ["Cachoeira do Paredão", "Cachoeira da Fumaça", "Cachoeira do Tabuleiro", "Cachoeira da Esmeralda"],
-      "correct": 0,
-      "badge_id": "matadolimoeiro-quiz"
-    },
-    {
-      "q": "Verdadeiro ou falso: O ingresso para visitação do parque custa aproximadamente R$ 12,00 (valor indicado nos últimos anos).",
-      "a": ["Verdadeiro", "Falso"],
-      "correct": 0,
-      "badge_id": "matadolimoeiro-quiz"
-    },
-    {
-      "q": "Qual órgão estadual administra o Parque Estadual Mata do Limoeiro?",
-      "a": ["Instituto Estadual de Florestas – IEF - MG", "IBAMA", "Prefeitura de Itabira", "Secretaria de Turismo de Minas Gerais"],
-      "correct": 0,
-      "badge_id": "matadolimoeiro-quiz"
-    },
-    {
-      "q": "Verdadeiro ou falso: O parque está na Serra do Espinhaço, a cerca de 7 km do Parque Nacional da Serra do Cipó.",
-      "a": ["Verdadeiro", "Falso"],
-      "correct": 0,
-      "badge_id": "matadolimoeiro-quiz"
-    },
-    {
-      "q": "Qual dos ecossistemas/vegetações abaixo está bem representado no parque?",
-      "a": ["Floresta Estacional Semidecidual", "Manguezal", "Deserto", "Pampas"],
-      "correct": 0,
-      "badge_id": "matadolimoeiro-quiz"
-    },
-    {
-      "q": "Verdadeiro ou falso: Um dos atrativos do parque é a ‘Trilha dos Sentidos’, feita com acompanhamento e explorando os sentidos do visitante.",
-      "a": ["Verdadeiro", "Falso"],
-      "correct": 0,
-      "badge_id": "matadolimoeiro-quiz"
-    },
-    {
-      "q": "Qual desses eventos ou projetos de educação ambiental ocorre no parque?",
-      "a": ["Ecofolia", "Festival de Inverno de Ouro Preto", "Bonito Festival de Música de Extrema", "Bienal do Livro de Minas Gerais"],
-      "correct": 0,
-      "badge_id": "matadolimoeiro-quiz"
-    },
-    {
-      "q": "Verdadeiro ou falso: Um dos novos atrativos do parque foi denominado ‘Corredeiras da Juventude’.",
-      "a": ["Verdadeiro", "Falso"],
-      "correct": 0,
-      "badge_id": "matadolimoeiro-quiz"
-    }
-
+            {
+                "q": "Em que ano foi criado o Parque Estadual Mata do Limoeiro?",
+                "a": ["2005", "2011", "2015", "1999"],
+                "correct": 1,
+                "badge_id": "matadolimoeiro-quiz"
+            },
+            {
+                "q": "Qual é a área aproximada do parque?",
+                "a": ["1.000 hectares", "2.005,50 hectares", "5.000 hectares", "10.000 hectares"],
+                "correct": 1,
+                "badge_id": "matadolimoeiro-quiz"
+            },
+            {
+                "q": "Em qual distrito/município está localizado o parque?",
+                "a": ["Distrito de Ipoema, Município de Itabira", "Distrito de Ouro Preto, Município de Mariana", "Município de Belo Horizonte", "Distrito de Lapinha, Município de Santana do Riacho"],
+                "correct": 0,
+                "badge_id": "matadolimoeiro-quiz"
+            },
+            {
+                "q": "Verdadeiro ou falso: O parque abriga um dos maiores remanescentes de Mata Atlântica da região central de Minas Gerais.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "matadolimoeiro-quiz"
+            },
+            {
+                "q": "Qual destes é um dos atrativos de cachoeira no parque?",
+                "a": ["Cachoeira do Paredão", "Cachoeira da Fumaça", "Cachoeira do Tabuleiro", "Cachoeira da Esmeralda"],
+                "correct": 0,
+                "badge_id": "matadolimoeiro-quiz"
+            },
+            {
+                "q": "Verdadeiro ou falso: O ingresso para visitação do parque custa aproximadamente R$ 12,00 (valor indicado nos últimos anos).",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "matadolimoeiro-quiz"
+            },
+            {
+                "q": "Qual órgão estadual administra o Parque Estadual Mata do Limoeiro?",
+                "a": ["Instituto Estadual de Florestas – IEF - MG", "IBAMA", "Prefeitura de Itabira", "Secretaria de Turismo de Minas Gerais"],
+                "correct": 0,
+                "badge_id": "matadolimoeiro-quiz"
+            },
+            {
+                "q": "Verdadeiro ou falso: O parque está na Serra do Espinhaço, a cerca de 7 km do Parque Nacional da Serra do Cipó.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "matadolimoeiro-quiz"
+            },
+            {
+                "q": "Qual dos ecossistemas/vegetações abaixo está bem representado no parque?",
+                "a": ["Floresta Estacional Semidecidual", "Manguezal", "Deserto", "Pampas"],
+                "correct": 0,
+                "badge_id": "matadolimoeiro-quiz"
+            },
+            {
+                "q": "Verdadeiro ou falso: Um dos atrativos do parque é a ‘Trilha dos Sentidos’, feita com acompanhamento e explorando os sentidos do visitante.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "matadolimoeiro-quiz"
+            },
+            {
+                "q": "Qual desses eventos ou projetos de educação ambiental ocorre no parque?",
+                "a": ["Ecofolia", "Festival de Inverno de Ouro Preto", "Bonito Festival de Música de Extrema", "Bienal do Livro de Minas Gerais"],
+                "correct": 0,
+                "badge_id": "matadolimoeiro-quiz"
+            },
+            {
+                "q": "Verdadeiro ou falso: Um dos novos atrativos do parque foi denominado ‘Corredeiras da Juventude’.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "matadolimoeiro-quiz"
+            }
         ],
         "badge_descricao": "Para este parque, você deve escanear QR Codes em pontos de vista para ganhar os badges."
-    }
-},
+    },
     "novabaden": {
         "map_link": "https://goo.gl/maps/FCiydMavtmNcrrbN7",
         "instagram_link": "https://www.instagram.com/parquenovabaden/",
@@ -510,308 +492,267 @@
         "whatsapp": "+5535998785265",
         "email": "penovabaden@meioambiente.mg.gov.br",
         "info_content": "Localizado em Lambari, no sul de Minas Gerais, o Parque Estadual Nova Baden preserva uma das mais belas áreas de Mata Atlântica da Serra das Águas, na Serra da Mantiqueira. Criado em 1974 como Reserva Biológica e transformado em Parque Estadual em 1994, o Nova Baden tem 214 hectares e protege as nascentes que abastecem o município, famoso por suas águas minerais e por integrar o Circuito das Águas de Minas.⁠ O parque abriga uma rica biodiversidade, com destaque para aves, répteis, mamíferos, anfíbios e insetos — incluindo uma espécie inédita de percevejo descoberta em seu território, batizada de *Pachymeroceroides novabadensis*. A região é excelente para observação de aves e contemplação da natureza.⁠ A vegetação de Mata Atlântica está muito bem preservada e compõe uma paisagem exuberante formada por jacarandás, jequitibás, quaresmeiras, cedros, araucárias, bromélias, orquídeas, perobas e palmitos-juçara.⁠ O nome do parque homenageia a cidade alemã Baden-Baden, inspiração do visionário Américo Werneck — primeiro prefeito de Lambari e proprietário da antiga Fazenda Pinheiros, hoje sede do parque. Pioneiro em temas ambientais, Werneck projetou várias melhorias para a Estância Hidromineral de Lambari e foi responsável pela construção do Cassino da cidade.⁠📍 **Infraestrutura:** portaria, trilhas estruturadas e sinalizadas, centro de visitantes (interditado), casa de pesquisador, sede administrativa no histórico casarão do século XIX e estacionamento. 📅 **Visitação:** todos os dias, das 8h às 17h (entrada permitida até 16h).⁠ 🚗 **Como chegar:** partindo de Belo Horizonte, siga pela BR-381 (Fernão Dias) sentido São Paulo até o trevo Campanha/Cambuquira. Continue pela BR-267 por 28 km e vire à direita na BR-460 até Lambari. São cerca de 340 km de distância. Do Cassino do Lago ao parque, são 6 km, com acesso próximo ao Ganso Complexo de Lazer.⁠ Com trilhas, história e natureza exuberante, o Parque Estadual Nova Baden é um refúgio perfeito para quem busca tranquilidade, conhecimento e contato direto com a Mata Atlântica.",
-
-        "carousel_images": [ 
+        "carousel_images": [
             "https://ief.mg.gov.br/documents/51853/7558975/Portaria/5eaf2b9f-9d40-b67b-3ff9-a01b969ce056",
             "https://ief.mg.gov.br/documents/51853/7558975/Centro_de_Visitantes_3/8bb79645-cf51-c28c-7c4c-af115708aab6",
             "https://ief.mg.gov.br/documents/51853/7558975/Cachoeira_Sete_Quedas_1/0a4a1ab4-08e5-45c1-27f5-6fab61b47c71",
             "https://ief.mg.gov.br/documents/51853/7558975/_DSC8719/61083bae-b6ac-d948-d0e5-3928df454d12"
         ],
-        
         "quiz_title": "Desafio Nova Baden",
         "quiz_description": "Teste seu conhecimento sobre o parque!",
         "quiz": [
             {
-  "q": "O Parque Estadual Nova Baden está localizado no município de Lambari, no sul de Minas Gerais.",
-  "a": ["Verdadeiro", "Falso"],
-  "correct": 0,
-  "badge_id": "novabaden-quiz"
-},
-{
-  "q": "Qual é a área aproximada do Parque Estadual Nova Baden?",
-  "a": ["214 hectares", "1.000 hectares", "50 hectares", "500 hectares"],
-  "correct": 0,
-  "badge_id": "novabaden-quiz"
-},
-{
-  "q": "O parque protege principalmente vegetação do bioma:",
-  "a": ["Mata Atlântica", "Cerrado", "Pampa", "Caatinga"],
-  "correct": 0,
-  "badge_id": "novabaden-quiz"
-},
-{
-  "q": "Na trilha das Sete Quedas do parque pode ser vista uma jequitibá com mais de 300 anos.",
-  "a": ["Verdadeiro", "Falso"],
-  "correct": 0,
-  "badge_id": "novabaden-quiz"
-},
-{
-  "q": "O nome “Nova Baden” faz referência à cidade de Baden-Baden, na Alemanha.",
-  "a": ["Verdadeiro", "Falso"],
-  "correct": 0,
-  "badge_id": "novabaden-quiz"
-},
-{
-  "q": "Em que ano o Parque Estadual Nova Baden foi transformado em “Parque Estadual” pela lei estadual?",
-  "a": ["1994", "1974", "1984", "2004"],
-  "correct": 0,
-  "badge_id": "novabaden-quiz"
-},
-{
-  "q": "Uma espécie de inseto inédita foi descoberta no parque e recebeu nome em referência ao local.",
-  "a": ["Verdadeiro", "Falso"],
-  "correct": 0,
-  "badge_id": "novabaden-quiz"
-},
-{
-  "q": "As trilhas principais do parque incluem: Trilha dos Palmitos, Trilha dos Troncos e Trilha das Sete Quedas.",
-  "a": ["Verdadeiro", "Falso"],
-  "correct": 0,
-  "badge_id": "novabaden-quiz"
-},
-{
-  "q": "O parque está inserido na Serra da Mantiqueira, mais especificamente na Serra das Águas de Lambari.",
-  "a": ["Verdadeiro", "Falso"],
-  "correct": 0,
-  "badge_id": "novabaden-quiz"
-},
-{
-  "q": "Qual das seguintes árvores NÃO é mencionada como parte da vegetação do parque?",
-  "a": ["Araucária", "Jequitibá", "Cedro", "Mangueira"],
-  "correct": 3,
-  "badge_id": "novabaden-quiz"
-},
-{
-  "q": "A visitação ao parque é permitida todos os dias das 8h às 17h (entrada até sensivelmente 16h).",
-  "a": ["Verdadeiro", "Falso"],
-  "correct": 0,
-  "badge_id": "novabaden-quiz"
-},
-{
-  "q": "O objetivo da criação do parque incluiu a proteção de nascentes de águas minerais da cidade de Lambari.",
-  "a": ["Verdadeiro", "Falso"],
-  "correct": 0,
-  "badge_id": "novabaden-quiz"
-}
+                "q": "O Parque Estadual Nova Baden está localizado no município de Lambari, no sul de Minas Gerais.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "novabaden-quiz"
+            },
+            {
+                "q": "Qual é a área aproximada do Parque Estadual Nova Baden?",
+                "a": ["214 hectares", "1.000 hectares", "50 hectares", "500 hectares"],
+                "correct": 0,
+                "badge_id": "novabaden-quiz"
+            },
+            {
+                "q": "O parque protege principalmente vegetação do bioma:",
+                "a": ["Mata Atlântica", "Cerrado", "Pampa", "Caatinga"],
+                "correct": 0,
+                "badge_id": "novabaden-quiz"
+            },
+            {
+                "q": "Na trilha das Sete Quedas do parque pode ser vista uma jequitibá com mais de 300 anos.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "novabaden-quiz"
+            },
+            {
+                "q": "O nome “Nova Baden” faz referência à cidade de Baden-Baden, na Alemanha.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "novabaden-quiz"
+            },
+            {
+                "q": "Em que ano o Parque Estadual Nova Baden foi transformado em “Parque Estadual” pela lei estadual?",
+                "a": ["1994", "1974", "1984", "2004"],
+                "correct": 0,
+                "badge_id": "novabaden-quiz"
+            },
+            {
+                "q": "Uma espécie de inseto inédita foi descoberta no parque e recebeu nome em referência ao local.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "novabaden-quiz"
+            },
+            {
+                "q": "As trilhas principais do parque incluem: Trilha dos Palmitos, Trilha dos Troncos e Trilha das Sete Quedas.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "novabaden-quiz"
+            },
+            {
+                "q": "O parque está inserido na Serra da Mantiqueira, mais especificamente na Serra das Águas de Lambari.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "novabaden-quiz"
+            },
+            {
+                "q": "Qual das seguintes árvores NÃO é mencionada como parte da vegetação do parque?",
+                "a": ["Araucária", "Jequitibá", "Cedro", "Mangueira"],
+                "correct": 3,
+                "badge_id": "novabaden-quiz"
+            },
+            {
+                "q": "A visitação ao parque é permitida todos os dias das 8h às 17h (entrada até sensivelmente 16h).",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "novabaden-quiz"
+            },
+            {
+                "q": "O objetivo da criação do parque incluiu a proteção de nascentes de águas minerais da cidade de Lambari.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "novabaden-quiz"
+            }
         ],
         "badge_descricao": "Para este parque, você deve escanear QR Codes em pontos de vista para ganhar os badges."
-    }
-},
-
+    },
     "paufurado": {
         "map_link": "https://g.page/paufurado?share",
         "instagram_link": "https://www.instagram.com/paufurado",
-        "phone": "+553430886469",
         "phone": "+553432325622",
         "email": "pepf@meioambiente.mg.gov.br",
         "info_content": "Localizado entre os municípios de Araguari e Uberlândia, no Triângulo Mineiro de Minas Gerais, o Parque Estadual do Pau Furado preserva cerca de 2.185 hectares do bioma Cerrado, criado em 27 de janeiro de 2007. A origem de seu nome remete a uma grande gameleira à margem do rio Araguari, marcada por “furos” utilizados para extrair látex, que servia de referência para tropeiros entre Minas e Goiás. A vegetação é típica do cerrado em diversas fitofisionomias — cerradão, cerrado sentido restrito, floresta de galeria, floresta estacional decidual e semidecidual — com árvores emergentes que chegam a 30 metros de altura. Na flora destacam-se aroeira, angico, paineira, ipês e uma grande variedade de orquídeas; na fauna, mamíferos ameaçados como a onça-parda, o lobo-guará, o tamanduá-bandeira e o veado-campeiro, além de aves como a arara-canindé e a águia-cinzenta podem ser observadas. A infraestrutura conta com sede administrativa, auditório multiuso, espaço para lanchonete e trilhas estruturadas e sinalizadas. A visitação é permitida aos sábados, domingos e feriados das 8h às 16h, com entrada permitida até as 15h; de terça a sexta o atendimento é feito mediante agendamento prévio. Para chegar: as principais rodovias de acesso são a BR-050, BR-365, BR-452 e o Anel Rodoviário Norte de Uberlândia. A partir do viaduto da estrada do Pau Furado (RM-030), siga até a localidade “Tenda do Moreno”, depois até uma grande cruz (‘Cruzeiro Branco’), vire à esquerda em estrada de terra; após cerca de 3 km chega-se à entrada da unidade.",
-
-        "carousel_images": [ 
+        "carousel_images": [
             "https://ief.mg.gov.br/documents/51853/7560010/Centro_de_visitantes/d25b3eb4-228a-0df5-3eb3-e7d58707c571",
             "https://ief.mg.gov.br/documents/51853/7560010/_DSC5493/cf15ee49-d0cc-582d-704c-8fb1df14cb26",
             "https://ief.mg.gov.br/documents/51853/7560010/IMG_9362/4d2e9248-e00b-9270-79eb-a0873402d5fb",
             "https://ief.mg.gov.br/documents/51853/7558975/_DSC8671/4b44e526-fae8-1049-a618-fedc94df4c32"
         ],
-        
         "quiz_title": "Desafio",
         "quiz_description": "Teste seu conhecimento",
         "quiz": [
-{
-  "q": "O Parque Estadual do Pau Furado está localizado entre os municípios de Uberlândia e Araguari.",
-  "a": ["Verdadeiro", "Falso"],
-  "correct": 0,
-  "badge_id": "paufurado-quiz"
-},
-{
-  "q": "A área aproximada do parque é de 2.185 hectares.",
-  "a": ["2.185 ha", "1.000 ha", "500 ha", "3.000 ha"],
-  "correct": 0,
-  "badge_id": "paufurado-quiz"
-},
-{
-  "q": "O bioma predominante no Parque do Pau Furado é o Cerrado.",
-  "a": ["Verdadeiro", "Falso"],
-  "correct": 0,
-  "badge_id": "paufurado-quiz"
-},
-{
-  "q": "O nome “Pau Furado” remete a uma gameleira utilizada por tropeiros na região.",
-  "a": ["Verdadeiro", "Falso"],
-  "correct": 0,
-  "badge_id": "paufurado-quiz"
-},
-{
-  "q": "Entre as fitofisionomias presentes no parque não se inclui a floresta estacional semidecidual.",
-  "a": ["Verdadeiro", "Falso"],
-  "correct": 1,
-  "badge_id": "paufurado-quiz"
-},
-{
-  "q": "Uma das árvores características da flora do parque é o ipê.",
-  "a": ["Verdadeiro", "Falso"],
-  "correct": 0,
-  "badge_id": "paufurado-quiz"
-},
-{
-  "q": "A onça-parda, o lobo-guará e o tamanduá-bandeira são mamíferos citados como presentes no parque.",
-  "a": ["Verdadeiro", "Falso"],
-  "correct": 0,
-  "badge_id": "paufurado-quiz"
-},
-{
-  "q": "O parque foi criado em 27 de janeiro de 2007 por decreto estadual.",
-  "a": ["Verdadeiro", "Falso"],
-  "correct": 0,
-  "badge_id": "paufurado-quiz"
-},
-{
-  "q": "A entrada para visitação é permitida todos os dias da semana sem necessidade de agendamento.",
-  "a": ["Verdadeiro", "Falso"],
-  "correct": 1,
-  "badge_id": "paufurado-quiz"
-},
-{
-  "q": "Uma das atrações recentes do parque é a Trilha do Mirante, inaugurada em 2023.",
-  "a": ["Verdadeiro", "Falso"],
-  "correct": 0,
-  "badge_id": "paufurado-quiz"
-},
-{
-  "q": "A vegetação de galeria e a floresta ciliar fazem parte dos ecossistemas do parque.",
-  "a": ["Verdadeiro", "Falso"],
-  "correct": 0,
-  "badge_id": "paufurado-quiz"
-},
-{
-  "q": "Águia-cinzenta e arara-canindé são duas das aves ameaçadas registradas no parque.",
-  "a": ["Verdadeiro", "Falso"],
-  "correct": 0,
-  "badge_id": "paufurado-quiz"
-}
-
-       ],
+            {
+                "q": "O Parque Estadual do Pau Furado está localizado entre os municípios de Uberlândia e Araguari.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "paufurado-quiz"
+            },
+            {
+                "q": "A área aproximada do parque é de 2.185 hectares.",
+                "a": ["2.185 ha", "1.000 ha", "500 ha", "3.000 ha"],
+                "correct": 0,
+                "badge_id": "paufurado-quiz"
+            },
+            {
+                "q": "O bioma predominante no Parque do Pau Furado é o Cerrado.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "paufurado-quiz"
+            },
+            {
+                "q": "O nome “Pau Furado” remete a uma gameleira utilizada por tropeiros na região.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "paufurado-quiz"
+            },
+            {
+                "q": "Entre as fitofisionomias presentes no parque não se inclui a floresta estacional semidecidual.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 1,
+                "badge_id": "paufurado-quiz"
+            },
+            {
+                "q": "Uma das árvores características da flora do parque é o ipê.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "paufurado-quiz"
+            },
+            {
+                "q": "A onça-parda, o lobo-guará e o tamanduá-bandeira são mamíferos citados como presentes no parque.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "paufurado-quiz"
+            },
+            {
+                "q": "O parque foi criado em 27 de janeiro de 2007 por decreto estadual.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "paufurado-quiz"
+            },
+            {
+                "q": "A entrada para visitação é permitida todos os dias da semana sem necessidade de agendamento.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 1,
+                "badge_id": "paufurado-quiz"
+            },
+            {
+                "q": "Uma das atrações recentes do parque é a Trilha do Mirante, inaugurada em 2023.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "paufurado-quiz"
+            },
+            {
+                "q": "A vegetação de galeria e a floresta ciliar fazem parte dos ecossistemas do parque.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "paufurado-quiz"
+            },
+            {
+                "q": "Águia-cinzenta e arara-canindé são duas das aves ameaçadas registradas no parque.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "paufurado-quiz"
+            }
+        ],
         "badge_descricao": "Para este parque, você deve escanear QR Codes em pontos de vista para ganhar os badges."
-    }
-},
+    },
     "picodoitambe": {
         "map_link": "https://goo.gl/maps/UazPAihAz3PsEfvW7",
         "instagram_link": "https://www.instagram.com/parque_picodoitambe",
         "email": "peitambe@meioambiente.mg.gov.br",
         "info_content": "No encontro das bacias dos rios Jequitinhonha e Doce, nos municípios de Santo Antônio do Itambé, Serro e Serra Azul de Minas, está o Parque Estadual do Pico do Itambé, unidade estadual criada em 21 de janeiro de 1998 (Decreto 39.398) e ampliada em 20 de fevereiro de 2005 (Decreto 44.176). Com cerca de 6.520 hectares, o parque guarda o imponente topo do Pico do Itambé – com aproximadamente 2.052 metros de altitude – um dos marcos geográficos da Serra do Espinhaço. A palavra “Itambé”, de origem indígena, significa “pedra afiada”, aludindo à forma escarpada do pico. No parque, os biomas da Mata Atlântica e do Cerrado se encontram e se sobrepõem, formando uma paisagem rica em diversidade: das matas de encosta aos campos rupestres nas partes altas. A flora inclui espécies como angico-branco, pau-d’óleo, jacarandá-da-Bahia, ipê-amarelo, candeia, murici, canela-de-ema, sempre-vivas e orquídeas endêmicas – por exemplo a bromélia Orthophytum itambense, descoberta nos paredões rochosos. Na fauna, destacam-se espécies como o tamanduá-de-colete, o lobo-guará, a jaguatirica e a sussuarana, bem como o anfíbio Crossodactylodes itambe, identificado em altitudes elevadas. A estrutura do parque inclui sede administrativa na Fazenda São João, casas de hóspedes, trilhas sinalizadas e abrigo de montanha no cume do pico (capacidade para 15 pessoas). A visitação está permitida de quarta a segunda, das 8h às 17h. Para chegar: saindo de Belo Horizonte, utilize a rodovia MG-010 até o município de Santo Antônio do Itambé, e depois siga a sinalização para a portaria da unidade.",
-
-        "carousel_images": [ 
+        "carousel_images": [
             "https://ief.mg.gov.br/documents/51853/7580911/Parque_Estadual_Pico_do_Itamb%C3%A9_-_Foto_Evandro_Rodney_5/2c3c38a5-cae8-715f-d134-6a27854300af",
             "https://ief.mg.gov.br/documents/51853/7580911/Cachoeira_da_Fuma%C3%A7a/a0aa590c-5d95-cdf0-aaff-161d738cf118",
             "https://ief.mg.gov.br/documents/51853/7580911/Parque_Estadual_Pico_do_Itamb%C3%A9_-_Foto_Evandro_Rodney_8/4cdb0930-8b74-14ba-e40b-a39e4c07b334",
             "https://ief.mg.gov.br/documents/51853/7580911/PE__ITAMBE_2_2/ecfd62ec-3996-f2f4-0eba-7df842c1db27"
         ],
-        
         "quiz_title": "Desafio",
         "quiz_description": "Teste seu conhecimento",
         "quiz": [
-{
-  "q": "O nome “Itambé” significa “pedra afiada” em tupi-guarani.",
-  "a": ["Verdadeiro", "Falso"],
-  "correct": 0,
-  "badge_id": "picodoitambe-quiz"
-},
-{
-  "q": "Qual é a altitude aproximada do pico principal do parque?",
-  "a": ["2.052 m", "1.500 m", "3.000 m", "1.000 m"],
-  "correct": 0,
-  "badge_id": "picodoitambe-quiz"
-},
-{
-  "q": "O parque está situado exclusivamente no município de Santo Antônio do Itambé.",
-  "a": ["Verdadeiro", "Falso"],
-  "correct": 1,
-  "badge_id": "picodoitambe-quiz"
-},
-{
-  "q": "Foi criado em 21 de janeiro de 1998.",
-  "a": ["Verdadeiro", "Falso"],
-  "correct": 0,
-  "badge_id": "picodoitambe-quiz"
-},
-{
-  "q": "O parque protege as nascentes que alimentam duas bacias hidrográficas: Jequitinhonha e Doce.",
-  "a": ["Verdadeiro", "Falso"],
-  "correct": 0,
-  "badge_id": "picodoitambe-quiz"
-},
-{
-  "q": "Na fauna do parque encontra-se o anfíbio Crossodactylodes itambe, espécie descoberta nessa região.",
-  "a": ["Verdadeiro", "Falso"],
-  "correct": 0,
-  "badge_id": "picodoitambe-quiz"
-},
-{
-  "q": "A flora inclui a bromélia Orthophytum itambense, descoberta nos paredões rochosos do parque.",
-  "a": ["Verdadeiro", "Falso"],
-  "correct": 0,
-  "badge_id": "picodoitambe-quiz"
-},
-{
-  "q": "O bioma predominante no parque é a Pampa.",
-  "a": ["Verdadeiro", "Falso"],
-  "correct": 1,
-  "badge_id": "picodoitambe-quiz"
-},
-{
-  "q": "A vegetação inclui tanto Mata Atlântica como Cerrado, formando uma zona de transição ecológica.",
-  "a": ["Verdadeiro", "Falso"],
-  "correct": 0,
-  "badge_id": "picodoitambe-quiz"
-},
-{
-  "q": "Qual dos seguintes municípios NÃO faz parte da abrangência do parque?",
-  "a": ["Serro", "Santo Antônio do Itambé", "Serra Azul de Minas", "Diamantina"],
-  "correct": 3,
-  "badge_id": "picodoitambe-quiz"
-},
-{
-  "q": "A palavra “Itambé” faz referência ao relevo rochoso do pico ou à forma afiada da montanha.",
-  "a": ["Verdadeiro", "Falso"],
-  "correct": 0,
-  "badge_id": "picodoitambe-quiz"
-},
-{
-  "q": "A trilha para o pico permite pernoite no abrigo de montanha que comporta cerca de 15 pessoas.",
-  "a": ["Verdadeiro", "Falso"],
-  "correct": 0,
-  "badge_id": "picodoitambe-quiz"
-}            
+            {
+                "q": "O nome “Itambé” significa “pedra afiada” em tupi-guarani.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "picodoitambe-quiz"
+            },
+            {
+                "q": "Qual é a altitude aproximada do pico principal do parque?",
+                "a": ["2.052 m", "1.500 m", "3.000 m", "1.000 m"],
+                "correct": 0,
+                "badge_id": "picodoitambe-quiz"
+            },
+            {
+                "q": "O parque está situado exclusivamente no município de Santo Antônio do Itambé.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 1,
+                "badge_id": "picodoitambe-quiz"
+            },
+            {
+                "q": "Foi criado em 21 de janeiro de 1998.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "picodoitambe-quiz"
+            },
+            {
+                "q": "O parque protege as nascentes que alimentam duas bacias hidrográficas: Jequitinhonha e Doce.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "picodoitambe-quiz"
+            },
+            {
+                "q": "Na fauna do parque encontra-se o anfíbio Crossodactylodes itambe, espécie descoberta nessa região.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "picodoitambe-quiz"
+            },
+            {
+                "q": "A flora inclui a bromélia Orthophytum itambense, descoberta nos paredões rochosos do parque.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "picodoitambe-quiz"
+            },
+            {
+                "q": "O bioma predominante no parque é a Pampa.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 1,
+                "badge_id": "picodoitambe-quiz"
+            },
+            {
+                "q": "A vegetação inclui tanto Mata Atlântica como Cerrado, formando uma zona de transição ecológica.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "picodoitambe-quiz"
+            },
+            {
+                "q": "Qual dos seguintes municípios NÃO faz parte da abrangência do parque?",
+                "a": ["Serro", "Santo Antônio do Itambé", "Serra Azul de Minas", "Diamantina"],
+                "correct": 3,
+                "badge_id": "picodoitambe-quiz"
+            },
+            {
+                "q": "A palavra “Itambé” faz referência ao relevo rochoso do pico ou à forma afiada da montanha.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "picodoitambe-quiz"
+            },
+            {
+                "q": "A trilha para o pico permite pernoite no abrigo de montanha que comporta cerca de 15 pessoas.",
+                "a": ["Verdadeiro", "Falso"],
+                "correct": 0,
+                "badge_id": "picodoitambe-quiz"
+            }
         ],
         "badge_descricao": "Para este parque, você deve escanear QR Codes em pontos de vista para ganhar os badges."
     }
-},
-    "": {
-        "map_link": "",
-        "instagram_link": "",
-        "phone": "+55",
-        "whatsapp": "+55",
-        "email": "",
-        "youtube_channel": "",
-        "site_link": "",
-        "info_content": ""
-
-        "carousel_images": [ 
-            "",
-            "",
-            "",
-            ""
-        ],
-        
-        "quiz_title": "Desafio ...",
-        "quiz_description": "Teste seu conhecimento...",
-        "quiz": [
-            
-        ],
-    }
-        ],
-        "badge_descricao": "Para este parque, você deve escanear QR Codes em pontos de vista para ganhar os badges."
-    }
-},
-
-
-
+}
