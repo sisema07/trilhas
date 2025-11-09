@@ -1,10 +1,517 @@
-/* style.css - CÓDIGO COMPLETO AJUSTADO */
+/* style.css - CÓDIGO COMPLETO AJUSTADO (COM EFEITO GLOW NOS ÍCONES) */
 
-/* ... (código mantido, incluindo as variáveis e o CSS básico) ... */
+/* Variáveis de Cores e Estilos */
+:root {
+    --cor-fundo: #ebf5ee; /* Verde/Beige claro, ideal para Neumorfismo */
+    --cor-principal: #4CAF50; /* Verde vibrante */
+    --cor-secundaria: #8BC34A; /* Verde mais suave para destaque */
+    --cor-texto: #333;
+    --cor-texto-claro: #f0f0f0;
+    --cor-sombra-clara: #ffffff;
+    --cor-sombra-escura: #a3b1c6;
+    /* Sombras Aprimoradas */
+    --sombra-neumorfismo-interna: inset 4px 4px 8px 0 #a3b1c6, inset -4px -4px 8px 0 var(--cor-sombra-clara);
+    --sombra-neumorfismo-externa: 8px 8px 16px 0 rgba(0,0,0,0.1), -8px -8px 16px 0 var(--cor-sombra-clara);
+    /* AJUSTE: Sombra de clique (ativa) para respeitar o border-radius */
+    --sombra-neumorfismo-ativa: inset 4px 4px 8px 0 #a3b1c6, inset -4px -4px 8px 0 var(--cor-sombra-clara); 
+    --sombra-neumorfismo-card: 4px 4px 8px 0 #a3b1c6, -4px -4px 8px 0 var(--cor-sombra-clara);
+}
+
+/* Reset Básico e Fundo */
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Open Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+    overflow-x: hidden;
+    touch-action: manipulation;
+    width: 100%;
+    height: 100%;
+}
+
+/* --- Tela de Introdução (Com Vídeo) --- */
+#video-intro {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    text-align: center;
+    transition: opacity 1s ease-out, visibility 1s;
+    z-index: 9999;
+    opacity: 1;
+    visibility: visible;
+}
+
+.overlay-intro {
+    position: relative;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+}
+
+#video-intro.fade-out {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* --- Container Principal (Design para Mobile e Desktop) --- */
+#app-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 10px 10px 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+/* --- Header: Imagem de Título --- */
+header {
+    text-align: center;
+    padding: 10px 0 15px;
+    max-height: 15vh; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#titulo-imagem {
+    width: auto;
+    height: 100%;
+    max-height: 80px; 
+    max-width: 90%; 
+    margin: 0;
+    display: block;
+    object-fit: contain; 
+}
+
+/* --- Grid de Botões (Neumorfismo) --- */
+#botoes-parques {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    padding: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Media Queries (Mantidas) */
+@media (min-width: 768px) {
+    #botoes-parques {
+        grid-template-columns: repeat(4, 1fr);
+        max-width: 800px;
+        margin: 0 auto;
+    }
+}
+
+@media (min-width: 1024px) {
+    #botoes-parques {
+        grid-template-columns: repeat(5, 1fr);
+        max-width: 900px;
+    }
+}
+
+/* CORREÇÃO PARA MOBILE PEQUENO */
+@media (max-width: 480px) {
+    #botoes-parques {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+    
+    .botao-parque {
+        border-radius: 15px;
+        padding: 6px;
+    }
+    
+    .nome-parque {
+        font-size: 0.75rem;
+    }
+    
+    .icone-parque-principal, .logo-parque-principal {
+        margin-bottom: 2px;
+    }
+}
+ 
+/* Botões em Geral: Estilos mantidos */
+.botao-parque {
+    background-color: var(--cor-fundo);
+    border-radius: 20px;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 8px;
+    box-shadow: var(--sombra-neumorfismo-externa);
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--cor-texto);
+    position: relative;
+    overflow: hidden;
+    height: auto;
+    min-height: 44px; /* Tamanho mínimo para touch */
+    box-sizing: border-box;
+}
+
+/* AJUSTE: Usando a sombra interna corrigida para o efeito de clique */
+.botao-parque:active {
+    box-shadow: var(--sombra-neumorfismo-ativa);
+    transform: scale(0.98);
+}
+
+/* Ícone (Marca D'água) - Removido */
+.icone-parque {
+    display: none; 
+}
+ 
+/* Ícone Principal (Font Awesome) */
+.icone-parque-principal {
+    font-size: 1.8rem; 
+    color: var(--cor-principal);
+    margin-bottom: 3px;
+    z-index: 2;
+    position: relative;
+    /* NOVO EFEITO: Sombra sutil e elevação */
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2), 0 0 10px rgba(76, 175, 80, 0.5); /* Sombra 3D + Glow Verde */
+    transition: all 0.3s ease-in-out;
+}
+
+/* Estilo para as novas logos PNG nos botões */
+.logo-parque-principal {
+    width: 60%; 
+    height: auto;
+    max-height: 45px;
+    margin-bottom: 3px;
+    z-index: 2;
+    position: relative;
+    object-fit: contain;
+    /* NOVO EFEITO: Sombra sutil (para simular elevação e destaque) */
+    filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.2)) drop-shadow(0 0 5px var(--cor-secundaria)); 
+    transition: all 0.3s ease-in-out;
+}
+
+.nome-parque {
+    font-size: 0.85rem;
+    font-weight: 600;
+    z-index: 2;
+    position: relative;
+    line-height: 1.2;
+}
+
+/* Efeito Hover/Ativo para reforçar o destaque */
+.botao-parque:hover .icone-parque-principal,
+.botao-parque:hover .logo-parque-principal {
+    transform: scale(1.1);
+    filter: drop-shadow(2px 2px 5px rgba(0,0,0,0.3)) drop-shadow(0 0 15px var(--cor-principal));
+}
+
+
+/* AJUSTE: Botão Check-ins (Remove o destaque padrão) */
+#btn-premiacao {
+    background-color: var(--cor-fundo); 
+    color: var(--cor-texto);
+    box-shadow: var(--sombra-neumorfismo-externa);
+}
+#btn-premiacao .icone-parque-principal {
+    color: var(--cor-principal); 
+}
+#btn-premiacao:active {
+    box-shadow: var(--sombra-neumorfismo-ativa);
+    transform: scale(0.98);
+}
+
+
+/* --- Área Secundária (Park Detail/Check-ins) - CORREÇÃO CRÍTICA DE DISPLAY --- */
+#area-secundaria {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    max-width: 450px;
+    height: 100%;
+    background-color: var(--cor-fundo);
+    z-index: 1000;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    display: flex; /* MANTIDO: O JS irá controlar a visibilidade inicial com style.display = 'none' */
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    border-left: 1px solid #ccc;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+    -webkit-overflow-scrolling: touch;
+}
+
+#area-secundaria.aberto {
+    transform: translateX(0);
+}
+
+/* CORREÇÃO PARA MOBILE - garantir que não ultrapasse a tela */
+@media (max-width: 450px) {
+    #area-secundaria {
+        max-width: 100%;
+        border-left: none;
+    }
+}
+@media (max-width: 480px) {
+    #area-secundaria {
+        max-width: 100%;
+        border-left: none;
+        height: 100vh;
+    }
+}
+
+.secundaria-header {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: var(--cor-principal);
+    color: white;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+/* CORREÇÃO: Alinhamento do Título */
+#secundaria-titulo {
+    margin: 0 5px; 
+    font-size: 1.25rem;
+    flex-grow: 1; 
+    text-align: left; /* Garante que o título se expanda, mantendo o texto à esquerda */
+}
+
+/* Botão Voltar/Home - MUDANÇA: APENAS O HOME PERMANECE */
+#btn-home {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.25rem;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    margin-right: 10px; /* Adiciona margem à direita para separar do título */
+    margin-left: 0; /* Garante que fique à esquerda no lugar do btn-voltar */
+    z-index: 20;
+    min-height: 44px; /* Tamanho mínimo para touch */
+}
+
+/* --- Estilos da Área de Check-ins (Badges) --- */
+#conteudo-premios {
+    padding: 20px;
+    text-align: center;
+}
+
+.premios-titulo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: var(--cor-principal);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 15px;
+}
+
+/* --- ESTILOS DO GRID DE BADGES DE CHECK-INS (TAMANHO GRANDE) --- */
+#lista-icones-premios {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+    padding: 0;
+}
+
+/* Badge Quadrado Grande - PADRONIZADO (Estilo Base Bloqueado) */
+.icone-premio {
+    background-color: var(--cor-fundo);
+    border-radius: 15px;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: var(--sombra-neumorfismo-externa);
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    padding: 10px;
+    opacity: 0.5; /* Opacidade reduzida para itens Bloqueados/Desativados */
+    color: #888; /* Cor de texto mais neutra para bloqueado */
+    font-style: italic;
+    cursor: default;
+}
+
+.icone-premio.desbloqueado {
+    /* Estilo de Desbloqueado/Ativado (Sombra interna de "pressionado") */
+    box-shadow: var(--sombra-neumorfismo-ativa); 
+    color: var(--cor-principal); /* Cor principal para destaque */
+    opacity: 1.0;
+    font-style: normal;
+    cursor: pointer;
+}
+
+.icone-premio:active.desbloqueado {
+    /* Efeito de clique apenas em itens ativados */
+    box-shadow: var(--sombra-neumorfismo-card); 
+    transform: scale(0.99); 
+}
+
+.icone-premio i {
+    font-size: 2.0rem;
+    margin-bottom: 5px;
+}
+
+.icone-premio span {
+    font-size: 0.7rem;
+    text-align: center;
+    font-weight: 500;
+    line-height: 1.1;
+    color: inherit; /* Garante que a cor seja herdada de .icone-premio ou .icone-premio.desbloqueado */
+}
+
+/* NOVO: Estilo para Imagem PNG personalizada no Badge */
+.badge-custom-img {
+    width: 100%; 
+    height: 100%;
+    object-fit: contain; 
+    padding: 5px; 
+    box-sizing: border-box;
+}
+
+/* Ajustes específicos para o Badge GRANDE de Check-ins */
+#lista-icones-premios .icone-premio .badge-custom-img {
+    width: 80%; 
+    height: auto;
+    max-height: 80%;
+    padding: 0;
+    margin-bottom: 5px;
+}
+
+/* Estilos de PWA Prompt */
+.pwa-prompt {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 90%;
+    background-color: var(--cor-principal);
+    color: white;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    z-index: 2000;
+    text-align: center;
+}
+
+.pwa-prompt p {
+    margin: 0 0 10px;
+    font-weight: 600;
+}
+
+#install-btn, #close-prompt {
+    background: white;
+    color: var(--cor-principal);
+    border: none;
+    padding: 8px 15px;
+    margin: 5px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    min-height: 44px;
+}
+
+#close-prompt {
+    background: transparent;
+    border: 1px solid white;
+    color: white;
+    font-weight: 400;
+}
 
 /* --- Estilos da Página de Detalhes do Parque --- */
+#conteudo-parque-detalhe {
+    padding: 0 0 20px 0;
+}
 
-/* ... (código mantido do carrossel) ... */
+/* 1. Carrossel de Imagens */
+.park-carousel-container {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 480px) {
+    .park-carousel-container {
+        aspect-ratio: 4/3; /* Mais quadrado para mobile */
+    }
+}
+
+.park-carousel {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.park-carousel::-webkit-scrollbar {
+    display: none;
+}
+
+.carousel-image {
+    flex-shrink: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    scroll-snap-align: start;
+    display: block;
+}
+
+.carousel-dots {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.dot.active {
+    background-color: var(--cor-principal);
+    transform: scale(1.2);
+}
 
 /* 2. Área de Visitação (Maps + Contato + Instagram) */
 .location-link-container {
@@ -35,13 +542,13 @@
 .location-icon-link:nth-child(2) { /* 2. Instagram */
     color: #E1306C; /* Rosa/Roxo */
 }
-.location-icon-link:nth-child(3) { /* 3. NOVO: YouTube */
+.location-icon-link:nth-child(3) { /* 3. YouTube */
     color: #FF0000; /* Vermelho */
 }
-.location-icon-link:nth-child(4) { /* 4. NOVO: Site (Globo) */
+.location-icon-link:nth-child(4) { /* 4. Site (Globo) */
     color: #00BCD4; /* Ciano/Azul Claro */
 }
-.location-icon-link:nth-child(5) { /* 5. NOVO: WhatsApp */
+.location-icon-link:nth-child(5) { /* 5. WhatsApp */
     color: #25D366; /* Verde WhatsApp */
 }
 .location-icon-link:nth-child(6) { /* 6. Telefone */
@@ -54,4 +561,497 @@
 
 .separator {
     border: none;
-/* ... (resto do código style.css mantido) ... */
+    border-top: 1px solid #ccc;
+    margin: 15px 20px;
+    opacity: 0.5;
+}
+
+/* 3. Botões de Ação */
+.action-buttons-container {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 20px;
+}
+
+.action-button {
+    flex-grow: 1;
+    margin: 0 5px;
+    padding: 12px 5px;
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    box-shadow: var(--sombra-neumorfismo-externa);
+    transition: all 0.2s ease-in-out;
+    min-height: 44px;
+}
+
+.action-button.info-btn {
+    font-size: 1.2rem; /* Aumenta o ícone 'i' */
+    padding: 12px 5px; 
+}
+.action-button.info-btn i {
+    margin: 0;
+}
+
+.action-button.active {
+    box-shadow: var(--sombra-neumorfismo-ativa);
+    background-color: var(--cor-principal);
+    color: var(--cor-texto-claro);
+    transform: scale(0.98);
+}
+
+.action-button:active:not(.active) {
+    box-shadow: var(--sombra-neumorfismo-ativa);
+    transform: scale(0.98);
+}
+
+/* 4. Área de Conteúdo Dinâmico (INFO/QUIZ/ATIVIDADES/FAUNA) */
+#dynamic-content-area {
+    padding: 15px 20px;
+    line-height: 1.6;
+    color: #444;
+}
+
+#dynamic-content-area h3 {
+    color: var(--cor-principal);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    margin-top: 15px;
+    text-transform: capitalize;
+    /* MUDANÇA SOLICITADA: Centralizar todos os títulos H3 dentro da área dinâmica */
+    text-align: center;
+}
+
+#dynamic-content-area p {
+    margin-bottom: 15px;
+    text-align: justify;
+}
+
+.badge-description {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: -10px;
+    text-align: center !important;
+}
+
+/* --- ESTILOS DE QUIZ --- */
+
+/* Estilo da Barra de Progresso */
+.progress-bar-container {
+    position: relative;
+    width: 90%;
+    max-width: 400px;
+    margin: 20px auto 30px;
+    height: 15px;
+    background-color: var(--cor-sombra-escura); 
+    border-radius: 8px;
+    box-shadow: var(--sombra-neumorfismo-interna); 
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 100%;
+}
+
+#quiz-progress {
+    height: 100%;
+    background-color: var(--cor-secundaria);
+    border-radius: 8px;
+    transition: width 0.4s ease-in-out;
+}
+
+/* Estilo para a Tela de Resultados (Win/Lose) */
+.result-classification {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+.success-badge-message {
+    font-weight: 700;
+    color: var(--cor-principal);
+    margin-bottom: 20px;
+}
+
+.win-animation-container {
+    width: 100px; 
+    height: 100px;
+    margin: 10px auto;
+}
+.win-gif-mascote {
+    max-width: 100%;
+    height: auto;
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(0, 150, 0, 0.4);
+}
+/* Fim dos Estilos de Quiz */
+
+
+/* --- ESTILOS DE GRID DE FAUNA (2 colunas) --- */
+#fauna-grid-dinamica {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+    padding: 0 10px;
+}
+
+/* --- ESTILOS DE GRID DE ATIVIDADES (3 colunas, apenas imagem e título) --- */
+#lista-atividades-dinamica {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 Colunas */
+    gap: 10px;
+    margin-top: 20px;
+    padding: 0 10px;
+}
+
+/* Estilo do botão de Fauna/Atividade (PADRONIZADO COM OS BADGES) */
+.fauna-grid-item, .activity-grid-item {
+    background-color: var(--cor-fundo);
+    border-radius: 15px;
+    aspect-ratio: 1 / 1; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: var(--sombra-neumorfismo-externa);
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    padding: 5px;
+    min-height: 80px;
+    box-sizing: border-box;
+    opacity: 0.5; /* PADRONIZAÇÃO: Opacidade reduzida para itens bloqueados */
+    color: #888;
+    font-style: italic;
+}
+
+.activity-grid-item.desbloqueado, .fauna-grid-item.desbloqueado {
+    /* PADRONIZAÇÃO: Estilo de Desbloqueado/Ativado (Sombra interna) */
+    box-shadow: var(--sombra-neumorfismo-ativa);
+    opacity: 1.0; 
+    color: var(--cor-texto); /* Texto escuro normal para itens desbloqueados */
+    font-style: normal;
+}
+
+.fauna-grid-item:active.desbloqueado, .activity-grid-item:active.desbloqueado {
+    /* Efeito de clique */
+    box-shadow: var(--sombra-neumorfismo-card);
+    transform: scale(0.98);
+}
+
+
+.fauna-grid-item img, .activity-grid-item img {
+    width: 60%; 
+    height: auto;
+    max-height: 60%;
+    object-fit: contain;
+    margin-bottom: 5px;
+}
+
+.fauna-grid-item span, .activity-grid-item span {
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1.1;
+    color: inherit;
+}
+
+
+/* --- ESTILOS DO MODAL (Pop-up Moderno - Glassmorphism) --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s;
+}
+
+.modal-overlay.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background-color: rgba(255, 255, 255, 0.75); /* Fundo branco com transparência (Glassmorphism) */
+    padding: 30px;
+    border-radius: 20px;
+    /* Sombra mais destacada e borda interna de vidro */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+    max-width: 90%;
+    width: 400px;
+    position: relative;
+    transform: translateY(-50px);
+    transition: transform 0.3s ease-in-out;
+    backdrop-filter: blur(8px); /* Efeito de vidro fosco */
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.modal-overlay.open .modal-content {
+    transform: translateY(0);
+}
+
+.modal-content.small-modal {
+    width: 300px;
+    padding: 20px;
+    /* Adiciona um fundo sutil relacionado à natureza para os modais pequenos */
+    background-image: url('images/nature-pattern.png'); 
+    background-color: rgba(235, 245, 238, 0.85); 
+    background-size: cover;
+    background-blend-mode: overlay; 
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--cor-principal);
+    cursor: pointer;
+    min-height: 44px;
+    min-width: 44px;
+    z-index: 10;
+}
+
+#fauna-modal-body h4 {
+    color: var(--cor-principal);
+    font-size: 1.4rem;
+    margin-top: 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+#fauna-modal-body img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+#fauna-modal-body p {
+    font-size: 0.95rem;
+    color: #444;
+    text-align: justify;
+}
+
+/* Garante que o texto seja legível nos modais pequenos (Introdutório e QR) */
+#intro-modal-body p, #qr-modal-body p {
+    color: var(--cor-texto); 
+    text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
+}
+
+/* --- Estilos da Área de Instruções de QR Code --- */
+.activity-instructions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 10px;
+    margin-bottom: 10px;
+    background-color: var(--cor-fundo); 
+}
+
+.instruction-text {
+    width: 100%;
+    padding-right: 0; 
+}
+
+.instruction-text h3 {
+    font-size: 1.1rem;
+    color: var(--cor-principal);
+    margin-top: 0;
+    margin-bottom: 5px;
+    text-align: center !important;
+    font-weight: 700; 
+    text-transform: none !important; 
+}
+
+/* AJUSTE: Aumento de 40% no tamanho (80px * 1.4 = 112px) */
+.qr-mascote-container {
+    width: 112px; 
+    height: 112px; 
+    flex-shrink: 0; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    background-color: transparent; 
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
+    position: relative;
+    margin-top: 10px;
+    cursor: pointer; 
+    transition: transform 0.2s;
+}
+
+.qr-mascote-container:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); 
+}
+
+.qr-mascote-img {
+    width: 90%; 
+    height: 90%;
+    object-fit: contain;
+}
+
+/* --- ESTILOS ADICIONAIS PARA ÁREA DE COMPARTILHAMENTO (CANVAS) --- */
+#area-envio-foto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+#badge-upload-titulo {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    max-width: 100%;
+}
+
+.upload-container {
+    background-color: var(--cor-fundo);
+    border-radius: 20px;
+    box-shadow: var(--sombra-neumorfismo-externa);
+    padding: 25px;
+    text-align: center;
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.upload-container p {
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+    color: var(--cor-texto);
+}
+
+input[type="file"] {
+    display: block;
+    width: 100%;
+    margin: 10px 0 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: white;
+}
+
+#btn-gerar-e-baixar {
+    background-color: var(--cor-principal);
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 44px;
+}
+
+/* Novo estilo para o botão Compartilhar */
+#btn-compartilhar-social {
+    background-color: var(--cor-secundaria);
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 44px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+    opacity: 0.6; /* Inicia desabilitado visualmente */
+}
+
+#btn-compartilhar-social.active {
+    opacity: 1.0;
+    box-shadow: 4px 4px 8px 0 rgba(0,0,0,0.1), -4px -4px 8px 0 var(--cor-sombra-clara); 
+}
+
+/* Estilos para o Canvas e Pré-visualização */
+#output-image-preview {
+    margin-top: 20px;
+    background-color: #f0f0f0; 
+    border-radius: 15px;
+    padding: 10px;
+    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.1); 
+    overflow: hidden; 
+}
+
+#passport-canvas {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    background: white;
+}
+
+#user-photo-preview {
+    display: none !important;
+}
+
+/* CORREÇÃO GLOBAL PARA IMAGENS */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* --- NOVO ESTILO PARA ÍCONE DE DOWNLOAD NO MODAL DA FAUNA --- */
+#fauna-modal-body {
+    position: relative; /* Contêiner para posicionar o ícone de download */
+}
+
+#fauna-modal-body .download-icon-fauna {
+    position: absolute;
+    top: 55px; /* Ajuste para logo abaixo do título e botão 'x' */
+    right: 35px; /* Ajuste para o canto superior direito */
+    z-index: 10;
+    font-size: 1.5rem;
+    color: white; 
+    background-color: rgba(76, 175, 80, 0.7); /* Cor principal com transparência */
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.2s;
+}
+
+#fauna-modal-body .download-icon-fauna:hover {
+    background-color: var(--cor-principal);
+}
+
+#fauna-modal-body .download-icon-fauna i {
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+@media (max-width: 480px) {
+    #fauna-modal-body .download-icon-fauna {
+        top: 45px; /* Ajuste para mobile */
+        right: 20px;
+    }
+}
