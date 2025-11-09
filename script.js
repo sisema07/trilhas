@@ -333,16 +333,13 @@ function carregarConteudoPremiacao() {
     areaSecundaria.scrollTop = 0;
 }
 
-// --- CARREGAMENTO DE CONTEÚDO DINÂMICO ---
 function carregarConteudoInfo(parque, container) {
     const detalhes = DETALHES_PARQUES[parque.id] || {};
     container.innerHTML = `
         <h3>Informações Gerais</h3>
         <p>${detalhes.info_content || 'Informações detalhadas sobre o parque não disponíveis.'}</p>
         
-        <h3>O que esperar</h3>
-        <p>${parque.descricao || 'O parque é um local ideal para explorar a natureza.'}</p>
-    `;
+        `;
 }
 
 function carregarConteudoFauna(parque, container) {
@@ -1313,9 +1310,15 @@ function configurarNavegacao() {
 async function inicializar() {
     try {
         await carregarDados();
+        
+        // CORREÇÃO CRÍTICA DO "PISCA-PISCA" (2): 
+        // Esconde o header e os botões AGORA, antes de qualquer outra renderização.
+        document.querySelector('header').style.display = 'none';
+        document.getElementById('botoes-parques').style.display = 'none';
+        
         registrarServiceWorker();
         configurarFechamentoModais();
-        carregarBotoesParques(); // Carrega os botões com os dados
+        carregarBotoesParques(); // Carrega os botões com os dados (mas eles estão escondidos)
 
         const videoElement = document.getElementById('intro-video-element');
         const videoIntro = document.getElementById('video-intro');
@@ -1337,6 +1340,7 @@ async function inicializar() {
         if (localStorage.getItem('first_visit') !== 'false' && !checkinProcessado && videoElement && videoIntro) {
             localStorage.setItem('first_visit', 'false');
             
+            // Garante que a introdução esteja em tela cheia e visível
             videoIntro.style.display = 'flex';
             videoElement.load();
             
@@ -1348,25 +1352,23 @@ async function inicializar() {
                          videoIntro.classList.add('fade-out');
                          setTimeout(() => {
                             videoIntro.style.display = 'none';
-                            iniciarApp(); // Mostra o app após a animação
-                            lidarComHash(); // Garante o carregamento do estado inicial (Home)
+                            iniciarApp(); // Mostra o app APÓS o vídeo
+                            lidarComHash(); 
                          }, 1000); 
                     }, videoElement.duration * 1000 || 5000); // Usa duração ou 5s como fallback
                 }).catch(error => {
                     console.warn('Autoplay impedido. Iniciando app diretamente.', error);
                     videoIntro.style.display = 'none';
-                    iniciarApp();
+                    iniciarApp(); // Mostra o app se o autoplay falhar
                     lidarComHash(); 
                 });
             }
         } else {
             if (videoIntro) videoIntro.style.display = 'none';
-            iniciarApp();
+            iniciarApp(); // Mostra o app se não for a primeira visita
             if (!checkinProcessado) {
-                // Se não for um check-in, lida com o hash atual (ou Home)
                 lidarComHash(); 
             }
-            // Se for checkinProcessado, lidarComHash será chamado dentro de processarCheckin
         }
         
     } catch (error) {
@@ -1383,6 +1385,30 @@ async function inicializar() {
                 </div>
             `;
         }
+    }
+}
+
+// CORREÇÃO AUXILIAR: IniciarApp precisa garantir que o header e os botões apareçam
+function iniciarApp() {
+    
+    document.getElementById('app-container').style.display = 'flex';
+    // Faz o header e os botões aparecerem aqui, APÓS a introdução ou falha do vídeo.
+    document.querySelector('header').style.display = 'flex';
+    document.getElementById('botoes-parques').style.display = 'grid'; 
+    
+    setupPwaInstallPrompt();
+
+    // Configura o listener para o botão de check-ins (se existir)
+    const btnPremiacao = document.getElementById('btn-premiacao');
+    if (btnPremiacao) {
+        // Remove listener anterior antes de adicionar (segurança contra duplicação)
+        btnPremiacao.removeEventListener('click', btnPremiacao.clickListener); 
+        const clickListener = (e) => {
+            e.preventDefault();
+            window.location.hash = `#premiacao`; 
+        };
+        btnPremiacao.addEventListener('click', clickListener);
+        btnPremiacao.clickListener = clickListener;
     }
 }
 
