@@ -542,8 +542,8 @@ header {
 .location-icon-link:nth-child(2) { /* 2. Instagram */
     color: #E1306C; /* Rosa/Roxo */
 }
-.location-icon-link:nth-child(3) { /* 3. YouTube */
-    color: #FF0000; /* Vermelho */
+.location-icon-link:nth-child(3) { /* 3. YouTube (Vermelho) */
+    color: #FF0000; 
 }
 .location-icon-link:nth-child(4) { /* 4. Site (Globo) */
     color: #00BCD4; /* Ciano/Azul Claro */
