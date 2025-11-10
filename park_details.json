@@ -936,28 +936,728 @@
          ],
         "badge_descricao": "Para este parque, você deve escanear QR Codes em pontos de vista para ganhar os badges."
     },
-    "": {
-        "map_link": "",
-        "instagram_link": "",
-        "phone": "+55",
-        "whatsapp": "+55",
-        "email": "",
-        "youtube_channel": "",
-        "site_link": "",
-        "info_content": "",
+    "serradasararas": {
+        "map_link": "https://maps.app.goo.gl/QKMiGWfWyvoUi6k87",
+        "instagram_link": "https://www.instagram.com/pe_serradasararas/",
+        "phone": "+553836342037",
+        "whatsapp": "+553899621541",
+        "email": "ana.ribeiro@meioambiente.mg.gov.br",
+        "info_content": "Localizado no extremo noroeste de Minas Gerais, no município de Chapada Gaúcha, o Parque Estadual Serra das Araras foi criado em 21 de janeiro de 1998 por meio do Decreto nº 39.400. Com uma área aproximada de 11.137 hectares, o parque está inserido no bioma Cerrado e destaca-se por suas formações de morros, chapadões, veredas, matas ciliares e nascentes que abastecem importantes bacias hidrográficas. A vegetação abriga espécies típicas do Cerrado, como buriti, pindaíba, pequi, gabiroba e jatobá-de-cerrado, que são fundamentais para a fauna local. Entre os animais que vivem na unidade, estão espécies ameaçadas de extinção, como a arara-vermelha e a arara-canindé, que utilizam os paredões de arenito para abrigo e reprodução. O parque conta com portaria, sede administrativa e trilhas sinalizadas, oferecendo uma boa estrutura para visitantes e pesquisadores. A visitação é permitida de terça a domingo e feriados, das 8h às 17h, com entrada até aproximadamente 14h. O acesso principal parte de Belo Horizonte pela BR-040 até Montes Claros, seguindo pela BR-135 até Januária e, em seguida, por cerca de 125 km de estrada de terra até a unidade."
         "carousel_images": [
-            "",
-            "",
-            "",
-            ""
+            "https://scontent.fbhz2-2.fna.fbcdn.net/v/t39.30808-6/468641133_18170895397312284_1139365701260788441_n.jpg?stp=dst-jpg_s720x720_tt6&_nc_cat=104&ccb=1-7&_nc_sid=127cfc&_nc_ohc=O6eZ3W1bYkEQ7kNvwEViG6I&_nc_oc=Adn6StPqVWEsD5NNncS0661HCopSBYeU9zH6Mx46hL-HPtjIrUDEBBwPYwzWfiAFtu8&_nc_zt=23&_nc_ht=scontent.fbhz2-2.fna&_nc_gid=tKVS2grKJhNhB6NlbtwmcQ&oh=00_AfhqILPc4-nAorfkhtj8qCATefp3sG4oY_WzwPxTBqIEWA&oe=6917F667",
+            "https://www.edhorizonte.com.br/parquesmg/wp-content/uploads/2014/12/Serra-das-Araras.jpg"
         ],
         "quiz_title": "Desafio",
         "quiz_description": "Teste seu conhecimento",
         "quiz": [
-        
+{
+  "q": "O Parque Estadual da Serra das Araras foi criado em 21 de janeiro de 1998.",
+  "a": ["Verdadeiro", "Falso"],
+  "correct": 0,
+  "badge_id": "serradasararas-quiz"
+},
+{
+  "q": "A área aproximada do parque é de 11.137 hectares.",
+  "a": ["11.137 ha", "5.000 ha", "20.000 ha", "8.000 ha"],
+  "correct": 0,
+  "badge_id": "serradasararas-quiz"
+},
+{
+  "q": "O bioma predominante no parque é a Mata Atlântica.",
+  "a": ["Verdadeiro", "Falso"],
+  "correct": 1,
+  "badge_id": "serradasararas-quiz"
+},
+{
+  "q": "O parque está localizado no município de Chapada Gaúcha, no noroeste de Minas Gerais.",
+  "a": ["Verdadeiro", "Falso"],
+  "correct": 0,
+  "badge_id": "serradasararas-quiz"
+},
+{
+  "q": "Espécies de arara-vermelha e arara-canindé utilizam os paredões de arenito do parque como habitat.",
+  "a": ["Verdadeiro", "Falso"],
+  "correct": 0,
+  "badge_id": "serradasararas-quiz"
+},
+{
+  "q": "Nas vegetações do parque destacam-se o pequi, jatobá-de-cerrado e buriti.",
+  "a": ["Verdadeiro", "Falso"],
+  "correct": 0,
+  "badge_id": "serradasararas-quiz"
+},
+{
+  "q": "O horário de visitação informado é de terça a domingo, das 8h às 17h, com entrada permitida até cerca de 14h.",
+  "a": ["Verdadeiro", "Falso"],
+  "correct": 0,
+  "badge_id": "serradasararas-quiz"
+},
+{
+  "q": "Entre os mamíferos citados como presentes no parque estão a onça-parda, o veado-galheiro e o tamanduá-bandeira.",
+  "a": ["Verdadeiro", "Falso"],
+  "correct": 0,
+  "badge_id": "serradasararas-quiz"
+},
+{
+  "q": "O acesso ao parque é feito totalmente por rodovia asfaltada, sem trechos de estrada de terra.",
+  "a": ["Verdadeiro", "Falso"],
+  "correct": 1,
+  "badge_id": "serradasararas-quiz"
+},
+{
+  "q": "O parque protege importantes ecossistemas como veredas, matas ciliares e nascentes, além dos típicos campos de cerrado.",
+  "a": ["Verdadeiro", "Falso"],
+  "correct": 0,
+  "badge_id": "serradasararas-quiz"
+},
+{
+  "q": "O plano de manejo do parque menciona que uma de suas metas é a preservação da transição entre Cerrado e Caatinga.",
+  "a": ["Verdadeiro", "Falso"],
+  "correct": 0,
+  "badge_id": "serradasararas-quiz"
+},
+{
+  "q": "O Parque Estadual da Serra das Araras está situado nos municípios de Januária e Manga.",
+  "a": ["Verdadeiro", "Falso"],
+  "correct": 1,
+  "badge_id": "serradasararas-quiz"
+}
          ],
         "badge_descricao": "Para este parque, você deve escanear QR Codes em pontos de vista para ganhar os badges."
     },
+        "serradobrigadeiro": {
+        "map_link": "https://goo.gl/maps/MLY8jQ73yZQVgqXB7",
+        "instagram_link": "https://www.instagram.com/pebrigadeirooficial",
+        "phone": "+553237217491",
+        "whatsapp": "+55",
+        "email": "pebrigadeiro@meioambiente.mg.gov.br",
+        "info_content": "O Parque Estadual da Serra do Brigadeiro está localizado na Zona da Mata de Minas Gerais, abrangendo os municípios de Araponga, Ervália, Divino, Fervedouro, Miradouro, Muriaé, Pedra Bonita, Sericita e Vieiras. Criado em 27 de setembro de 1996, pelo Decreto nº 38.319, o parque possui área de aproximadamente 13.210 hectares e está inserido no bioma Mata Atlântica, sendo uma das áreas mais importantes para a conservação deste ecossistema em Minas Gerais. A serra abriga um conjunto de montanhas com altitudes que variam de 1.000 a mais de 2.000 metros, destacando-se o Pico do Soares, ponto culminante da unidade com 1.985 metros de altitude. A vegetação é composta por florestas ombrófilas e estacionais, com grande diversidade de espécies arbóreas, bromélias, orquídeas e samambaias. Na fauna, destacam-se espécies ameaçadas como o muriqui-do-norte (maior primata das Américas), a onça-parda, o macuco e o papagaio-de-peito-roxo. O parque é uma importante área de recarga hídrica, abrigando nascentes que formam afluentes dos rios Doce e Paraíba do Sul. Possui infraestrutura com sede administrativa, centro de visitantes, viveiro de mudas e trilhas sinalizadas que levam a mirantes e cachoeiras. A visitação ocorre de terça a domingo, das 8h às 17h, e o acesso principal se dá a partir do município de Araponga, com rotas alternativas por Ervália e Fervedouro.",
+        "carousel_images": [
+            "https://ief.mg.gov.br/documents/51853/7559569/Portaria/2ae96f5f-fa5e-cf06-0f69-09600ba74109",
+            "https://ief.mg.gov.br/documents/51853/7559569/foto-06-_PE_da_Serra_do_Brigadeiro_-_Ermida/cd199d2d-453f-524f-0243-a42094d35627",
+            "https://ief.mg.gov.br/documents/51853/7559569/Trilha/88ab9405-f1fe-be12-ac59-c10fe4688a9c",
+            "https://ief.mg.gov.br/documents/51853/7559569/Vista_Parcial__Foto_Evandro_Rodney_13/ccfab187-4c3e-f073-5b71-d6f1e2559978"
+        ],
+        "quiz_title": "Desafio",
+        "quiz_description": "Teste seu conhecimento",
+        "quiz": [
+ {
+  "q": "O Parque Estadual da Serra do Brigadeiro foi criado em 27 de setembro de 1996.",
+  "a": ["Verdadeiro", "Falso"],
+  "correct": 0,
+  "badge_id": "serradobrigadeiro-quiz"
+},
+{
+  "q": "Uma das altitudes máximas registradas no parque é cerca de 1.985 metros (Pico do Soares).",
+  "a": ["Verdadeiro", "Falso"],
+  "correct": 0,
+  "badge_id": "serradobrigadeiro-quiz"
+},
+{
+  "q": "O parque está localizado na Zona da Mata mineira, abrangendo municípios como Araponga, Fervedouro e Miradouro.",
+  "a": ["Verdadeiro", "Falso"],
+  "correct": 0,
+  "badge_id": "serradobrigadeiro-quiz"
+},
+{
+  "q": "O bioma predominante no parque é o Cerrado.",
+  "a": ["Verdadeiro", "Falso"],
+  "correct": 1,
+  "badge_id": "serradobrigadeiro-quiz"
+},
+{
+  "q": "O parque contribui para o abastecimento de duas grandes bacias hidrográficas: a do Rio Doce e a do Paraíba do Sul.",
+  "a": ["Verdadeiro", "Falso"],
+  "correct": 0,
+  "badge_id": "serradobrigadeiro-quiz"
+},
+{
+  "q": "Entre as espécies ameaçadas de extinção que ocorrem no parque destaca-se o muriqui-do-norte, o maior primata das Américas.",
+  "a": ["Verdadeiro", "Falso"],
+  "correct": 0,
+  "badge_id": "serradobrigadeiro-quiz"
+},
+{
+  "q": "A unidade possui infraestrutura com centro de visitantes, alojamentos para pesquisadores e trilhas estruturadas.",
+  "a": ["Verdadeiro", "Falso"],
+  "correct": 0,
+  "badge_id": "serradobrigadeiro-quiz"
+},
+{
+  "q": "O parque tem altitudes que chegam a quase 2.000 metros e é parte do extremo norte da Serra da Mantiqueira.",
+  "a": ["Verdadeiro", "Falso"],
+  "correct": 0,
+  "badge_id": "serradobrigadeiro-quiz"
+},
+{
+  "q": "A vegetação do parque é composta exclusivamente por florestas ombrófilas densas, sem presença de campos de altitude ou afloramentos rochosos.",
+  "a": ["Verdadeiro", "Falso"],
+  "correct": 1,
+  "badge_id": "serradobrigadeiro-quiz"
+},
+{
+  "q": "Qual dos seguintes picos NÃO está listado entre os que compõem o parque? A) Pico do Soares B) Pico do Grama C) Pico do Itajuru D) Pico da Bandeira",
+  "a": ["Pico do Soares", "Pico do Grama", "Pico do Itajuru", "Pico da Bandeira"],
+  "correct": 3,
+  "badge_id": "serradobrigadeiro-quiz"
+},
+{
+  "q": "O horário de visitação do parque, segundo registros recentes, é de terça a domingo das 8h às 17h.",
+  "a": ["Verdadeiro", "Falso"],
+  "correct": 0,
+  "badge_id": "serradobrigadeiro-quiz"
+},
+{
+  "q": "O parque abrange somente o município de Muriaé.",
+  "a": ["Verdadeiro", "Falso"],
+  "correct": 1,
+  "badge_id": "serradobrigadeiro-quiz"
+}
+         ],
+        "badge_descricao": "Para este parque, você deve escanear QR Codes em pontos de vista para ganhar os badges."
+    },
+        "serradointendente": {
+        "map_link": "https://maps.app.goo.gl/7x6fHFtMRdAYAEBfA",
+        "instagram_link": "https://www.instagram.com/p.e.serradointendente/",
+        "instagram_link": "https://www.instagram.com/parquenaturaltabuleiro/",
+        "phone": "+553138682878",
+        "email": "parque.intendente@meioambiente.mg.gov.br",
+        "info_content": "O Parque Estadual da Serra do Intendente está localizado na região Central de Minas Gerais, abrangendo os municípios de Conceição do Mato Dentro, Dom Joaquim, Morro do Pilar e Santo Antônio do Itambé. Criado em 1998, pelo Decreto nº 39.908, o parque possui área de aproximadamente 13.200 hectares e está inserido no bioma Cerrado, com enclaves de Mata Atlântica. A unidade integra o complexo da Serra do Espinhaço, região reconhecida pela UNESCO como Reserva da Biosfera. O parque foi criado com o objetivo de proteger as nascentes do rio Peixe e de importantes afluentes do rio Doce, além de conservar ecossistemas de campos rupestres, cerrados e florestas estacionais. A paisagem é marcada por formações rochosas impressionantes, cânions, grutas e várias cachoeiras, sendo a mais famosa a Cachoeira do Tabuleiro, com 273 metros de queda livre — a maior de Minas Gerais e uma das maiores do Brasil. A flora é rica em espécies endêmicas e ameaçadas, com destaque para as sempre-vivas, canelas-de-ema, orquídeas e bromélias. A fauna é diversificada, abrigando espécies como o lobo-guará, a onça-parda, o tamanduá-bandeira, o veado-campeiro e diversas aves de rapina. O parque conta com sede administrativa, centro de visitantes, trilhas estruturadas e mirantes naturais. O acesso principal é feito pelo distrito de Tabuleiro, em Conceição do Mato Dentro, a cerca de 200 km de Belo Horizonte. A visitação ocorre de quarta a segunda-feira, das 8h às 17h, e o parque é muito procurado para atividades de ecoturismo, fotografia e observação da natureza.",
+        "carousel_images": [
+            "https://ief.mg.gov.br/documents/d/ief/pe_-_intendente_-_comunidade__tabuleiro-jpg",
+            "https://ief.mg.gov.br/documents/d/ief/cachoeira_do_tabuleiro_1-jpg",
+            "https://ief.mg.gov.br/documents/d/ief/cachoeira_do_tabuleiro_2-jpg",
+            "https://ief.mg.gov.br/documents/d/ief/parque_estadual_do_intendente_-_sempre_viva-jpg"
+        ],
+        "quiz_title": "Desafio",
+        "quiz_description": "Teste seu conhecimento",
+        "quiz": [
+   {
+    "q": "Em quais municípios o Parque Estadual da Serra do Intendente está localizado?",
+    "a": ["Conceição do Mato Dentro, Dom Joaquim, Morro do Pilar e Santo Antônio do Itambé", "Diamantina e Serro", "Ouro Preto e Mariana", "Itabira e Santa Bárbara"],
+    "correct": 0,
+    "badge_id": "serradointendente-quiz"
+  },
+  {
+    "q": "Qual é o bioma predominante no Parque Estadual da Serra do Intendente?",
+    "a": ["Cerrado", "Mata Atlântica", "Caatinga", "Pampa"],
+    "correct": 0,
+    "badge_id": "serradointendente-quiz"
+  },
+  {
+    "q": "Verdadeiro ou falso: o parque está inserido na Serra do Espinhaço, reconhecida como Reserva da Biosfera pela UNESCO.",
+    "a": ["Verdadeiro", "Falso"],
+    "correct": 0,
+    "badge_id": "serradointendente-quiz"
+  },
+  {
+    "q": "Qual é a cachoeira mais famosa do Parque Estadual da Serra do Intendente?",
+    "a": ["Cachoeira do Tabuleiro", "Cachoeira da Fumaça", "Cachoeira da Farofa", "Cachoeira do Cerradão"],
+    "correct": 0,
+    "badge_id": "serradointendente-quiz"
+  },
+  {
+    "q": "Qual é a altura aproximada da Cachoeira do Tabuleiro?",
+    "a": ["273 metros", "120 metros", "350 metros", "200 metros"],
+    "correct": 0,
+    "badge_id": "serradointendente-quiz"
+  },
+  {
+    "q": "Verdadeiro ou falso: o Parque Estadual da Serra do Intendente protege as nascentes do rio São Francisco.",
+    "a": ["Falso", "Verdadeiro"],
+    "correct": 0,
+    "badge_id": "serradointendente-quiz"
+  },
+  {
+    "q": "Qual das seguintes espécies é comum no Parque Estadual da Serra do Intendente?",
+    "a": ["Lobo-guará", "Mico-leão-dourado", "Tamanduá-mirim", "Tatu-bola"],
+    "correct": 0,
+    "badge_id": "serradointendente-quiz"
+  },
+  {
+    "q": "O parque possui áreas de quais tipos de vegetação?",
+    "a": ["Campos rupestres, cerrados e florestas estacionais", "Manguezais e restingas", "Caatinga e campos limpos", "Florestas de araucária e pântanos"],
+    "correct": 0,
+    "badge_id": "serradointendente-quiz"
+  },
+  {
+    "q": "Verdadeiro ou falso: a fauna do parque inclui espécies ameaçadas de extinção como a onça-parda e o tamanduá-bandeira.",
+    "a": ["Verdadeiro", "Falso"],
+    "correct": 0,
+    "badge_id": "serradointendente-quiz"
+  },
+  {
+    "q": "Qual é o principal acesso ao Parque Estadual da Serra do Intendente?",
+    "a": ["Distrito de Tabuleiro, em Conceição do Mato Dentro", "Cidade de Diamantina", "Distrito de Milho Verde", "Serra do Cipó"],
+    "correct": 0,
+    "badge_id": "serradointendente-quiz"
+  },
+  {
+    "q": "Em que ano o Parque Estadual da Serra do Intendente foi criado?",
+    "a": ["1998", "2005", "1986", "2010"],
+    "correct": 0,
+    "badge_id": "serradointendente-quiz"
+  },
+  {
+    "q": "Verdadeiro ou falso: o Parque é uma importante área para observação de aves e fotografia de natureza.",
+    "a": ["Verdadeiro", "Falso"],
+    "correct": 0,
+    "badge_id": "serradointendente-quiz"
+  }
+         ],
+        "badge_descricao": "Para este parque, você deve escanear QR Codes em pontos de vista para ganhar os badges."
+    },
+        "serradopapagaio": {
+        "map_link": "https://maps.app.goo.gl/fSi2hqdMpTmXQp3g8",
+        "instagram_link": "https://www.instagram.com/parquedopapagaio",
+        "phone": "+553533415404",
+        "whatsapp": "+55",
+        "email": "peserradopapagaio@meioambiente.mg.gov.br",
+        "info_content": "No sul de Minas Gerais, nos municípios de Aiuruoca, Alagoa, Baependi, Itamonte e Pouso Alto, está o Parque Estadual da Serra do Papagaio, criado em 5 de agosto de 1998 pelo Decreto nº 39.793, e ampliado em 2021 por meio da Lei nº 23.774. A unidade ocupa cerca de 25.888 hectares e protege remanescentes da Mata Atlântica, campos de altitude e florestas de araucária na Serra da Mantiqueira. O parque abriga altitudes que variam de 1.200 m a cerca de 2.359 m, sendo parte da “caixa d’água” que alimenta as bacias dos rios Aiuruoca e Verde, contribuintes da bacia do Rio Grande. A flora inclui formações de mata atlântica com araucárias e campos de altitude, enquanto a fauna protege espécies raras e ameaçadas como o papagaio‑de‑peito‑roxo. Com mais de 50 trilhas mapeadas e numerosos mirantes, o parque é destino de ecoturismo, trekking e montanhismo."
+        "carousel_images": [
+            "https://ief.mg.gov.br/documents/51853/7560294/Pico_do_Papagaio_3/6d16555b-d594-f56d-9345-354564ba2d4c",
+            "https://ief.mg.gov.br/documents/51853/7560294/_DSC5873/ab8cf786-0804-9872-c87c-a8bef8f352ec",
+            "https://ief.mg.gov.br/documents/51853/7560294/Fazenda_Santa_Rita/05369b6d-db2c-a16c-7c51-9e1b0a5a9783"
+        ],
+        "quiz_title": "Desafio",
+        "quiz_description": "Teste seu conhecimento",
+        "quiz": [
+  {
+    "q": "Em que região de Minas Gerais está localizado o Parque Estadual da Serra do Papagaio?",
+    "a": ["Sul de Minas Gerais", "Zona da Mata", "Triângulo Mineiro", "Norte de Minas"],
+    "correct": 0,
+    "badge_id": "serradopapagaio-quiz"
+  },
+  {
+    "q": "O Parque Estadual da Serra do Papagaio foi criado em que ano?",
+    "a": ["1988", "1998", "2008", "2018"],
+    "correct": 1,
+    "badge_id": "serradopapagaio-quiz"
+  },
+  {
+    "q": "Quantos hectares aproximadamente possui o Parque Estadual da Serra do Papagaio?",
+    "a": ["10.000 ha", "15.500 ha", "25.888 ha", "40.000 ha"],
+    "correct": 2,
+    "badge_id": "serradopapagaio-quiz"
+  },
+  {
+    "q": "Verdadeiro ou falso: O Parque Estadual da Serra do Papagaio está localizado na Serra da Mantiqueira.",
+    "a": ["Verdadeiro", "Falso"],
+    "correct": 0,
+    "badge_id": "serradopapagaio-quiz"
+  },
+  {
+    "q": "Qual é o principal bioma protegido pelo Parque Estadual da Serra do Papagaio?",
+    "a": ["Cerrado", "Mata Atlântica", "Caatinga", "Pantanal"],
+    "correct": 1,
+    "badge_id": "serradopapagaio-quiz"
+  },
+  {
+    "q": "Qual espécie ameaçada é um dos símbolos do Parque Estadual da Serra do Papagaio?",
+    "a": ["Papagaio-de-peito-roxo", "Arara-azul", "Tucano-toco", "Gavião-real"],
+    "correct": 0,
+    "badge_id": "serradopapagaio-quiz"
+  },
+  {
+    "q": "Entre as atividades permitidas no parque estão:",
+    "a": ["Pesca esportiva e caça controlada", "Ecoturismo, trekking e montanhismo", "Construção de cabanas", "Exploração madeireira"],
+    "correct": 1,
+    "badge_id": "serradopapagaio-quiz"
+  },
+  {
+    "q": "O Parque Estadual da Serra do Papagaio faz parte de qual importante conjunto de montanhas?",
+    "a": ["Serra do Cipó", "Serra da Mantiqueira", "Serra do Espinhaço", "Serra do Caraça"],
+    "correct": 1,
+    "badge_id": "serradopapagaio-quiz"
+  },
+  {
+    "q": "Verdadeiro ou falso: O parque possui altitudes que variam entre 1.200 e 2.359 metros.",
+    "a": ["Verdadeiro", "Falso"],
+    "correct": 0,
+    "badge_id": "serradopapagaio-quiz"
+  },
+  {
+    "q": "O parque contribui para a proteção das nascentes de quais rios?",
+    "a": ["Rio São Francisco e Rio das Velhas", "Rio Aiuruoca e Rio Verde", "Rio Doce e Rio Jequitinhonha", "Rio Grande e Rio Paranaíba"],
+    "correct": 1,
+    "badge_id": "serradopapagaio-quiz"
+  },
+  {
+    "q": "Qual é a principal finalidade da ampliação do parque feita em 2021?",
+    "a": ["Criar um resort ecológico", "Proteger mais áreas de Mata Atlântica", "Permitir mineração sustentável", "Construir uma rodovia"],
+    "correct": 1,
+    "badge_id": "serradopapagaio-quiz"
+  },
+  {
+    "q": "Quantas trilhas aproximadamente estão mapeadas dentro do parque?",
+    "a": ["Mais de 10", "Cerca de 20", "Mais de 50", "Apenas 5"],
+    "correct": 2,
+    "badge_id": "serradopapagaio-quiz"
+  }
+
+         ],
+        "badge_descricao": "Para este parque, você deve escanear QR Codes em pontos de vista para ganhar os badges."
+    },
+        "serradorolamoca": {
+        "map_link": "https://maps.app.goo.gl/7UVaWgcDVPuwhRak8",
+        "instagram_link": "https://www.instagram.com/pes.rolamoca/",
+        "phone": "+553135813523",        
+        "email": "perolamoca@meioambiente.mg.gov.br",        
+        "info_content": "O Parque Estadual da Serra do Rola-Moça está localizado na Região Metropolitana de Belo Horizonte, abrangendo os municípios de Belo Horizonte, Brumadinho, Ibirité e Nova Lima. Criado em 27 de setembro de 1994 pelo Decreto nº 36.071, ocupa cerca de 4.006 hectares e insere-se numa zona de transição entre os biomas Cerrado e Mata Atlântica, com ocorrência de campos rupestres ferruginosos. A unidade é de extrema importância para a conservação de seis mananciais (Rola-Moça, Taboões, Bálsamo, Catarina, Barreiro e Mutuca) que abastecem parte da Região Metropolitana de Belo Horizonte. A vegetação inclui espécies características como a canela-de-ema (símbolo da unidade), orquídeas, bromélias, além de fauna ameaçada como lobo-guará, onça-parda, jaguatirica e veado-campeiro. O parque oferece mirantes (Mirante Três Pedras, Mirante dos Planetas, Mirante Morro dos Veados), trilhas autoguiadas como a “Trilha do Cerrado”, e estrutura voltada para conservação, educação ambiental e lazer. A visitação está aberta diariamente, das 8h às 17h, e o acesso principal se faz a partir da BR-040, sentido Rio de Janeiro, saindo em Nova Lima e seguindo até a portaria da unidade.",
+        "carousel_images": [
+            "https://ief.mg.gov.br/documents/51853/7559752/Placa_PERSM_na_Sede_Adm/930423c2-3d23-de0b-8819-93595a67c550",
+            "https://ief.mg.gov.br/documents/51853/7559752/Infra-estrutura_11/d0789c84-4910-d434-2444-dc60311a391d",
+            "https://ief.mg.gov.br/documents/51853/7559752/Manancial_Tabo%C3%B5es_7/0809759e-bb9d-47c6-5571-c88b4114bbac",
+            "https://ief.mg.gov.br/documents/51853/7559752/Mirante_do_Planta_1/efcc65af-4e62-44c6-7499-0a85db589d53"
+        ],
+        "quiz_title": "Desafio",
+        "quiz_description": "Teste seu conhecimento",
+        "quiz": [
+  {
+    "q": "Em que ano o Parque Estadual da Serra do Rola-Moça foi criado?",
+    "a": ["1990", "1994", "1998", "2001"],
+    "correct": 1,
+    "badge_id": "serradorolamoca-quiz"
+  },
+  {
+    "q": "Quantos hectares aproximadamente possui o Parque Estadual da Serra do Rola-Moça?",
+    "a": ["1.200 ha", "2.800 ha", "4.006 ha", "6.000 ha"],
+    "correct": 2,
+    "badge_id": "serradorolamoca-quiz"
+  },
+  {
+    "q": "Quais municípios são abrangidos pelo Parque Estadual da Serra do Rola-Moça?",
+    "a": ["Belo Horizonte, Brumadinho, Ibirité e Nova Lima", "Ouro Preto e Itabirito", "Mariana e Congonhas", "Sabará e Caeté"],
+    "correct": 0,
+    "badge_id": "serradorolamoca-quiz"
+  },
+  {
+    "q": "O parque é importante para a proteção de mananciais que abastecem qual região?",
+    "a": ["Zona da Mata", "Região Metropolitana de Belo Horizonte", "Triângulo Mineiro", "Vale do Jequitinhonha"],
+    "correct": 1,
+    "badge_id": "serradorolamoca-quiz"
+  },
+  {
+    "q": "Qual bioma predomina na área do Parque?",
+    "a": ["Mata Atlântica", "Cerrado", "Campos Rupestres", "Transição entre Cerrado e Mata Atlântica"],
+    "correct": 3,
+    "badge_id": "serradorolamoca-quiz"
+  },
+  {
+    "q": "Qual é o símbolo vegetal do Parque Estadual da Serra do Rola-Moça?",
+    "a": ["Ipê-amarelo", "Canela-de-ema", "Jacarandá", "Sempre-viva"],
+    "correct": 1,
+    "badge_id": "serradorolamoca-quiz"
+  },
+  {
+    "q": "Quantos mananciais o parque protege?",
+    "a": ["Três", "Quatro", "Seis", "Oito"],
+    "correct": 2,
+    "badge_id": "serradorolamoca-quiz"
+  },
+  {
+    "q": "Qual destas espécies pode ser encontrada no parque?",
+    "a": ["Mico-leão-dourado", "Lobo-guará", "Tamanduá-bandeira", "Onça-pintada"],
+    "correct": 1,
+    "badge_id": "serradorolamoca-quiz"
+  },
+  {
+    "q": "Qual dos seguintes é um dos mirantes do parque?",
+    "a": ["Mirante das Andorinhas", "Mirante Três Pedras", "Mirante do Cruzeiro", "Mirante da Serra do Cipó"],
+    "correct": 1,
+    "badge_id": "serradorolamoca-quiz"
+  },
+  {
+    "q": "O parque oferece trilhas autoguiadas, como a:",
+    "a": ["Trilha das Águas", "Trilha do Cerrado", "Trilha do Sol", "Trilha da Pedra Rachada"],
+    "correct": 1,
+    "badge_id": "serradorolamoca-quiz"
+  },
+  {
+    "q": "O parque é administrado por qual órgão do governo de Minas Gerais?",
+    "a": ["SEMAD", "IEF", "COPASA", "IBAMA"],
+    "correct": 1,
+    "badge_id": "serradorolamoca-quiz"
+  },
+  {
+    "q": "Qual é o horário de visitação do Parque Estadual da Serra do Rola-Moça?",
+    "a": ["De segunda a sexta, das 8h às 16h", "Todos os dias, das 8h às 17h", "Somente fins de semana, das 9h às 18h", "Apenas sob agendamento"],
+    "correct": 1,
+    "badge_id": "serradorolamoca-quiz"
+  }
+         ],
+        "badge_descricao": "Para este parque, você deve escanear QR Codes em pontos de vista para ganhar os badges."
+    },
+        "serranovaetalhado": {
+        "map_link": "https://maps.app.goo.gl/AoUBShG1voLyEqH78",
+        "instagram_link": "https://www.instagram.com/parqueestadualserranovatalhado/",
+        "email": "peserranova@meioambiente.mg.gov.br",
+        "info_content": "O Parque Estadual de Serra Nova e Talhado está localizado no norte de Minas Gerais, abrangendo os municípios de Rio Pardo de Minas, Serranópolis de Minas, Mato Verde, Porteirinha e Riacho dos Machados. Criado em 21 de outubro de 2003 e ampliado em 29 de dezembro de 2008, a unidade de conservação atualmente protege cerca de **49.890 hectares** inseridos nos biomas do Cerrado, com resquícios de Mata Atlântica e campos rupestres. Dominado por paisagens de campos rupestres, a topografia irregular da Serra do Espinhaço e da Serra Geral inclui grotas, morros, nascentes e afloramentos rochosos. A vegetação típica contempla espécies como jataípeba, aroeira e sucupira, além das fisionomias de campo rupestre e cerrado que abrigam fauna e flora de alta diversidade. O parque protege nascentes de importantes rios da região — como os rios Ventania, Suçuarana, Bomba, Ladim, o Córrego da Velha e o Ribeirão São Gonçalo — essenciais para o abastecimento das comunidades vizinhas. Os visitantes podem apreciar trilhas como o Poço do Jacaré e o Escorregador (em Rio Pardo de Minas) ou a travessia Talhado/Sete Quedas (em Serranópolis de Minas), que passam por formações rochosas, pinturas rupestres, poços de águas cristalinas, mirantes e cânions. A visitação é **gratuita** e acontece **todos os dias, das 8h às 17h** (recomenda-se entrada até as 15h). Para chegar: vá até o município de Porteirinha, distrito de Serrado ou Serra Nova, e a partir daí siga as indicações do parque, observando que alguns atrativos exigem guia credenciado.",
+        "carousel_images": [
+            "https://ief.mg.gov.br/documents/51853/7560488/Portaria_do_PE_Serra_no_e_Talhado/0e47c12e-870e-308a-e94c-a986d3656725",
+            "https://ief.mg.gov.br/documents/51853/7560488/_DSC8412/8ef0a975-93b5-3fc6-65f1-89e22812bcc7",
+            "https://ief.mg.gov.br/documents/51853/7560488/_DSC8707/45a085f6-fe11-9962-b98f-e35bbaf82a7d"
+        ],
+        "quiz_title": "Desafio",
+        "quiz_description": "Teste seu conhecimento",
+        "quiz": [
+  {
+    "q": "Em quais municípios está localizado o Parque Estadual Serra Nova e Talhado?",
+    "a": ["Rio Pardo de Minas, Serranópolis de Minas, Mato Verde, Porteirinha e Riacho dos Machados", "Diamantina e Serro", "Conceição do Mato Dentro e Itabira", "Ouro Preto e Mariana"],
+    "correct": 0,
+    "badge_id": "serranovaetalhado-quiz"
+  },
+  {
+    "q": "Qual é a área aproximada protegida pelo Parque Estadual Serra Nova e Talhado?",
+    "a": ["49.890 hectares", "12.000 hectares", "6.500 hectares", "100.000 hectares"],
+    "correct": 0,
+    "badge_id": "serranovaetalhado-quiz"
+  },
+  {
+    "q": "Verdadeiro ou falso: o Parque Serra Nova e Talhado pertence exclusivamente ao bioma da Mata Atlântica.",
+    "a": ["Verdadeiro", "Falso"],
+    "correct": 1,
+    "badge_id": "serranovaetalhado-quiz"
+  },
+  {
+    "q": "Quais biomas estão representados no Parque Estadual Serra Nova e Talhado?",
+    "a": ["Cerrado, Mata Atlântica e Campos Rupestres", "Caatinga e Pantanal", "Mata Atlântica e Pampas", "Amazônia e Cerrado"],
+    "correct": 0,
+    "badge_id": "serranovaetalhado-quiz"
+  },
+  {
+    "q": "Em que ano o Parque Estadual Serra Nova e Talhado foi criado?",
+    "a": ["2003", "1998", "2010", "1987"],
+    "correct": 0,
+    "badge_id": "serranovaetalhado-quiz"
+  },
+  {
+    "q": "Verdadeiro ou falso: o parque foi ampliado em 2008, aumentando sua área protegida.",
+    "a": ["Verdadeiro", "Falso"],
+    "correct": 0,
+    "badge_id": "serranovaetalhado-quiz"
+  },
+  {
+    "q": "Qual destes rios tem nascentes protegidas dentro do Parque Estadual Serra Nova e Talhado?",
+    "a": ["Rio Ventania", "Rio São Francisco", "Rio Doce", "Rio Jequitinhonha"],
+    "correct": 0,
+    "badge_id": "serranovaetalhado-quiz"
+  },
+  {
+    "q": "Qual das opções a seguir é uma trilha conhecida dentro do parque?",
+    "a": ["Poço do Jacaré", "Trilha da Janela do Céu", "Trilha da Cachoeira das Andorinhas", "Trilha do Pico do Itambé"],
+    "correct": 0,
+    "badge_id": "serranovaetalhado-quiz"
+  },
+  {
+    "q": "Verdadeiro ou falso: a visitação ao Parque Serra Nova e Talhado é gratuita.",
+    "a": ["Verdadeiro", "Falso"],
+    "correct": 0,
+    "badge_id": "serranovaetalhado-quiz"
+  },
+  {
+    "q": "Qual é o horário de funcionamento do Parque Estadual Serra Nova e Talhado?",
+    "a": ["Das 8h às 17h", "Das 6h às 18h", "Das 9h às 15h", "Das 7h às 16h"],
+    "correct": 0,
+    "badge_id": "serranovaetalhado-quiz"
+  },
+  {
+    "q": "Quais são algumas das principais paisagens do Parque Serra Nova e Talhado?",
+    "a": ["Cânions, cachoeiras, campos rupestres e mirantes", "Dunas, manguezais e lagoas", "Grutas, cavernas e florestas úmidas", "Praias e restingas"],
+    "correct": 0,
+    "badge_id": "serranovaetalhado-quiz"
+  },
+  {
+    "q": "Verdadeiro ou falso: é recomendada a entrada no parque até as 15h.",
+    "a": ["Verdadeiro", "Falso"],
+    "correct": 0,
+    "badge_id": "serranovaetalhado-quiz"
+  }
+         ],
+        "badge_descricao": "Para este parque, você deve escanear QR Codes em pontos de vista para ganhar os badges."
+    },
+        "serraverde": {
+        "map_link": "https://maps.app.goo.gl/h2KgKQgsLkCJbxwj7",
+        "instagram_link": "https://www.instagram.com/peserraverdeminasgerais",
+        "phone": "+553134555266",        
+        "email": "peserraverde@meioambiente.mg.gov.br",
+        "youtube_channel": "www.youtube.com/@parqueestadualserraverde402",        
+        "info_content": "O Parque Estadual Serra Verde está localizado no bairro Serra Verde, região norte de Belo Horizonte (MG), e possui aproximadamente 142 hectares, sendo um dos maiores parques urbanos da cidade. Inserido em uma faixa de transição entre os biomas Cerrado e Mata Atlântica, o parque protege remanescentes de vegetação nativa, diversas nascentes e o cabeceiro do Córrego Isidoro, contribuindo para a conservação da biodiversidade e para a qualidade de vida urbana. Criado em 12 de dezembro de 2007, pelo Decreto sem número, e ampliado em 31 de março de 2009 pelo Decreto 45.077, o Parque Estadual Serra Verde é uma unidade de conservação de proteção integral sob gestão do Instituto Estadual de Florestas (IEF-MG). Sua vegetação combina formações arbóreas de Mata Atlântica e elementos típicos do Cerrado, abrigando cerca de 140 espécies de aves, 20 mamíferos de médio porte e inúmeras espécies de insetos, mesmo em meio à malha urbana. Entre os principais atrativos estão trilhas ecológicas bem estruturadas e sinalizadas, como a Trilha do Curiango, Trilha da Mata e Trilha do Pica-Pau, além de mirantes naturais que oferecem belas vistas da capital mineira. O parque conta ainda com sede administrativa, centro de visitantes, área de convivência e programas de educação ambiental, que incluem oficinas e trilhas temáticas gratuitas. A entrada é gratuita e o horário de funcionamento é de segunda a sexta-feira, das 9h às 17h. Para trilhas guiadas ou visitas em grupo, é necessário agendamento prévio no site oficial do IEF-MG.",
+        "carousel_images": [
+            "https://ief.mg.gov.br/documents/51853/7563007/_DSC7208/1c3af414-cc38-7973-4ecf-8944a8030ab1",
+            "https://ief.mg.gov.br/documents/51853/7563007/_DSC7036_-_C%C3%B3pia/8f2175ac-8708-9559-2515-469d0055f5a3",
+            "https://ief.mg.gov.br/documents/51853/7563007/_DSC7089/124834a3-ea25-0f72-ee44-530094390fe5"
+        ],
+        "quiz_title": "Desafio",
+        "quiz_description": "Teste seu conhecimento",
+        "quiz": [
+  {
+    "q": "Em qual cidade está localizado o Parque Estadual Serra Verde?",
+    "a": ["Belo Horizonte", "Lagoa Santa", "Sabará", "Contagem"],
+    "correct": 0,
+    "badge_id": "serraverde-quiz"
+  },
+  {
+    "q": "Qual é a área aproximada do Parque Estadual Serra Verde?",
+    "a": ["142 hectares", "200 hectares", "85 hectares", "320 hectares"],
+    "correct": 0,
+    "badge_id": "serraverde-quiz"
+  },
+  {
+    "q": "Verdadeiro ou falso: o Parque Estadual Serra Verde está localizado na região sul de Belo Horizonte.",
+    "a": ["Verdadeiro", "Falso"],
+    "correct": 1,
+    "badge_id": "serraverde-quiz"
+  },
+  {
+    "q": "O Parque Estadual Serra Verde é um ponto de transição entre quais biomas?",
+    "a": ["Cerrado e Mata Atlântica", "Caatinga e Cerrado", "Pantanal e Cerrado", "Mata Atlântica e Amazônia"],
+    "correct": 0,
+    "badge_id": "serraverde-quiz"
+  },
+  {
+    "q": "Em que ano o Parque Estadual Serra Verde foi criado?",
+    "a": ["2007", "2001", "2011", "1999"],
+    "correct": 0,
+    "badge_id": "serraverde-quiz"
+  },
+  {
+    "q": "Qual órgão é responsável pela gestão do Parque Estadual Serra Verde?",
+    "a": ["Instituto Estadual de Florestas (IEF-MG)", "Secretaria de Meio Ambiente de Belo Horizonte", "ICMBio", "Prefeitura de Belo Horizonte"],
+    "correct": 0,
+    "badge_id": "serraverde-quiz"
+  },
+  {
+    "q": "Verdadeiro ou falso: a entrada no Parque Estadual Serra Verde é gratuita.",
+    "a": ["Verdadeiro", "Falso"],
+    "correct": 0,
+    "badge_id": "serraverde-quiz"
+  },
+  {
+    "q": "Quantas espécies de aves, aproximadamente, são encontradas no Parque Serra Verde?",
+    "a": ["Cerca de 140", "Cerca de 60", "Cerca de 300", "Cerca de 90"],
+    "correct": 0,
+    "badge_id": "serraverde-quiz"
+  },
+  {
+    "q": "Entre os atrativos do parque, estão:",
+    "a": ["Trilhas ecológicas e mirantes", "Cachoeiras e cavernas", "Lagoas artificiais e áreas de camping", "Parques aquáticos e quadras esportivas"],
+    "correct": 0,
+    "badge_id": "serraverde-quiz"
+  },
+  {
+    "q": "Qual é o nome de uma das trilhas ecológicas do parque?",
+    "a": ["Trilha do Pica-Pau", "Trilha das Borboletas", "Trilha da Gruta", "Trilha das Águas"],
+    "correct": 0,
+    "badge_id": "serraverde-quiz"
+  },
+  {
+    "q": "O Parque Estadual Serra Verde contribui para a conservação de qual recurso natural importante?",
+    "a": ["Nascentes e cabeceiro do Córrego Isidoro", "Rio São Francisco", "Cachoeira das Andorinhas", "Lençóis freáticos da Pampulha"],
+    "correct": 0,
+    "badge_id": "serraverde-quiz"
+  },
+  {
+    "q": "Verdadeiro ou falso: para visitas em grupo ou trilhas guiadas, é necessário agendamento prévio.",
+    "a": ["Verdadeiro", "Falso"],
+    "correct": 0,
+    "badge_id": "serraverde-quiz"
+  }
+         ],
+        "badge_descricao": "Para este parque, você deve escanear QR Codes em pontos de vista para ganhar os badges."
+    },
+        "sumidouro": {
+        "map_link": "https://maps.app.goo.gl/4pGN89EmS18f46wY7",
+        "instagram_link": "https://www.instagram.com/parquesumidouromg/",        
+        "whatsapp": "+5531997774276",
+        "email": "contato@parqueestadualdosumidouro.com.br",
+        "info_content": "Localizado nos municípios de Lagoa Santa e Pedro Leopoldo, ao norte da Região Metropolitana de Belo Horizonte (MG), o Parque Estadual do Sumidouro foi criado em 3 de janeiro de 1980 pelo Decreto n.º 20.375 e possui uma área de aproximadamente 2.004 hectares, como Unidade de Proteção Integral. O nome “Sumidouro” refere-se à lagoa do parque, cujas águas desaparecem subterraneamente por galerias naturais em terreno calcário — de origem indígena “Anhanhonhacanhuva”, significando “água parada que some no buraco da terra”. A unidade protege formações de relevo cárstico, com lagoas, cavidades, grutas, afloramentos calcários, além de sítios arqueológicos e vestígios da pré-história humana, como o trabalho do naturalista Peter Wilhelm Lund na região. A vegetação combina formações de Cerrado, Floresta Estacional Semidecidual e Floresta Estacional Decidual associadas aos afloramentos de calcário; entre as espécies de flora destacam-se ipê-amarelo, angico, vinhático, jatobá-do-campo, gabiroba e mutamba. Na fauna registram-se mico-estrela, raposa, tatu-galinha, veado-catingueiro, gato-do-mato, lobo-guará, além de répteis e aves típicas da região. A infraestrutura inclui sede administrativa, o Museu Peter Lund/Gruta da Lapinha, Casa Fernão Dias, trilhas estruturadas e sinalizadas, alojamento de pesquisadores e recepção para visitantes. A visitação está aberta de terça a domingo, das 8h30 às 17h, com entrada na gruta até cerca de 16h. Para chegar saindo de Belo Horizonte, siga pela rodovia MG-010 sentido Lagoa Santa, adentre no bairro Campinho/Lapinha e siga os 6 km de placas indicativas até o Museu Peter Lund/Gruta da Lapinha.",
+        "carousel_images": [
+            "https://ief.mg.gov.br/documents/51853/7560689/casa_fernao_dias/9e2e8b11-12d6-dcb2-593d-2f4a4689b75f",
+            "https://ief.mg.gov.br/documents/51853/7560689/museupeterlund/ef9897ec-9e60-a9ed-99e7-131ce0550869",
+            "https://ief.mg.gov.br/documents/51853/7560689/IMG_5520/06b80632-eb06-8fcc-0a8a-a6af3c77a458",
+            "https://ief.mg.gov.br/documents/51853/7560689/Foto_-06PE_Sumidouro_Abrigo_Samanbaia_12/d7a379b0-2c55-b90b-8c17-6e2afb603863",
+            "https://ief.mg.gov.br/documents/51853/7560689/lapinha1/4001cfc5-e7a8-2830-f6f6-fcf4b2b99832"
+        ],
+        "quiz_title": "Desafio",
+        "quiz_description": "Teste seu conhecimento",
+        "quiz": [
+  {
+    "q": "Em quais municípios está localizado o Parque Estadual do Sumidouro?",
+    "a": ["Lagoa Santa e Pedro Leopoldo", "Sabará e Caeté", "Sete Lagoas e Confins", "Belo Horizonte e Contagem"],
+    "correct": 0,
+    "badge_id": "sumidouro-quiz"
+  },
+  {
+    "q": "Qual o significado do nome 'Sumidouro'?",
+    "a": ["Água que desaparece em buracos no solo", "Lagoa de águas cristalinas", "Pedra perfurada pelo vento", "Lugar de muitas grutas"],
+    "correct": 0,
+    "badge_id": "sumidouro-quiz"
+  },
+  {
+    "q": "Em que ano o Parque Estadual do Sumidouro foi criado?",
+    "a": ["1980", "1975", "1992", "2001"],
+    "correct": 0,
+    "badge_id": "sumidouro-quiz"
+  },
+  {
+    "q": "Verdadeiro ou falso: o Parque Estadual do Sumidouro foi criado para proteger formações de granito e arenito.",
+    "a": ["Verdadeiro", "Falso"],
+    "correct": 1,
+    "badge_id": "sumidouro-quiz"
+  },
+  {
+    "q": "Qual é a principal característica do relevo do Parque Estadual do Sumidouro?",
+    "a": ["Formações cársticas e afloramentos calcários", "Planícies alagadas", "Chapadões arenosos", "Montanhas graníticas"],
+    "correct": 0,
+    "badge_id": "sumidouro-quiz"
+  },
+  {
+    "q": "Quem foi o naturalista associado às pesquisas realizadas na região do Parque do Sumidouro?",
+    "a": ["Peter Wilhelm Lund", "Charles Darwin", "Johann Spix", "Alexander von Humboldt"],
+    "correct": 0,
+    "badge_id": "sumidouro-quiz"
+  },
+  {
+    "q": "Verdadeiro ou falso: o parque abriga o Museu Peter Lund e a Gruta da Lapinha.",
+    "a": ["Verdadeiro", "Falso"],
+    "correct": 0,
+    "badge_id": "sumidouro-quiz"
+  },
+  {
+    "q": "Quais biomas predominam no Parque Estadual do Sumidouro?",
+    "a": ["Cerrado e Floresta Estacional", "Mata Atlântica e Caatinga", "Cerrado e Campos Rupestres", "Amazônia e Cerrado"],
+    "correct": 0,
+    "badge_id": "sumidouro-quiz"
+  },
+  {
+    "q": "Entre as espécies de flora, qual é comum no parque?",
+    "a": ["Ipê-amarelo", "Araucária", "Mangue-vermelho", "Buriti"],
+    "correct": 0,
+    "badge_id": "sumidouro-quiz"
+  },
+  {
+    "q": "Verdadeiro ou falso: o mico-leão-dourado é um dos animais mais comuns no Parque do Sumidouro.",
+    "a": ["Verdadeiro", "Falso"],
+    "correct": 1,
+    "badge_id": "sumidouro-quiz"
+  },
+  {
+    "q": "Qual é o horário de visitação do parque?",
+    "a": ["De terça a domingo, das 8h30 às 17h", "Todos os dias, das 7h às 18h", "Somente fins de semana, das 9h às 16h", "De segunda a sexta, das 8h às 17h"],
+    "correct": 0,
+    "badge_id": "sumidouro-quiz"
+  },
+  {
+    "q": "Como se chega ao parque saindo de Belo Horizonte?",
+    "a": ["Pela MG-010, sentido Lagoa Santa, seguindo as placas para Lapinha", "Pela BR-040, sentido Sete Lagoas", "Pela BR-381, sentido Betim", "Pela MG-424, sentido Confins"],
+    "correct": 0,
+    "badge_id": "sumidouro-quiz"
+  }
+         ],
+        "badge_descricao": "Para este parque, você deve escanear QR Codes em pontos de vista para ganhar os badges."
+    }
     
 }
+
 
