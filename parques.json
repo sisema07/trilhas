@@ -379,12 +379,6 @@
             "imagem_png": "badges/grutadostresarcos.png"
             },
             { 
-            "id": "", 
-            "nome": "", 
-            "icone": "fa-cloud-meatball", 
-            "imagem_png": "badges/.png"
-            },
-            { 
             "id": "grutadomoreiras", 
             "nome": "Gruta do Moreiras", 
             "icone": "fa-cloud-meatball", 
@@ -402,6 +396,92 @@
             "icone": "fa-cloud-meatball", 
             "descricao_curta": "A vista icônica do parque, cachoeira e horizonte sem fim.",
             "imagem_png": "badges/janela-do-ceu.png"
+            }
+        ],
+                "itacolomi": [
+            { 
+            "id": "quiz", 
+            "nome": "Quiz: Conhecimento", 
+            "icone": "fa-brain",
+            "imagem_png": "badges/quiz-badge.png" 
+            },
+            { 
+            "id": "portaria", 
+            "nome": "Portaria", 
+            "icone": "fa-archway", 
+            "imagem_png": "badges/portaria-itacolomi.png"
+            },
+            { 
+            "id": "trilhadopicodoitacolomi", 
+            "nome": "Trilha do Pico do Itacolomi", 
+            "icone": "fa-building-columns", 
+            "imagem_png": "badges/trilha do-pico-do-itacolomi.png" 
+            },
+            { 
+            "id": "trilhadossentidos", 
+            "nome": "Trilha dos Sentidos", 
+            "icone": "fa-building-columns", 
+            "imagem_png": "badges/trilhadossentidos.png" 
+            },
+            { 
+            "id": "trilhadoforno", 
+            "nome": "Trilha do Forno", 
+            "icone": "fa-building-columns", 
+            "imagem_png": "badges/trilhadoforno.png" 
+            },
+            { 
+            "id": "trilhadacapela", 
+            "nome": "Trilha da Capel", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/trilhadacapela.png" 
+            },
+            { 
+            "id": "lagoadacapela", 
+            "nome": "Lagoa da Capela", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/lagoadacapela.png" 
+            },
+            { 
+            "id": "trilhadalagoa", 
+            "nome": "Trilha da Lagoa", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/trilhadalagoa.png" 
+            },
+            { 
+            "id": "trilhadomirantedocustodio", 
+            "nome": "Trilha do Mirante do Custódio", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/trilhadomirantedocustodio.png" 
+            },
+            { 
+            "id": "represadocustodio", 
+            "nome": "Represa do Custódio", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/represadocustodio.png" 
+            },
+            { 
+            "id": "mirantedomorrodocachorro", 
+            "nome": "Mirante do Morro do Cachorro", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/mirantedomorrodocachorro.png" 
+            },
+            { 
+            "id": "casabandeirista", 
+            "nome": "Casa Bandeirista", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/casabandeirista.png" 
+            },
+            { 
+            "id": "museudocha", 
+            "nome": "Museu do Chá", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/museudocha.png" 
+            },
+            { 
+            "id": "capeladesaojose", 
+            "nome": "Capela de São José", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/capeladesaojose.png" 
             }
         ],
         "serradorolamoca": [
@@ -466,6 +546,7 @@
         ]
     }
 }
+
 
 
 
