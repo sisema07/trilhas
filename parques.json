@@ -398,7 +398,7 @@
             "imagem_png": "badges/janela-do-ceu.png"
             }
         ],
-                "itacolomi": [
+        "itacolomi": [
             { 
             "id": "quiz", 
             "nome": "Quiz: Conhecimento", 
@@ -484,6 +484,348 @@
             "imagem_png": "badges/capeladesaojose.png" 
             }
         ],
+        "lapagrande": [
+            { 
+            "id": "quiz", 
+            "nome": "Quiz: Conhecimento", 
+            "icone": "fa-brain",
+            "imagem_png": "badges/quizlapagrande.png" 
+            },
+            { 
+            "id": "portaria", 
+            "nome": "Portaria", 
+            "icone": "fa-archway", 
+            "imagem_png": "badges/portarialapagrande.png"
+            },
+            { 
+            "id": "trilhadalapagrande", 
+            "nome": "Trilha da Lapa Grande", 
+            "icone": "fa-building-columns", 
+            "imagem_png": "badges/trilhadalapagrande.png" 
+            },
+            { 
+            "id": "trilhadoboqueiraodanascente", 
+            "nome": "Trilha do Boqueirão da Nascente", 
+            "icone": "fa-building-columns", 
+            "imagem_png": "badges/trilhadoboqueiraodanascente.png" 
+            },
+            { 
+            "id": "trilhadalapapintada", 
+            "nome": "Trilha da Lapa Pintada", 
+            "icone": "fa-building-columns", 
+            "imagem_png": "badges/trilhadalapapintada.png" 
+            },
+            { 
+            "id": "trilhadapontedepedra", 
+            "nome": "Trilha da Ponte de Pedra", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/trilhadapontedepedra.png" 
+            },
+            { 
+            "id": "circuitodasquebrada", 
+            "nome": "Circuito das Quebrada", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/circuitodasquebrada.png" 
+            },
+            { 
+            "id": "circuitopontedepedra", 
+            "nome": "Circuito Ponte de Pedra", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/circuitopontedepedra.png" 
+            },
+            { 
+            "id": "circuitocorregosaomarcos", 
+            "nome": "Circuito Córrego São Marcos", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/circuitocorregosaomarcos.png" 
+            },
+            { 
+            "id": "circuitodachapada", 
+            "nome": "Circuito da Chapada", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/circuitodachapada.png" 
+            },
+            { 
+            "id": "circuitodomirante", 
+            "nome": "Circuito do Mirante", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/circuitodomirante.png" 
+            },
+            { 
+            "id": "rotadourubu", 
+            "nome": "Rota do Urubu", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/rotadourubu.png" 
+            }
+        ],
+        "matadolimoeiro": [
+            { 
+            "id": "quiz", 
+            "nome": "Quiz: Conhecimento", 
+            "icone": "fa-brain",
+            "imagem_png": "badges/quizmatadolimoeiro.png" 
+            },
+            { 
+            "id": "portaria", 
+            "nome": "Portaria", 
+            "icone": "fa-archway", 
+            "imagem_png": "badges/portariamatadolimoeiro.png"
+            },
+            { 
+            "id": "cachoeiradoderrubado", 
+            "nome": "Cachoeira do Derrubado", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/cachoeiradoderrubado.png" 
+            },
+            { 
+            "id": "cachoeiradoparedão", 
+            "nome": "Cachoeira do Paredão", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/cachoeiradoparedão.png" 
+            },
+            { 
+            "id": "cascatadolimoeiro", 
+            "nome": "Cascata do Limoeiro", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/cascatadolimoeiro.png" 
+            },
+            { 
+            "id": "circuitolimoeirobike", 
+            "nome": "Circuito Limoeiro Bike", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/circuitolimoeirobike.png" 
+            },
+            { 
+            "id": "grutadolimoeiro", 
+            "nome": "Gruta do Limoeiro", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/grutadolimoeiro.png" 
+            },
+            { 
+            "id": "lagoadolimoeiro", 
+            "nome": "Lagoa do Limoeiro", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/lagoadolimoeir.png" 
+            },
+            { 
+            "id": "trilhadossentidos", 
+            "nome": "Trilha dos Sentidos", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/trilhadossentidos.png" 
+            }
+        ],
+        "novabaden": [
+            { 
+            "id": "quiz", 
+            "nome": "Quiz: Conhecimento", 
+            "icone": "fa-brain",
+            "imagem_png": "badges/quiznovabaden.png" 
+            },
+            { 
+            "id": "portaria", 
+            "nome": "Portaria", 
+            "icone": "fa-archway", 
+            "imagem_png": "badges/portarianovabaden.png"
+            },
+            { 
+            "id": "trilhadassetequedas", 
+            "nome": "Trilha das Sete Quedas", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/trilhadassetequedas.png" 
+            },
+            { 
+            "id": "trilhadostroncos", 
+            "nome": "Trilha dos Troncos", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/trilhadostroncos.png" 
+            },
+            { 
+            "id": "trilhadospalmitos", 
+            "nome": "Trilha dos Palmitos", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/trilhadospalmitos.png" 
+            },
+            { 
+            "id": "bosquedasjabuticabeiras", 
+            "nome": "Bosque das Jabuticabeiras", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/bosquedasjabuticabeiras.png" 
+            }
+        ],
+        "paufurado": [
+            { 
+            "id": "quiz", 
+            "nome": "Quiz: Conhecimento", 
+            "icone": "fa-brain",
+            "imagem_png": "badges/quizpaufurado.png" 
+            },
+            { 
+            "id": "portaria", 
+            "nome": "Portaria", 
+            "icone": "fa-archway", 
+            "imagem_png": "badges/portariapaufurado.png"
+            },
+            { 
+            "id": "curraldepedra", 
+            "nome": "Curral de Pedra", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/curraldepedra.png" 
+            },
+            { 
+            "id": "trilhadacachoeiradomarimbondo", 
+            "nome": "Trilha da Cachoeira do Marimbondo", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/trilhadacachoeiradomarimbondo.png" 
+            },
+            { 
+            "id": "trilhadacachoeiraterrabranca", 
+            "nome": "Trilha da Cachoeira Terra Branca", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/trilhadacachoeiraterrabranca.png" 
+            },
+            { 
+            "id": "trilhadoangico", 
+            "nome": "Trilha do Angico", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/trilhadoangico.png" 
+            },
+            { 
+            "id": "trilhadocurraldepedra", 
+            "nome": "Trilha do Curral de Pedra", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/trilhadocurraldepedra.png" 
+            },
+            { 
+            "id": "trilhadomarimbondo", 
+            "nome": "Trilha do Marimbondo", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/trilhadomarimbondo.png" 
+            }
+        ],
+        "picodoitambe": [
+            { 
+            "id": "quiz", 
+            "nome": "Quiz: Conhecimento", 
+            "icone": "fa-brain",
+            "imagem_png": "badges/quizpicodoitambe.png" 
+            },
+            { 
+            "id": "portaria", 
+            "nome": "Portaria", 
+            "icone": "fa-archway", 
+            "imagem_png": "badges/portariapicodoitambe.png"
+            },
+            { 
+            "id": "trilhapicodoitambe", 
+            "nome": "Trilha Pico do Itambé", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/trilhapicodoitambe.png" 
+            },
+            { 
+            "id": "trilhadostropeiros", 
+            "nome": "Trilha dos Tropeiros", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/trilhadostropeiros.png" 
+            },
+            { 
+            "id": "cachoeiradafumaca", 
+            "nome": "Cachoeira da Fumaça", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/cachoeiradafumaca.png" 
+            },
+            { 
+            "id": "cachoeiradoriovermelho", 
+            "nome": "Cachoeira do Rio Vermelho", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/cachoeiradoriovermelho.png" 
+            },
+            { 
+            "id": "cachoeiradonenem", 
+            "nome": "Cachoeira do Neném", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/cachoeiradonenem.png" 
+            }
+        ],
+        "riodoce": [
+            { 
+            "id": "quizriodoce", 
+            "nome": "Quiz: Conhecimento", 
+            "icone": "fa-brain",
+            "imagem_png": "badges/quizriodoce.png" 
+            },
+            { 
+            "id": "portariariodoce", 
+            "nome": "Portaria", 
+            "icone": "fa-archway", 
+            "imagem_png": "badges/portariariodoce.png"
+            },
+            { 
+            "id": "auditorioborundowatu", 
+            "nome": "Auditório Borun do Watu", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/auditorioborundowatu.png" 
+            },
+            { 
+            "id": "salaodourado", 
+            "nome": "Salão Dourado", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/salaodourado.png" 
+            },
+            { 
+            "id": "centrodevisitantesdomacuco", 
+            "nome": "Centro de Visitantes do Macuco", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/centrodevisitantesdomacuco.png" 
+            },
+            { 
+            "id": "lagoadomhelvecio", 
+            "nome": "Lagoa Dom Helvécio", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/lagoadomhelvecio.png" 
+            },
+            { 
+            "id": "memorialdomhelvecio", 
+            "nome": "Memorial Dom Helvécio", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/memorialdomhelvecio.png" 
+            },
+            { 
+            "id": "pontequeimada", 
+            "nome": "Ponte Queimada", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/pontequeimada.png" 
+            },
+            { 
+            "id": "portodocapim", 
+            "nome": "Porto do Capim", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/portodocapim.png" 
+            },
+            { 
+            "id": "centrodevisitantesemirante", 
+            "nome": "Centro de visitantes e mirante", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/centrodevisitantesemirante.png" 
+            },
+            { 
+            "id": "trilhadoangicovermelho", 
+            "nome": "Trilha do Angico Vermelho", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/trilhadoangicovermelho.png" 
+            },
+            { 
+            "id": "trilhadopescador", 
+            "nome": "Trilha do Pescador", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/trilhadopescador.png" 
+            },
+            { 
+            "id": "trilhadovinhatico", 
+            "nome": "Trilha do Vinhático", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/trilhadovinhatico.png" 
+            }
+        ],
         "serradorolamoca": [
             { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" },
             { "id": "trilha1", "nome": "Trilha Morro Veados", "icone": "fa-deer", "descricao_curta": "Caminhada de dificuldade média com vista panorâmica." },
@@ -546,6 +888,7 @@
         ]
     }
 }
+
 
 
 
