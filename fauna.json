@@ -71,8 +71,8 @@
             "nome_cientifico": "Chrysocyon brachyurus"
         },
         {
-            "nome": "Macaco-barbado",
-            "imagem": "macacobarbado.png",
+            "nome": "Bugio-ruivo",
+            "imagem": "bugioruivo.png",
             "descricao": "Primata citado como presente no parque."
         },
         {
@@ -148,7 +148,7 @@
     ],
     "novabaden": [
         {
-            "nome": "Bugio-ruivo",
+            "nome": "Macaco Barbado",
             "imagem": "bugioruivo.png",
             "descricao": "Primata do gênero Alouatta citado na unidade; presença confirmada em levantamentos e relatórios locais.",
             "status": "Em Perigo (EN) — avaliação nacional / ICMBio",
@@ -235,7 +235,7 @@
         {
             "nome": "Crossodactylodes itambé",
             "imagem": "crossodactylodesitambe.png",
-            "descricao": "Anfíbio descrito por pesquisadores a partir de estudos na região do Pico do Itambé; descoberta recente indica endemismos na área de campos rupestres."
+            "descricao": "Medindo o tamanho de uma unha, anfíbio descoberto por pesquisadores a partir de estudos na região do Pico do Itambé; descoberta recente indica endemismos na área de campos rupestres."
         },
         {
             "nome": "Lobo-guará",
