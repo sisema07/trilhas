@@ -1238,24 +1238,7 @@ function lidarComHash() {
 }
 
 // --- Inicialização da Aplicação ---
-function iniciarApp() {
-    
-    document.getElementById('app-container').style.display = 'flex';
-    setupPwaInstallPrompt();
-
-    // Configura o listener para o botão de check-ins (se existir)
-    const btnPremiacao = document.getElementById('btn-premiacao');
-    if (btnPremiacao) {
-        // Remove listener anterior antes de adicionar (segurança contra duplicação)
-        btnPremiacao.removeEventListener('click', btnPremiacao.clickListener); 
-        const clickListener = (e) => {
-            e.preventDefault();
-            window.location.hash = `#premiacao`; 
-        };
-        btnPremiacao.addEventListener('click', clickListener);
-        btnPremiacao.clickListener = clickListener;
-    }
-}
+// (PRIMEIRA DEFINIÇÃO REMOVIDA DAQUI)
 
 async function carregarDados() {
     const [parquesResp, detalhesResp, faunaResp] = await Promise.all([
@@ -1388,7 +1371,7 @@ async function inicializar() {
     }
 }
 
-// CORREÇÃO AUXILIAR: IniciarApp precisa garantir que o header e os botões apareçam
+// CORREÇÃO: Esta é a ÚNICA definição da função, agora movida para cá.
 function iniciarApp() {
     
     document.getElementById('app-container').style.display = 'flex';
