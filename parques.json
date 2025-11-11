@@ -240,19 +240,169 @@
             "icone": "fa-brain", 
             "descricao_curta": "Teste seus conhecimentos para liberar este Badge!" 
             },
+        "ibitipoca": [
+            { 
+            "id": "quiz", 
+            "nome": "Quiz: Conhecimento", 
+            "icone": "fa-brain", 
+            "descricao_curta": "Teste seus conhecimentos para liberar este Badge!" 
+            },
+            { 
+            "id": "prainha", 
+            "nome": "Prainha", 
+            "icone": "fa-cloud-meatball", 
+            "imagem_png": "badges/prainha.png"
+            },
+            { 
+            "id": "grutadosgnomos", 
+            "nome": "Gruta dos Gnomos", 
+            "icone": "fa-cloud-meatball", 
+            "imagem_png": "badges/grutadosgnomos.png"
+            },
+            { 
+            "id": "lagodasmiragens", 
+            "nome": "Lago das Miragens", 
+            "icone": "fa-cloud-meatball", 
+            "imagem_png": "badges/lagodasmiragens.png"
+            },
+            { 
+            "id": "pontedepedra", 
+            "nome": "Ponte de Pedra", 
+            "icone": "fa-cloud-meatball", 
+            "imagem_png": "badges/pontedepedra.png"
+            },
+            { 
+            "id": "cachoeiradosmacacos", 
+            "nome": "Cachoeira dos Macacos", 
+            "icone": "fa-cloud-meatball", 
+            "imagem_png": "badges/cachoeiradosmacacos.png"
+            },
+            { 
+            "id": "paredaosantoantonio", 
+            "nome": "Paredão Santo Antônio", 
+            "icone": "fa-cloud-meatball", 
+            "imagem_png": "badges/paredaosantoantonio.png"
+            },
+            { 
+            "id": "prainhadaselfas", 
+            "nome": "Prainha das Elfas", 
+            "icone": "fa-cloud-meatball", 
+            "imagem_png": "badges/prainhadaselfas.png"
+            },
+            { 
+            "id": "lagonegro", 
+            "nome": "Lago Negro", 
+            "icone": "fa-cloud-meatball", 
+            "imagem_png": "badges/lagonegro.png"
+            },
+            { 
+            "id": "ducha", 
+            "nome": "Ducha", 
+            "icone": "fa-cloud-meatball", 
+            "imagem_png": "badges/ducha.png"
+            },
+            { 
+            "id": "lagodosespelhos", 
+            "nome": "Lago dos Espelhos", 
+            "icone": "fa-cloud-meatball", 
+            "imagem_png": "badges/lagodosespelhos.png"
+            },
+            { 
+            "id": "monjolinho", 
+            "nome": "Monjolinho", 
+            "icone": "fa-cloud-meatball", 
+            "imagem_png": "badges/monjolinho.png"
+            },
+            { 
+            "id": "grutadopiao", 
+            "nome": "Gruta do Pião", 
+            "icone": "fa-cloud-meatball", 
+            "imagem_png": "badges/grutadopiao.png"
+            },
+            { 
+            "id": "picodopiao", 
+            "nome": "Pico do Pião", 
+            "icone": "fa-cloud-meatball", 
+            "imagem_png": "badges/picodopiao.png"
+            },
+            { 
+            "id": "grutadosviajantes", 
+            "nome": "Gruta dos Viajantes", 
+            "icone": "fa-cloud-meatball", 
+            "imagem_png": "badges/grutadosviajantes.png"
+            },
+            { 
+            "id": "cachoeiradoencanto", 
+            "nome": "Cachoeira do Encanto", 
+            "icone": "fa-cloud-meatball", 
+            "imagem_png": "badges/cachoeiradoencanto.png"
+            },
+            { 
+            "id": "pocodocampari", 
+            "nome": "Poço do Campari", 
+            "icone": "fa-cloud-meatball", 
+            "imagem_png": "badges/pocodocampari.png"
+            },
+            { 
+            "id": "pedrafurada", 
+            "nome": "Pedra Furada", 
+            "icone": "fa-cloud-meatball", 
+            "imagem_png": "badges/pedrafurada.png"
+            },
+            { 
+            "id": "picodocruzeiro", 
+            "nome": "Pico do Cruzeiro", 
+            "icone": "fa-cloud-meatball", 
+            "imagem_png": "badges/picodocruzeiro.png"
+            },
+            { 
+            "id": "grutadacruz", 
+            "nome": "Gruta da Cruz", 
+            "icone": "fa-cloud-meatball", 
+            "imagem_png": "badges/grutadacruz.png"
+            },
+            { 
+            "id": "lombada", 
+            "nome": "Lombada", 
+            "icone": "fa-cloud-meatball", 
+            "imagem_png": "badges/lombada.png"
+            },
+            { 
+            "id": "grutadosfugitivos", 
+            "nome": "Gruta dos Fugitivos", 
+            "icone": "fa-cloud-meatball", 
+            "imagem_png": "badges/grutadosfugitivos.png"
+            },
+            { 
+            "id": "grutadostresarcos", 
+            "nome": "Gruta dos Três Arcos", 
+            "icone": "fa-cloud-meatball", 
+            "imagem_png": "badges/grutadostresarcos.png"
+            },
+            { 
+            "id": "", 
+            "nome": "", 
+            "icone": "fa-cloud-meatball", 
+            "imagem_png": "badges/.png"
+            },
+            { 
+            "id": "grutadomoreiras", 
+            "nome": "Gruta do Moreiras", 
+            "icone": "fa-cloud-meatball", 
+            "imagem_png": "badges/grutadomoreiras.png"
+            },
+            { 
+            "id": "cachoeirinha", 
+            "nome": "Cachoeirinha", 
+            "icone": "fa-cloud-meatball", 
+            "imagem_png": "badges/cachoeirinha.png"
+            },
             { 
             "id": "janeladoceu", 
             "nome": "Janela do Céu", 
             "icone": "fa-cloud-meatball", 
             "descricao_curta": "A vista icônica do parque, cachoeira e horizonte sem fim.",
             "imagem_png": "badges/janela-do-ceu.png"
-            },
-            { 
-            "id": "picodopiao", 
-            "nome": "Pico do Pião", 
-            "icone": "fa-mountain", 
-            "descricao_curta": "A subida ao ponto mais alto e a capela histórica no topo.",
-            "imagem_png": "badges/pico-do-piao.png"
             }
         ],
         "serradorolamoca": [
@@ -317,6 +467,7 @@
         ]
     }
 }
+
 
 
 
