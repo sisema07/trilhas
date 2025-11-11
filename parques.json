@@ -187,50 +187,50 @@
             { 
             "id": "quiz", 
             "nome": "Quiz: Conhecimento", 
-            "icone": "fa-brain", 
-            "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" 
+            "icone": "fa-brain",
+            "imagem_png": "badges/quiz-badge.png" 
             },
             { 
-            "id": "portaria", 
-            "nome": "Portaria", 
+            "id": "portariabiribiri", 
+            "nome": "Portaria Biribiri", 
             "icone": "fa-archway", 
-            "descricao_curta": "Escaneie o QR Code na portaria do parque para registrar sua chegada!",
             "imagem_png": "badges/portaria-biribiri-badge.png"
             },
             { 
-            "id": "vilarejo", 
-            "nome": "Vilarejo Histórico", 
+            "id": "viladobiribiri", 
+            "nome": "Vila do Biribiri", 
             "icone": "fa-building-columns", 
-            "descricao_curta": "Conheça as ruínas da antiga fábrica têxtil de Biribiri.", 
-            "imagem_png": "badges/vilarejo-historico-badge.png" 
+            "imagem_png": "badges/vila-do-biribiri-badge.png" 
             },
             { 
             "id": "mirantedacruzinha", 
             "nome": "Mirante Casa dos Ventos", 
             "icone": "fa-building-columns", 
-            "descricao_curta": "Contemple diversas montanhas da cordilheira do alto rio Jequitinhonha", 
             "imagem_png": "badges/mirante-da-cruzinha.png" 
             },
             { 
-            "id": "mirantecasadosventos", 
+            "id": "mirantedoguinda", 
             "nome": "Mirante da Cruzinha", 
             "icone": "fa-building-columns", 
-            "descricao_curta": "Contemple diversas montanhas da cordilheira do alto rio Jequitinhonha", 
-            "imagem_png": "badges/mirante-casa-dos-ventos.png" 
+            "imagem_png": "badges/mirante-do-guinda.png" 
             },
             { 
-            "id": "cachoeira1", 
+            "id": "cachoeirasentinela", 
             "nome": "Cachoeira Sentinela", 
             "icone": "fa-water", 
-            "descricao_curta": "Localizada no coração do parque, a Sentinela possui águas cristalinas.", 
             "imagem_png": "badges/cachoeira-sentinela-badge.png" 
             },
             { 
-            "id": "cachoeira2", 
+            "id": "cachoeiradoscristais", 
             "nome": "Cachoeira dos Cristais", 
             "icone": "fa-water", 
-            "descricao_curta": "É uma excelente opção para quem deseja se refrescar em suas águas cristalinas e desfrutar de um mergulho relaxante.", 
             "imagem_png": "badges/cachoeira-dos-cristais-badge.png" 
+            },
+            { 
+            "id": "caminhodosescravos", 
+            "nome": "Caminho dos Escravos", 
+            "icone": "fa-water", 
+            "imagem_png": "badges/caminho-dos-escravos-badge.png" 
             }
         ],
         "ibitipoca": [
@@ -239,6 +239,12 @@
             "nome": "Quiz: Conhecimento", 
             "icone": "fa-brain", 
             "descricao_curta": "Teste seus conhecimentos para liberar este Badge!" 
+            },
+            { 
+            "id": "portariaibiripoca", 
+            "nome": "Portaria Ibitipoca", 
+            "icone": "fa-archway", 
+            "imagem_png": "badges/portaria-ibitipoca-badge.png"
             },
             { 
             "id": "prainha", 
@@ -460,6 +466,7 @@
         ]
     }
 }
+
 
 
 
