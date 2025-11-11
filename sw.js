@@ -1,4 +1,4 @@
-const CACHE_NAME = 'trilhas-de-minas-v13'; // Versão atualizada do cache (incrementado para forçar atualização)
+const CACHE_NAME = 'trilhas-de-minas-v14'; // <<--- MUDANÇA AQUI! (v13 para v14)
 const urlsToCache = [
     './',
     'index.html',
