@@ -240,13 +240,6 @@
             "icone": "fa-brain", 
             "descricao_curta": "Teste seus conhecimentos para liberar este Badge!" 
             },
-        "ibitipoca": [
-            { 
-            "id": "quiz", 
-            "nome": "Quiz: Conhecimento", 
-            "icone": "fa-brain", 
-            "descricao_curta": "Teste seus conhecimentos para liberar este Badge!" 
-            },
             { 
             "id": "prainha", 
             "nome": "Prainha", 
@@ -467,6 +460,7 @@
         ]
     }
 }
+
 
 
 
