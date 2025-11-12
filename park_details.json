@@ -140,24 +140,6 @@
                 "badge_id": "ibitipoca-quiz"
             },
             {
-                "q": "Aproximadamente qual é a extensão do roteiro Janela do Céu (ida e volta)?",
-                "a": ["3 km", "8 km", "16 km", "30 km"],
-                "correct": 2,
-                "badge_id": "ibitipoca-quiz"
-            },
-            {
-                "q": "Em que ano o Parque Estadual do Ibitipoca foi criado?",
-                "a": ["1920", "1973", "1998", "2005"],
-                "correct": 1,
-                "badge_id": "ibitipoca-quiz"
-            },
-            {
-                "q": "Qual órgão é responsável pela administração do parque (no âmbito estadual)?",
-                "a": ["Instituto Estadual de Florestas (IEF-MG)", "IBAMA", "ICMBio", "Prefeitura de Lima Duarte"],
-                "correct": 0,
-                "badge_id": "ibitipoca-quiz"
-            },
-            {
                 "q": "O parque possui limitação de visitantes diária para determinados roteiros (como Janela do Céu). Isso é:",
                 "a": ["Falso — não há limite algum", "Verdadeiro — há limite diário para alguns circuitos", "Somente em feriados há limite", "Só para grupos escolares"],
                 "correct": 1,
@@ -1659,4 +1641,5 @@
     }
     
 }
+
 
