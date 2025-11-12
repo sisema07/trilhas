@@ -412,8 +412,8 @@
             "nome_cientifico": "Alouatta guariba"
         },
         {
-            "nome": "Jaguar-pintada",
-            "imagem": "jaguarpintada.png",
+            "nome": "Onça-pintada",
+            "imagem": "oncapintada.png",
             "descricao": "Maior felino das Américas, citado entre as espécies de fauna ameaçadas presentes na unidade.",
             "status": "Vulnerável",
             "nome_cientifico": "Panthera onca"
@@ -445,8 +445,8 @@
             "nome_cientifico": "Puma concolor"
         },
         {
-            "nome": "Tamanduá-de-colete",
-            "imagem": "tamanduadecolete.png",
+            "nome": "Tamanduá-mirim",
+            "imagem": "tamanduamirim.png",
             "descricao": "Mamífero especializado em formigas e cupins citado na fauna do parque."
         }
     ],
