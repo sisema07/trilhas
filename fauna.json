@@ -490,13 +490,6 @@
             "nome_cientifico": "Chrysocyon brachyurus"
         },
         {
-            "nome": "Mono-carvoeiro",
-            "imagem": "monocarvoeiro.png",
-            "descricao": "Primata de grande porte da Mata Atlântica citado como uma das espécies de destaque para conservação na unidade.",
-            "status": "Em Perigo (Endangered)",
-            "nome_cientifico": "Brachyteles hypoxanthus"
-        },
-        {
             "nome": "Onça-parda",
             "imagem": "oncaparda.png",
             "descricao": "Grande felino predador de topo registrado em levantamentos faunísticos no parque.",
