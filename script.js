@@ -1,4 +1,4 @@
-// script.js - CÓDIGO COMPLETO FINAL AJUSTADO (VERSÃO CORRIGIDA E MELHORADA)
+// script.js - CÓDIGO COMPLETO COM AJUSTES (1, 3, 4, 6)
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -186,8 +186,7 @@ function processarCheckin(parqueId, atividadeId) {
         // Garante que 'quiz' não seja desbloqueado por QR codes de trilhas/pontos
         if (atividadeId === 'quiz') {
             console.warn('Tentativa de check-in em badge de quiz. Ignorado.');
-            // Continua, mas com a mensagem de badge já desbloqueado se o hash for quiz
-            isNewBadge = estadoUsuario[parqueId][atividadeId] !== true;
+            isNewBadge = false; // Quiz não é mais um badge de check-in
 
         } else if (!estadoUsuario[parqueId][atividadeId]) {
             estadoUsuario[parqueId][atividadeId] = true;
@@ -200,19 +199,16 @@ function processarCheckin(parqueId, atividadeId) {
             ? "Trilhas de Minas\n\n🎉 Novo Badge desbloqueado!\nConfira na área Check-ins"
             : "Trilhas de Minas\n\nEste Badge já estava desbloqueado!\nConfira na área Check-ins";
         
-        // CORREÇÃO CRÍTICA: Se o check-in for feito, o hash é forçado para 'premiacao'
-        // para evitar que a URL de checkin persista.
         setTimeout(() => {
             alert(message);
             window.location.hash = '#premiacao';
-            carregarPremios();
+            carregarPremios(); // Recarrega os prêmios para mostrar o novo badge
         }, 100);
         
         return true;
     } else {
         console.error(`Atividade não encontrada: ${parqueId}-${atividadeId}`);
         alert('Erro: Atividade não encontrada. Verifique o QR Code.');
-        // Limpa o hash de erro
         window.location.hash = ''; 
         return false;
     }
@@ -243,7 +239,6 @@ function carregarBotaoParque(parque) {
     if (parque.id === 'premiacao') {
         button.id = 'btn-premiacao';
     } else {
-        // CORREÇÃO: Usar click para forçar a navegação via hash
         button.addEventListener('click', (e) => {
             e.preventDefault();
             window.location.hash = `#${parque.id}`;
@@ -263,12 +258,66 @@ function carregarBotoesParques() {
     });
 }
 
+// --- AJUSTE 3: Funções de Cálculo do Quiz Global ---
+function getTotalQuizzes() {
+    let total = 0;
+    for (const parqueId in DETALHES_PARQUES) {
+        // Verifica se o parque tem um quiz definido e se não está vazio
+        if (DETALHES_PARQUES[parqueId].quiz && DETALHES_PARQUES[parqueId].quiz.length > 0) {
+            total++;
+        }
+    }
+    return total;
+}
+
+function getQuizzesConcluidos() {
+    let concluidos = 0;
+    for (const parqueId in DETALHES_PARQUES) {
+        // Verifica se o quiz existe nesse parque
+        if (DETALHES_PARQUES[parqueId].quiz && DETALHES_PARQUES[parqueId].quiz.length > 0) {
+            // Verifica se o estado do usuário para [parqueId]['quiz'] é true
+            if (estadoUsuario[parqueId] && estadoUsuario[parqueId]['quiz'] === true) {
+                concluidos++;
+            }
+        }
+    }
+    return concluidos;
+}
+// --- Fim do AJUSTE 3 ---
+
 function carregarPremios() {
     const listaPremios = document.getElementById('lista-icones-premios');
     if (!listaPremios) return;
 
     listaPremios.innerHTML = '';
+
+    // --- AJUSTE 3: Adicionar Badge de Conhecimento Global ---
+    const totalQuizzes = getTotalQuizzes();
+    const quizzesConcluidos = getQuizzesConcluidos();
+    const progressoQuiz = (totalQuizzes > 0) ? (quizzesConcluidos / totalQuizzes) * 100 : 0;
+    const isQuizBadgeCompleto = quizzesConcluidos === totalQuizzes && totalQuizzes > 0;
+
+    const cardQuiz = document.createElement('div');
+    // Adiciona 'desbloqueado' se o progresso for 100%
+    cardQuiz.className = `icone-premio ${isQuizBadgeCompleto ? 'desbloqueado' : ''}`;
+    cardQuiz.id = 'badge-conhecimento-global'; // ID para fácil seleção
     
+    cardQuiz.innerHTML = `
+        <img src="badges/quiz-badge.png" alt="Conhecimento" class="badge-custom-img">
+        <span>Conhecimento</span>
+        <!-- Barra de progresso interna -->
+        <div id="badge-conhecimento-progresso" style="height: ${progressoQuiz}%;"></div>
+        <!-- Texto de progresso -->
+        <span id="badge-conhecimento-progresso-texto" style="display: ${progressoQuiz > 0 && !isQuizBadgeCompleto ? 'block' : 'none'};">
+            ${Math.round(progressoQuiz)}%
+        </span>
+    `;
+    
+    // Adiciona o card do quiz no início da lista
+    listaPremios.appendChild(cardQuiz);
+    // ---------------------------------------------------
+    
+    // Loop para os badges de CHECK-IN
     for (const parqueId in ATIVIDADES_PARQUES) {
         const atividades = ATIVIDADES_PARQUES[parqueId];
         
@@ -277,6 +326,9 @@ function carregarPremios() {
         }
 
         atividades.forEach(atividade => {
+            // AJUSTE 3: Ignora a atividade 'quiz' se ela ainda existir (foi removida do JSON)
+            if (atividade.id === 'quiz') return; 
+
             // Inicializa a atividade para 'false' apenas se ela não existir no estado
             if (typeof estadoUsuario[parqueId][atividade.id] === 'undefined') {
                 estadoUsuario[parqueId][atividade.id] = false;
@@ -325,10 +377,9 @@ function carregarConteudoPremiacao() {
 
     document.getElementById('conteudo-premios').style.display = 'block';
 
-    carregarPremios();
+    carregarPremios(); // Esta função agora desenha o badge de Quiz e os de check-in
     
     areaSecundaria.classList.add('aberto');
-    // Garante que a área secundária esteja visível (ajuste para mobile)
     areaSecundaria.style.display = 'flex'; 
     areaSecundaria.scrollTop = 0;
 }
@@ -356,7 +407,6 @@ function carregarConteudoFauna(parque, container) {
         fauna.forEach((animal, index) => {
             const imagePath = `fauna/${animal.imagem}`;
             
-            // Usamos uma IIFE para garantir que a função seja exposta no escopo global (window)
             html += `
                 <div class="fauna-grid-item desbloqueado" data-index="${index}" data-parque-id="${parque.id}" onclick="window.abrirModalFauna('${parque.id}', ${index})">
                     <img src="${imagePath}" alt="${animal.nome}">
@@ -381,7 +431,6 @@ window.abrirModalFauna = function(parqueId, index) {
     const imagePath = `fauna/${animal.imagem}`;
     const fileName = `${animal.nome.toLowerCase().replace(/\s/g, '_')}_${parqueId}.png`;
 
-    // Função de download (mantida)
     const downloadFunction = (path, name) => {
         const link = document.createElement('a');
         link.href = path;
@@ -403,9 +452,8 @@ window.abrirModalFauna = function(parqueId, index) {
         <p>${animal.descricao}</p>
     `;
 
-    // Anexa o listener de clique ao novo ícone
     document.getElementById('btn-fauna-download').addEventListener('click', (e) => {
-        e.preventDefault(); // Impede a navegação padrão do <a>
+        e.preventDefault(); 
         downloadFunction(imagePath, fileName);
     });
     
@@ -432,19 +480,32 @@ window.abrirModalIntro = function() {
     }
 }
 
+// --- AJUSTE 4: Popup de vitória do Quiz atualizado ---
 window.abrirModalQuizWin = function(score, total) {
     const modal = document.getElementById('quiz-win-modal');
     const modalBody = document.getElementById('quiz-win-modal-body');
     if (!modal || !modalBody) return;
     
+    // Calcula o progresso global
+    const totalQuizzes = getTotalQuizzes();
+    const quizzesConcluidos = getQuizzesConcluidos();
+    const quizzesFaltando = totalQuizzes - quizzesConcluidos;
+
+    let mensagemProgresso = '';
+    if (quizzesFaltando > 0) {
+        mensagemProgresso = `Faltam <strong>${quizzesFaltando}</strong> quiz(zes) para liberar o badge de Conhecimento!`;
+    } else {
+        mensagemProgresso = `<strong>Você liberou o badge de Conhecimento!</strong> Confira na área de Check-ins!`;
+    }
+
     modalBody.innerHTML = `
         <div style="text-align: center; padding: 10px;">
-            <p class="result-classification" style="color: var(--cor-secundaria);">Conhecimento de Mestre!</p>
+            <p class="result-classification" style="color: var(--cor-secundaria);">Parabéns!</p>
             <div class="win-animation-container">
                 <img src="win.gif" alt="Quiz Concluído" class="win-gif-mascote">
             </div>
-            <p class="success-badge-message">Parabéns! Você ganhou o badge do Quiz!</p>
-            <p style="margin-bottom: 20px;">Pontuação: ${score} de ${total}</p>
+            <p class="success-badge-message">Você acertou ${score} de ${total}!</p>
+            <p style="margin-bottom: 20px;">${mensagemProgresso}</p>
             <button class="action-button active" onclick="fecharModais(); window.location.hash='premiacao'">Ver Meus Badges</button>
         </div>
     `;
@@ -457,20 +518,16 @@ function fecharModais() {
     document.querySelectorAll('.modal-overlay.open').forEach(modal => {
         modal.classList.remove('open');
         setTimeout(() => {
-            // Oculta completamente após a transição
             modal.style.display = 'none';
         }, 300); 
     });
 }
 
-// Configura listeners de fechar modal (chamado em 'inicializar')
 function configurarFechamentoModais() {
-    // Adiciona listener para fechar modais ao clicar no X
     document.querySelectorAll('.close-modal').forEach(btn => {
         btn.addEventListener('click', fecharModais);
     });
 
-    // Garante que o modal feche ao clicar fora (no overlay)
     ['fauna-modal', 'qr-modal', 'intro-modal', 'quiz-win-modal'].forEach(id => {
         document.getElementById(id)?.addEventListener('click', (e) => {
             if (e.target.id === id) fecharModais();
@@ -484,8 +541,10 @@ function carregarConteudoQuiz(parque, container) {
     
     const detalhes = DETALHES_PARQUES[parque.id] || {};
     currentQuizData = detalhes.quiz || [];
-    const badgeQuiz = ATIVIDADES_PARQUES[parque.id]?.find(a => a.id === 'quiz');
-    const isQuizCompleted = badgeQuiz && estadoUsuario[parque.id] && estadoUsuario[parque.id][badgeQuiz.id];
+    
+    // AJUSTE 3: O ID do badge de quiz agora é sempre 'quiz' e não vem do JSON de atividades
+    const badgeQuizId = 'quiz'; 
+    const isQuizCompleted = estadoUsuario[parque.id] && estadoUsuario[parque.id][badgeQuizId];
     
     if (currentQuizData.length === 0) {
         container.innerHTML = '<h3>Quiz</h3><p>Nenhum quiz disponível para este parque.</p>';
@@ -500,7 +559,8 @@ function carregarConteudoQuiz(parque, container) {
                 <div class="win-animation-container">
                     <img src="win.gif" alt="Quiz Concluído" class="win-gif-mascote">
                 </div>
-                <p class="success-badge-message">O badge foi adicionado à sua coleção.</p>
+                <!-- AJUSTE 4: Mensagem de progresso -->
+                <p class="success-badge-message">Continue explorando outros parques para liberar o badge de Conhecimento!</p>
                 <button class="action-button" onclick="window.location.hash = 'premiacao'">Ver Meus Badges</button>
             </div>
         `;
@@ -540,11 +600,9 @@ function carregarProximaQuestao() {
     const questao = currentQuizData[currentQuizIndex];
     
     let optionsHtml = '';
-    // CORREÇÃO: Usar Array.isArray para garantir que 'a' é um array
     const alternativas = Array.isArray(questao.a) ? questao.a : [];
     
     alternativas.forEach((alternativa, index) => {
-        // CORREÇÃO: Garante que a função selectQuizOption esteja no escopo global para o onclick
         optionsHtml += `
             <button class="action-button quiz-option-btn" data-index="${index}" onclick="window.selectQuizOption(${index}, this)">${alternativa}</button>
         `;
@@ -565,7 +623,6 @@ function carregarProximaQuestao() {
     atualizarBarraProgresso();
 }
 
-// Expõe a função de seleção de quiz
 window.selectQuizOption = function(selectedIndex, buttonElement) {
     const buttons = document.querySelectorAll('.quiz-option-btn');
     buttons.forEach(btn => btn.disabled = true);
@@ -579,7 +636,6 @@ window.selectQuizOption = function(selectedIndex, buttonElement) {
     } else {
         buttonElement.style.backgroundColor = '#f44336'; 
         buttonElement.style.color = 'white';
-        // Destaca a resposta correta
         document.querySelector(`.quiz-option-btn[data-index="${questao.correct}"]`)?.classList.add('active');
     }
     
@@ -603,7 +659,6 @@ function finalizarQuiz() {
     if (!area || !quizProgress) return;
 
     const total = currentQuizData.length;
-    // O hash deve ser um ID de parque válido, então usamos DADOS_PARQUES para encontrar
     const parqueId = window.location.hash.substring(1).split('-')[0];
     const parque = DADOS_PARQUES.find(p => p.id === parqueId);
     
@@ -612,15 +667,14 @@ function finalizarQuiz() {
     const requiredScore = Math.ceil(total * 0.75); 
     
     if (quizScore >= requiredScore) { 
-        const badgeId = currentQuizData[0].badge_id || 'quiz';
+        // AJUSTE 3: O ID do badge de quiz é sempre 'quiz'
+        const badgeId = 'quiz';
         
-        // Marca o badge como conquistado
-        if (ATIVIDADES_PARQUES[parqueId]?.find(a => a.id === badgeId)) {
-            if (!(estadoUsuario[parqueId] && estadoUsuario[parqueId][badgeId])) {
-                if (!estadoUsuario[parqueId]) estadoUsuario[parqueId] = {};
-                estadoUsuario[parqueId][badgeId] = true;
-                salvarEstado();
-            }
+        // Marca o badge 'quiz' deste parque como conquistado
+        if (!(estadoUsuario[parqueId] && estadoUsuario[parqueId][badgeId])) {
+            if (!estadoUsuario[parqueId]) estadoUsuario[parqueId] = {};
+            estadoUsuario[parqueId][badgeId] = true;
+            salvarEstado();
         }
         
         area.innerHTML = `
@@ -632,11 +686,11 @@ function finalizarQuiz() {
         quizProgress.style.width = '100%';
 
         setTimeout(() => {
+            // AJUSTE 4: Chamar o novo modal de vitória
             abrirModalQuizWin(quizScore, total);
         }, 500); 
         
     } else {
-        // CÓDIGO PARA FALHA NO QUIZ
         let resultadoHtml = `
             <div style="text-align: center; padding: 20px;">
                 <p class="result-classification" style="color: #f44336;">Tente Novamente!</p>
@@ -671,6 +725,9 @@ function carregarConteudoAtividades(parque, container) {
         html += '<p style="text-align: center; margin-top: 20px;">Nenhuma atividade cadastrada para este parque.</p>';
     } else {
         atividades.forEach(atividade => {
+            // AJUSTE 3: O quiz não é mais listado aqui
+            if (atividade.id === 'quiz') return;
+
             if (!estadoUsuario[parque.id]) estadoUsuario[parque.id] = {};
             if (typeof estadoUsuario[parque.id][atividade.id] === 'undefined') {
                 estadoUsuario[parque.id][atividade.id] = false;
@@ -687,7 +744,6 @@ function carregarConteudoAtividades(parque, container) {
                 badgeContent = `<i class="fas ${atividade.icone}"></i>`;
             }
             
-            // Corrige o onclick para ser seguro
             const onClickAction = isConcluida ? `onclick="window.location.hash = 'upload-${parque.id}-${atividade.id}'"` : '';
 
             html += `
@@ -716,64 +772,50 @@ function carregarDetalhesParque(parqueId, action = 'info') {
         return;
     }
 
-    // Esconde outras áreas
     document.getElementById('conteudo-premios').style.display = 'none';
     document.getElementById('area-envio-foto').style.display = 'none';
 
     const areaSecundaria = document.getElementById('area-secundaria');
     document.getElementById('secundaria-titulo').textContent = parque.nome;
     
-    // Mapeamento dos links de contato (Garantindo que os elementos existam)
-
-    // 1. Maps e Instagram (originais)
     document.getElementById('map-link-icon').href = detalhes.map_link || '#';
     document.getElementById('insta-link-icon').href = detalhes.instagram_link || '#';
     
-    // 2. YouTube (NOVO)
     const youtubeIcon = document.getElementById('youtube-link-icon');
     if (youtubeIcon) {
         youtubeIcon.href = detalhes.youtube_channel || '#';
-        // Controla visibilidade se o link não existir
         youtubeIcon.style.display = detalhes.youtube_channel ? 'flex' : 'none';
     }
 
-    // 3. Site (NOVO)
     const siteIcon = document.getElementById('site-link-icon');
     if (siteIcon) {
         siteIcon.href = detalhes.site_link || '#';
         siteIcon.style.display = detalhes.site_link ? 'flex' : 'none';
     }
     
-    // 4. WhatsApp (NOVO)
     const whatsappIcon = document.getElementById('whatsapp-link-icon');
     if (whatsappIcon) {
         whatsappIcon.href = detalhes.whatsapp ? `https://wa.me/${detalhes.whatsapp.replace(/\+/g, '')}` : '#'; 
-        // Correção: Remove o '+' do telefone ao enviar para wa.me, se houver
         whatsappIcon.style.display = detalhes.whatsapp ? 'flex' : 'none';
     }
 
-    // 5. Telefone
     const phoneIcon = document.getElementById('phone-link-icon');
     if (phoneIcon) {
         phoneIcon.href = detalhes.phone ? `tel:${detalhes.phone}` : '#';
         phoneIcon.style.display = detalhes.phone ? 'flex' : 'none';
     }
     
-    // 6. E-mail
     const emailIcon = document.getElementById('email-link-icon');
     if (emailIcon) {
         emailIcon.href = detalhes.email ? `mailto:${detalhes.email}` : '#';
         emailIcon.style.display = detalhes.email ? 'flex' : 'none';
     }
 
-
     setupCarousel(parqueId, detalhes.carousel_images || []);
     
     const contentArea = document.getElementById('dynamic-content-area');
     
-    // Configuração dos listeners para os botões de ação (Info, Fauna, Quiz, Atividades)
     document.querySelectorAll('.action-button[data-action]').forEach(btn => {
-        // Remove listener anterior antes de adicionar
         if (btn.actionListenerSetup) {
              btn.removeEventListener('click', btn.actionListenerSetup);
         }
@@ -784,25 +826,21 @@ function carregarDetalhesParque(parqueId, action = 'info') {
            window.location.hash = `#${parqueId}-${newAction}`; 
         };
         btn.addEventListener('click', actionListener);
-        btn.actionListenerSetup = actionListener; // Armazena o listener para remoção futura
+        btn.actionListenerSetup = actionListener;
     });
-
 
     const actionButton = document.querySelector(`.action-button[data-action="${action}"]`);
     
-    // Aplica a classe 'active'
     document.querySelectorAll('.action-button[data-action]').forEach(btn => btn.classList.remove('active'));
     if (actionButton) {
         actionButton.classList.add('active');
     }
         
-    // Carrega o conteúdo dinâmico
     carregarConteudoDinamico(parque, contentArea, action);
 
     document.getElementById('conteudo-parque-detalhe').style.display = 'block';
     
     areaSecundaria.classList.add('aberto');
-    // Garante que a área secundária esteja visível
     areaSecundaria.style.display = 'flex'; 
     areaSecundaria.scrollTop = 0;
 }
@@ -859,7 +897,7 @@ function carregarAreaUpload(parqueId, atividadeId) {
         return;
     }
     
-    // Reconstrói a área de upload para garantir listeners e estado limpo
+    // --- AJUSTE 6: Substituindo botões por ícones ---
     areaEnvioFoto.innerHTML = `
         <h2 id="badge-upload-titulo" style="text-align: center; margin-bottom: 20px;">Compartilhar Badge: ${atividade.nome} (${parque.nome})</h2>
         <div class="upload-container">
@@ -870,15 +908,20 @@ function carregarAreaUpload(parqueId, atividadeId) {
                 <canvas id="passport-canvas" width="600" height="800" style="border: 1px solid #ccc; display: block; margin: 20px auto; max-width: 100%; height: auto;"></canvas>
             </div>
             
-            <button id="btn-gerar-e-baixar" class="action-button" style="margin-top: 20px; width: 100%;" disabled>
-                <i class="fas fa-download"></i> Baixar Foto com Check-in
-            </button>
-            
-            <button id="btn-compartilhar-social" class="action-button" style="margin-top: 10px; width: 100%;" disabled>
-                <i class="fas fa-share-alt"></i> Compartilhar
-            </button>
+            <div class="upload-action-icons-container">
+                <button id="btn-gerar-e-baixar-icon" class="upload-icon-btn" disabled title="Baixar Imagem">
+                    <i class="fas fa-download"></i>
+                    <span>Baixar</span>
+                </button>
+                
+                <button id="btn-compartilhar-social-icon" class="upload-icon-btn" disabled title="Compartilhar">
+                    <i class="fas fa-share-alt"></i>
+                    <span>Compartilhar</span>
+                </button>
+            </div>
         </div>
     `;
+    // --- Fim do AJUSTE 6 ---
 
 
     const canvas = document.getElementById('passport-canvas');
@@ -887,7 +930,6 @@ function carregarAreaUpload(parqueId, atividadeId) {
     canvas.width = 600; 
     canvas.height = 800; 
 
-    // Garante que as fontes do canvas estejam carregadas
     if (!document.getElementById('google-fonts-link')) {
         const link = document.createElement('link');
         link.id = 'google-fonts-link';
@@ -896,15 +938,15 @@ function carregarAreaUpload(parqueId, atividadeId) {
         document.head.appendChild(link);
     }
 
+    // AJUSTE 6: Selecionando os novos botões de ícone
     const inputFotoBadge = document.getElementById('input-foto-badge');
-    const btnGerarBaixar = document.getElementById('btn-gerar-e-baixar');
-    const btnCompartilhar = document.getElementById('btn-compartilhar-social');
+    const btnGerarBaixar = document.getElementById('btn-gerar-e-baixar-icon');
+    const btnCompartilhar = document.getElementById('btn-compartilhar-social-icon');
 
-    // Oculta/Mostra o botão Compartilhar se a API não estiver disponível
     if (!navigator.share) {
         btnCompartilhar.style.display = 'none';
     } else {
-        btnCompartilhar.style.display = 'block';
+        btnCompartilhar.style.display = 'flex'; // 'flex' para o ícone
     }
     
     inputFotoBadge.onchange = (event) => {
@@ -915,37 +957,29 @@ function carregarAreaUpload(parqueId, atividadeId) {
                 userPhoto.src = e.target.result;
                 userPhoto.onload = () => {
                     drawPassportImage(parque, atividade, userPhoto);
-                    // Habilitar botões após carregar e desenhar a foto
                     btnGerarBaixar.disabled = false;
                     btnCompartilhar.disabled = false;
-                    btnGerarBaixar.classList.add('active'); // Estilo ativo
-                    btnCompartilhar.classList.add('active'); // Estilo ativo
-                    // Reconfigura o clique
                     btnCompartilhar.onclick = () => shareCanvasImage(parque.nome, atividade.nome);
                 };
             };
             reader.readAsDataURL(file);
         } else {
             drawPassportImage(parque, atividade, null);
-            // Desabilitar botões se não houver foto
             btnGerarBaixar.disabled = true;
             btnCompartilhar.disabled = true;
-            btnGerarBaixar.classList.remove('active');
-            btnCompartilhar.classList.remove('active');
             btnCompartilhar.onclick = null;
         }
     };
     
-    // Configura a imagem do badge
     if (atividade.imagem_png) {
         stampImage.src = atividade.imagem_png.startsWith('badges/') ? atividade.imagem_png : `badges/${atividade.imagem_png}`;
     } else {
         stampImage.src = 'images/default_stamp_fallback.png'; 
     }
 
-    // Desenha o canvas inicial (sem foto do usuário)
     drawPassportImage(parque, atividade, null);
 
+    // AJUSTE 6: Listener de clique para o novo ícone
     btnGerarBaixar.onclick = () => {
         if (inputFotoBadge.files.length > 0) { 
             downloadCanvasImage(parque.nome, atividade.nome);
@@ -959,21 +993,17 @@ function carregarAreaUpload(parqueId, atividadeId) {
     document.getElementById('area-secundaria').scrollTop = 0;
 }
 
-// O Canvas Drawing é mantido, mas as fontes precisam de um tempo para carregar no Canvas
 function drawPassportImage(parque, atividade, userUploadedPhoto) {
     if (!canvasContext) return;
 
     const canvas = canvasContext.canvas;
     
-    // Funcao interna para desenhar com segurança apos fontes carregadas
     const performDraw = () => {
         canvasContext.clearRect(0, 0, canvas.width, canvas.height);
 
-        // 1. Desenha o Template do Passaporte
         if (passportTemplateImage.complete && passportTemplateImage.naturalWidth > 0) {
             canvasContext.drawImage(passportTemplateImage, 0, 0, canvas.width, canvas.height);
         } else {
-            // Fallback de fundo
             canvasContext.fillStyle = '#e6e0d4';
             canvasContext.fillRect(0, 0, canvas.width, canvas.height);
             canvasContext.fillStyle = '#333';
@@ -986,7 +1016,6 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         const photoWidth = canvas.width * 0.8; 
         const photoHeight = canvas.height * 0.6;
 
-        // 2. Desenha a Foto do Usuário (com clip/border-radius)
         if (userUploadedPhoto && userUploadedPhoto.complete && userUploadedPhoto.naturalWidth > 0) {
             
             const cornerRadius = photoWidth * 0.05;
@@ -1028,7 +1057,6 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             
             canvasContext.restore();
 
-            // Borda verde
             canvasContext.strokeStyle = '#4CAF50';
             canvasContext.lineWidth = 4;
             
@@ -1046,7 +1074,6 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             canvasContext.stroke();
         }
         
-        // 3. Desenha o Carimbo (Badge)
         if (stampImage.complete && stampImage.naturalWidth > 0) {
             canvasContext.save();
             
@@ -1067,53 +1094,54 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             canvasContext.restore();
         }
 
-        // 4. Desenha o Texto
         canvasContext.textAlign = 'left';
         
         const textStartX = canvas.width * 0.32;   
         let currentTextY = canvas.height * 0.13;
 
-        // Título "CHECK-IN REALIZADO"
         canvasContext.font = `bold ${canvas.width * 0.036}px "Roboto Slab", serif`; 
         canvasContext.fillStyle = '#4CAF50';
         canvasContext.fillText('CHECK-IN REALIZADO', textStartX, currentTextY);
         currentTextY += canvas.width * 0.036 + canvas.width * 0.005; 
 
-        // Nome do Parque
         canvasContext.font = `bold ${canvas.width * 0.03}px "Lora", serif`; 
         canvasContext.fillStyle = '#555';
         canvasContext.fillText(`PARQUE ESTADUAL ${parque.nome.toUpperCase()}`, textStartX, currentTextY); 
         currentTextY += canvas.width * 0.03 + canvas.width * 0.005; 
 
-        // Nome da Atividade
         canvasContext.fillText(atividade.nome.toUpperCase(), textStartX, currentTextY); 
     };
 
-    // Timeout para esperar a possível carga de fontes (prática comum em canvas)
     setTimeout(performDraw, 100);
 }
 
 function downloadCanvasImage(parqueNome, atividadeNome) {
-    // Verifica se a foto foi carregada (necessário para o desenho final)
     if (!canvasContext || !document.getElementById('input-foto-badge').files.length) {
         alert('Nenhuma imagem para baixar. Por favor, selecione uma foto.');
         return;
     }
 
     const canvas = document.getElementById('passport-canvas');
-    // Força a renderização final com a foto do usuário
-    drawPassportImage(DADOS_PARQUES.find(p => p.id === parqueNome.toLowerCase()), ATIVIDADES_PARQUES[parqueNome.toLowerCase()].find(a => a.nome === atividadeNome), userPhoto);
+    // Encontra o parque e atividade pelos nomes/IDs
+    const parque = DADOS_PARQUES.find(p => p.nome === parqueNome) || DADOS_PARQUES.find(p => p.id === parqueNome);
+    const atividade = ATIVIDADES_PARQUES[parque.id]?.find(a => a.nome === atividadeNome);
+
+    if (parque && atividade) {
+        drawPassportImage(parque, atividade, userPhoto);
+    } else {
+        console.error("Não foi possível encontrar parque/atividade para desenhar download.");
+        return;
+    }
 
     const dataURL = canvas.toDataURL('image/png'); 
     const link = document.createElement('a');
-    link.download = `trilhasdeminas_${parqueNome.toLowerCase().replace(/\s/g, '_')}_${atividadeNome.toLowerCase().replace(/\s/g, '_')}.png`;
+    link.download = `trilhasdeminas_${parque.id}_${atividade.id}.png`;
     link.href = dataURL;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
 }
 
-// --- Lógica de Compartilhamento Nativo (Web Share API) ---
 async function shareCanvasImage(parqueNome, atividadeNome) {
     if (!canvasContext || !document.getElementById('input-foto-badge').files.length) {
         alert('Nenhuma imagem para compartilhar. Por favor, selecione uma foto.');
@@ -1122,7 +1150,6 @@ async function shareCanvasImage(parqueNome, atividadeNome) {
 
     const canvas = document.getElementById('passport-canvas');
     
-    // Força a renderização final com a foto do usuário antes de compartilhar
     const parque = DADOS_PARQUES.find(p => p.nome === parqueNome);
     const atividade = ATIVIDADES_PARQUES[parque.id].find(a => a.nome === atividadeNome);
     drawPassportImage(parque, atividade, userPhoto);
@@ -1130,20 +1157,18 @@ async function shareCanvasImage(parqueNome, atividadeNome) {
     canvas.toBlob(async (blob) => {
         if (blob) {
             try {
-                const file = new File([blob], `trilhasdeminas_${parqueNome.toLowerCase().replace(/\s/g, '_')}_${atividadeNome.toLowerCase().replace(/\s/g, '_')}.png`, { type: 'image/png' });
+                const file = new File([blob], `trilhasdeminas_${parque.id}_${atividade.id}.png`, { type: 'image/png' });
 
                 if (navigator.canShare && navigator.canShare({ files: [file] })) {
                     await navigator.share({
                         files: [file],
                         title: 'Trilhas de Minas - Check-in Concluído!',
-                        text: `Acabei de completar a atividade "${atividadeNome}" no Parque Estadual ${parqueNome} e ganhei um novo Badge! Venha explorar as Trilhas de Minas! #TrilhasDeMinas #TurismoMG`
+                        text: `Acabei de completar a atividade "${atividade.nome}" no Parque Estadual ${parque.nome} e ganhei um novo Badge! Venha explorar as Trilhas de Minas! #TrilhasDeMinas #TurismoMG`
                     });
-                    console.log('Compartilhamento bem-sucedido');
                 } else {
-                    // Fallback para navegadores que não suportam compartilhamento de arquivos
                     await navigator.share({
                         title: 'Trilhas de Minas - Check-in Concluído!',
-                        text: `Acabei de completar a atividade "${atividadeNome}" no Parque Estadual ${parqueNome} e ganhei um novo Badge! Venha explorar as Trilhas de Minas! #TrilhasDeMinas #TurismoMG`,
+                        text: `Acabei de completar a atividade "${atividade.nome}" no Parque Estadual ${parque.nome} e ganhei um novo Badge! Venha explorar as Trilhas de Minas! #TrilhasDeMinas #TurismoMG`,
                         url: window.location.origin 
                     });
                 }
@@ -1164,7 +1189,6 @@ function lidarComHash() {
     const fullHash = window.location.hash;
     const hash = fullHash.substring(1);
     
-    // Para o carrossel em qualquer navegação
     if (carouselInterval) {
         clearInterval(carouselInterval);
         carouselInterval = null;
@@ -1176,18 +1200,15 @@ function lidarComHash() {
     const appContainer = document.getElementById('app-container');
     const areaSecundaria = document.getElementById('area-secundaria');
 
-    // Se o hash está vazio, volta para a home e garante que o container principal esteja visível.
     if (!hash || hash === 'home') {
-        // Logica para FECHAMENTO COMPLETO (Instrução do usuário)
         areaSecundaria.classList.remove('aberto');
-        areaSecundaria.style.display = 'none'; // Oculta a área secundária completamente
+        areaSecundaria.style.display = 'none';
         
-        appContainer.style.display = 'flex'; // Garante o container principal visível
+        appContainer.style.display = 'flex'; 
         
         document.body.style.overflow = 'auto';
         document.body.style.height = 'auto';
         
-        // CORREÇÃO CRÍTICA: Limpa o hash para evitar a volta para a última tela
         if (fullHash !== '') {
             window.location.hash = '';
         }
@@ -1196,11 +1217,10 @@ function lidarComHash() {
         return;
     }
     
-    // Se há hash, prepara para mostrar a área secundária
     document.body.style.overflow = 'hidden'; 
     document.body.style.height = '100vh';
-    appContainer.style.display = 'flex'; // Mantém o principal visível
-    areaSecundaria.style.display = 'flex'; // Torna a secundária flexível
+    appContainer.style.display = 'flex';
+    areaSecundaria.style.display = 'flex';
     
     if (hash.startsWith('checkin-')) {
         const parts = hash.split('-'); 
@@ -1232,14 +1252,11 @@ function lidarComHash() {
         const action = parts.length > 1 ? parts[1] : 'info'; 
         carregarDetalhesParque(parqueId, action);
     } else {
-        // Se o hash for inválido, volta para a home
         window.location.hash = ''; 
     }
 }
 
 // --- Inicialização da Aplicação ---
-// (PRIMEIRA DEFINIÇÃO REMOVIDA DAQUI)
-
 async function carregarDados() {
     const [parquesResp, detalhesResp, faunaResp] = await Promise.all([
         fetch('parques.json'),
@@ -1247,6 +1264,11 @@ async function carregarDados() {
         fetch('fauna.json') 
     ]);
     
+    // Adiciona verificação de erro no fetch
+    if (!parquesResp.ok || !detalhesResp.ok || !faunaResp.ok) {
+        throw new Error('Falha ao carregar os arquivos de dados JSON.');
+    }
+
     const parquesData = await parquesResp.json();
     const detalhesData = await detalhesResp.json();
     const faunaData = await faunaResp.json(); 
@@ -1255,8 +1277,6 @@ async function carregarDados() {
     ATIVIDADES_PARQUES = parquesData.ATIVIDADES_PARQUES;
     DETALHES_PARQUES = detalhesData;
     DADOS_FAUNA = faunaData; 
-    
-    // A remoção do fallback de dados antigos de e-mail/telefone garante que apenas os dados do JSON sejam usados.
 }
 
 function configurarBotaoIntro() {
@@ -1264,26 +1284,22 @@ function configurarBotaoIntro() {
     if (btnIntro) {
         btnIntro.addEventListener('click', (e) => {
             e.preventDefault();
-            window.abrirModalIntro(); // Usando a função exposta no escopo global
+            window.abrirModalIntro();
         });
     }
 }
 
 function configurarNavegacao() {
-    // Configura o botão Home (apenas um listener)
     const btnHome = document.getElementById('btn-home');
     if (btnHome) {
-        // Garante que o listener não seja duplicado
         btnHome.removeEventListener('click', btnHome.clickListener);
         const clickListener = () => {
-             // Redireciona para a Home (hash vazio)
             window.location.hash = ''; 
         };
         btnHome.addEventListener('click', clickListener);
         btnHome.clickListener = clickListener;
     }
 
-    // Garante que o listener de hashchange seja único
     window.removeEventListener('hashchange', lidarComHash);
     window.addEventListener('hashchange', lidarComHash);
     
@@ -1294,14 +1310,13 @@ async function inicializar() {
     try {
         await carregarDados();
         
-        // CORREÇÃO CRÍTICA DO "PISCA-PISCA" (2): 
-        // Esconde o header e os botões AGORA, antes de qualquer outra renderização.
-        document.querySelector('header').style.display = 'none';
-        document.getElementById('botoes-parques').style.display = 'none';
+        // AJUSTE 1: Esconde o app-container (que contém a logo/título)
+        // O app-container já começa com display:none no HTML, mas garantimos aqui.
+        document.getElementById('app-container').style.display = 'none';
         
         registrarServiceWorker();
         configurarFechamentoModais();
-        carregarBotoesParques(); // Carrega os botões com os dados (mas eles estão escondidos)
+        carregarBotoesParques();
 
         const videoElement = document.getElementById('intro-video-element');
         const videoIntro = document.getElementById('video-intro');
@@ -1312,43 +1327,60 @@ async function inicializar() {
             console.log('Check-in detectado na URL inicial:', currentHash);
             const parts = currentHash.substring(1).split('-');
             if (parts.length === 3) {
-                // processarCheckin já chama lidarComHash via window.location.hash = '#premiacao'
                 processarCheckin(parts[1], parts[2]); 
                 checkinProcessado = true;
             }
         }
         
-        configurarNavegacao(); // Configura a navegação e o botão home
+        configurarNavegacao();
 
+        // AJUSTE 1: Lógica do vídeo
         if (localStorage.getItem('first_visit') !== 'false' && !checkinProcessado && videoElement && videoIntro) {
             localStorage.setItem('first_visit', 'false');
             
-            // Garante que a introdução esteja em tela cheia e visível
-            videoIntro.style.display = 'flex';
+            videoIntro.style.display = 'flex'; // Garante que o contêiner do vídeo esteja visível
             videoElement.load();
             
             const playPromise = videoElement.play();
             if (playPromise !== undefined) {
                 playPromise.then(() => {
-                    // Espera o final do vídeo (ou um tempo limite)
-                    setTimeout(() => {
+                    // Sucesso no Autoplay
+                    videoElement.onended = () => {
                          videoIntro.classList.add('fade-out');
                          setTimeout(() => {
                             videoIntro.style.display = 'none';
                             iniciarApp(); // Mostra o app APÓS o vídeo
                             lidarComHash(); 
-                         }, 1000); 
-                    }, videoElement.duration * 1000 || 5000); // Usa duração ou 5s como fallback
+                         }, 1000); // Duração do fade-out
+                    };
+                    // Fallback de tempo (caso o 'onended' falhe)
+                    setTimeout(() => {
+                        if (videoIntro.style.display !== 'none') { // Só executa se o vídeo ainda estiver tocando
+                            videoIntro.classList.add('fade-out');
+                            setTimeout(() => {
+                                videoIntro.style.display = 'none';
+                                iniciarApp(); 
+                                lidarComHash(); 
+                            }, 1000);
+                        }
+                    }, (videoElement.duration * 1000) || 5000); // Usa duração real ou 5s
                 }).catch(error => {
+                    // Falha no Autoplay (comum em mobile)
                     console.warn('Autoplay impedido. Iniciando app diretamente.', error);
                     videoIntro.style.display = 'none';
-                    iniciarApp(); // Mostra o app se o autoplay falhar
+                    iniciarApp(); 
                     lidarComHash(); 
                 });
+            } else {
+                // Navegadores mais antigos que não retornam promise
+                videoIntro.style.display = 'none';
+                iniciarApp();
+                lidarComHash();
             }
         } else {
+            // Não é a primeira visita, ou é check-in
             if (videoIntro) videoIntro.style.display = 'none';
-            iniciarApp(); // Mostra o app se não for a primeira visita
+            iniciarApp(); 
             if (!checkinProcessado) {
                 lidarComHash(); 
             }
@@ -1356,7 +1388,6 @@ async function inicializar() {
         
     } catch (error) {
         console.error('Erro fatal na inicialização:', error);
-        // Fallback de erro
         document.getElementById('video-intro').style.display = 'none';
         const appContainer = document.getElementById('app-container');
         if (appContainer) {
@@ -1371,20 +1402,16 @@ async function inicializar() {
     }
 }
 
-// CORREÇÃO: Esta é a ÚNICA definição da função, agora movida para cá.
 function iniciarApp() {
-    
+    // Esta função torna o app visível (header com logo, botões, etc.)
     document.getElementById('app-container').style.display = 'flex';
-    // Faz o header e os botões aparecerem aqui, APÓS a introdução ou falha do vídeo.
     document.querySelector('header').style.display = 'flex';
     document.getElementById('botoes-parques').style.display = 'grid'; 
     
     setupPwaInstallPrompt();
 
-    // Configura o listener para o botão de check-ins (se existir)
     const btnPremiacao = document.getElementById('btn-premiacao');
     if (btnPremiacao) {
-        // Remove listener anterior antes de adicionar (segurança contra duplicação)
         btnPremiacao.removeEventListener('click', btnPremiacao.clickListener); 
         const clickListener = (e) => {
             e.preventDefault();
