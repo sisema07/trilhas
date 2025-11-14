@@ -197,7 +197,7 @@
             },
             { 
             "id": "mirantedacruzinha", 
-            "nome": "Mirante Casa dos Ventos", 
+            "nome": "Mirante da Cruzinha", 
             "icone": "fa-building-columns", 
             "imagem_png": "badges/mirante-da-cruzinha.png" 
             },
@@ -801,3 +801,4 @@
         ]
     }
 }
+
