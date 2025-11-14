@@ -17,11 +17,13 @@
 </head>
 <body>
 
+    <!-- 1. VÍDEO DE ABERTURA: Removido 'poster="logo.png"' para corrigir o flash da logo -->
     <div id="video-intro">
-        <video id="intro-video-element" src="trilhas.mp4" playsinline muted preload="auto" poster="logo.png" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;"></video>
+        <video id="intro-video-element" src="trilhas.mp4" playsinline muted autoplay preload="auto" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;"></video>
         <div class="overlay-intro"></div>
     </div>
 
+    <!-- O 'display: none' inicial é controlado pelo script.js -->
     <div id="app-container" style="display: none;">
         
         <header>
@@ -29,7 +31,8 @@
         </header>
 
         <section id="botoes-parques">
-            </section>
+            <!-- Os botões dos parques serão carregados aqui pelo script.js -->
+        </section>
 
         <div id="install-prompt" class="pwa-prompt" style="display: none;">
             <p>👋 Explore Minas offline! Instale o app para uma experiência completa.</p>
@@ -61,39 +64,23 @@
             </div>
             <p class="premios-titulo" style="font-size: 1.4rem; margin-top: 30px;">Confira seus Badges aqui</p>
             <div id="lista-icones-premios">
-                </div>
+                <!-- Os badges de check-in e o novo badge de Conhecimento serão carregados aqui -->
+            </div>
         </div>
         
         <div id="area-envio-foto" style="display: none;">
-            <h2 id="badge-upload-titulo" style="text-align: center; margin-bottom: 20px;">Compartilhar Conquista</h2>
-
-            <div class="upload-container">
-                <p>Selecione uma foto sua na trilha para carimbar:</p>
-                <input type="file" id="input-foto-badge" accept="image/*">
-                
-                <div id="output-image-preview">
-                    
-                    <canvas id="passport-canvas" width="600" height="800" style="border: 1px solid #ccc; display: block; margin: 20px auto; max-width: 100%; height: auto;"></canvas>
-                    
-                    <img id="user-photo-preview" src="" alt="Sua foto" style="display: none; max-width: 100%; margin-top: 10px; border-radius: 10px;">
-                </div>
-                
-                <button id="btn-gerar-e-baixar" class="action-button active" style="margin-top: 20px; width: 100%;">
-                    <i class="fas fa-download"></i> Baixar Foto com Check-in
-                </button>
-                
-                <button id="btn-compartilhar-social" class="action-button" style="margin-top: 10px; width: 100%;">
-                    <i class="fas fa-share-alt"></i> Compartilhar
-                </button>
-
-            </div>
+            <!-- 
+                REQ 4: O conteúdo desta área (incluindo os novos ícones) 
+                é gerado dinamicamente pelo script.js (ver função carregarAreaUpload) 
+            -->
         </div>
 
         <div id="conteudo-parque-detalhe" style="display: none;">
             
             <div class="park-carousel-container">
                 <div id="park-carousel" class="park-carousel">
-                    </div>
+                    <!-- Imagens do carrossel carregadas pelo script.js -->
+                </div>
                 <div id="carousel-dots" class="carousel-dots"></div>
             </div>
             
@@ -134,7 +121,8 @@
             </div>
 
             <div id="dynamic-content-area" class="park-content-area">
-                </div>
+                <!-- Conteúdo dinâmico (Info, Fauna, Quiz, Atividades) carregado pelo script.js -->
+            </div>
         </div>
     </section>
 
@@ -150,7 +138,8 @@
         <div class="modal-content">
             <button class="close-modal"><i class="fas fa-times"></i></button>
             <div id="fauna-modal-body">
-                </div>
+                <!-- Conteúdo do modal da fauna carregado pelo script.js -->
+            </div>
         </div>
     </div>
     
@@ -167,7 +156,8 @@
         <div class="modal-content small-modal">
             <button class="close-modal"><i class="fas fa-times"></i></button>
             <div id="quiz-win-modal-body" style="text-align: center; padding: 10px;">
-                </div>
+                <!-- Conteúdo do modal de quiz (progresso/concluído) carregado pelo script.js -->
+            </div>
         </div>
     </div>
 
