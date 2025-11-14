@@ -356,6 +356,7 @@ header {
     color: #888; /* Cor de texto mais neutra para bloqueado */
     font-style: italic;
     cursor: default;
+    overflow: hidden; /* Para o preenchimento do quiz */
 }
 
 .icone-premio.desbloqueado {
@@ -376,6 +377,7 @@ header {
 .icone-premio i {
     font-size: 2.0rem;
     margin-bottom: 5px;
+    z-index: 2; /* Para ficar acima do preenchimento */
 }
 
 .icone-premio span {
@@ -384,6 +386,7 @@ header {
     font-weight: 500;
     line-height: 1.1;
     color: inherit; /* Garante que a cor seja herdada de .icone-premio ou .icone-premio.desbloqueado */
+    z-index: 2; /* Para ficar acima do preenchimento */
 }
 
 /* NOVO: Estilo para Imagem PNG personalizada no Badge */
@@ -393,6 +396,7 @@ header {
     object-fit: contain; 
     padding: 5px; 
     box-sizing: border-box;
+    z-index: 2; /* Para ficar acima do preenchimento */
 }
 
 /* Ajustes específicos para o Badge GRANDE de Check-ins */
@@ -403,6 +407,34 @@ header {
     padding: 0;
     margin-bottom: 5px;
 }
+
+/* --- AJUSTE 3: Barra de progresso para o Badge de Conhecimento --- */
+#badge-conhecimento-progresso {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 0%; /* Controlado pelo script.js */
+    width: 100%;
+    background-color: var(--cor-secundaria);
+    opacity: 0.7;
+    transition: height 0.5s ease-in-out;
+    z-index: 1;
+}
+
+#badge-conhecimento-progresso-texto {
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    z-index: 3;
+    display: none; /* Começa escondido */
+}
+
 
 /* Estilos de PWA Prompt */
 .pwa-prompt {
@@ -512,6 +544,12 @@ header {
     background-color: var(--cor-principal);
     transform: scale(1.2);
 }
+
+/* 2. Área de Visitação (Maps + Contato + Instagram) */
+/* style.css - CÓDIGO COMPLETO AJUSTADO */
+
+/* ... (código mantido, incluindo as variáveis, reset e o CSS básico) ... */
+
 
 /* 2. Área de Visitação (Maps + Contato + Instagram) */
 .location-link-container {
@@ -641,16 +679,6 @@ header {
 }
 
 /* --- ESTILOS DE QUIZ --- */
-
-/* REQ 3: Estilo para a nova informação do Badge Conhecimento */
-.quiz-badge-info {
-    font-size: 0.9rem;
-    font-style: italic;
-    color: #555;
-    text-align: center !important;
-    margin-top: -10px; /* Puxa para perto do título */
-    margin-bottom: 20px;
-}
 
 /* Estilo da Barra de Progresso */
 .progress-bar-container {
@@ -790,6 +818,9 @@ header {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease-in-out, visibility 0.3s;
+    /* AJUSTE 5: Garante padding para o overlay não colar nas bordas */
+    padding: 0 10px;
+    box-sizing: border-box;
 }
 
 .modal-overlay.open {
@@ -811,9 +842,13 @@ header {
     backdrop-filter: blur(8px); /* Efeito de vidro fosco */
     -webkit-backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 255, 255, 0.3);
-    
-    /* REQ 2: Correção para garantir que o padding não aumente a largura total */
-    box-sizing: border-box; 
+    /* AJUSTE 5: Garante que o conteúdo não cole nas bordas */
+    margin: 0 10px;
+    box-sizing: border-box;
+}
+
+.modal-overlay.open .modal-content {
+    transform: translateY(0);
 }
 
 .modal-content.small-modal {
@@ -824,6 +859,9 @@ header {
     background-color: rgba(235, 245, 238, 0.85); 
     background-size: cover;
     background-blend-mode: overlay; 
+    /* AJUSTE 5: Garante que o conteúdo não cole nas bordas */
+    margin: 0 10px;
+    box-sizing: border-box;
 }
 
 .close-modal {
@@ -917,8 +955,9 @@ header {
     width: 90%; 
     height: 90%;
     object-fit: contain;
-    /* REQ 5: Adicionado filtro de sombra/glow */
-    filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.2)) drop-shadow(0 0 5px var(--cor-secundaria));
+    /* AJUSTE 2: Adicionando o efeito de glow verde */
+    filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.2)) drop-shadow(0 0 5px var(--cor-secundaria)); 
+    transition: all 0.3s ease-in-out;
 }
 
 /* --- ESTILOS ADICIONAIS PARA ÁREA DE COMPARTILHAMENTO (CANVAS) --- */
@@ -965,60 +1004,66 @@ input[type="file"] {
     background-color: white;
 }
 
-/* REQ 4: Novos estilos para os ícones de ação do passaporte */
-.passport-actions {
-    position: relative;
-    display: flex;
-    justify-content: flex-end; /* Alinha à direita */
-    gap: 10px;
-    padding-right: 5px;
-    margin-bottom: 10px; /* Espaço acima da pré-visualização */
-    z-index: 10;
+/* Botões antigos - Serão escondidos pelo script.js */
+#btn-gerar-e-baixar, #btn-compartilhar-social {
+   display: none; 
 }
 
-.passport-icon-link {
-    font-size: 1.5rem;
-    color: white;
-    background-color: rgba(76, 175, 80, 0.8); /* Verde */
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
+/* AJUSTE 6: Novos botões de ícone para Download/Share */
+.upload-action-icons-container {
     display: flex;
     justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.upload-icon-btn {
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    width: 70px;
+    height: 70px;
+    border-radius: 15px;
+    background-color: var(--cor-fundo);
+    box-shadow: var(--sombra-neumorfismo-externa);
+    border: none;
     cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    transition: all 0.2s;
-    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+    color: var(--cor-texto);
+    font-size: 0.75rem;
+    font-weight: 600;
 }
 
-.passport-icon-link:hover {
-    background-color: var(--cor-principal);
-    transform: scale(1.1);
+.upload-icon-btn i {
+    font-size: 1.8rem;
+    margin-bottom: 5px;
 }
 
-.passport-icon-link.disabled {
-    background-color: #aaa;
-    pointer-events: none;
+.upload-icon-btn:disabled {
     opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: var(--sombra-neumorfismo-interna);
 }
 
-.passport-icon-link i {
-    font-size: 1rem;
-    line-height: 1;
+.upload-icon-btn:not(:disabled):active {
+    box-shadow: var(--sombra-neumorfismo-ativa);
+    transform: scale(0.98);
 }
 
-/* Cor azul para o botão de compartilhar */
-#btn-compartilhar-social.passport-icon-link {
-    background-color: rgba(0, 123, 255, 0.8); /* Azul */
+/* Cores específicas para os ícones de upload */
+#btn-gerar-e-baixar-icon i {
+    color: var(--cor-principal);
 }
-#btn-compartilhar-social.passport-icon-link:hover {
-    background-color: #007bff;
+
+#btn-compartilhar-social-icon i {
+    color: #007bff; /* Azul para compartilhar */
 }
+
 
 /* Estilos para o Canvas e Pré-visualização */
 #output-image-preview {
-    margin-top: 10px; /* Reduzido o espaço, já que os ícones estão acima */
+    margin-top: 20px;
     background-color: #f0f0f0; 
     border-radius: 15px;
     padding: 10px;
