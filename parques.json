@@ -182,14 +182,7 @@
         } 
     ],
     "ATIVIDADES_PARQUES": {
-
         "biribiri": [
-            { 
-            "id": "quiz", 
-            "nome": "Quiz: Conhecimento", 
-            "icone": "fa-brain",
-            "imagem_png": "badges/quiz-badge.png" 
-            },
             { 
             "id": "portariabiribiri", 
             "nome": "Portaria Biribiri", 
@@ -234,12 +227,6 @@
             }
         ],
         "ibitipoca": [
-            { 
-            "id": "quiz", 
-            "nome": "Quiz: Conhecimento", 
-            "icone": "fa-brain", 
-            "descricao_curta": "Teste seus conhecimentos para liberar este Badge!" 
-            },
             { 
             "id": "portariaibiripoca", 
             "nome": "Portaria Ibitipoca", 
@@ -400,12 +387,6 @@
         ],
         "itacolomi": [
             { 
-            "id": "quiz", 
-            "nome": "Quiz: Conhecimento", 
-            "icone": "fa-brain",
-            "imagem_png": "badges/quiz-badge.png" 
-            },
-            { 
             "id": "portaria", 
             "nome": "Portaria", 
             "icone": "fa-archway", 
@@ -486,12 +467,6 @@
         ],
         "lapagrande": [
             { 
-            "id": "quiz", 
-            "nome": "Quiz: Conhecimento", 
-            "icone": "fa-brain",
-            "imagem_png": "badges/quizlapagrande.png" 
-            },
-            { 
             "id": "portaria", 
             "nome": "Portaria", 
             "icone": "fa-archway", 
@@ -560,12 +535,6 @@
         ],
         "matadolimoeiro": [
             { 
-            "id": "quiz", 
-            "nome": "Quiz: Conhecimento", 
-            "icone": "fa-brain",
-            "imagem_png": "badges/quizmatadolimoeiro.png" 
-            },
-            { 
             "id": "portaria", 
             "nome": "Portaria", 
             "icone": "fa-archway", 
@@ -616,12 +585,6 @@
         ],
         "novabaden": [
             { 
-            "id": "quiz", 
-            "nome": "Quiz: Conhecimento", 
-            "icone": "fa-brain",
-            "imagem_png": "badges/quiznovabaden.png" 
-            },
-            { 
             "id": "portaria", 
             "nome": "Portaria", 
             "icone": "fa-archway", 
@@ -653,12 +616,6 @@
             }
         ],
         "paufurado": [
-            { 
-            "id": "quiz", 
-            "nome": "Quiz: Conhecimento", 
-            "icone": "fa-brain",
-            "imagem_png": "badges/quizpaufurado.png" 
-            },
             { 
             "id": "portaria", 
             "nome": "Portaria", 
@@ -704,12 +661,6 @@
         ],
         "picodoitambe": [
             { 
-            "id": "quiz", 
-            "nome": "Quiz: Conhecimento", 
-            "icone": "fa-brain",
-            "imagem_png": "badges/quizpicodoitambe.png" 
-            },
-            { 
             "id": "portaria", 
             "nome": "Portaria", 
             "icone": "fa-archway", 
@@ -747,12 +698,6 @@
             }
         ],
         "riodoce": [
-            { 
-            "id": "quizriodoce", 
-            "nome": "Quiz: Conhecimento", 
-            "icone": "fa-brain",
-            "imagem_png": "badges/quizriodoce.png" 
-            },
             { 
             "id": "portariariodoce", 
             "nome": "Portaria", 
@@ -827,78 +772,32 @@
             }
         ],
         "serradorolamoca": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" },
             { "id": "trilha1", "nome": "Trilha Morro Veados", "icone": "fa-deer", "descricao_curta": "Caminhada de dificuldade média com vista panorâmica." },
             { "id": "mirante", "nome": "Mirante Cachoeiras", "icone": "fa-water", "descricao_curta": "Veja as principais quedas d'água da região." }
         ],
-        "riodoce": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" },
-            { "id": "canoagem", "nome": "Canoagem no Rio", "icone": "fa-ship", "descricao_curta": "Navegue pelo lago e observe a fauna." },
-            { "id": "observacao", "nome": "Observação de Aves", "icone": "fa-dove", "descricao_curta": "Um dos melhores locais para ver espécies raras." }
-        ],
         "sumidouro": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" },
             { "id": "gruta", "nome": "Gruta da Lapinha", "icone": "fa-cave", "descricao_curta": "Explore a famosa caverna com formações incríveis." },
             { "id": "lagoa", "nome": "Trilha da Lagoa", "icone": "fa-fish-fins", "descricao_curta": "Passeio pela área da lagoa e sítios arqueológicos." }
         ],
-        "lapagrande": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" },
-            { "id": "pedra", "nome": "Trilha da Pedra", "icone": "fa-chess-rook", "descricao_curta": "A Trilha que leva a uma vista espetacular das montanhas." },
-            { "id": "arte", "nome": "Arte Rupestre", "icone": "fa-brush", "descricao_curta": "Descubra as pinturas rupestres milenares nas cavernas." }
-        ],
-        "itacolomi": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" },
-            { "id": "pico-itacolomi", "nome": "Pico do Itacolomi", "icone": "fa-arrow-up-long", "descricao_curta": "Conquiste o pico símbolo da região de Ouro Preto." },
-            { "id": "pomar", "nome": "Antigo Pomar", "icone": "fa-apple-whole", "descricao_curta": "Visite a área de descanso e o antigo pomar da fazenda." }
-        ],
-        "picodoitambe": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" },
-            { "id": "subida", "nome": "Subida ao Pico", "icone": "fa-climber", "descricao_curta": "Subida desafiadora para o ponto mais alto da serra." },
-            { "id": "nascente", "nome": "Nascentes Itambé", "icone": "fa-hand-holding-water", "descricao_curta": "Área de nascentes e riachos preservados." }
-        ],
         "serraverde": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" },
             { "id": "floresta", "nome": "Trilha da Floresta", "icone": "fa-forest", "descricao_curta": "Passeio pela vasta cobertura florestal do parque." },
             { "id": "arvore", "nome": "Árvore Monumental", "icone": "fa-tree", "descricao_curta": "Visite a árvore mais antiga e imponente da região." }
         ],
         "serradobrigadeiro": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" },
             { "id": "passaro", "nome": "Observatório Aves", "icone": "fa-crow", "descricao_curta": "Local ideal para observação da fauna local." },
             { "id": "cachoeira-bg", "nome": "Cachoeira Paredão", "icone": "fa-water", "descricao_curta": "Uma das maiores quedas d'água da Serra do Brigadeiro." }
         ],
         "riopreto": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" },
             { "id": "praia", "nome": "Praia do Rio", "icone": "fa-umbrella-beach", "descricao_curta": "Descanse nas praias fluviais do Rio Preto." },
             { "id": "remanso", "nome": "Poço do Remanso", "icone": "fa-swimming-pool", "descricao_curta": "Poço de águas tranquilas e transparentes para banho." }
         ],
         "serradasararas": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" },
             { "id": "placa", "nome": "Placa Histórica", "icone": "fa-scroll", "descricao_curta": "Ponto de registro histórico da Rota de Tropeiros." },
             { "id": "mirante-sa", "nome": "Mirante da Serra", "icone": "fa-mountain-sun", "descricao_curta": "Vista panorâmica do Noroeste Mineiro." }
         ],
-        "novabaden": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" },
-            { "id": "trilha-nb", "nome": "Trilha da Mata", "icone": "fa-road", "descricao_curta": "Passeio pela floresta ombrófila mista preservada." },
-            { "id": "mirante-nb", "nome": "Mirante da Paz", "icone": "fa-handshake", "descricao_curta": "Local tranquilo com vista para a região de Nova Baden." }
-        ],
         "serradointendente": [
-            { "id": "quiz", "nome": "Quiz: Conhecimento", "icone": "fa-brain", "descricao_curta": "Teste seus conhecimentos sobre o parque para liberar este Badge!" },
             { "id": "cachoeira-int", "nome": "Cachoeira do Intendente", "icone": "fa-water", "descricao_curta": "Queda d'água famosa, ideal para banho e fotos." },
             { "id": "trilha-int", "nome": "Trilha da Pedreira", "icone": "fa-road", "descricao_curta": "Antiga área de extração de pedras com vegetação de volta." }
         ]
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
