@@ -187,43 +187,43 @@
             "id": "portariabiribiri", 
             "nome": "Portaria Biribiri", 
             "icone": "fa-archway", 
-            "imagem_png": "badges/portaria-biribiri-badge.png"
+            "imagem_png": "badges/portariabiribiri.png"
             },
             { 
             "id": "viladobiribiri", 
             "nome": "Vila do Biribiri", 
             "icone": "fa-building-columns", 
-            "imagem_png": "badges/vila-do-biribiri-badge.png" 
+            "imagem_png": "badges/viladobiribiri.png" 
             },
             { 
             "id": "mirantedacruzinha", 
             "nome": "Mirante da Cruzinha", 
             "icone": "fa-building-columns", 
-            "imagem_png": "badges/mirante-da-cruzinha.png" 
+            "imagem_png": "badges/mirantedacruzinha.png" 
             },
             { 
             "id": "mirantedoguinda", 
-            "nome": "Mirante da Cruzinha", 
+            "nome": "Mirante do Guinda", 
             "icone": "fa-building-columns", 
-            "imagem_png": "badges/mirante-do-guinda.png" 
+            "imagem_png": "badges/mirantedoguinda.png" 
             },
             { 
             "id": "cachoeirasentinela", 
             "nome": "Cachoeira Sentinela", 
             "icone": "fa-water", 
-            "imagem_png": "badges/cachoeira-sentinela-badge.png" 
+            "imagem_png": "badges/cachoeirasentinela.png" 
             },
             { 
             "id": "cachoeiradoscristais", 
             "nome": "Cachoeira dos Cristais", 
             "icone": "fa-water", 
-            "imagem_png": "badges/cachoeira-dos-cristais-badge.png" 
+            "imagem_png": "badges/cachoeiradoscristais.png" 
             },
             { 
             "id": "caminhodosescravos", 
             "nome": "Caminho dos Escravos", 
             "icone": "fa-water", 
-            "imagem_png": "badges/caminho-dos-escravos-badge.png" 
+            "imagem_png": "badges/caminhodosescravos.png" 
             }
         ],
         "ibitipoca": [
@@ -801,4 +801,5 @@
         ]
     }
 }
+
 
