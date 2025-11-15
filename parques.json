@@ -231,7 +231,7 @@
             "id": "portariaibiripoca", 
             "nome": "Portaria Ibitipoca", 
             "icone": "fa-archway", 
-            "imagem_png": "badges/portaria-ibitipoca-badge.png"
+            "imagem_png": "badges/portariaibiripoca.png"
             },
             { 
             "id": "prainha", 
@@ -240,10 +240,10 @@
             "imagem_png": "badges/prainha.png"
             },
             { 
-            "id": "grutadosgnomos", 
+            "id": "grutadognomo", 
             "nome": "Gruta dos Gnomos", 
             "icone": "fa-cloud-meatball", 
-            "imagem_png": "badges/grutadosgnomos.png"
+            "imagem_png": "badges/grutadognomo.png"
             },
             { 
             "id": "lagodasmiragens", 
@@ -801,5 +801,6 @@
         ]
     }
 }
+
 
 
