@@ -1021,7 +1021,7 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         const badgeSize = 450; // Tamanho (estava "perfeito")
         const rotationAngle = -15 * Math.PI / 180; // Rotação (estava "perfeito")
         // AJUSTE: "metade do badge sobre a ponta superior da foto" E "não ficar cortado"
-        const badgeX = 110; // Ajustado para a direita (era 130)
+        const badgeX = 90; // Ajustado para a direita (era 130)
         const badgeY = photoY - (badgeSize / 2); // Sobrepõe metade para cima da foto
 
         // 4. TEXTOS (Check-in, Parque, Badge)
@@ -1441,4 +1441,5 @@ function iniciarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
+
 
