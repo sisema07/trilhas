@@ -872,7 +872,7 @@ function carregarAreaUpload(parqueId, atividadeId) {
         return;
     }
     
-    // --- AJUSTE CANVAS 9:16 + UI DE COMPARTILHAMENTO ---
+    // --- AJUSTE CANVAS 9:16 + UI DE COMPARTILHAMENTO (Ícones sem texto) ---
     areaEnvioFoto.innerHTML = `
         <h2 id="badge-upload-titulo" style="text-align: center; margin-bottom: 10px;">Compartilhar Badge: ${atividade.nome} (${parque.nome})</h2>
         <div class="upload-container">
@@ -880,7 +880,9 @@ function carregarAreaUpload(parqueId, atividadeId) {
             <input type="file" id="input-foto-badge" accept="image/*" style="margin-bottom: 15px;">
             
             <div id="output-image-preview" style="display: none; position: relative;"> 
-                <!-- Ícones de download e compartilhamento AGORA ACIMA DO CANVAS --><div class="upload-action-icons-container-top" style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 10; display: flex; gap: 20px;">
+                
+                <!-- Ícones de download e compartilhamento AGORA ACIMA DO CANVAS -->
+                <div class="upload-action-icons-container-top" style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 10; display: flex; gap: 20px;">
                     <button id="btn-gerar-e-baixar-icon" class="upload-icon-btn" disabled title="Baixar Imagem">
                         <i class="fas fa-download"></i>
                     </button>
@@ -893,7 +895,8 @@ function carregarAreaUpload(parqueId, atividadeId) {
                 <canvas id="passport-canvas" width="1080" height="1920" style="border: 1px solid #ccc; display: none; margin: 0 auto; max-width: 100%; height: auto;"></canvas>
             </div>
             
-            <!-- Os botões antigos que tinham texto foram removidos daqui --></div>
+            <!-- Os botões antigos que tinham texto foram removidos daqui -->
+        </div>
     `;
     // --- Fim do AJUSTE CANVAS + UI ---
 
@@ -1003,7 +1006,7 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             ctx.fillText('Carregando template...', canvas.width / 2, canvas.height / 2);
         }
 
-        // --- AJUSTE MANUAL DE POSICIONAMENTO (Baseado no feedback de image_f33e21.jpg) ---
+        // --- AJUSTE MANUAL DE POSICIONAMENTO (Baseado no feedback de image_f1e809.jpg) ---
 
         // 2. FOTO DO USUÁRIO (Proporção 4:5 - Feed Safe)
         const photoWidth = 880; // Largura da foto (um pouco menor que o canvas)
@@ -1018,7 +1021,7 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         const badgeSize = 450; // Tamanho (estava "perfeito")
         const rotationAngle = -15 * Math.PI / 180; // Rotação (estava "perfeito")
         // AJUSTE: "metade do badge sobre a ponta superior da foto" E "não ficar cortado"
-        const badgeX = 150; // AJUSTADO: movido para a direita (era 130)
+        const badgeX = 140; // AJUSTADO: movido para a direita (era 130)
         const badgeY = photoY - (badgeSize / 2); // AJUSTADO: Sobrepõe metade para cima da foto
 
         // 4. TEXTOS (Check-in, Parque, Badge)
