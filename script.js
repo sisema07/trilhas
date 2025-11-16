@@ -1,4 +1,4 @@
-// script.js - CÓDIGO COMPLETO COM AJUSTES (1, 3, 4, 6) + CORREÇÃO DE POSICIONAMENTO DO CANVAS
+// script.js - CÓDIGO COMPLETO COM AJUSTES (1, 3, 4, 6) + AJUSTE FINO DE POSICIONAMENTO
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -1006,7 +1006,7 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             ctx.fillText('Carregando template...', canvas.width / 2, canvas.height / 2);
         }
 
-        // --- AJUSTE MANUAL DE POSICIONAMENTO (Baseado no feedback de image_f17767.jpg) ---
+        // --- AJUSTE MANUAL DE POSICIONAMENTO (Baseado no feedback de image_f1e809.jpg) ---
         //
         // Você pode alterar estes valores para ajustar o layout:
 
@@ -1022,14 +1022,14 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         // 3. BADGE (Carimbo)
         const badgeSize = 450; // Tamanho (estava "perfeito")
         const rotationAngle = -15 * Math.PI / 180; // Rotação (estava "perfeito")
-        // AJUSTE: "metade do badge sobre a ponta superior da foto"
-        const badgeX = photoX - (badgeSize / 3); // Sobrepõe um pouco a esquerda da foto
+        // AJUSTE: "metade do badge sobre a ponta superior da foto" E "não ficar cortado"
+        const badgeX = photoX - (badgeSize / 3.5) + 20; // +20 para "arrastar" para a direita
         const badgeY = photoY - (badgeSize / 2); // Sobrepõe metade para cima da foto
 
         // 4. TEXTOS (Check-in, Parque, Badge)
-        // AJUSTE: "um pequeno espaço entre o badge e o texto" e "um pouco mais baixo"
-        const textX = badgeX + badgeSize - 10; // Posição X (à direita do badge, com 10px de folga)
-        const textY = badgeY + (badgeSize * 0.3); // Posição Y (Alinhado 30% abaixo do topo do badge)
+        // AJUSTE: "um pequeno espaço entre o badge e o texto" e "um pouco mais baixo" (mas sem tocar a foto)
+        const textX = badgeX + badgeSize + 20; // Posição X (à direita do badge, com 20px de folga)
+        const textY = badgeY + (badgeSize * 0.25); // Posição Y (Alinhado 25% abaixo do topo do badge)
         const fontSize1 = 33; // Tamanho original (conforme solicitado)
         const fontSize2 = 25; // Tamanho original (conforme solicitado)
         const lineHeight = 1.3; // Espaçamento entre linhas
@@ -1443,4 +1443,3 @@ function iniciarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
-
