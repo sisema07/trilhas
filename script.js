@@ -882,7 +882,7 @@ function carregarAreaUpload(parqueId, atividadeId) {
             <!-- AJUSTE: Canvas agora está escondido por padrão -->
             <div id="output-image-preview" style="display: none;"> 
                 <!-- AJUSTE: Canvas em alta definição 9:16 -->
-                <canvas id="passport-canvas" width="1080" height="1920" style="border: 1px solid #ccc; display: block; margin: 20px auto; max-width: 100%; height: auto;"></canvas>
+                <canvas id="passport-canvas" width="1080" height="1920" style="border: 1px solid #ccc; display: none; margin: 20px auto; max-width: 100%; height: auto;"></canvas>
             </div>
             
             <div class="upload-action-icons-container">
@@ -994,7 +994,6 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         // 1. Desenha o Template de Fundo (9:16)
-        // Certifique-se que 'images/story_template.png' exista
         if (passportTemplateImage.complete && passportTemplateImage.naturalWidth > 0) {
             ctx.drawImage(passportTemplateImage, 0, 0, canvas.width, canvas.height);
         } else {
@@ -1007,17 +1006,34 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             ctx.fillText('Carregando template...', canvas.width / 2, canvas.height / 2);
         }
 
-        // --- INÍCIO DA CORREÇÃO DE POSICIONAMENTO ---
-        
-        // 2. Define as dimensões da FOTO DO USUÁRIO (Proporção 9:16)
-        // Reduzido para 75% da largura para dar margem
-        const photoWidth = canvas.width * 0.75; // 810px
-        const photoX = (canvas.width - photoWidth) / 2; // 135px (margem lateral)
-        const photoHeight = photoWidth * (16 / 9); // 1440px
-        const photoY = 350; // Inicia a 350px do topo (deixa espaço para texto/badge)
-        const cornerRadius = 45; // Raio do canto fixo
+        // --- AJUSTE MANUAL DE POSICIONAMENTO (Baseado no feedback de image_f0836f.jpg) ---
+        //
+        // Você pode alterar estes valores para ajustar o layout:
 
-        // 3. Desenha a FOTO DO USUÁRIO (com "object-fit: cover")
+        // 2. BADGE (Carimbo)
+        const badgeSize = 360; // Aumentado (era 300)
+        const badgeX = 100;    // Posição X (da esquerda)
+        const badgeY = 180;    // Posição Y (do topo)
+
+        // 3. TEXTOS (Check-in, Parque, Badge)
+        const textX = badgeX + badgeSize + 0; // Posição X (à direita do badge)
+        const textY = badgeY + (badgeSize * 0.2); // Posição Y (alinhado ao topo do badge)
+        const fontSize1 = 40; // Aumentado (era 33)
+        const fontSize2 = 32; // Aumentado (era 25)
+        const lineHeight = 1.25; // Espaçamento entre linhas
+
+        // 4. FOTO DO USUÁRIO (Proporção 4:5 - Feed Safe)
+        const photoWidth = 880; // Largura da foto (um pouco menor que o canvas)
+        const photoHeight = photoWidth * (5 / 4); // Proporção 4:5 = 1100px
+        const photoX = (canvas.width - photoWidth) / 2; // Centralizado (100px de margem)
+        const photoY = 550; // Posição Y (abaixo do texto e badge)
+        const cornerRadius = 50; // Cantos arredondados
+        const borderWidth = 12; // Espessura da borda
+        const borderColor = '#b0bcc5'; // Cor da borda
+        
+        // --- FIM DO AJUSTE MANUAL ---
+
+        // 5. Desenha a FOTO DO USUÁRIO (com "object-fit: cover")
         if (userUploadedPhoto && userUploadedPhoto.complete && userUploadedPhoto.naturalWidth > 0) {
             
             ctx.save();
@@ -1039,15 +1055,20 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             
             // Lógica "Cover" para a foto do usuário
             const imgAspectRatio = userUploadedPhoto.naturalWidth / userUploadedPhoto.naturalHeight;
-            const frameAspectRatio = photoWidth / photoHeight; // 9:16
+            const frameAspectRatio = photoWidth / photoHeight; // 4:5
             
             let sx = 0, sy = 0, sWidth = userUploadedPhoto.naturalWidth, sHeight = userUploadedPhoto.naturalHeight;
             
-            if (imgAspectRatio > frameAspectRatio) {
-                sWidth = userUploadedPhoto.naturalHeight * frameAspectRatio;
+            // Lógica de "object-fit: cover"
+            if (imgAspectRatio > frameAspectRatio) { // Imagem mais larga que o frame (corta laterais)
+                sHeight = userUploadedPhoto.naturalHeight;
+                sWidth = sHeight * frameAspectRatio;
                 sx = (userUploadedPhoto.naturalWidth - sWidth) / 2;
-            } else {
-                sHeight = userUploadedPhoto.naturalWidth / frameAspectRatio;
+                sy = 0;
+            } else { // Imagem mais alta que o frame (corta topo/base)
+                sWidth = userUploadedPhoto.naturalWidth;
+                sHeight = sWidth / frameAspectRatio;
+                sx = 0;
                 sy = (userUploadedPhoto.naturalHeight - sHeight) / 2;
             }
             
@@ -1055,9 +1076,9 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             
             ctx.restore(); // Remove o clip
 
-            // 4. Desenha a BORDA da foto
-            ctx.strokeStyle = '#b0bcc5'; // Cor solicitada
-            ctx.lineWidth = 10; // Espessura da borda
+            // 6. Desenha a BORDA da foto
+            ctx.strokeStyle = borderColor; 
+            ctx.lineWidth = borderWidth; 
             ctx.beginPath();
             ctx.moveTo(photoX + cornerRadius, photoY);
             ctx.lineTo(photoX + photoWidth - cornerRadius, photoY);
@@ -1072,28 +1093,15 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             ctx.stroke();
         }
         
-        // 5. Desenha o BADGE (Carimbo)
+        // 7. Desenha o BADGE (Carimbo)
         if (stampImage.complete && stampImage.naturalWidth > 0) {
-            // Posicionamento baseado no layout (canto superior esquerdo da foto)
-            const badgeSize = 300; // Tamanho fixo
-            const badgeX = photoX - (badgeSize / 2.5); // Sobrepõe 1/3
-            const badgeY = photoY - (badgeSize / 2.5); // Sobrepõe 1/3
-            
             ctx.save();
             ctx.drawImage(stampImage, badgeX, badgeY, badgeSize, badgeSize);
             ctx.restore();
         
-            // 6. Desenha o TEXTO
+            // 8. Desenha o TEXTO
             ctx.textAlign = 'left';
             ctx.textBaseline = 'top';
-
-            // Posição de início do texto (baseado no layout)
-            const textX = badgeX + badgeSize + 20; // 20px à direita do badge
-            const textY = badgeY + (badgeSize * 0.25); // 25% para baixo do topo do badge
-            
-            const fontSize1 = 33;
-            const fontSize2 = 25;
-            const lineHeight = 1.2; // Espaçamento
 
             // Linha 1: "CHECK-IN REALIZADO" (Cores divididas)
             ctx.font = `bold ${fontSize1}pt 'Lora', serif`; 
@@ -1115,7 +1123,6 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             ctx.font = `${fontSize2}pt 'Lora', serif`; // Sem bold
             ctx.fillText(atividade.nome.toUpperCase(), textX, line3Y); 
         }
-        // --- FIM DA CORREÇÃO DE POSICIONAMENTO ---
     };
 
     // Delay para garantir que a fonte 'Lora' seja carregada pelo navegador antes de desenhar
@@ -1129,7 +1136,6 @@ function downloadCanvasImage(parqueNome, atividadeNome) {
     }
 
     const canvas = document.getElementById('passport-canvas');
-    // Correção: Encontra o parque e atividade pelos nomes
     const parque = DADOS_PARQUES.find(p => p.nome === parqueNome);
     if (!parque) { console.error("Parque não encontrado para download:", parqueNome); return; }
     const atividade = ATIVIDADES_PARQUES[parque.id]?.find(a => a.nome === atividadeNome);
