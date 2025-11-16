@@ -1016,12 +1016,11 @@ input[type="file"] {
     /* AJUSTE: Posicionamento flutuante (como o da fauna) */
     position: absolute;
     top: 20px; /* 10px do padding + 10px de espaço */
-    left: 50%;
-    transform: translateX(-50%);
+    right: 20px; /* 10px do padding + 10px de espaço */
     z-index: 10;
     display: flex;
     justify-content: center;
-    gap: 30px;
+    gap: 15px; /* Espaço entre os ícones */
     margin-bottom: 0; /* Não é mais necessário */
 }
 
@@ -1030,8 +1029,8 @@ input[type="file"] {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 45px;  /* Tamanho pequeno/slim */
-    height: 45px; /* Tamanho pequeno/slim */
+    width: 40px;  /* Tamanho pequeno/slim (era 45px) */
+    height: 40px; /* Tamanho pequeno/slim (era 45px) */
     border-radius: 50%; /* CIRCULAR */
     background-color: rgba(255, 255, 255, 0.7); /* Fundo branco "slim" */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra mais forte */
@@ -1039,11 +1038,10 @@ input[type="file"] {
     cursor: pointer;
     transition: all 0.2s ease-in-out;
     color: var(--cor-texto); /* Cor do ícone */
-    font-size: 1.1rem; /* Tamanho do ícone interior */
 }
 
 .upload-icon-btn i {
-    font-size: 1.1rem; /* Tamanho do ícone interior */
+    font-size: 1rem; /* Tamanho do ícone interior (era 1.1rem) */
     margin: 0; /* Reset */
 }
 
