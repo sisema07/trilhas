@@ -994,15 +994,54 @@ header {
     color: var(--cor-texto);
 }
 
-input[type="file"] {
-    display: block;
-    width: 100%;
-    margin: 10px 0 15px; /* AJUSTE: Reduzido */
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    background-color: white;
+/* --- AJUSTE: Botão de Upload Moderno --- */
+
+/* Esconde o botão "Windows 98" */
+.upload-container input[type="file"] {
+    display: none;
 }
+
+/* Estiliza o <label> para parecer um botão moderno */
+.file-upload-label {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--cor-principal);
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: all 0.2s ease-in-out;
+    box-shadow: var(--sombra-neumorfismo-externa);
+    margin-bottom: 10px; /* Espaço abaixo do botão */
+}
+.file-upload-label:active {
+    box-shadow: var(--sombra-neumorfismo-ativa);
+    transform: scale(0.98);
+}
+.file-upload-label i {
+    margin-right: 8px;
+}
+
+/* Estiliza o <span> que mostra o nome do arquivo */
+.file-upload-filename {
+    display: block; /* Para ocupar a própria linha */
+    font-size: 0.9rem;
+    color: #555;
+    margin-top: -5px; /* Puxa para perto do botão */
+    margin-bottom: 15px; /* Espaço antes do canvas */
+    font-style: italic;
+    
+    /* AJUSTE de alinhamento e largura (para centralizar com o canvas) */
+    /* Este max-width deve ser similar ao max-width do #output-image-preview */
+    max-width: 100%; 
+    margin-left: auto;
+    margin-right: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+/* --- Fim do Ajuste do Botão --- */
+
 
 /* Botões antigos - Serão escondidos pelo script.js */
 #btn-gerar-e-baixar, #btn-compartilhar-social {
@@ -1016,12 +1055,14 @@ input[type="file"] {
     /* AJUSTE: Posicionamento flutuante (como o da fauna) */
     position: absolute;
     top: 20px; /* 10px do padding + 10px de espaço */
-    right: 20px; /* 10px do padding + 10px de espaço */
     z-index: 10;
     display: flex;
-    justify-content: center;
     gap: 15px; /* Espaço entre os ícones */
     margin-bottom: 0; /* Não é mais necessário */
+    
+    /* AJUSTE: Centralizado (como solicitado) */
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 /* Botões de Ícone (Estilo "Slim" copiado da fauna) */
@@ -1085,6 +1126,13 @@ input[type="file"] {
     box-shadow: inset 2px 2px 5px rgba(0,0,0,0.1); 
     overflow: hidden; 
     position: relative; /* CRÍTICO: para os ícones flutuarem */
+    
+    /* AJUSTE: Centraliza e define a largura máxima (para alinhar com o input) */
+    max-width: 880px; /* Largura da foto no canvas */
+    width: 90%; /* Ajuste para responsividade */
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
 }
 
 #passport-canvas {
@@ -1095,6 +1143,9 @@ input[type="file"] {
     border: 1px solid #ccc;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     background: white;
+    
+    /* AJUSTE: Garante que o canvas preencha o container */
+    width: 100%; 
 }
 
 #user-photo-preview {
