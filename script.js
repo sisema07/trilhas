@@ -1006,9 +1006,7 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             ctx.fillText('Carregando template...', canvas.width / 2, canvas.height / 2);
         }
 
-        // --- AJUSTE MANUAL DE POSICIONAMENTO (Baseado no feedback de image_f1e809.jpg) ---
-        //
-        // Você pode alterar estes valores para ajustar o layout:
+        // --- AJUSTE MANUAL DE POSICIONAMENTO (Baseado no feedback de image_f33e21.jpg) ---
 
         // 2. FOTO DO USUÁRIO (Proporção 4:5 - Feed Safe)
         const photoWidth = 880; // Largura da foto (um pouco menor que o canvas)
