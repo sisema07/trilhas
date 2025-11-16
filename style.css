@@ -1013,10 +1013,16 @@ input[type="file"] {
 
 /* Container (gerado pelo script.js) */
 .upload-action-icons-container-top {
+    /* AJUSTE: Posicionamento flutuante (como o da fauna) */
+    position: absolute;
+    top: 20px; /* 10px do padding + 10px de espaço */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
     display: flex;
     justify-content: center;
     gap: 30px;
-    margin-bottom: 15px; /* Espaço entre os ícones e o canvas */
+    margin-bottom: 0; /* Não é mais necessário */
 }
 
 /* Botões de Ícone (Estilo "Slim" copiado da fauna) */
@@ -1028,11 +1034,12 @@ input[type="file"] {
     height: 45px; /* Tamanho pequeno/slim */
     border-radius: 50%; /* CIRCULAR */
     background-color: rgba(255, 255, 255, 0.7); /* Fundo branco "slim" */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra mais forte */
     border: 1px solid rgba(255, 255, 255, 0.5);
     cursor: pointer;
     transition: all 0.2s ease-in-out;
     color: var(--cor-texto); /* Cor do ícone */
+    font-size: 1.1rem; /* Tamanho do ícone interior */
 }
 
 .upload-icon-btn i {
@@ -1073,13 +1080,13 @@ input[type="file"] {
 
 /* Estilos para o Canvas e Pré-visualização */
 #output-image-preview {
-    margin-top: 0px; /* AJUSTE: Reduzido */
+    margin-top: 0px; /* AJUSTE: Reduzido (era 20px) */
     background-color: #f0f0f0; 
     border-radius: 15px;
     padding: 10px;
     box-shadow: inset 2px 2px 5px rgba(0,0,0,0.1); 
     overflow: hidden; 
-    position: relative; /* Necessário para os botões 'absolute' */
+    position: relative; /* CRÍTICO: para os ícones flutuarem */
 }
 
 #passport-canvas {
