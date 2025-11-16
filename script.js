@@ -1006,7 +1006,7 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             ctx.fillText('Carregando template...', canvas.width / 2, canvas.height / 2);
         }
 
-        // --- AJUSTE MANUAL DE POSICIONAMENTO (Baseado no feedback de image_f33e21.jpg) ---
+        // --- AJUSTE MANUAL DE POSICIONAMENTO (CORREÇÕES APLICADAS) ---
 
         // 2. FOTO DO USUÁRIO (Proporção 4:5 - Feed Safe)
         const photoWidth = 880; // Largura da foto (um pouco menor que o canvas)
@@ -1017,22 +1017,22 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         const borderWidth = 12; // Espessura da borda
         const borderColor = '#b0bcc5'; // Cor da borda
 
-        // 3. BADGE (Carimbo)
-        const badgeSize = 450; // Tamanho (estava "perfeito")
-        const rotationAngle = -15 * Math.PI / 180; // Rotação (estava "perfeito")
-        // AJUSTE: "metade do badge sobre a ponta superior da foto" E "não ficar cortado"
-        const badgeX = 140; // AJUSTADO: movido para a direita (era 130)
-        const badgeY = photoY - (badgeSize / 2); // AJUSTADO: Sobrepõe metade para cima da foto
+        // 3. BADGE (Carimbo) - AJUSTES PARA NÃO CORTAR
+        const badgeSize = 450; // Tamanho mantido
+        const rotationAngle = -15 * Math.PI / 180; // Rotação mantida
+        // CORREÇÃO: Badge mais para dentro para não cortar
+        const badgeX = 180; // AUMENTADO de 140 para 180 (mais afastado da borda)
+        const badgeY = photoY - (badgeSize / 2); // Mantido - sobrepõe metade para cima da foto
 
-        // 4. TEXTOS (Check-in, Parque, Badge)
-        // AJUSTE: "um pequeno espaço entre o badge e o texto" e "subir um pouquinho"
-        const textX = 590; // AJUSTADO: Posição X fixa (não depende mais do badge)
-        const textY = badgeY + (badgeSize * 0.2); // Posição Y (baseado no edit manual do usuário "0.2")
-        const fontSize1 = 33; // Tamanho original (conforme solicitado)
-        const fontSize2 = 25; // Tamanho original (conforme solicitado)
+        // 4. TEXTOS (Check-in, Parque, Badge) - AJUSTES PARA NÃO SAIR DA TELA
+        // CORREÇÃO: Texto mais para a esquerda e ajustado verticalmente
+        const textX = 560; // REDUZIDO de 590 para 560 (mais para dentro)
+        const textY = badgeY + (badgeSize * 0.25); // AUMENTADO de 0.2 para 0.25 (texto mais abaixo)
+        const fontSize1 = 33; // Tamanho mantido
+        const fontSize2 = 25; // Tamanho mantido
         const lineHeight = 1.3; // Espaçamento entre linhas
         
-        // --- FIM DO AJUSTE MANUAL ---
+        // --- FIM DAS CORREÇÕES ---
 
         // 5. Desenha a FOTO DO USUÁRIO (com "object-fit: cover")
         if (userUploadedPhoto && userUploadedPhoto.complete && userUploadedPhoto.naturalWidth > 0) {
@@ -1441,3 +1441,4 @@ function iniciarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
+
