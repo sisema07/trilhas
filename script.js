@@ -1,4 +1,4 @@
-// script.js - CÓDIGO COMPLETO COM AJUSTES (1, 3, 4, 6) + AJUSTE FINO DE POSICIONAMENTO
+// script.js - CÓDIGO COMPLETO COM AJUSTES (1, 3, 4, 6) + AJUSTE FINO DE POSICIONAMENTO + UI DE COMPARTILHAMENTO
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -872,33 +872,30 @@ function carregarAreaUpload(parqueId, atividadeId) {
         return;
     }
     
-    // --- AJUSTE CANVAS 9:16 ---
+    // --- AJUSTE CANVAS 9:16 + UI DE COMPARTILHAMENTO ---
     areaEnvioFoto.innerHTML = `
-        <h2 id="badge-upload-titulo" style="text-align: center; margin-bottom: 20px;">Compartilhar Badge: ${atividade.nome} (${parque.nome})</h2>
+        <h2 id="badge-upload-titulo" style="text-align: center; margin-bottom: 10px;">Compartilhar Badge: ${atividade.nome} (${parque.nome})</h2>
         <div class="upload-container">
-            <p>Selecione uma foto sua na trilha para carimbar:</p>
-            <input type="file" id="input-foto-badge" accept="image/*">
+            <p style="margin-bottom: 8px;">Selecione uma foto sua na trilha para carimbar:</p>
+            <input type="file" id="input-foto-badge" accept="image/*" style="margin-bottom: 15px;">
             
-            <!-- AJUSTE: Canvas agora está escondido por padrão -->
-            <div id="output-image-preview" style="display: none;"> 
-                <!-- AJUSTE: Canvas em alta definição 9:16 -->
-                <canvas id="passport-canvas" width="1080" height="1920" style="border: 1px solid #ccc; display: none; margin: 20px auto; max-width: 100%; height: auto;"></canvas>
+            <div id="output-image-preview" style="display: none; position: relative;"> 
+                <!-- Ícones de download e compartilhamento AGORA ACIMA DO CANVAS --><div class="upload-action-icons-container-top" style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 10; display: flex; gap: 20px;">
+                    <button id="btn-gerar-e-baixar-icon" class="upload-icon-btn" disabled title="Baixar Imagem">
+                        <i class="fas fa-download"></i>
+                    </button>
+                    
+                    <button id="btn-compartilhar-social-icon" class="upload-icon-btn" disabled title="Compartilhar">
+                        <i class="fas fa-share-alt"></i>
+                    </button>
+                </div>
+
+                <canvas id="passport-canvas" width="1080" height="1920" style="border: 1px solid #ccc; display: none; margin: 0 auto; max-width: 100%; height: auto;"></canvas>
             </div>
             
-            <div class="upload-action-icons-container">
-                <button id="btn-gerar-e-baixar-icon" class="upload-icon-btn" disabled title="Baixar Imagem">
-                    <i class="fas fa-download"></i>
-                    <span>Baixar</span>
-                </button>
-                
-                <button id="btn-compartilhar-social-icon" class="upload-icon-btn" disabled title="Compartilhar">
-                    <i class="fas fa-share-alt"></i>
-                    <span>Compartilhar</span>
-                </button>
-            </div>
-        </div>
+            <!-- Os botões antigos que tinham texto foram removidos daqui --></div>
     `;
-    // --- Fim do AJUSTE CANVAS ---
+    // --- Fim do AJUSTE CANVAS + UI ---
 
 
     const canvas = document.getElementById('passport-canvas');
@@ -1006,7 +1003,7 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             ctx.fillText('Carregando template...', canvas.width / 2, canvas.height / 2);
         }
 
-        // --- AJUSTE MANUAL DE POSICIONAMENTO (CORREÇÕES APLICADAS) ---
+        // --- AJUSTE MANUAL DE POSICIONAMENTO (Baseado no feedback de image_f33e21.jpg) ---
 
         // 2. FOTO DO USUÁRIO (Proporção 4:5 - Feed Safe)
         const photoWidth = 880; // Largura da foto (um pouco menor que o canvas)
@@ -1017,22 +1014,22 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         const borderWidth = 12; // Espessura da borda
         const borderColor = '#b0bcc5'; // Cor da borda
 
-        // 3. BADGE (Carimbo) - AJUSTES PARA NÃO CORTAR
-        const badgeSize = 450; // Tamanho mantido
-        const rotationAngle = -15 * Math.PI / 180; // Rotação mantida
-        // CORREÇÃO: Badge mais para dentro para não cortar
-        const badgeX = 180; // AUMENTADO de 140 para 180 (mais afastado da borda)
-        const badgeY = photoY - (badgeSize / 2); // Mantido - sobrepõe metade para cima da foto
+        // 3. BADGE (Carimbo)
+        const badgeSize = 450; // Tamanho (estava "perfeito")
+        const rotationAngle = -15 * Math.PI / 180; // Rotação (estava "perfeito")
+        // AJUSTE: "metade do badge sobre a ponta superior da foto" E "não ficar cortado"
+        const badgeX = 150; // AJUSTADO: movido para a direita (era 130)
+        const badgeY = photoY - (badgeSize / 2); // AJUSTADO: Sobrepõe metade para cima da foto
 
-        // 4. TEXTOS (Check-in, Parque, Badge) - AJUSTES PARA NÃO SAIR DA TELA
-        // CORREÇÃO: Texto mais para a esquerda e ajustado verticalmente
-        const textX = 560; // REDUZIDO de 590 para 560 (mais para dentro)
-        const textY = badgeY + (badgeSize * 0.25); // AUMENTADO de 0.2 para 0.25 (texto mais abaixo)
-        const fontSize1 = 33; // Tamanho mantido
-        const fontSize2 = 25; // Tamanho mantido
+        // 4. TEXTOS (Check-in, Parque, Badge)
+        // AJUSTE: "um pequeno espaço entre o badge e o texto" e "subir um pouquinho"
+        const textX = 590; // AJUSTADO: Posição X fixa (não depende mais do badge)
+        const textY = badgeY + (badgeSize * 0.2); // Posição Y (baseado no edit manual do usuário "0.2")
+        const fontSize1 = 33; // Tamanho original (conforme solicitado)
+        const fontSize2 = 25; // Tamanho original (conforme solicitado)
         const lineHeight = 1.3; // Espaçamento entre linhas
         
-        // --- FIM DAS CORREÇÕES ---
+        // --- FIM DO AJUSTE MANUAL ---
 
         // 5. Desenha a FOTO DO USUÁRIO (com "object-fit: cover")
         if (userUploadedPhoto && userUploadedPhoto.complete && userUploadedPhoto.naturalWidth > 0) {
@@ -1441,4 +1438,3 @@ function iniciarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
-
