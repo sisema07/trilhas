@@ -972,7 +972,7 @@ header {
 
 #badge-upload-titulo {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px; /* AJUSTE: Reduzido */
     font-size: 1.2rem;
     max-width: 100%;
 }
@@ -990,14 +990,14 @@ header {
 
 .upload-container p {
     font-size: 0.95rem;
-    margin-bottom: 15px;
+    margin-bottom: 8px; /* AJUSTE: Reduzido */
     color: var(--cor-texto);
 }
 
 input[type="file"] {
     display: block;
     width: 100%;
-    margin: 10px 0 20px;
+    margin: 10px 0 15px; /* AJUSTE: Reduzido */
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 10px;
@@ -1009,66 +1009,77 @@ input[type="file"] {
    display: none; 
 }
 
-/* AJUSTE 6: Novos botões de ícone para Download/Share */
-.upload-action-icons-container {
+/* --- AJUSTE 6: Novo Estilo "Slim/Fauna" para os botões de Upload --- */
+
+/* Container (gerado pelo script.js) */
+.upload-action-icons-container-top {
     display: flex;
     justify-content: center;
     gap: 30px;
-    margin-top: 20px;
+    margin-bottom: 15px; /* Espaço entre os ícones e o canvas */
 }
 
+/* Botões de Ícone (Estilo "Slim" copiado da fauna) */
 .upload-icon-btn {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 70px;
-    height: 70px;
-    border-radius: 15px;
-    background-color: var(--cor-fundo);
-    box-shadow: var(--sombra-neumorfismo-externa);
-    border: none;
+    width: 45px;  /* Tamanho pequeno/slim */
+    height: 45px; /* Tamanho pequeno/slim */
+    border-radius: 50%; /* CIRCULAR */
+    background-color: rgba(255, 255, 255, 0.7); /* Fundo branco "slim" */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.5);
     cursor: pointer;
     transition: all 0.2s ease-in-out;
-    color: var(--cor-texto);
-    font-size: 0.75rem;
-    font-weight: 600;
+    color: var(--cor-texto); /* Cor do ícone */
 }
 
 .upload-icon-btn i {
-    font-size: 1.8rem;
-    margin-bottom: 5px;
+    font-size: 1.1rem; /* Tamanho do ícone interior */
+    margin: 0; /* Reset */
 }
 
 .upload-icon-btn:disabled {
-    opacity: 0.5;
+    opacity: 0.4;
     cursor: not-allowed;
-    box-shadow: var(--sombra-neumorfismo-interna);
+    background-color: #aaa;
+    box-shadow: none;
 }
 
 .upload-icon-btn:not(:disabled):active {
-    box-shadow: var(--sombra-neumorfismo-ativa);
-    transform: scale(0.98);
+    transform: scale(0.95);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 /* Cores específicas para os ícones de upload */
-#btn-gerar-e-baixar-icon i {
-    color: var(--cor-principal);
+#btn-gerar-e-baixar-icon {
+    background-color: rgba(76, 175, 80, 0.7); /* Verde */
+    color: white;
+}
+#btn-gerar-e-baixar-icon:hover:not(:disabled) {
+     background-color: var(--cor-principal);
 }
 
-#btn-compartilhar-social-icon i {
-    color: #007bff; /* Azul para compartilhar */
+#btn-compartilhar-social-icon {
+    background-color: rgba(0, 123, 255, 0.7); /* Azul */
+    color: white;
 }
+#btn-compartilhar-social-icon:hover:not(:disabled) {
+    background-color: #007bff;
+}
+/* --- Fim do Ajuste 6 --- */
 
 
 /* Estilos para o Canvas e Pré-visualização */
 #output-image-preview {
-    margin-top: 20px;
+    margin-top: 0px; /* AJUSTE: Reduzido */
     background-color: #f0f0f0; 
     border-radius: 15px;
     padding: 10px;
     box-shadow: inset 2px 2px 5px rgba(0,0,0,0.1); 
     overflow: hidden; 
+    position: relative; /* Necessário para os botões 'absolute' */
 }
 
 #passport-canvas {
