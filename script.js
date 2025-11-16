@@ -879,23 +879,20 @@ function carregarAreaUpload(parqueId, atividadeId) {
             <p style="margin-bottom: 8px;">Selecione uma foto sua na trilha para carimbar:</p>
             <input type="file" id="input-foto-badge" accept="image/*" style="margin-bottom: 15px;">
             
-            <div id="output-image-preview" style="display: none; position: relative;"> 
+            <!-- Ícones de download e compartilhamento AGORA ACIMA DO CANVAS -->
+            <div class="upload-action-icons-container-top" style="display: flex; justify-content: center; gap: 30px; margin-bottom: 15px;">
+                <button id="btn-gerar-e-baixar-icon" class="upload-icon-btn" disabled title="Baixar Imagem">
+                    <i class="fas fa-download"></i>
+                </button>
                 
-                <!-- Ícones de download e compartilhamento AGORA ACIMA DO CANVAS -->
-                <div class="upload-action-icons-container-top" style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 10; display: flex; gap: 20px;">
-                    <button id="btn-gerar-e-baixar-icon" class="upload-icon-btn" disabled title="Baixar Imagem">
-                        <i class="fas fa-download"></i>
-                    </button>
-                    
-                    <button id="btn-compartilhar-social-icon" class="upload-icon-btn" disabled title="Compartilhar">
-                        <i class="fas fa-share-alt"></i>
-                    </button>
-                </div>
+                <button id="btn-compartilhar-social-icon" class="upload-icon-btn" disabled title="Compartilhar">
+                    <i class="fas fa-share-alt"></i>
+                </button>
+            </div>
 
+            <div id="output-image-preview" style="display: none; position: relative;"> 
                 <canvas id="passport-canvas" width="1080" height="1920" style="border: 1px solid #ccc; display: none; margin: 0 auto; max-width: 100%; height: auto;"></canvas>
             </div>
-            
-            <!-- Os botões antigos que tinham texto foram removidos daqui -->
         </div>
     `;
     // --- Fim do AJUSTE CANVAS + UI ---
