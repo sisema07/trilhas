@@ -228,10 +228,10 @@
         ],
         "ibitipoca": [
             { 
-            "id": "portariaibiripoca", 
+            "id": "portariaibitipoca", 
             "nome": "Portaria Ibitipoca", 
             "icone": "fa-archway", 
-            "imagem_png": "badges/portariaibiripoca.png"
+            "imagem_png": "badges/portariaibitipoca.png"
             },
             { 
             "id": "prainha", 
@@ -241,7 +241,7 @@
             },
             { 
             "id": "grutadognomo", 
-            "nome": "Gruta dos Gnomos", 
+            "nome": "Gruta do Gnomo", 
             "icone": "fa-cloud-meatball", 
             "imagem_png": "badges/grutadognomo.png"
             },
@@ -264,16 +264,10 @@
             "imagem_png": "badges/cachoeiradosmacacos.png"
             },
             { 
-            "id": "paredaosantoantonio", 
-            "nome": "Paredão Santo Antônio", 
+            "id": "paredaodosantoantonio", 
+            "nome": "Paredão do Santo Antônio", 
             "icone": "fa-cloud-meatball", 
-            "imagem_png": "badges/paredaosantoantonio.png"
-            },
-            { 
-            "id": "prainhadaselfas", 
-            "nome": "Prainha das Elfas", 
-            "icone": "fa-cloud-meatball", 
-            "imagem_png": "badges/prainhadaselfas.png"
+            "imagem_png": "badges/paredaodosantoantonio.png"
             },
             { 
             "id": "lagonegro", 
@@ -801,6 +795,7 @@
         ]
     }
 }
+
 
 
 
