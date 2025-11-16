@@ -1006,35 +1006,33 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             ctx.fillText('Carregando template...', canvas.width / 2, canvas.height / 2);
         }
 
-        // --- AJUSTE MANUAL DE POSICIONAMENTO (Baseado no feedback de image_f0836f.jpg) ---
+        // --- AJUSTE MANUAL DE POSICIONAMENTO (Baseado no feedback de image_f17767.jpg) ---
         //
         // Você pode alterar estes valores para ajustar o layout:
 
-        // 2. BADGE (Carimbo)
-        const badgeSize = 450; // Aumentado (era 360). 
-        const badgeX = 100;    // Posição X (da esquerda)
-        const badgeY = 220;    // Posição Y (do topo)
-        const rotationAngle = -15 * Math.PI / 180; // Rotação de -15 graus
-
-        // 3. TEXTOS (Check-in, Parque, Badge)
-        const textX = badgeX + badgeSize - 30; // Posição X (à direita do badge)
-        const textY = badgeY + (badgeSize * 0.25); // Posição Y (alinhado ao topo do badge)
-        const fontSize1 = 33; // Revertido para o tamanho original
-        const fontSize2 = 25; // Revertido para o tamanho original
-        const lineHeight = 1.3; // Espaçamento entre linhas
-
-        // 4. FOTO DO USUÁRIO (Proporção 4:5 - Feed Safe)
+        // 2. FOTO DO USUÁRIO (Proporção 4:5 - Feed Safe)
         const photoWidth = 880; // Largura da foto (um pouco menor que o canvas)
         const photoHeight = photoWidth * (5 / 4); // Proporção 4:5 = 1100px
         const photoX = (canvas.width - photoWidth) / 2; // Centralizado (100px de margem)
-        
-        // Posição Y (abaixo do badge E do texto)
-        const topElementsBottom = badgeY + (badgeSize / 2) + 50; // Posição Y (abaixo do texto e badge)
-        const photoY = topElementsBottom + 50; // 50px de espaço
-        
+        const photoY = 550; // Posição Y (abaixo do texto e badge)
         const cornerRadius = 50; // Cantos arredondados
         const borderWidth = 12; // Espessura da borda
         const borderColor = '#b0bcc5'; // Cor da borda
+
+        // 3. BADGE (Carimbo)
+        const badgeSize = 450; // Tamanho (estava "perfeito")
+        const rotationAngle = -15 * Math.PI / 180; // Rotação (estava "perfeito")
+        // AJUSTE: "metade do badge sobre a ponta superior da foto"
+        const badgeX = photoX - (badgeSize / 3.5); // Sobrepõe um pouco a esquerda da foto
+        const badgeY = photoY - (badgeSize / 2); // Sobrepõe metade para cima da foto
+
+        // 4. TEXTOS (Check-in, Parque, Badge)
+        // AJUSTE: "um pequeno espaço entre o badge e o texto" e "um pouco mais baixo"
+        const textX = badgeX + badgeSize - 10; // Posição X (à direita do badge, com 10px de folga)
+        const textY = badgeY + (badgeSize * 0.3); // Posição Y (Alinhado 30% abaixo do topo do badge)
+        const fontSize1 = 33; // Tamanho original (conforme solicitado)
+        const fontSize2 = 25; // Tamanho original (conforme solicitado)
+        const lineHeight = 1.3; // Espaçamento entre linhas
         
         // --- FIM DO AJUSTE MANUAL ---
 
