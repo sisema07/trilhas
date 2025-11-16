@@ -1,4 +1,4 @@
-// script.js - CÓDIGO COMPLETO COM AJUSTES (1, 3, 4, 6) + AJUSTE FINO DE POSICIONAMENTO + UI DE COMPARTILHAMENTO
+// script.js - CÓDIGO COMPLETO COM AJUSTES (1, 3, 4, 6) + AJUSTE FINO DE POSICIONAMENTO + UI DE COMPARTILHAMENTO + CORREÇÃO DO VÍDEO
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -877,7 +877,13 @@ function carregarAreaUpload(parqueId, atividadeId) {
         <h2 id="badge-upload-titulo" style="text-align: center; margin-bottom: 10px;">Compartilhar Badge: ${atividade.nome} (${parque.nome})</h2>
         <div class="upload-container">
             <p style="margin-bottom: 8px;">Selecione uma foto sua na trilha para carimbar:</p>
-            <input type="file" id="input-foto-badge" accept="image/*" style="margin-bottom: 15px;">
+            
+            <!-- AJUSTE: Botão de upload moderno -->
+            <label for="input-foto-badge" class="file-upload-label">
+                <i class="fas fa-upload"></i> Escolher Arquivo
+            </label>
+            <input type="file" id="input-foto-badge" accept="image/*">
+            <span id="file-upload-filename" class="file-upload-filename">Nenhum arquivo selecionado</span>
             
             <div id="output-image-preview" style="display: none; position: relative;"> 
                 
@@ -912,6 +918,7 @@ function carregarAreaUpload(parqueId, atividadeId) {
     const inputFotoBadge = document.getElementById('input-foto-badge');
     const btnGerarBaixar = document.getElementById('btn-gerar-e-baixar-icon');
     const btnCompartilhar = document.getElementById('btn-compartilhar-social-icon');
+    const fileNameSpan = document.getElementById('file-upload-filename'); // Pega o span do nome do arquivo
 
     if (!navigator.share) {
         btnCompartilhar.style.display = 'none';
@@ -922,6 +929,7 @@ function carregarAreaUpload(parqueId, atividadeId) {
     inputFotoBadge.onchange = (event) => {
         const file = event.target.files[0];
         if (file) {
+            fileNameSpan.textContent = file.name; // Mostra o nome do arquivo
             const reader = new FileReader();
             reader.onload = (e) => {
                 userPhoto.src = e.target.result;
@@ -940,6 +948,7 @@ function carregarAreaUpload(parqueId, atividadeId) {
             };
             reader.readAsDataURL(file);
         } else {
+            fileNameSpan.textContent = "Nenhum arquivo selecionado"; // Reseta o nome do arquivo
             // Esconde o canvas se nenhum arquivo for selecionado
             document.getElementById('output-image-preview').style.display = 'none';
             document.getElementById('passport-canvas').style.display = 'none';
@@ -1024,7 +1033,7 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
 
         // 4. TEXTOS (Check-in, Parque, Badge)
         // AJUSTE: "um pequeno espaço entre o badge e o texto" e "subir um pouquinho"
-        const textX = badgeX + badgeSize + 40; // AJUSTADO: Posição X (à direita do badge, com 40px de folga)
+        const textX = 590; // AJUSTADO: Posição X fixa (não depende mais do badge)
         const textY = badgeY + (badgeSize * 0.2); // Posição Y (baseado no edit manual do usuário "0.2")
         const fontSize1 = 33; // Tamanho original (conforme solicitado)
         const fontSize2 = 25; // Tamanho original (conforme solicitado)
@@ -1355,45 +1364,37 @@ async function inicializar() {
         
         configurarNavegacao();
 
+        // LÓGICA DO VÍDEO CORRIGIDA PARA NÃO CONGELAR
         if (localStorage.getItem('first_visit') !== 'false' && !checkinProcessado && videoElement && videoIntro) {
             localStorage.setItem('first_visit', 'false');
-            
             videoIntro.style.display = 'flex';
             videoElement.load();
-            
+
+            const onVideoEnd = () => {
+                if (videoIntro.style.display === 'none') return; // Já foi tratado
+                videoIntro.classList.add('fade-out');
+                setTimeout(() => {
+                    videoIntro.style.display = 'none';
+                    iniciarApp(); 
+                    lidarComHash(); 
+                }, 1000);
+            };
+
+            // Tenta tocar
             const playPromise = videoElement.play();
             if (playPromise !== undefined) {
                 playPromise.then(() => {
-                    videoElement.onended = () => { 
-                         videoIntro.classList.add('fade-out');
-                         setTimeout(() => {
-                            videoIntro.style.display = 'none';
-                            iniciarApp(); 
-                            lidarComHash(); 
-                         }, 1000); 
-                    };
-                    // Fallback para caso 'onended' não dispare (ex: vídeos curtos)
-                    setTimeout(() => {
-                        if (videoIntro.style.display !== 'none') {
-                            console.warn('Video onended event fallback triggered.');
-                            videoIntro.classList.add('fade-out');
-                            setTimeout(() => {
-                                videoIntro.style.display = 'none';
-                                iniciarApp(); 
-                                lidarComHash(); 
-                            }, 1000);
-                        }
-                    }, (videoElement.duration * 1000) + 500 || 5500); 
+                    // Sucesso no autoplay
+                    videoElement.onended = onVideoEnd;
+                    // Fallback de segurança (5 segundos) caso 'onended' não dispare
+                    setTimeout(onVideoEnd, 5000); 
                 }).catch(error => {
+                    // Autoplay falhou (comum em browsers)
                     console.warn('Autoplay impedido. Iniciando app diretamente.', error);
-                    videoIntro.style.display = 'none';
-                    iniciarApp();
-                    lidarComHash(); 
+                    onVideoEnd(); // Pula o vídeo
                 });
             } else {
-                videoIntro.style.display = 'none';
-                iniciarApp();
-                lidarComHash();
+                 onVideoEnd(); // Caso playPromise não seja suportado
             }
         } else {
             if (videoIntro) videoIntro.style.display = 'none';
