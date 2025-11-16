@@ -1029,7 +1029,7 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         // 4. TEXTOS (Check-in, Parque, Badge)
         // AJUSTE: "um pequeno espaço entre o badge e o texto" e "um pouco mais baixo" (mas sem tocar a foto)
         const textX = badgeX + badgeSize + 20; // Posição X (à direita do badge, com 20px de folga)
-        const textY = badgeY + (badgeSize * 0.25); // Posição Y (Alinhado 25% abaixo do topo do badge)
+        const textY = badgeY + (badgeSize * 0.2); // Posição Y (Alinhado 25% abaixo do topo do badge)
         const fontSize1 = 33; // Tamanho original (conforme solicitado)
         const fontSize2 = 25; // Tamanho original (conforme solicitado)
         const lineHeight = 1.3; // Espaçamento entre linhas
@@ -1443,3 +1443,4 @@ function iniciarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
+
