@@ -1,4 +1,4 @@
-// script.js - CÓDIGO COMPLETO COM AJUSTES (1, 3, 4, 6) + NOVO CANVAS 9:16
+// script.js - CÓDIGO COMPLETO COM AJUSTES (1, 3, 4, 6) + CORREÇÃO DE POSICIONAMENTO DO CANVAS
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -1007,13 +1007,15 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             ctx.fillText('Carregando template...', canvas.width / 2, canvas.height / 2);
         }
 
+        // --- INÍCIO DA CORREÇÃO DE POSICIONAMENTO ---
+        
         // 2. Define as dimensões da FOTO DO USUÁRIO (Proporção 9:16)
-        // Baseado no seu layout, a foto é centralizada e ocupa ~82% da largura
-        const photoWidth = canvas.width * 0.82; // 885.6px
-        const photoHeight = photoWidth * (16 / 9); // 1574.4px
-        const photoX = (canvas.width - photoWidth) / 2; // 97.2px
-        const photoY = 320; // Posição Y fixa para dar espaço ao texto acima
-        const cornerRadius = 45; // Raio do canto
+        // Reduzido para 75% da largura para dar margem
+        const photoWidth = canvas.width * 0.75; // 810px
+        const photoX = (canvas.width - photoWidth) / 2; // 135px (margem lateral)
+        const photoHeight = photoWidth * (16 / 9); // 1440px
+        const photoY = 350; // Inicia a 350px do topo (deixa espaço para texto/badge)
+        const cornerRadius = 45; // Raio do canto fixo
 
         // 3. Desenha a FOTO DO USUÁRIO (com "object-fit: cover")
         if (userUploadedPhoto && userUploadedPhoto.complete && userUploadedPhoto.naturalWidth > 0) {
@@ -1033,7 +1035,6 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             ctx.quadraticCurveTo(photoX, photoY, photoX + cornerRadius, photoY);
             ctx.closePath();
             
-            // Aplica o clip
             ctx.clip();
             
             // Lógica "Cover" para a foto do usuário
@@ -1042,10 +1043,10 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             
             let sx = 0, sy = 0, sWidth = userUploadedPhoto.naturalWidth, sHeight = userUploadedPhoto.naturalHeight;
             
-            if (imgAspectRatio > frameAspectRatio) { // Imagem mais larga que o frame
+            if (imgAspectRatio > frameAspectRatio) {
                 sWidth = userUploadedPhoto.naturalHeight * frameAspectRatio;
                 sx = (userUploadedPhoto.naturalWidth - sWidth) / 2;
-            } else { // Imagem mais alta que o frame
+            } else {
                 sHeight = userUploadedPhoto.naturalWidth / frameAspectRatio;
                 sy = (userUploadedPhoto.naturalHeight - sHeight) / 2;
             }
@@ -1057,7 +1058,6 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             // 4. Desenha a BORDA da foto
             ctx.strokeStyle = '#b0bcc5'; // Cor solicitada
             ctx.lineWidth = 10; // Espessura da borda
-            // Re-desenha o caminho arredondado para a borda
             ctx.beginPath();
             ctx.moveTo(photoX + cornerRadius, photoY);
             ctx.lineTo(photoX + photoWidth - cornerRadius, photoY);
@@ -1075,9 +1075,9 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         // 5. Desenha o BADGE (Carimbo)
         if (stampImage.complete && stampImage.naturalWidth > 0) {
             // Posicionamento baseado no layout (canto superior esquerdo da foto)
-            const badgeSize = photoWidth * 0.35; // 35% da largura da foto (aprox. 310px)
-            const badgeX = photoX - (badgeSize / 2.2); // Overlap left edge
-            const badgeY = photoY - (badgeSize / 2.2); // Overlap top edge
+            const badgeSize = 300; // Tamanho fixo
+            const badgeX = photoX - (badgeSize / 2.5); // Sobrepõe 1/3
+            const badgeY = photoY - (badgeSize / 2.5); // Sobrepõe 1/3
             
             ctx.save();
             ctx.drawImage(stampImage, badgeX, badgeY, badgeSize, badgeSize);
@@ -1088,7 +1088,7 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             ctx.textBaseline = 'top';
 
             // Posição de início do texto (baseado no layout)
-            const textX = photoX + (badgeSize / 2) + 20; // À direita do centro do badge
+            const textX = badgeX + badgeSize + 20; // 20px à direita do badge
             const textY = badgeY + (badgeSize * 0.25); // 25% para baixo do topo do badge
             
             const fontSize1 = 33;
@@ -1096,7 +1096,6 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             const lineHeight = 1.2; // Espaçamento
 
             // Linha 1: "CHECK-IN REALIZADO" (Cores divididas)
-            // Usando 'Lora' como substituta de 'EB Garamond'
             ctx.font = `bold ${fontSize1}pt 'Lora', serif`; 
             ctx.fillStyle = '#333'; // Cor escura
             ctx.fillText('CHECK-IN', textX, textY);
@@ -1116,6 +1115,7 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             ctx.font = `${fontSize2}pt 'Lora', serif`; // Sem bold
             ctx.fillText(atividade.nome.toUpperCase(), textX, line3Y); 
         }
+        // --- FIM DA CORREÇÃO DE POSICIONAMENTO ---
     };
 
     // Delay para garantir que a fonte 'Lora' seja carregada pelo navegador antes de desenhar
@@ -1366,6 +1366,7 @@ async function inicializar() {
                             lidarComHash(); 
                          }, 1000); 
                     };
+                    // Fallback para caso 'onended' não dispare (ex: vídeos curtos)
                     setTimeout(() => {
                         if (videoIntro.style.display !== 'none') {
                             console.warn('Video onended event fallback triggered.');
