@@ -1011,22 +1011,27 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         // Você pode alterar estes valores para ajustar o layout:
 
         // 2. BADGE (Carimbo)
-        const badgeSize = 360; // Aumentado (era 300)
+        const badgeSize = 450; // Aumentado (era 360). 
         const badgeX = 100;    // Posição X (da esquerda)
-        const badgeY = 180;    // Posição Y (do topo)
+        const badgeY = 220;    // Posição Y (do topo)
+        const rotationAngle = -15 * Math.PI / 180; // Rotação de -15 graus
 
         // 3. TEXTOS (Check-in, Parque, Badge)
-        const textX = badgeX + badgeSize + 0; // Posição X (à direita do badge)
-        const textY = badgeY + (badgeSize * 0.2); // Posição Y (alinhado ao topo do badge)
-        const fontSize1 = 40; // Aumentado (era 33)
-        const fontSize2 = 32; // Aumentado (era 25)
-        const lineHeight = 1.25; // Espaçamento entre linhas
+        const textX = badgeX + badgeSize - 30; // Posição X (à direita do badge)
+        const textY = badgeY + (badgeSize * 0.25); // Posição Y (alinhado ao topo do badge)
+        const fontSize1 = 33; // Revertido para o tamanho original
+        const fontSize2 = 25; // Revertido para o tamanho original
+        const lineHeight = 1.3; // Espaçamento entre linhas
 
         // 4. FOTO DO USUÁRIO (Proporção 4:5 - Feed Safe)
         const photoWidth = 880; // Largura da foto (um pouco menor que o canvas)
         const photoHeight = photoWidth * (5 / 4); // Proporção 4:5 = 1100px
         const photoX = (canvas.width - photoWidth) / 2; // Centralizado (100px de margem)
-        const photoY = 550; // Posição Y (abaixo do texto e badge)
+        
+        // Posição Y (abaixo do badge E do texto)
+        const topElementsBottom = badgeY + (badgeSize / 2) + 50; // Posição Y (abaixo do texto e badge)
+        const photoY = topElementsBottom + 50; // 50px de espaço
+        
         const cornerRadius = 50; // Cantos arredondados
         const borderWidth = 12; // Espessura da borda
         const borderColor = '#b0bcc5'; // Cor da borda
@@ -1096,22 +1101,23 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         // 7. Desenha o BADGE (Carimbo)
         if (stampImage.complete && stampImage.naturalWidth > 0) {
             ctx.save();
-            ctx.drawImage(stampImage, badgeX, badgeY, badgeSize, badgeSize);
-            ctx.restore();
+            // Translada o canvas para o centro do badge
+            ctx.translate(badgeX + badgeSize / 2, badgeY + badgeSize / 2);
+            // Rotaciona
+            ctx.rotate(rotationAngle);
+            // Desenha o badge a partir do seu novo centro (0,0)
+            ctx.drawImage(stampImage, -badgeSize / 2, -badgeSize / 2, badgeSize, badgeSize);
+            ctx.restore(); // Restaura o estado (remove rotação e translação)
         
             // 8. Desenha o TEXTO
             ctx.textAlign = 'left';
             ctx.textBaseline = 'top';
 
-            // Linha 1: "CHECK-IN REALIZADO" (Cores divididas)
+            // Linha 1: "CHECK-IN REALIZADO" (TUDO VERDE)
             ctx.font = `bold ${fontSize1}pt 'Lora', serif`; 
-            ctx.fillStyle = '#333'; // Cor escura
-            ctx.fillText('CHECK-IN', textX, textY);
+            ctx.fillStyle = '#4CAF50'; // Cor VERDE (como solicitado)
+            ctx.fillText('CHECK-IN REALIZADO', textX, textY);
             
-            const checkInWidth = ctx.measureText('CHECK-IN').width;
-            ctx.fillStyle = '#4CAF50'; // Verde
-            ctx.fillText(' REALIZADO', textX + checkInWidth, textY);
-
             // Linha 2: "PARQUE ESTADUAL..."
             const line2Y = textY + (fontSize1 * lineHeight);
             ctx.font = `bold ${fontSize2}pt 'Lora', serif`; 
