@@ -1,1199 +1,307 @@
-/* style.css - CÓDIGO COMPLETO AJUSTADO (COM EFEITO GLOW NOS ÍCONES) */
+/* style.css - VERSÃO FINAL PREMIUM (Glow Amarelo, Bloqueio de Download, Carrossel 16:9) */
 
 /* Variáveis de Cores e Estilos */
 :root {
-    --cor-fundo: #ebf5ee; /* Verde/Beige claro, ideal para Neumorfismo */
-    --cor-principal: #4CAF50; /* Verde vibrante */
-    --cor-secundaria: #8BC34A; /* Verde mais suave para destaque */
+    --cor-fundo: #ebf5ee;
+    --cor-principal: #4CAF50; /* Verde padrão */
+    --cor-secundaria: #8BC34A;
+    --cor-destaque: #FFD700; /* Amarelo Ouro para Glow */
     --cor-texto: #333;
     --cor-texto-claro: #f0f0f0;
-    --cor-sombra-clara: #ffffff;
-    --cor-sombra-escura: #a3b1c6;
-    /* Sombras Aprimoradas */
-    --sombra-neumorfismo-interna: inset 4px 4px 8px 0 #a3b1c6, inset -4px -4px 8px 0 var(--cor-sombra-clara);
-    --sombra-neumorfismo-externa: 8px 8px 16px 0 rgba(0,0,0,0.1), -8px -8px 16px 0 var(--cor-sombra-clara);
-    /* AJUSTE: Sombra de clique (ativa) para respeitar o border-radius */
-    --sombra-neumorfismo-ativa: inset 4px 4px 8px 0 #a3b1c6, inset -4px -4px 8px 0 var(--cor-sombra-clara); 
-    --sombra-neumorfismo-card: 4px 4px 8px 0 #a3b1c6, -4px -4px 8px 0 var(--cor-sombra-clara);
+    
+    /* Sombras Neumorfismo */
+    --sombra-neumorfismo-externa: 8px 8px 16px 0 rgba(0,0,0,0.1), -8px -8px 16px 0 #ffffff;
+    --sombra-neumorfismo-ativa: inset 4px 4px 8px 0 #a3b1c6, inset -4px -4px 8px 0 #ffffff;
+    
+    /* Glow Amarelo para Conquistas */
+    --glow-conquista: 0 0 15px rgba(255, 215, 0, 0.6), 0 0 5px rgba(255, 215, 0, 0.4);
 }
 
-/* Reset Básico e Fundo */
+/* --- BLOQUEIO GERAL DE DOWNLOAD/SELEÇÃO --- */
 body, html {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Open Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Open Sans', sans-serif;
     background-color: var(--cor-fundo);
     color: var(--cor-texto);
     overflow-x: hidden;
     touch-action: manipulation;
     width: 100%;
     height: 100%;
+    
+    /* Impede seleção de texto e imagem globalmente */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none; /* Impede menu de contexto no iOS */
 }
 
-/* --- Tela de Introdução (Com Vídeo) --- */
+/* Permite seleção apenas em inputs para digitar */
+input, textarea {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+img {
+    pointer-events: none; /* Bloqueia arraste de imagem */
+}
+
+/* Exceções: Botões e elementos interativos precisam de pointer-events */
+button img, a img, .icone-premio img, .fauna-grid-item img, .qr-mascote-img {
+    pointer-events: auto; 
+}
+
+/* --- TELA DE INTRODUÇÃO --- */
 #video-intro {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 0; left: 0; width: 100%; height: 100%;
     background-color: #000;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.5rem;
-    text-align: center;
-    transition: opacity 1s ease-out, visibility 1s;
     z-index: 9999;
-    opacity: 1;
-    visibility: visible;
+    display: flex; justify-content: center; align-items: center;
+    transition: opacity 1s ease-out, visibility 1s;
 }
+#video-intro.fade-out { opacity: 0; visibility: hidden; }
 
-.overlay-intro {
-    position: relative;
-    z-index: 10000;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-}
-
-#video-intro.fade-out {
-    opacity: 0;
-    visibility: hidden;
-}
-
-/* --- Container Principal (Design para Mobile e Desktop) --- */
+/* --- CONTAINER PRINCIPAL --- */
 #app-container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 10px 10px 20px;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    box-sizing: border-box;
-    overflow-x: hidden;
-    overflow-y: auto;
+    max-width: 900px; margin: 0 auto; padding: 10px 10px 20px;
+    min-height: 100vh; display: flex; flex-direction: column;
 }
 
-/* --- Header: Imagem de Título --- */
-header {
-    text-align: center;
-    padding: 10px 0 15px;
-    max-height: 15vh; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+header { padding: 10px 0 15px; text-align: center; }
+#titulo-imagem { height: 80px; object-fit: contain; }
 
-#titulo-imagem {
-    width: auto;
-    height: 100%;
-    max-height: 80px; 
-    max-width: 90%; 
-    margin: 0;
-    display: block;
-    object-fit: contain; 
-}
-
-/* --- Grid de Botões (Neumorfismo) --- */
+/* --- GRID DE BOTÕES (PARQUES) --- */
 #botoes-parques {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    padding: 0;
-    width: 100%;
-    box-sizing: border-box;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
 }
+@media (min-width: 768px) { #botoes-parques { grid-template-columns: repeat(4, 1fr); } }
 
-/* Media Queries (Mantidas) */
-@media (min-width: 768px) {
-    #botoes-parques {
-        grid-template-columns: repeat(4, 1fr);
-        max-width: 800px;
-        margin: 0 auto;
-    }
-}
-
-@media (min-width: 1024px) {
-    #botoes-parques {
-        grid-template-columns: repeat(5, 1fr);
-        max-width: 900px;
-    }
-}
-
-/* CORREÇÃO PARA MOBILE PEQUENO */
-@media (max-width: 480px) {
-    #botoes-parques {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
-    }
-    
-    .botao-parque {
-        border-radius: 15px;
-        padding: 6px;
-    }
-    
-    .nome-parque {
-        font-size: 0.75rem;
-    }
-    
-    .icone-parque-principal, .logo-parque-principal {
-        margin-bottom: 2px;
-    }
-}
- 
-/* Botões em Geral: Estilos mantidos */
 .botao-parque {
     background-color: var(--cor-fundo);
     border-radius: 20px;
-    aspect-ratio: 1 / 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 8px;
+    aspect-ratio: 1/1;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
     box-shadow: var(--sombra-neumorfismo-externa);
-    transition: all 0.2s ease-in-out;
-    cursor: pointer;
-    text-decoration: none;
-    color: var(--cor-texto);
-    position: relative;
-    overflow: hidden;
-    height: auto;
-    min-height: 44px; /* Tamanho mínimo para touch */
-    box-sizing: border-box;
+    text-decoration: none; color: var(--cor-texto);
+    padding: 5px;
+    /* Remove bloqueio de toque para funcionar o clique */
+    -webkit-touch-callout: none;
 }
+.botao-parque:active { box-shadow: var(--sombra-neumorfismo-ativa); transform: scale(0.98); }
 
-/* AJUSTE: Usando a sombra interna corrigida para o efeito de clique */
-.botao-parque:active {
-    box-shadow: var(--sombra-neumorfismo-ativa);
-    transform: scale(0.98);
+.icone-parque-principal, .logo-parque-principal {
+    font-size: 1.8rem; margin-bottom: 5px;
+    filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.2));
 }
+.logo-parque-principal { width: 60%; height: auto; object-fit: contain; }
+.nome-parque { font-size: 0.8rem; font-weight: 600; text-align: center; line-height: 1.1; }
 
-/* Ícone (Marca D'água) - Removido */
-.icone-parque {
-    display: none; 
-}
- 
-/* Ícone Principal (Font Awesome) */
-.icone-parque-principal {
-    font-size: 1.8rem; 
-    color: var(--cor-principal);
-    margin-bottom: 3px;
-    z-index: 2;
-    position: relative;
-    /* NOVO EFEITO: Sombra sutil e elevação */
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.2), 0 0 10px rgba(76, 175, 80, 0.5); /* Sombra 3D + Glow Verde */
-    transition: all 0.3s ease-in-out;
-}
-
-/* Estilo para as novas logos PNG nos botões */
-.logo-parque-principal {
-    width: 60%; 
-    height: auto;
-    max-height: 45px;
-    margin-bottom: 3px;
-    z-index: 2;
-    position: relative;
-    object-fit: contain;
-    /* NOVO EFEITO: Sombra sutil (para simular elevação e destaque) */
-    filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.2)) drop-shadow(0 0 5px var(--cor-secundaria)); 
-    transition: all 0.3s ease-in-out;
-}
-
-.nome-parque {
-    font-size: 0.85rem;
-    font-weight: 600;
-    z-index: 2;
-    position: relative;
-    line-height: 1.2;
-}
-
-/* Efeito Hover/Ativo para reforçar o destaque */
-.botao-parque:hover .icone-parque-principal,
-.botao-parque:hover .logo-parque-principal {
-    transform: scale(1.1);
-    filter: drop-shadow(2px 2px 5px rgba(0,0,0,0.3)) drop-shadow(0 0 15px var(--cor-principal));
-}
-
-
-/* AJUSTE: Botão Check-ins (Remove o destaque padrão) */
-#btn-premiacao {
-    background-color: var(--cor-fundo); 
-    color: var(--cor-texto);
-    box-shadow: var(--sombra-neumorfismo-externa);
-}
-#btn-premiacao .icone-parque-principal {
-    color: var(--cor-principal); 
-}
-#btn-premiacao:active {
-    box-shadow: var(--sombra-neumorfismo-ativa);
-    transform: scale(0.98);
-}
-
-
-/* --- Área Secundária (Park Detail/Check-ins) - CORREÇÃO CRÍTICA DE DISPLAY --- */
+/* --- ÁREA SECUNDÁRIA (DETALHES/BADGES) --- */
 #area-secundaria {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 100%;
-    max-width: 450px;
-    height: 100%;
+    position: fixed; top: 0; right: 0; width: 100%; height: 100%;
     background-color: var(--cor-fundo);
     z-index: 1000;
-    transform: translateX(100%);
-    transition: transform 0.3s ease-in-out;
-    display: flex; /* MANTIDO: O JS irá controlar a visibilidade inicial com style.display = 'none' */
-    flex-direction: column;
+    transform: translateX(100%); transition: transform 0.3s ease-in-out;
+    display: flex; flex-direction: column;
     overflow-y: auto;
-    overflow-x: hidden;
-    box-sizing: border-box;
-    border-left: 1px solid #ccc;
-    box-shadow: -5px 0 15px rgba(0,0,0,0.1);
-    -webkit-overflow-scrolling: touch;
 }
-
-#area-secundaria.aberto {
-    transform: translateX(0);
-}
-
-/* CORREÇÃO PARA MOBILE - garantir que não ultrapasse a tela */
-@media (max-width: 450px) {
-    #area-secundaria {
-        max-width: 100%;
-        border-left: none;
-    }
-}
-@media (max-width: 480px) {
-    #area-secundaria {
-        max-width: 100%;
-        border-left: none;
-        height: 100vh;
-    }
-}
+#area-secundaria.aberto { transform: translateX(0); }
+@media (min-width: 768px) { #area-secundaria { max-width: 500px; border-left: 1px solid #ccc; } }
 
 .secundaria-header {
-    display: flex;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: var(--cor-principal);
-    color: white;
+    display: flex; align-items: center; padding: 15px;
+    background-color: var(--cor-principal); color: white;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    position: sticky; top: 0; z-index: 100;
 }
-
-/* CORREÇÃO: Alinhamento do Título */
-#secundaria-titulo {
-    margin: 0 5px; 
-    font-size: 1.25rem;
-    flex-grow: 1; 
-    text-align: left; /* Garante que o título se expanda, mantendo o texto à esquerda */
-}
-
-/* Botão Voltar/Home - MUDANÇA: APENAS O HOME PERMANECE */
 #btn-home {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 1.25rem;
-    padding: 0;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    margin-right: 10px; /* Adiciona margem à direita para separar do título */
-    margin-left: 0; /* Garante que fique à esquerda no lugar do btn-voltar */
-    z-index: 20;
-    min-height: 44px; /* Tamanho mínimo para touch */
+    background: none; border: none; color: white; font-size: 1.4rem; cursor: pointer; margin-right: 15px;
 }
+#secundaria-titulo { margin: 0; font-size: 1.2rem; flex-grow: 1; }
 
-/* --- Estilos da Área de Check-ins (Badges) --- */
-#conteudo-premios {
-    padding: 20px;
-    text-align: center;
-}
-
-.premios-titulo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2rem;
-    color: var(--cor-principal);
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-    margin-bottom: 15px;
-}
-
-/* --- ESTILOS DO GRID DE BADGES DE CHECK-INS (TAMANHO GRANDE) --- */
-#lista-icones-premios {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-    gap: 15px;
-    margin-top: 20px;
-    padding: 0;
-}
-
-/* Badge Quadrado Grande - PADRONIZADO (Estilo Base Bloqueado) */
-.icone-premio {
-    background-color: var(--cor-fundo);
-    border-radius: 15px;
-    aspect-ratio: 1 / 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    box-shadow: var(--sombra-neumorfismo-externa);
-    transition: all 0.3s ease-in-out;
-    position: relative;
-    padding: 10px;
-    opacity: 0.5; /* Opacidade reduzida para itens Bloqueados/Desativados */
-    color: #888; /* Cor de texto mais neutra para bloqueado */
-    font-style: italic;
-    cursor: default;
-    overflow: hidden; /* Para o preenchimento do quiz */
-}
-
-.icone-premio.desbloqueado {
-    /* Estilo de Desbloqueado/Ativado (Sombra interna de "pressionado") */
-    box-shadow: var(--sombra-neumorfismo-ativa); 
-    color: var(--cor-principal); /* Cor principal para destaque */
-    opacity: 1.0;
-    font-style: normal;
-    cursor: pointer;
-}
-
-.icone-premio:active.desbloqueado {
-    /* Efeito de clique apenas em itens ativados */
-    box-shadow: var(--sombra-neumorfismo-card); 
-    transform: scale(0.99); 
-}
-
-.icone-premio i {
-    font-size: 2.0rem;
-    margin-bottom: 5px;
-    z-index: 2; /* Para ficar acima do preenchimento */
-}
-
-.icone-premio span {
-    font-size: 0.7rem;
-    text-align: center;
-    font-weight: 500;
-    line-height: 1.1;
-    color: inherit; /* Garante que a cor seja herdada de .icone-premio ou .icone-premio.desbloqueado */
-    z-index: 2; /* Para ficar acima do preenchimento */
-}
-
-/* NOVO: Estilo para Imagem PNG personalizada no Badge */
-.badge-custom-img {
-    width: 100%; 
-    height: 100%;
-    object-fit: contain; 
-    padding: 5px; 
-    box-sizing: border-box;
-    z-index: 2; /* Para ficar acima do preenchimento */
-}
-
-/* Ajustes específicos para o Badge GRANDE de Check-ins */
-#lista-icones-premios .icone-premio .badge-custom-img {
-    width: 80%; 
-    height: auto;
-    max-height: 80%;
-    padding: 0;
-    margin-bottom: 5px;
-}
-
-/* --- AJUSTE 3: Barra de progresso para o Badge de Conhecimento --- */
-#badge-conhecimento-progresso {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 0%; /* Controlado pelo script.js */
-    width: 100%;
-    background-color: var(--cor-secundaria);
-    opacity: 0.7;
-    transition: height 0.5s ease-in-out;
-    z-index: 1;
-}
-
-#badge-conhecimento-progresso-texto {
-    position: absolute;
-    bottom: 5px;
-    left: 0;
-    width: 100%;
-    text-align: center;
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: white;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-    z-index: 3;
-    display: none; /* Começa escondido */
-}
-
-
-/* Estilos de PWA Prompt */
-.pwa-prompt {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    max-width: 90%;
-    background-color: var(--cor-principal);
-    color: white;
-    padding: 15px;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-    z-index: 2000;
-    text-align: center;
-}
-
-.pwa-prompt p {
-    margin: 0 0 10px;
-    font-weight: 600;
-}
-
-#install-btn, #close-prompt {
-    background: white;
-    color: var(--cor-principal);
-    border: none;
-    padding: 8px 15px;
-    margin: 5px;
-    border-radius: 8px;
-    font-weight: 700;
-    cursor: pointer;
-    min-height: 44px;
-}
-
-#close-prompt {
-    background: transparent;
-    border: 1px solid white;
-    color: white;
-    font-weight: 400;
-}
-
-/* --- Estilos da Página de Detalhes do Parque --- */
-#conteudo-parque-detalhe {
-    padding: 0 0 20px 0;
-}
-
-/* 1. Carrossel de Imagens */
+/* --- CARROSSEL 16:9 PADRONIZADO --- */
 .park-carousel-container {
     width: 100%;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 16 / 9; /* Força proporção 16:9 */
     overflow: hidden;
     position: relative;
-    margin-bottom: 15px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-@media (max-width: 480px) {
-    .park-carousel-container {
-        aspect-ratio: 4/3; /* Mais quadrado para mobile */
-    }
+    background-color: #000; /* Fundo preto para evitar buracos */
+    margin-bottom: 10px;
 }
 
 .park-carousel {
     display: flex;
-    width: 100%;
-    height: 100%;
+    width: 100%; height: 100%;
     overflow-x: scroll;
     scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    -ms-overflow-style: none;
     scrollbar-width: none;
 }
-
-.park-carousel::-webkit-scrollbar {
-    display: none;
-}
+.park-carousel::-webkit-scrollbar { display: none; }
 
 .carousel-image {
     flex-shrink: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    width: 100%; height: 100%;
+    object-fit: cover; /* Garante que a imagem cubra a área sem distorcer */
     scroll-snap-align: start;
-    display: block;
 }
 
-.carousel-dots {
-    position: absolute;
-    bottom: 10px;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-}
-
-.dot {
-    width: 8px;
-    height: 8px;
-    background-color: rgba(255, 255, 255, 0.6);
-    border-radius: 50%;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.dot.active {
-    background-color: var(--cor-principal);
-    transform: scale(1.2);
-}
-
-/* 2. Área de Visitação (Maps + Contato + Instagram) */
-/* style.css - CÓDIGO COMPLETO AJUSTADO */
-
-/* ... (código mantido, incluindo as variáveis, reset e o CSS básico) ... */
-
-
-/* 2. Área de Visitação (Maps + Contato + Instagram) */
-.location-link-container {
-    display: flex;
-    align-items: center;
-    justify-content: center; 
-    gap: 25px; /* Aumenta o espaçamento */
-    padding: 10px 20px;
-}
-
-.location-link-container span {
-    display: none; /* Remove a frase "Venha nos visitar" */
-}
-
-.location-icon-link {
-    color: #444; 
-    font-size: 1.6rem;
-    transition: color 0.2s;
-    width: 35px;
-    text-align: center;
-    line-height: 1;
-    text-decoration: none !important;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.15); 
-}
-
-
-.location-icon-link:nth-child(1) { /* 1. Maps */
-    color: #DB4437; /* Vermelho/Laranja */
-}
-.location-icon-link:nth-child(2) { /* 2. Instagram */
-    color: #E1306C; /* Rosa/Roxo */
-}
-.location-icon-link:nth-child(3) { /* 3. YouTube (Vermelho) */
-    color: #FF0000; 
-}
-.location-icon-link:nth-child(4) { /* 4. Site (Globo) */
-    color: #00BCD4; /* Ciano/Azul Claro */
-}
-.location-icon-link:nth-child(5) { /* 5. WhatsApp */
-    color: #25D366; /* Verde WhatsApp */
-}
-.location-icon-link:nth-child(6) { /* 6. Telefone */
-    color: #3f51b5; /* Azul Escuro */
-}
-.location-icon-link:nth-child(7) { /* 7. Email */
-    color: #FF9800; /* Laranja */
-}
-/* ------------------------------------------------------------------------------------------------------- */
-
-.separator {
-    border: none;
-    border-top: 1px solid #ccc;
-    margin: 15px 20px;
-    opacity: 0.5;
-}
-
-/* 3. Botões de Ação */
-.action-buttons-container {
-    display: flex;
-    justify-content: space-around;
-    padding: 10px 20px;
-}
-
-.action-button {
-    flex-grow: 1;
-    margin: 0 5px;
-    padding: 12px 5px;
-    background-color: var(--cor-fundo);
-    color: var(--cor-texto);
-    border: none;
-    border-radius: 10px;
-    font-weight: 700;
-    font-size: 0.95rem;
-    cursor: pointer;
-    box-shadow: var(--sombra-neumorfismo-externa);
-    transition: all 0.2s ease-in-out;
-    min-height: 44px;
-}
-
-.action-button.info-btn {
-    font-size: 1.2rem; /* Aumenta o ícone 'i' */
-    padding: 12px 5px; 
-}
-.action-button.info-btn i {
-    margin: 0;
-}
-
-.action-button.active {
-    box-shadow: var(--sombra-neumorfismo-ativa);
-    background-color: var(--cor-principal);
-    color: var(--cor-texto-claro);
-    transform: scale(0.98);
-}
-
-.action-button:active:not(.active) {
-    box-shadow: var(--sombra-neumorfismo-ativa);
-    transform: scale(0.98);
-}
-
-/* 4. Área de Conteúdo Dinâmico (INFO/QUIZ/ATIVIDADES/FAUNA) */
-#dynamic-content-area {
-    padding: 15px 20px;
-    line-height: 1.6;
-    color: #444;
-}
-
-#dynamic-content-area h3 {
-    color: var(--cor-principal);
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.6rem;
-    margin-top: 15px;
-    text-transform: capitalize;
-    /* MUDANÇA SOLICITADA: Centralizar todos os títulos H3 dentro da área dinâmica */
-    text-align: center;
-}
-
-#dynamic-content-area p {
-    margin-bottom: 15px;
-    text-align: justify;
-}
-
-.badge-description {
-    font-size: 0.9rem;
-    color: #666;
-    margin-top: -10px;
-    text-align: center !important;
-}
-
-/* --- ESTILOS DE QUIZ --- */
-
-/* Estilo da Barra de Progresso */
-.progress-bar-container {
-    position: relative;
-    width: 90%;
-    max-width: 400px;
-    margin: 20px auto 30px;
-    height: 15px;
-    background-color: var(--cor-sombra-escura); 
-    border-radius: 8px;
-    box-shadow: var(--sombra-neumorfismo-interna); 
-    overflow: hidden;
-}
-
-.progress-bar {
-    height: 100%;
-    width: 100%;
-}
-
-#quiz-progress {
-    height: 100%;
-    background-color: var(--cor-secundaria);
-    border-radius: 8px;
-    transition: width 0.4s ease-in-out;
-}
-
-/* Estilo para a Tela de Resultados (Win/Lose) */
-.result-classification {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-}
-
-.success-badge-message {
-    font-weight: 700;
-    color: var(--cor-principal);
-    margin-bottom: 20px;
-}
-
-.win-animation-container {
-    width: 100px; 
-    height: 100px;
-    margin: 10px auto;
-}
-.win-gif-mascote {
-    max-width: 100%;
-    height: auto;
-    border-radius: 50%;
-    box-shadow: 0 0 15px rgba(0, 150, 0, 0.4);
-}
-/* Fim dos Estilos de Quiz */
-
-
-/* --- ESTILOS DE GRID DE FAUNA (2 colunas) --- */
-#fauna-grid-dinamica {
+/* --- BADGES & FAUNA (GLOW AMARELO) --- */
+#lista-icones-premios, #fauna-grid-dinamica, #lista-atividades-dinamica {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
     gap: 15px;
-    margin-top: 20px;
-    padding: 0 10px;
+    padding: 20px;
 }
 
-/* --- ESTILOS DE GRID DE ATIVIDADES (3 colunas, apenas imagem e título) --- */
-#lista-atividades-dinamica {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 Colunas */
-    gap: 10px;
-    margin-top: 20px;
-    padding: 0 10px;
-}
-
-/* Estilo do botão de Fauna/Atividade (PADRONIZADO COM OS BADGES) */
-.fauna-grid-item, .activity-grid-item {
+.icone-premio, .fauna-grid-item, .activity-grid-item {
     background-color: var(--cor-fundo);
     border-radius: 15px;
-    aspect-ratio: 1 / 1; 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+    aspect-ratio: 1/1;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
     box-shadow: var(--sombra-neumorfismo-externa);
-    transition: all 0.2s ease-in-out;
-    cursor: pointer;
-    padding: 5px;
-    min-height: 80px;
-    box-sizing: border-box;
-    opacity: 0.5; /* PADRONIZAÇÃO: Opacidade reduzida para itens bloqueados */
-    color: #888;
-    font-style: italic;
-}
-
-.activity-grid-item.desbloqueado, .fauna-grid-item.desbloqueado {
-    /* PADRONIZAÇÃO: Estilo de Desbloqueado/Ativado (Sombra interna) */
-    box-shadow: var(--sombra-neumorfismo-ativa);
-    opacity: 1.0; 
-    color: var(--cor-texto); /* Texto escuro normal para itens desbloqueados */
-    font-style: normal;
-}
-
-.fauna-grid-item:active.desbloqueado, .activity-grid-item:active.desbloqueado {
-    /* Efeito de clique */
-    box-shadow: var(--sombra-neumorfismo-card);
-    transform: scale(0.98);
-}
-
-
-.fauna-grid-item img, .activity-grid-item img {
-    width: 60%; 
-    height: auto;
-    max-height: 60%;
-    object-fit: contain;
-    margin-bottom: 5px;
-}
-
-.fauna-grid-item span, .activity-grid-item span {
-    font-size: 0.8rem;
-    font-weight: 600;
-    line-height: 1.1;
-    color: inherit;
-}
-
-
-/* --- ESTILOS DO MODAL (Pop-up Moderno - Glassmorphism) --- */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6); 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease-in-out, visibility 0.3s;
-    /* AJUSTE 5: Garante padding para o overlay não colar nas bordas */
-    padding: 0 10px;
-    box-sizing: border-box;
-}
-
-.modal-overlay.open {
-    opacity: 1;
-    visibility: visible;
-}
-
-.modal-content {
-    background-color: rgba(255, 255, 255, 0.75); /* Fundo branco com transparência (Glassmorphism) */
-    padding: 30px;
-    border-radius: 20px;
-    /* Sombra mais destacada e borda interna de vidro */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
-    max-width: 90%;
-    width: 400px;
+    opacity: 0.5; filter: grayscale(80%); /* Estado bloqueado */
+    transition: all 0.3s;
     position: relative;
-    transform: translateY(-50px);
-    transition: transform 0.3s ease-in-out;
-    backdrop-filter: blur(8px); /* Efeito de vidro fosco */
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    /* AJUSTE 5: Garante que o conteúdo não cole nas bordas */
-    margin: 0 10px;
-    box-sizing: border-box;
 }
 
-.modal-overlay.open .modal-content {
-    transform: translateY(0);
+/* ESTADO DESBLOQUEADO (COM GLOW AMARELO) */
+.icone-premio.desbloqueado, 
+.fauna-grid-item.desbloqueado, 
+.activity-grid-item.desbloqueado {
+    opacity: 1; filter: grayscale(0%);
+    box-shadow: var(--sombra-neumorfismo-externa), var(--glow-conquista); /* Glow aqui */
+    border: 1px solid rgba(255, 215, 0, 0.3); /* Borda sutil dourada */
 }
 
-.modal-content.small-modal {
-    width: 300px;
-    padding: 20px;
-    /* Adiciona um fundo sutil relacionado à natureza para os modais pequenos */
-    background-image: url('images/nature-pattern.png'); 
-    background-color: rgba(235, 245, 238, 0.85); 
-    background-size: cover;
-    background-blend-mode: overlay; 
-    /* AJUSTE 5: Garante que o conteúdo não cole nas bordas */
-    margin: 0 10px;
-    box-sizing: border-box;
+.icone-premio img, .fauna-grid-item img, .activity-grid-item img {
+    width: 65%; height: auto; object-fit: contain; margin-bottom: 5px;
+}
+.icone-premio span, .fauna-grid-item span, .activity-grid-item span {
+    font-size: 0.75rem; text-align: center; font-weight: 600;
 }
 
-.close-modal {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    color: var(--cor-principal);
-    cursor: pointer;
-    min-height: 44px;
-    min-width: 44px;
-    z-index: 10;
-}
-
-#fauna-modal-body h4 {
-    color: var(--cor-principal);
-    font-size: 1.4rem;
-    margin-top: 0;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-}
-#fauna-modal-body img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 10px;
-    margin-bottom: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-#fauna-modal-body p {
-    font-size: 0.95rem;
-    color: #444;
-    text-align: justify;
-}
-
-/* Garante que o texto seja legível nos modais pequenos (Introdutório e QR) */
-#intro-modal-body p, #qr-modal-body p {
-    color: var(--cor-texto); 
-    text-shadow: 0 0 1px rgba(255, 255, 255, 0.8);
-}
-
-/* --- Estilos da Área de Instruções de QR Code --- */
-.activity-instructions {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0 10px;
-    margin-bottom: 10px;
-    background-color: var(--cor-fundo); 
-}
-
-.instruction-text {
-    width: 100%;
-    padding-right: 0; 
-}
-
-.instruction-text h3 {
-    font-size: 1.1rem;
-    color: var(--cor-principal);
-    margin-top: 0;
-    margin-bottom: 5px;
-    text-align: center !important;
-    font-weight: 700; 
-    text-transform: none !important; 
-}
-
-/* AJUSTE: Aumento de 40% no tamanho (80px * 1.4 = 112px) */
-.qr-mascote-container {
-    width: 112px; 
-    height: 112px; 
-    flex-shrink: 0; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px;
-    background-color: transparent; 
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
-    position: relative;
-    margin-top: 10px;
-    cursor: pointer; 
-    transition: transform 0.2s;
-}
-
-.qr-mascote-container:active {
-    transform: scale(0.95);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); 
-}
-
-.qr-mascote-img {
-    width: 90%; 
-    height: 90%;
-    object-fit: contain;
-    /* AJUSTE 2: Adicionando o efeito de glow verde */
-    filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.2)) drop-shadow(0 0 5px var(--cor-secundaria)); 
-    transition: all 0.3s ease-in-out;
-}
-
-/* --- ESTILOS ADICIONAIS PARA ÁREA DE COMPARTILHAMENTO (CANVAS) --- */
+/* --- ÁREA DE UPLOAD (Correção de Visual e Espaços) --- */
 #area-envio-foto {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 15px;
-    box-sizing: border-box;
-    width: 100%;
+    padding: 20px;
+    display: flex; flex-direction: column; align-items: center;
+    /* Garante que a área ocupe espaço se estiver visível */
+    min-height: 50vh; 
 }
 
 #badge-upload-titulo {
-    text-align: center;
-    margin-bottom: 10px; /* AJUSTE: Reduzido */
-    font-size: 1.2rem;
-    max-width: 100%;
+    font-size: 1.3rem; margin-bottom: 10px; text-align: center; color: var(--cor-principal);
 }
 
 .upload-container {
-    background-color: var(--cor-fundo);
+    background-color: white;
     border-radius: 20px;
+    padding: 20px;
     box-shadow: var(--sombra-neumorfismo-externa);
-    padding: 25px;
+    width: 100%; max-width: 400px;
     text-align: center;
-    max-width: 100%;
-    width: 100%;
-    box-sizing: border-box;
 }
 
-.upload-container p {
-    font-size: 0.95rem;
-    margin-bottom: 8px; /* AJUSTE: Reduzido */
-    color: var(--cor-texto);
-}
-
-/* --- AJUSTE: Botão de Upload Moderno --- */
-
-/* Esconde o botão "Windows 98" */
-.upload-container input[type="file"] {
-    display: none;
-}
-
-/* Estiliza o <label> para parecer um botão moderno */
+/* Botão de Upload Moderno */
 .file-upload-label {
     display: inline-block;
-    padding: 10px 20px;
+    padding: 12px 25px;
     background-color: var(--cor-principal);
     color: white;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: 700;
-    transition: all 0.2s ease-in-out;
-    box-shadow: var(--sombra-neumorfismo-externa);
-    margin-bottom: 10px; /* Espaço abaixo do botão */
+    border-radius: 30px;
+    font-weight: 700; cursor: pointer;
+    box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+    transition: transform 0.2s;
+    margin-bottom: 5px;
 }
-.file-upload-label:active {
-    box-shadow: var(--sombra-neumorfismo-ativa);
-    transform: scale(0.98);
-}
-.file-upload-label i {
-    margin-right: 8px;
+.file-upload-label:active { transform: scale(0.95); }
+.file-upload-label i { margin-right: 8px; }
+input[type="file"] { display: none; }
+
+#file-upload-filename {
+    display: block; font-size: 0.85rem; color: #666; margin-bottom: 15px; font-style: italic;
 }
 
-/* Estiliza o <span> que mostra o nome do arquivo */
-.file-upload-filename {
-    display: block; /* Para ocupar a própria linha */
-    font-size: 0.9rem;
-    color: #555;
-    margin-top: -5px; /* Puxa para perto do botão */
-    margin-bottom: 15px; /* Espaço antes do canvas */
-    font-style: italic;
-    
-    /* AJUSTE de alinhamento e largura (para centralizar com o canvas) */
-    /* Este max-width deve ser similar ao max-width do #output-image-preview */
-    max-width: 100%; 
-    margin-left: auto;
-    margin-right: auto;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-/* --- Fim do Ajuste do Botão --- */
-
-
-/* Botões antigos - Serão escondidos pelo script.js */
-#btn-gerar-e-baixar, #btn-compartilhar-social {
-   display: none; 
-}
-
-/* --- AJUSTE 6: Novo Estilo "Slim/Fauna" para os botões de Upload --- */
-
-/* Container (gerado pelo script.js) */
-.upload-action-icons-container-top {
-    /* AJUSTE: Posicionamento flutuante (como o da fauna) */
-    position: absolute;
-    top: 20px; /* 10px do padding + 10px de espaço */
-    z-index: 10;
-    display: flex;
-    gap: 15px; /* Espaço entre os ícones */
-    margin-bottom: 0; /* Não é mais necessário */
-    
-    /* AJUSTE: Centralizado (como solicitado) */
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-/* Botões de Ícone (Estilo "Slim" copiado da fauna) */
-.upload-icon-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;  /* Tamanho pequeno/slim (era 45px) */
-    height: 40px; /* Tamanho pequeno/slim (era 45px) */
-    border-radius: 50%; /* CIRCULAR */
-    background-color: rgba(255, 255, 255, 0.7); /* Fundo branco "slim" */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra mais forte */
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    color: var(--cor-texto); /* Cor do ícone */
-}
-
-.upload-icon-btn i {
-    font-size: 1rem; /* Tamanho do ícone interior (era 1.1rem) */
-    margin: 0; /* Reset */
-}
-
-.upload-icon-btn:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-    background-color: #aaa;
-    box-shadow: none;
-}
-
-.upload-icon-btn:not(:disabled):active {
-    transform: scale(0.95);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-/* Cores específicas para os ícones de upload */
-#btn-gerar-e-baixar-icon {
-    background-color: rgba(76, 175, 80, 0.7); /* Verde */
-    color: white;
-}
-#btn-gerar-e-baixar-icon:hover:not(:disabled) {
-     background-color: var(--cor-principal);
-}
-
-#btn-compartilhar-social-icon {
-    background-color: rgba(0, 123, 255, 0.7); /* Azul */
-    color: white;
-}
-#btn-compartilhar-social-icon:hover:not(:disabled) {
-    background-color: #007bff;
-}
-/* --- Fim do Ajuste 6 --- */
-
-
-/* Estilos para o Canvas e Pré-visualização */
+/* Container da Pré-visualização (Imagem + Ícones) */
 #output-image-preview {
-    margin-top: 0px; /* AJUSTE: Reduzido (era 20px) */
-    background-color: #f0f0f0; 
+    position: relative;
+    width: 100%;
     border-radius: 15px;
-    padding: 10px;
-    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.1); 
-    overflow: hidden; 
-    position: relative; /* CRÍTICO: para os ícones flutuarem */
-    
-    /* AJUSTE: Centraliza e define a largura máxima (para alinhar com o input) */
-    max-width: 880px; /* Largura da foto no canvas */
-    width: 90%; /* Ajuste para responsividade */
-    margin-left: auto;
-    margin-right: auto;
-    box-sizing: border-box;
+    overflow: hidden;
+    background-color: #eee;
+    margin-top: 10px;
+    display: none; /* Controlado pelo JS */
 }
 
 #passport-canvas {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 0 auto;
-    border: 1px solid #ccc;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    background: white;
-    
-    /* AJUSTE: Garante que o canvas preencha o container */
-    width: 100%; 
+    width: 100%; height: auto; display: block;
 }
 
-#user-photo-preview {
-    display: none !important;
-}
-
-/* CORREÇÃO GLOBAL PARA IMAGENS */
-img {
-    max-width: 100%;
-    height: auto;
-}
-
-/* --- NOVO ESTILO PARA ÍCONE DE DOWNLOAD NO MODAL DA FAUNA --- */
-#fauna-modal-body {
-    position: relative; /* Contêiner para posicionar o ícone de download */
-}
-
-#fauna-modal-body .download-icon-fauna {
+/* Ícones Flutuantes sobre a imagem (Estilo Fauna) */
+.upload-action-icons-container-top {
     position: absolute;
-    top: 55px; /* Ajuste para logo abaixo do título e botão 'x' */
-    right: 35px; /* Ajuste para o canto superior direito */
+    top: 15px; right: 15px; /* Canto superior direito */
+    display: flex; gap: 10px;
     z-index: 10;
-    font-size: 1.5rem;
-    color: white; 
-    background-color: rgba(76, 175, 80, 0.7); /* Cor principal com transparência */
+}
+
+.upload-icon-btn {
+    width: 40px; height: 40px;
     border-radius: 50%;
-    width: 35px;
-    height: 35px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    transition: background-color 0.2s;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.9); /* Branco quase opaco */
+    color: var(--cor-texto);
+    display: flex; justify-content: center; align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    cursor: pointer; transition: all 0.2s;
+}
+.upload-icon-btn:active { transform: scale(0.9); }
+.upload-icon-btn i { font-size: 1.1rem; }
+
+/* Cores específicas dos ícones */
+#btn-gerar-e-baixar-icon i { color: var(--cor-principal); }
+#btn-compartilhar-social-icon i { color: #2196F3; }
+
+
+/* --- MODAIS --- */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 2000;
+    opacity: 0; visibility: hidden; transition: all 0.3s;
+}
+.modal-overlay.open { opacity: 1; visibility: visible; }
+
+.modal-content {
+    background: white; padding: 25px; border-radius: 20px;
+    width: 90%; max-width: 400px;
+    position: relative; text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
 
-#fauna-modal-body .download-icon-fauna:hover {
-    background-color: var(--cor-principal);
+/* Ícone de Download da Fauna (Estilo Flutuante) */
+.download-icon-fauna {
+    position: absolute; top: 60px; right: 30px;
+    width: 35px; height: 35px;
+    background: rgba(76, 175, 80, 0.9); color: white;
+    border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    text-decoration: none;
 }
 
-#fauna-modal-body .download-icon-fauna i {
-    font-size: 0.9rem;
-    margin: 0;
+/* --- POPUP DE BADGE (Novo para o Long Press) --- */
+#badge-popup-img {
+    width: 150px; height: 150px; object-fit: contain; margin-bottom: 15px;
+    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.2));
 }
-
-@media (max-width: 480px) {
-    #fauna-modal-body .download-icon-fauna {
-        top: 45px; /* Ajuste para mobile */
-        right: 20px;
-    }
+#btn-badge-download-popup {
+    background-color: var(--cor-principal); color: white;
+    border: none; padding: 10px 20px; border-radius: 20px;
+    font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 5px;
 }
