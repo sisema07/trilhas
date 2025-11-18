@@ -101,10 +101,9 @@ header {
     object-fit: contain; 
 }
 
-/* --- Grid de Botões (Neumorfismo) --- */
 #botoes-parques {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     gap: 12px;
     padding: 0;
     width: 100%;
@@ -127,7 +126,6 @@ header {
     }
 }
 
-/* CORREÇÃO PARA MOBILE PEQUENO */
 @media (max-width: 480px) {
     #botoes-parques {
         grid-template-columns: repeat(3, 1fr);
@@ -136,7 +134,8 @@ header {
     
     .botao-parque {
         border-radius: 15px;
-        padding: 6px;
+        padding: 8px 6px;
+        min-height: 80px;
     }
     
     .nome-parque {
@@ -147,18 +146,49 @@ header {
         margin-bottom: 2px;
     }
 }
+
+@media (max-width: 360px) {
+    #botoes-parques {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+    
+    .botao-parque {
+        min-height: 80px;
+        padding: 8px 6px;
+    }
+    
+    .icone-premio {
+        min-height: 90px;
+        padding: 10px 6px;
+    }
+    
+    .nome-parque,
+    .icone-premio span {
+        font-size: 0.7rem;
+    }
+}
+
+@media (min-width: 768px) {
+    #botoes-parques {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+    
+    #lista-icones-premios {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+}
  
-/* Botões em Geral: Estilos mantidos */
 .botao-parque {
     background-color: var(--cor-fundo);
-    border-radius: 20px;
-    aspect-ratio: 1 / 1;
+    border-radius: 15px;
+    min-height: 90px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 8px;
+    padding: 10px 8px;
     box-shadow: var(--sombra-neumorfismo-externa);
     transition: all 0.2s ease-in-out;
     cursor: pointer;
@@ -167,8 +197,8 @@ header {
     position: relative;
     overflow: hidden;
     height: auto;
-    min-height: 44px; /* Tamanho mínimo para touch */
     box-sizing: border-box;
+    flex: 1 0 auto;
 }
 
 /* AJUSTE: Usando a sombra interna corrigida para o efeito de clique */
@@ -330,20 +360,18 @@ header {
     margin-bottom: 15px;
 }
 
-/* --- ESTILOS DO GRID DE BADGES DE CHECK-INS (TAMANHO GRANDE) --- */
 #lista-icones-premios {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     gap: 15px;
     margin-top: 20px;
     padding: 0;
 }
 
-/* Badge Quadrado Grande - PADRONIZADO (Estilo Base Bloqueado) */
 .icone-premio {
     background-color: var(--cor-fundo);
     border-radius: 15px;
-    aspect-ratio: 1 / 1;
+    min-height: 100px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -351,12 +379,17 @@ header {
     box-shadow: var(--sombra-neumorfismo-externa);
     transition: all 0.3s ease-in-out;
     position: relative;
-    padding: 10px;
-    opacity: 0.5; /* Opacidade reduzida para itens Bloqueados/Desativados */
-    color: #888; /* Cor de texto mais neutra para bloqueado */
+    padding: 12px 8px;
+    opacity: 0.5;
+    color: #888;
     font-style: italic;
     cursor: default;
-    overflow: hidden; /* Para o preenchimento do quiz */
+    overflow: hidden;
+    flex: 1 0 auto;
+}
+
+.icone-premio.desbloqueado {
+    min-height: 110px;
 }
 
 .icone-premio.desbloqueado {
@@ -381,12 +414,16 @@ header {
 }
 
 .icone-premio span {
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     text-align: center;
     font-weight: 500;
-    line-height: 1.1;
-    color: inherit; /* Garante que a cor seja herdada de .icone-premio ou .icone-premio.desbloqueado */
-    z-index: 2; /* Para ficar acima do preenchimento */
+    line-height: 1.2;
+    color: inherit;
+    z-index: 2;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+    padding: 0 2px;
 }
 
 /* NOVO: Estilo para Imagem PNG personalizada no Badge */
@@ -481,19 +518,19 @@ header {
     padding: 0 0 20px 0;
 }
 
-/* 1. Carrossel de Imagens */
 .park-carousel-container {
     width: 100%;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 16 / 9; /* FORMATO 16:9 FIXO */
     overflow: hidden;
     position: relative;
     margin-bottom: 15px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    background-color: #f0f0f0; /* Fundo para imagens que não preenchem */
 }
 
 @media (max-width: 480px) {
     .park-carousel-container {
-        aspect-ratio: 4/3; /* Mais quadrado para mobile */
+        aspect-ratio: 16 / 9; /* Mantém 16:9 mesmo no mobile */
     }
 }
 
@@ -1229,4 +1266,5 @@ img {
     transition: filter 0.3s ease-in-out;
 }
 }
+
 
