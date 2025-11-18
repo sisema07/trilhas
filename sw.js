@@ -1,4 +1,4 @@
-const CACHE_NAME = 'trilhas-de-minas-v15'; // <<--- MUDANÇA AQUI! (v13 para v14)
+const CACHE_NAME = 'trilhas-de-minas-v16'; // <<--- MUDANÇA AQUI! (v16 para v17)
 const urlsToCache = [
     './',
     'index.html',
@@ -143,4 +143,5 @@ self.addEventListener('fetch', event => {
             })
     );
 });
+
 
