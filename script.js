@@ -313,10 +313,10 @@ function carregarPremios() {
             if (atividade.id === 'quiz') return; 
 
             if (typeof estadoUsuario[parqueId][atividade.id] === 'undefined') {
-                estadoUsuario[parque.id][atividade.id] = false;
+                estadoUsuario[parqueId][atividade.id] = false;
             }
 
-            const isConcluida = estadoUsuario[parque.id][atividade.id];
+            const isConcluida = estadoUsuario[parqueId][atividade.id];
 
             const card = document.createElement('div');
             card.className = `icone-premio ${isConcluida ? 'desbloqueado' : ''}`;
@@ -325,7 +325,7 @@ function carregarPremios() {
             
             let badgeContent;
             if (atividade.imagem_png) {
-                badgeContent = `<img src="${atividade.imagem_png}" alt="${atividade.nome}">`;
+                badgeContent = `<img src="${atividade.imagem_png}" alt="${atividade.nome}" class="badge-custom-img">`;
             } else {
                 badgeContent = `<i class="fas ${atividade.icone}"></i>`;
             }
@@ -513,330 +513,6 @@ function configurarFechamentoModais() {
     });
 }
 
-// --- LÓGICA DO QUIZ ---
-function carregarConteudoQuiz(parque, container) {
-    fecharModais(); 
-    
-    const detalhes = DETALHES_PARQUES[parque.id] || {};
-    currentQuizData = detalhes.quiz || [];
-    
-    const badgeQuizId = 'quiz'; 
-    const isQuizCompleted = estadoUsuario[parque.id] && estadoUsuario[parque.id][badgeQuizId];
-    
-    if (currentQuizData.length === 0) {
-        container.innerHTML = '<h3>Quiz</h3><p>Nenhum quiz disponível para este parque.</p>';
-        return;
-    }
-
-    if (isQuizCompleted) {
-        container.innerHTML = `
-            <div style="text-align: center; padding: 20px;">
-                <h3 style="color: var(--cor-secundaria);">Parabéns!</h3>
-                <p>Você já completou o Quiz de ${parque.nome}!</p>
-                <div class="win-animation-container">
-                    <img src="win.gif" alt="Quiz Concluído" class="win-gif-mascote">
-                </div>
-                <p class="success-badge-message">Continue explorando outros parques para liberar o badge de Conhecimento!</p>
-                <button class="action-button" onclick="window.location.hash = 'premiacao'">Ver Meus Badges</button>
-            </div>
-        `;
-        return;
-    }
-
-    currentQuizIndex = 0;
-    quizScore = 0;
-    
-    container.innerHTML = `
-        <div class="quiz-header-content" style="display: block; text-align: center;">
-            <h3>${detalhes.quiz_title || 'Desafio do Conhecimento'}</h3>
-            </div>
-        
-        <div class="progress-bar-container">
-            <div class="progress-bar">
-                <div id="quiz-progress" style="width: 0%;"></div>
-            </div>
-        </div>
-
-        <div id="quiz-question-area">
-            </div>
-    `;
-    
-    carregarProximaQuestao();
-}
-
-function carregarProximaQuestao() {
-    const area = document.getElementById('quiz-question-area');
-    if (!area) return;
-
-    if (currentQuizIndex >= currentQuizData.length) {
-        finalizarQuiz();
-        return;
-    }
-    
-    const questao = currentQuizData[currentQuizIndex];
-    
-    let optionsHtml = '';
-    const alternativas = Array.isArray(questao.a) ? questao.a : [];
-    
-    alternativas.forEach((alternativa, index) => {
-        optionsHtml += `
-            <button class="action-button quiz-option-btn" data-index="${index}" onclick="window.selectQuizOption(${index}, this)">${alternativa}</button>
-        `;
-    });
-    
-    area.style.opacity = '0';
-    setTimeout(() => {
-        area.innerHTML = `
-            <h4 style="margin-bottom: 20px;">Questão ${currentQuizIndex + 1}/${currentQuizData.length}:</h4>
-            <p style="font-weight: 700; font-size: 1.1rem; text-align: center;">${questao.q}</p>
-            <div class="action-buttons-container" style="flex-direction: column; gap: 10px; margin-top: 20px;">
-                ${optionsHtml}
-            </div>
-        `;
-        area.style.opacity = '1'; 
-    }, 200); 
-    
-    atualizarBarraProgresso();
-}
-
-window.selectQuizOption = function(selectedIndex, buttonElement) {
-    const buttons = document.querySelectorAll('.quiz-option-btn');
-    buttons.forEach(btn => btn.disabled = true);
-    
-    const questao = currentQuizData[currentQuizIndex];
-    const isCorrect = selectedIndex === questao.correct;
-    
-    if (isCorrect) {
-        buttonElement.classList.add('active'); 
-        quizScore++;
-    } else {
-        buttonElement.style.backgroundColor = '#f44336'; 
-        buttonElement.style.color = 'white';
-        document.querySelector(`.quiz-option-btn[data-index="${questao.correct}"]`)?.classList.add('active');
-    }
-    
-    setTimeout(() => {
-        currentQuizIndex++;
-        carregarProximaQuestao();
-    }, 1500);
-}
-
-function atualizarBarraProgresso() {
-    const quizProgress = document.getElementById('quiz-progress');
-    if (!quizProgress) return;
-    
-    const progress = (currentQuizIndex / currentQuizData.length) * 100;
-    quizProgress.style.width = `${progress}%`;
-}
-
-function finalizarQuiz() {
-    const area = document.getElementById('quiz-question-area');
-    const quizProgress = document.getElementById('quiz-progress');
-    if (!area || !quizProgress) return;
-
-    const total = currentQuizData.length;
-    const parqueId = window.location.hash.substring(1).split('-')[0];
-    const parque = DADOS_PARQUES.find(p => p.id === parqueId);
-    
-    if (!parque) return;
-
-    const requiredScore = Math.ceil(total * 0.75); 
-    
-    if (quizScore >= requiredScore) { 
-        const badgeId = 'quiz';
-        
-        if (!(estadoUsuario[parqueId] && estadoUsuario[parqueId][badgeId])) {
-            if (!estadoUsuario[parqueId]) estadoUsuario[parqueId] = {};
-            estadoUsuario[parqueId][badgeId] = true;
-            salvarEstado();
-        }
-        
-        area.innerHTML = `
-            <div style="text-align: center; padding: 20px;">
-                <p class="result-classification" style="color: var(--cor-secundaria);">Quiz Concluído!</p>
-                <p>Você acertou ${quizScore} de ${total}.</p>
-            </div>
-        `;
-        quizProgress.style.width = '100%';
-
-        setTimeout(() => {
-            abrirModalQuizWin(quizScore, total);
-        }, 500); 
-        
-    } else {
-        let resultadoHtml = `
-            <div style="text-align: center; padding: 20px;">
-                <p class="result-classification" style="color: #f44336;">Tente Novamente!</p>
-                <p style="margin-bottom: 20px;">Você acertou ${quizScore} de ${total}. Você precisa de ${requiredScore} acertos para ganhar o Badge.</p>
-                <button class="action-button active" onclick="window.location.hash = '${parqueId}-quiz'">Reiniciar Quiz</button>
-            </div>
-        `;
-        area.innerHTML = resultadoHtml;
-        quizProgress.style.width = '100%';
-    }
-}
-
-// --- CARREGAMENTO DE ATIVIDADES ---
-function carregarConteudoAtividades(parque, container) {
-    const atividades = ATIVIDADES_PARQUES[parque.id] || [];
-    
-    let html = `
-        <div class="activity-instructions">
-            <div class="instruction-text">
-                <h3>Escaneie os QR codes</h3>
-            </div>
-            <div class="qr-mascote-container activity-mascote-anchor" onclick="window.abrirModalQr()">
-                <img src="qr.png" alt="Mascote escaneando QR Code" class="qr-mascote-img">
-            </div>
-        </div>
-        <hr class="separator" style="margin: 15px 0;">
-        
-        <div id="lista-atividades-dinamica"> 
-    `;
-
-    if (atividades.length === 0) {
-        html += '<p style="text-align: center; margin-top: 20px;">Nenhuma atividade cadastrada para este parque.</p>';
-    } else {
-        atividades.forEach(atividade => {
-            if (atividade.id === 'quiz') return;
-
-            if (!estadoUsuario[parque.id]) estadoUsuario[parque.id] = {};
-            if (typeof estadoUsuario[parque.id][atividade.id] === 'undefined') {
-                estadoUsuario[parque.id][atividade.id] = false;
-            }
-
-            const isConcluida = estadoUsuario[parque.id][atividade.id];
-            const desbloqueado = isConcluida ? 'desbloqueado' : ''; 
-            const badgeId = `${parque.id}-${atividade.id}`;
-            
-            let badgeContent;
-            if (atividade.imagem_png) {
-                badgeContent = `<img src="${atividade.imagem_png}" alt="${atividade.nome}">`;
-            } else {
-                badgeContent = `<i class="fas ${atividade.icone}"></i>`;
-            }
-            
-            const onClickAction = isConcluida ? `onclick="window.location.hash = 'upload-${parque.id}-${atividade.id}'"` : '';
-
-            html += `
-                <div class="activity-grid-item ${desbloqueado}" data-badge-id="${badgeId}" ${onClickAction}>
-                    ${badgeContent}
-                    <span>${atividade.nome}</span> 
-                </div>
-            `;
-        });
-    }
-    salvarEstado();
-
-    html += '</div>';
-    container.innerHTML = html; 
-}
-
-// --- CARREGAMENTO DE DETALHES DO PARQUE ---
-function carregarDetalhesParque(parqueId, action = 'info') {
-    fecharModais(); 
-    const parque = DADOS_PARQUES.find(p => p.id === parqueId);
-    const detalhes = DETALHES_PARQUES[parqueId];
-    
-    if (!parque || !detalhes) {
-        console.error('Parque ou detalhes não encontrados:', parqueId);
-        window.location.hash = ''; 
-        return;
-    }
-
-    document.getElementById('conteudo-premios').style.display = 'none';
-    document.getElementById('area-envio-foto').style.display = 'none';
-
-    const areaSecundaria = document.getElementById('area-secundaria');
-    document.getElementById('secundaria-titulo').textContent = parque.nome;
-    
-    document.getElementById('map-link-icon').href = detalhes.map_link || '#';
-    document.getElementById('insta-link-icon').href = detalhes.instagram_link || '#';
-    
-    const youtubeIcon = document.getElementById('youtube-link-icon');
-    if (youtubeIcon) {
-        youtubeIcon.href = detalhes.youtube_channel || '#';
-        youtubeIcon.style.display = detalhes.youtube_channel ? 'flex' : 'none';
-    }
-
-    const siteIcon = document.getElementById('site-link-icon');
-    if (siteIcon) {
-        siteIcon.href = detalhes.site_link || '#';
-        siteIcon.style.display = detalhes.site_link ? 'flex' : 'none';
-    }
-    
-    const whatsappIcon = document.getElementById('whatsapp-link-icon');
-    if (whatsappIcon) {
-        whatsappIcon.href = detalhes.whatsapp ? `https://wa.me/${detalhes.whatsapp.replace(/\+/g, '')}` : '#'; 
-        whatsappIcon.style.display = detalhes.whatsapp ? 'flex' : 'none';
-    }
-
-    const phoneIcon = document.getElementById('phone-link-icon');
-    if (phoneIcon) {
-        phoneIcon.href = detalhes.phone ? `tel:${detalhes.phone}` : '#';
-        phoneIcon.style.display = detalhes.phone ? 'flex' : 'none';
-    }
-    
-    const emailIcon = document.getElementById('email-link-icon');
-    if (emailIcon) {
-        emailIcon.href = detalhes.email ? `mailto:${detalhes.email}` : '#';
-        emailIcon.style.display = detalhes.email ? 'flex' : 'none';
-    }
-
-
-    setupCarousel(parqueId, detalhes.carousel_images || []);
-    
-    const contentArea = document.getElementById('dynamic-content-area');
-    
-    document.querySelectorAll('.action-button[data-action]').forEach(btn => {
-        if (btn.actionListenerSetup) {
-             btn.removeEventListener('click', btn.actionListenerSetup);
-        }
-        
-        const actionListener = (e) => {
-           e.preventDefault();
-           const newAction = e.target.closest('.action-button').dataset.action;
-           window.location.hash = `#${parqueId}-${newAction}`; 
-        };
-        btn.addEventListener('click', actionListener);
-        btn.actionListenerSetup = actionListener;
-    });
-
-
-    const actionButton = document.querySelector(`.action-button[data-action="${action}"]`);
-    
-    document.querySelectorAll('.action-button[data-action]').forEach(btn => btn.classList.remove('active'));
-    if (actionButton) {
-        actionButton.classList.add('active');
-    }
-        
-    carregarConteudoDinamico(parque, contentArea, action);
-
-    document.getElementById('conteudo-parque-detalhe').style.display = 'block';
-    
-    areaSecundaria.classList.add('aberto');
-    areaSecundaria.style.display = 'flex'; 
-    areaSecundaria.scrollTop = 0;
-}
-
-function carregarConteudoDinamico(parque, container, action) {
-    
-    switch (action) {
-        case 'info':
-            carregarConteudoInfo(parque, container);
-            break;
-        case 'fauna': 
-            carregarConteudoFauna(parque, container);
-            break;
-        case 'quiz':
-            carregarConteudoQuiz(parque, container);
-            break;
-        case 'activities':
-            carregarConteudoAtividades(parque, container);
-            break;
-    }
-}
-
 // --- Lógica de Upload/Compartilhamento (CANVAS 9:16) ---
 function carregarAreaUpload(parqueId, atividadeId) {
     fecharModais(); 
@@ -979,9 +655,9 @@ function carregarAreaUpload(parqueId, atividadeId) {
 
 // --- AJUSTE CANVAS 9:16: Função de desenho totalmente refeita ---
 /**
- * Desenha a imagem final do passaporte no canvas 9:16.
- * @param {object} parque - Objeto do parque (de DADOS_PARQUES).
- * @param {object} atividade - Objeto da atividade (de ATIVIDADES_PARQUES).
+ * Desenha a imagem final do passaporte no canvas 9:16 com DESIGN PREMIUM.
+ * @param {object} parque - Objeto do parque.
+ * @param {object} atividade - Objeto da atividade.
  * @param {Image} userUploadedPhoto - Imagem carregada pelo usuário.
  */
 function drawPassportImage(parque, atividade, userUploadedPhoto) {
@@ -1036,7 +712,7 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         const photoWidth = 880; // Largura da foto (um pouco menor que o canvas)
         const photoHeight = photoWidth * (5 / 4); // Proporção 4:5 = 1100px
         const photoX = (canvas.width - photoWidth) / 2; // Centralizado (100px de margem)
-        const photoY = 410; // Posição Y (centralizada na zona segura)
+        const photoY = 480; // Posição Y (centralizada na zona segura)
         const cornerRadius = 50; // Cantos arredondados
         const borderWidth = 12; // Espessura da borda
         const borderColor = '#b0bcc5'; // Cor da borda
@@ -1047,16 +723,14 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         // Posição do Badge:
         // X: 100px da margem esquerda (alinhado com a foto)
         // Y: "Selando" a foto (metade para dentro, metade para fora).
-        // Topo da foto = 410. Centro do badge deve estar em 410.
-        // badgeY = 410 - (450/2) = 185.
         const badgeX = 100; 
-        const badgeY = 185; 
+        const badgeY = photoY - (badgeSize / 2.5); 
 
         // 4. TEXTOS (Check-in, Parque, Badge)
         // Posição X: À direita do badge. badgeX (100) + badgeSize (450) + margem (30) = 580.
         const textX = 580; 
         // Posição Y: Alinhado visualmente com o topo do badge.
-        const textY = badgeY + 100; // Ajuste visual
+        const textY = badgeY + 120; // Ajuste visual
         const fontSize1 = 45; // Aumentado para leitura
         const fontSize2 = 30; // Aumentado para leitura
         const lineHeight = 1.3; // Espaçamento entre linhas
