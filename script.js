@@ -24,6 +24,82 @@ let currentQuizData = null;
 let currentQuizIndex = 0;   
 let quizScore = 0;          
 
+// --- BLOQUEIO DE DOWNLOAD/COMPARTILHAMENTO NATIVO ---
+// Bloquear menu de contexto (download/compartilhamento nativo)
+document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('contextmenu', function(e) {
+        // Verifica se o clique foi em uma imagem de badge ou fauna
+        if (e.target.closest('.icone-premio') || 
+            e.target.closest('.fauna-grid-item') || 
+            e.target.closest('.activity-grid-item') ||
+            e.target.classList.contains('badge-custom-img')) {
+            e.preventDefault();
+            
+            // Se for fauna, abre o modal correspondente
+            const faunaItem = e.target.closest('.fauna-grid-item');
+            if (faunaItem && faunaItem.classList.contains('desbloqueado')) {
+                const parqueId = faunaItem.dataset.parqueId;
+                const index = parseInt(faunaItem.dataset.index);
+                window.abrirModalFauna(parqueId, index);
+            }
+            
+            // Se for badge, abre modal de preview
+            const badgeItem = e.target.closest('.icone-premio');
+            if (badgeItem && badgeItem.classList.contains('desbloqueado') && 
+                !badgeItem.id.includes('conhecimento')) {
+                const parqueId = badgeItem.dataset.parqueId;
+                const atividadeId = badgeItem.dataset.atividadeId;
+                abrirModalBadgePreview(parqueId, atividadeId);
+            }
+        }
+    });
+});
+
+// Nova função para modal de preview de badges
+function abrirModalBadgePreview(parqueId, atividadeId) {
+    const atividade = ATIVIDADES_PARQUES[parqueId]?.find(a => a.id === atividadeId);
+    const parque = DADOS_PARQUES.find(p => p.id === parqueId);
+    
+    if (!atividade || !parque) return;
+
+    const modal = document.getElementById('fauna-modal');
+    const modalBody = document.getElementById('fauna-modal-body');
+    if (!modal || !modalBody) return;
+
+    const imagePath = atividade.imagem_png;
+    const fileName = `${atividade.nome.toLowerCase().replace(/\s/g, '_')}_${parqueId}.png`;
+
+    const downloadFunction = (path, name) => {
+        const link = document.createElement('a');
+        link.href = path;
+        link.download = name;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    modalBody.innerHTML = `
+        <h4>${atividade.nome} - ${parque.nome}</h4>
+        <img src="${imagePath}" alt="${atividade.nome}" style="max-width: 100%; height: auto; border-radius: 10px; margin-bottom: 15px;">
+        
+        <a href="#" id="btn-badge-download" class="download-icon-fauna" title="Baixar imagem">
+            <i class="fas fa-arrow-down"></i>
+        </a>
+        
+        <p><strong>Parque:</strong> ${parque.nome}</p>
+        <p><strong>Atividade:</strong> ${atividade.nome}</p>
+        ${atividade.descricao_curta ? `<p><strong>Descrição:</strong> ${atividade.descricao_curta}</p>` : ''}
+    `;
+
+    document.getElementById('btn-badge-download').addEventListener('click', (e) => {
+        e.preventDefault(); 
+        downloadFunction(imagePath, fileName);
+    });
+    
+    modal.classList.add('open');
+    modal.style.display = 'flex';
+}
+
 // --- FUNÇÕES DE ESTADO, PWA E SERVICE WORKER ---
 function salvarEstado() {
     localStorage.setItem('trilhasDeMinasStatus', JSON.stringify(estadoUsuario));
@@ -1440,3 +1516,4 @@ function iniciarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
+
