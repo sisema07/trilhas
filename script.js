@@ -1,4 +1,4 @@
-// script.js - CÓDIGO COMPLETO COM AJUSTES (1, 3, 4, 6) + DESIGN VERTICAL + ZONA SEGURA
+// script.js - CÓDIGO COMPLETO COM AJUSTES (1, 3, 4, 6) + AJUSTE FINO DE POSICIONAMENTO + UI DE COMPARTILHAMENTO + CORREÇÃO DO VÍDEO
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -16,6 +16,7 @@ let userPhoto = new Image();
 let canvasContext = null;
 
 // AJUSTE: Caminho para o novo template 9:16 (ex: 'images/story_template.png')
+// Certifique-se de que este arquivo exista no seu projeto.
 passportTemplateImage.src = 'images/story_template.png'; 
 
 // Variáveis de estado do Quiz
@@ -702,7 +703,7 @@ function carregarConteudoAtividades(parque, container) {
 
             if (!estadoUsuario[parque.id]) estadoUsuario[parque.id] = {};
             if (typeof estadoUsuario[parque.id][atividade.id] === 'undefined') {
-                estadoUsuario[parque.id][atividade.id] = false;
+                estadoUsuario[parqueId][atividade.id] = false;
             }
 
             const isConcluida = estadoUsuario[parque.id][atividade.id];
@@ -871,15 +872,22 @@ function carregarAreaUpload(parqueId, atividadeId) {
         return;
     }
     
-    // --- AJUSTE CANVAS 9:16 ---
+    // --- AJUSTE CANVAS 9:16 + UI DE COMPARTILHAMENTO (Ícones sem texto) ---
     areaEnvioFoto.innerHTML = `
-        <h2 id="badge-upload-titulo" style="text-align: center; margin-bottom: 20px;">Compartilhar Badge: ${atividade.nome} (${parque.nome})</h2>
+        <h2 id="badge-upload-titulo" style="text-align: center; margin-bottom: 10px;">Compartilhar Badge: ${atividade.nome} (${parque.nome})</h2>
         <div class="upload-container">
-            <p>Selecione uma foto sua na trilha para carimbar:</p>
+            <p style="margin-bottom: 8px;">Selecione uma foto sua na trilha para carimbar:</p>
+            
+            <!-- AJUSTE: Botão de upload moderno -->
+            <label for="input-foto-badge" class="file-upload-label">
+                <i class="fas fa-upload"></i> Escolher Arquivo
+            </label>
             <input type="file" id="input-foto-badge" accept="image/*">
+            <span id="file-upload-filename" class="file-upload-filename">Nenhum arquivo selecionado</span>
             
             <div id="output-image-preview" style="display: none; position: relative;"> 
                 
+                <!-- Ícones de download e compartilhamento AGORA DENTRO do preview -->
                 <div class="upload-action-icons-container-top">
                     <button id="btn-gerar-e-baixar-icon" class="upload-icon-btn" disabled title="Baixar Imagem">
                         <i class="fas fa-download"></i>
@@ -894,6 +902,8 @@ function carregarAreaUpload(parqueId, atividadeId) {
             </div>
         </div>
     `;
+    // --- Fim do AJUSTE CANVAS + UI ---
+
 
     const canvas = document.getElementById('passport-canvas');
     canvasContext = canvas.getContext('2d');
@@ -908,6 +918,7 @@ function carregarAreaUpload(parqueId, atividadeId) {
     const inputFotoBadge = document.getElementById('input-foto-badge');
     const btnGerarBaixar = document.getElementById('btn-gerar-e-baixar-icon');
     const btnCompartilhar = document.getElementById('btn-compartilhar-social-icon');
+    const fileNameSpan = document.getElementById('file-upload-filename'); // Pega o span do nome do arquivo
 
     if (!navigator.share) {
         btnCompartilhar.style.display = 'none';
@@ -918,6 +929,7 @@ function carregarAreaUpload(parqueId, atividadeId) {
     inputFotoBadge.onchange = (event) => {
         const file = event.target.files[0];
         if (file) {
+            fileNameSpan.textContent = file.name; // Mostra o nome do arquivo
             const reader = new FileReader();
             reader.onload = (e) => {
                 userPhoto.src = e.target.result;
@@ -936,6 +948,7 @@ function carregarAreaUpload(parqueId, atividadeId) {
             };
             reader.readAsDataURL(file);
         } else {
+            fileNameSpan.textContent = "Nenhum arquivo selecionado"; // Reseta o nome do arquivo
             // Esconde o canvas se nenhum arquivo for selecionado
             document.getElementById('output-image-preview').style.display = 'none';
             document.getElementById('passport-canvas').style.display = 'none';
@@ -985,21 +998,9 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
 
     // Função interna para desenhar
     const performDraw = () => {
-        // Sombras do contexto
-        ctx.shadowColor = "rgba(0,0,0,0.3)";
-        ctx.shadowBlur = 20;
-        ctx.shadowOffsetX = 0;
-        ctx.shadowOffsetY = 10;
-
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         // 1. Desenha o Template de Fundo (9:16)
-        // Resetando sombras para o fundo
-        ctx.shadowColor = "transparent";
-        ctx.shadowBlur = 0;
-        ctx.shadowOffsetX = 0;
-        ctx.shadowOffsetY = 0;
-
         if (passportTemplateImage.complete && passportTemplateImage.naturalWidth > 0) {
             ctx.drawImage(passportTemplateImage, 0, 0, canvas.width, canvas.height);
         } else {
@@ -1012,58 +1013,39 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             ctx.fillText('Carregando template...', canvas.width / 2, canvas.height / 2);
         }
 
-        // --- DESIGN VERTICAL & GEOMÉTRICO ---
-        
-        // Centralização Vertical na Zona Segura (Feed 4:5)
-        // Centro da tela = 960px. 
-        // Altura da Foto = 1100px.
-        // photoY ideal para alinhar o centro da foto com o centro da tela:
-        // 960 - (1100 / 2) = 410.
-        
+        // --- AJUSTE MANUAL DE POSICIONAMENTO (Baseado no feedback de image_f1e809.jpg) ---
+
         // 2. FOTO DO USUÁRIO (Proporção 4:5 - Feed Safe)
         const photoWidth = 880; // Largura da foto (um pouco menor que o canvas)
         const photoHeight = photoWidth * (5 / 4); // Proporção 4:5 = 1100px
         const photoX = (canvas.width - photoWidth) / 2; // Centralizado (100px de margem)
-        const photoY = 410; // Posição Y (centralizada na zona segura)
+        const photoY = 550; // Posição Y (abaixo do texto e badge)
         const cornerRadius = 50; // Cantos arredondados
         const borderWidth = 12; // Espessura da borda
         const borderColor = '#b0bcc5'; // Cor da borda
 
-        // 3. BADGE (Carimbo) - Ajustado para "selar" o canto
-        const badgeSize = 450; // Tamanho
-        const rotationAngle = 15 * Math.PI / 180; // Rotação +15 graus (sentido horário)
-        
-        // Posição do Badge (Canto Superior Direito):
-        // X: Borda direita da foto (photoX + photoWidth) - (badgeSize / 2)
-        // Y: Topo da foto (photoY) - (badgeSize / 2)
-        // Isso fará com que o centro do badge esteja exatamente na quina superior direita.
-        const badgeX = (photoX + photoWidth) - (badgeSize / 1.8); 
-        const badgeY = photoY - (badgeSize / 2.2); 
+        // 3. BADGE (Carimbo)
+        const badgeSize = 450; // Tamanho (estava "perfeito")
+        const rotationAngle = -15 * Math.PI / 180; // Rotação (estava "perfeito")
+        // AJUSTE: "metade do badge sobre a ponta superior da foto" E "não ficar cortado"
+        const badgeX = 150; // AJUSTADO: movido para a direita (era 140)
+        const badgeY = photoY - (badgeSize / 2); // Sobrepõe metade para cima da foto
 
-        // 4. TEXTOS (Vertical à Direita)
-        // A ideia é que o texto comece na base da área de segurança e suba.
-        // Posição X: photoX + photoWidth + margem (ex: 30px)
-        const textX = photoX + photoWidth + 40; 
-        // Posição Y: Começa alinhado com a base da foto e sobe.
-        const textBaseY = photoY + photoHeight; 
+        // 4. TEXTOS (Check-in, Parque, Badge)
+        // AJUSTE: "um pequeno espaço entre o badge e o texto" e "subir um pouquinho"
+        const textX = 590; // AJUSTADO: Posição X fixa (não depende mais do badge)
+        const textY = badgeY + (badgeSize * 0.2); // Posição Y (baseado no edit manual do usuário "0.2")
+        const fontSize1 = 33; // Tamanho original (conforme solicitado)
+        const fontSize2 = 25; // Tamanho original (conforme solicitado)
+        const lineHeight = 1.3; // Espaçamento entre linhas
         
-        const fontSize1 = 45; // Aumentado para leitura
-        const fontSize2 = 30; // Aumentado para leitura
-        const lineHeight = 50; // Espaçamento entre linhas (vertical)
-        
-        // --- FIM DO AJUSTE ---
+        // --- FIM DO AJUSTE MANUAL ---
 
-        // 5. Desenha a FOTO DO USUÁRIO (com "object-fit: cover" e sombra)
+        // 5. Desenha a FOTO DO USUÁRIO (com "object-fit: cover")
         if (userUploadedPhoto && userUploadedPhoto.complete && userUploadedPhoto.naturalWidth > 0) {
             
             ctx.save();
             
-            // Sombra na foto
-            ctx.shadowColor = "rgba(0,0,0,0.4)";
-            ctx.shadowBlur = 30;
-            ctx.shadowOffsetX = 0;
-            ctx.shadowOffsetY = 15;
-
             // Cria o caminho arredondado para clip
             ctx.beginPath();
             ctx.moveTo(photoX + cornerRadius, photoY);
@@ -1077,16 +1059,8 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             ctx.quadraticCurveTo(photoX, photoY, photoX + cornerRadius, photoY);
             ctx.closePath();
             
-            // Desenha o fundo branco da foto (para a borda não ficar transparente)
-            ctx.fillStyle = "#fff";
-            ctx.fill();
-
-            // Aplica o clip para a imagem
             ctx.clip();
             
-            // Reset de sombra para a imagem interna (para não borrar)
-            ctx.shadowColor = "transparent";
-
             // Lógica "Cover" para a foto do usuário
             const imgAspectRatio = userUploadedPhoto.naturalWidth / userUploadedPhoto.naturalHeight;
             const frameAspectRatio = photoWidth / photoHeight; // 4:5
@@ -1110,7 +1084,7 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             
             ctx.restore(); // Remove o clip
 
-            // 6. Desenha a BORDA da foto (Sem sombra, já aplicada no fundo)
+            // 6. Desenha a BORDA da foto
             ctx.strokeStyle = borderColor; 
             ctx.lineWidth = borderWidth; 
             ctx.beginPath();
@@ -1127,16 +1101,9 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             ctx.stroke();
         }
         
-        // 7. Desenha o BADGE (Carimbo) com Sombra
+        // 7. Desenha o BADGE (Carimbo)
         if (stampImage.complete && stampImage.naturalWidth > 0) {
             ctx.save();
-            
-            // Sombra no Badge para efeito "Carimbo/Adesivo"
-            ctx.shadowColor = "rgba(0,0,0,0.5)";
-            ctx.shadowBlur = 15;
-            ctx.shadowOffsetX = 5;
-            ctx.shadowOffsetY = 5;
-
             // Translada o canvas para o centro do badge
             ctx.translate(badgeX + badgeSize / 2, badgeY + badgeSize / 2);
             // Rotaciona
@@ -1145,45 +1112,25 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             ctx.drawImage(stampImage, -badgeSize / 2, -badgeSize / 2, badgeSize, badgeSize);
             ctx.restore(); // Restaura o estado (remove rotação e translação)
         
-            // 8. Desenha o TEXTO (Vertical à Direita)
-            ctx.save();
-            ctx.textAlign = 'right'; // Alinha pela direita (base quando rotacionado)
-            ctx.textBaseline = 'bottom';
+            // 8. Desenha o TEXTO
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'top';
 
-            // Translada para a posição inicial do texto
-            // A posição X é a margem direita da foto + folga
-            // A posição Y é o fundo da foto (texto sobe a partir dali)
-            ctx.translate(textX, textBaseY);
-            
-            // Rotaciona -90 graus para texto vertical
-            ctx.rotate(-90 * Math.PI / 180);
-            
-            // Sombra leve no texto
-            ctx.shadowColor = "rgba(255,255,255,0.8)"; // Glow branco para contraste
-            ctx.shadowBlur = 0;
-            ctx.shadowOffsetX = 2;
-            ctx.shadowOffsetY = 2;
-
-            // Linha 1: "CHECK-IN REALIZADO" (TUDO VERDE) - Agora é a linha mais à direita visualmente
+            // Linha 1: "CHECK-IN REALIZADO" (TUDO VERDE)
             ctx.font = `bold ${fontSize1}pt 'Lora', serif`; 
             ctx.fillStyle = '#4CAF50'; // Cor VERDE (como solicitado)
-            // Como rotacionamos, X agora é Y e Y agora é X. Desenhamos em (0,0) relativo à translação.
-            ctx.fillText('CHECK-IN REALIZADO', 0, 0);
+            ctx.fillText('CHECK-IN REALIZADO', textX, textY);
             
-            // Reset sombra para texto normal
-            ctx.shadowColor = "transparent";
-
-            // Linha 2: "PARQUE ESTADUAL..." (Acima da linha 1 visualmente, ou seja, Y negativo na rotação)
+            // Linha 2: "PARQUE ESTADUAL..."
+            const line2Y = textY + (fontSize1 * lineHeight);
             ctx.font = `bold ${fontSize2}pt 'Lora', serif`; 
-            ctx.fillStyle = '#333'; // Tom de cinza escuro (quase preto para contraste)
-            ctx.fillText(`PARQUE ESTADUAL ${parque.nome.toUpperCase()}`, 0, -lineHeight); 
+            ctx.fillStyle = '#555'; // Tom de cinza escuro
+            ctx.fillText(`PARQUE ESTADUAL ${parque.nome.toUpperCase()}`, textX, line2Y); 
 
-            // Linha 3: "NOME DO BADGE" (Acima da linha 2 visualmente)
+            // Linha 3: "NOME DO BADGE"
+            const line3Y = line2Y + (fontSize2 * lineHeight);
             ctx.font = `${fontSize2}pt 'Lora', serif`; // Sem bold
-            ctx.fillStyle = '#555';
-            ctx.fillText(atividade.nome.toUpperCase(), 0, -lineHeight * 2); 
-            
-            ctx.restore();
+            ctx.fillText(atividade.nome.toUpperCase(), textX, line3Y); 
         }
     };
 
@@ -1417,45 +1364,37 @@ async function inicializar() {
         
         configurarNavegacao();
 
+        // LÓGICA DO VÍDEO CORRIGIDA PARA NÃO CONGELAR
         if (localStorage.getItem('first_visit') !== 'false' && !checkinProcessado && videoElement && videoIntro) {
             localStorage.setItem('first_visit', 'false');
-            
             videoIntro.style.display = 'flex';
             videoElement.load();
-            
+
+            const onVideoEnd = () => {
+                if (videoIntro.style.display === 'none') return; // Já foi tratado
+                videoIntro.classList.add('fade-out');
+                setTimeout(() => {
+                    videoIntro.style.display = 'none';
+                    iniciarApp(); 
+                    lidarComHash(); 
+                }, 1000);
+            };
+
+            // Tenta tocar
             const playPromise = videoElement.play();
             if (playPromise !== undefined) {
                 playPromise.then(() => {
-                    videoElement.onended = () => { 
-                         videoIntro.classList.add('fade-out');
-                         setTimeout(() => {
-                            videoIntro.style.display = 'none';
-                            iniciarApp(); 
-                            lidarComHash(); 
-                         }, 1000); 
-                    };
-                    // Fallback para caso 'onended' não dispare (ex: vídeos curtos)
-                    setTimeout(() => {
-                        if (videoIntro.style.display !== 'none') {
-                            console.warn('Video onended event fallback triggered.');
-                            videoIntro.classList.add('fade-out');
-                            setTimeout(() => {
-                                videoIntro.style.display = 'none';
-                                iniciarApp(); 
-                                lidarComHash(); 
-                            }, 1000);
-                        }
-                    }, (videoElement.duration * 1000) + 500 || 5500); 
+                    // Sucesso no autoplay
+                    videoElement.onended = onVideoEnd;
+                    // Fallback de segurança (5 segundos) caso 'onended' não dispare
+                    setTimeout(onVideoEnd, 5000); 
                 }).catch(error => {
+                    // Autoplay falhou (comum em browsers)
                     console.warn('Autoplay impedido. Iniciando app diretamente.', error);
-                    videoIntro.style.display = 'none';
-                    iniciarApp();
-                    lidarComHash(); 
+                    onVideoEnd(); // Pula o vídeo
                 });
             } else {
-                videoIntro.style.display = 'none';
-                iniciarApp();
-                lidarComHash();
+                 onVideoEnd(); // Caso playPromise não seja suportado
             }
         } else {
             if (videoIntro) videoIntro.style.display = 'none';
