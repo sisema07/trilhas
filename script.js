@@ -1,4 +1,4 @@
-// script.js - CÓDIGO COMPLETO COM AJUSTES (1, 3, 4, 6) + AJUSTE FINO DE POSICIONAMENTO + UI DE COMPARTILHAMENTO + CORREÇÃO DO VÍDEO
+// script.js - CÓDIGO COMPLETO COM AJUSTES (1, 3, 4, 6) + DESIGN PREMIUM + ZONA SEGURA
 
 let DADOS_PARQUES = [];
 let ATIVIDADES_PARQUES = {};
@@ -16,7 +16,6 @@ let userPhoto = new Image();
 let canvasContext = null;
 
 // AJUSTE: Caminho para o novo template 9:16 (ex: 'images/story_template.png')
-// Certifique-se de que este arquivo exista no seu projeto.
 passportTemplateImage.src = 'images/story_template.png'; 
 
 // Variáveis de estado do Quiz
@@ -314,10 +313,10 @@ function carregarPremios() {
             if (atividade.id === 'quiz') return; 
 
             if (typeof estadoUsuario[parqueId][atividade.id] === 'undefined') {
-                estadoUsuario[parqueId][atividade.id] = false;
+                estadoUsuario[parque.id][atividade.id] = false;
             }
 
-            const isConcluida = estadoUsuario[parqueId][atividade.id];
+            const isConcluida = estadoUsuario[parque.id][atividade.id];
 
             const card = document.createElement('div');
             card.className = `icone-premio ${isConcluida ? 'desbloqueado' : ''}`;
@@ -326,7 +325,7 @@ function carregarPremios() {
             
             let badgeContent;
             if (atividade.imagem_png) {
-                badgeContent = `<img src="${atividade.imagem_png}" alt="${atividade.nome}" class="badge-custom-img">`;
+                badgeContent = `<img src="${atividade.imagem_png}" alt="${atividade.nome}">`;
             } else {
                 badgeContent = `<i class="fas ${atividade.icone}"></i>`;
             }
@@ -703,7 +702,7 @@ function carregarConteudoAtividades(parque, container) {
 
             if (!estadoUsuario[parque.id]) estadoUsuario[parque.id] = {};
             if (typeof estadoUsuario[parque.id][atividade.id] === 'undefined') {
-                estadoUsuario[parqueId][atividade.id] = false;
+                estadoUsuario[parque.id][atividade.id] = false;
             }
 
             const isConcluida = estadoUsuario[parque.id][atividade.id];
@@ -998,9 +997,21 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
 
     // Função interna para desenhar
     const performDraw = () => {
+        // Sombras do contexto
+        ctx.shadowColor = "rgba(0,0,0,0.3)";
+        ctx.shadowBlur = 20;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 10;
+
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         // 1. Desenha o Template de Fundo (9:16)
+        // Resetando sombras para o fundo
+        ctx.shadowColor = "transparent";
+        ctx.shadowBlur = 0;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+
         if (passportTemplateImage.complete && passportTemplateImage.naturalWidth > 0) {
             ctx.drawImage(passportTemplateImage, 0, 0, canvas.width, canvas.height);
         } else {
@@ -1013,39 +1024,56 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             ctx.fillText('Carregando template...', canvas.width / 2, canvas.height / 2);
         }
 
-        // --- AJUSTE MANUAL DE POSICIONAMENTO (Baseado no feedback de image_f1e809.jpg) ---
-
+        // --- DESIGN PREMIUM: ZONA SEGURA & HIERARQUIA ---
+        
+        // Centralização Vertical na Zona Segura (Feed 4:5)
+        // Centro da tela = 960px. 
+        // Altura da Foto = 1100px.
+        // photoY ideal para alinhar o centro da foto com o centro da tela:
+        // 960 - (1100 / 2) = 410.
+        
         // 2. FOTO DO USUÁRIO (Proporção 4:5 - Feed Safe)
         const photoWidth = 880; // Largura da foto (um pouco menor que o canvas)
         const photoHeight = photoWidth * (5 / 4); // Proporção 4:5 = 1100px
         const photoX = (canvas.width - photoWidth) / 2; // Centralizado (100px de margem)
-        const photoY = 550; // Posição Y (abaixo do texto e badge)
+        const photoY = 410; // Posição Y (centralizada na zona segura)
         const cornerRadius = 50; // Cantos arredondados
         const borderWidth = 12; // Espessura da borda
         const borderColor = '#b0bcc5'; // Cor da borda
 
-        // 3. BADGE (Carimbo)
-        const badgeSize = 450; // Tamanho (estava "perfeito")
-        const rotationAngle = -15 * Math.PI / 180; // Rotação (estava "perfeito")
-        // AJUSTE: "metade do badge sobre a ponta superior da foto" E "não ficar cortado"
-        const badgeX = 150; // AJUSTADO: movido para a direita (era 140)
-        const badgeY = photoY - (badgeSize / 2); // Sobrepõe metade para cima da foto
+        // 3. BADGE (Carimbo) - Ajustado para "selar" o canto
+        const badgeSize = 450; // Tamanho
+        const rotationAngle = -15 * Math.PI / 180; // Rotação
+        // Posição do Badge:
+        // X: 100px da margem esquerda (alinhado com a foto)
+        // Y: "Selando" a foto (metade para dentro, metade para fora).
+        // Topo da foto = 410. Centro do badge deve estar em 410.
+        // badgeY = 410 - (450/2) = 185.
+        const badgeX = 100; 
+        const badgeY = 185; 
 
         // 4. TEXTOS (Check-in, Parque, Badge)
-        // AJUSTE: "um pequeno espaço entre o badge e o texto" e "subir um pouquinho"
-        const textX = 590; // AJUSTADO: Posição X fixa (não depende mais do badge)
-        const textY = badgeY + (badgeSize * 0.2); // Posição Y (baseado no edit manual do usuário "0.2")
-        const fontSize1 = 33; // Tamanho original (conforme solicitado)
-        const fontSize2 = 25; // Tamanho original (conforme solicitado)
+        // Posição X: À direita do badge. badgeX (100) + badgeSize (450) + margem (30) = 580.
+        const textX = 580; 
+        // Posição Y: Alinhado visualmente com o topo do badge.
+        const textY = badgeY + 100; // Ajuste visual
+        const fontSize1 = 45; // Aumentado para leitura
+        const fontSize2 = 30; // Aumentado para leitura
         const lineHeight = 1.3; // Espaçamento entre linhas
         
-        // --- FIM DO AJUSTE MANUAL ---
+        // --- FIM DO AJUSTE ---
 
-        // 5. Desenha a FOTO DO USUÁRIO (com "object-fit: cover")
+        // 5. Desenha a FOTO DO USUÁRIO (com "object-fit: cover" e sombra)
         if (userUploadedPhoto && userUploadedPhoto.complete && userUploadedPhoto.naturalWidth > 0) {
             
             ctx.save();
             
+            // Sombra na foto
+            ctx.shadowColor = "rgba(0,0,0,0.4)";
+            ctx.shadowBlur = 30;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 15;
+
             // Cria o caminho arredondado para clip
             ctx.beginPath();
             ctx.moveTo(photoX + cornerRadius, photoY);
@@ -1059,8 +1087,16 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             ctx.quadraticCurveTo(photoX, photoY, photoX + cornerRadius, photoY);
             ctx.closePath();
             
+            // Desenha o fundo branco da foto (para a borda não ficar transparente)
+            ctx.fillStyle = "#fff";
+            ctx.fill();
+
+            // Aplica o clip para a imagem
             ctx.clip();
             
+            // Reset de sombra para a imagem interna (para não borrar)
+            ctx.shadowColor = "transparent";
+
             // Lógica "Cover" para a foto do usuário
             const imgAspectRatio = userUploadedPhoto.naturalWidth / userUploadedPhoto.naturalHeight;
             const frameAspectRatio = photoWidth / photoHeight; // 4:5
@@ -1084,7 +1120,7 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             
             ctx.restore(); // Remove o clip
 
-            // 6. Desenha a BORDA da foto
+            // 6. Desenha a BORDA da foto (Sem sombra, já aplicada no fundo)
             ctx.strokeStyle = borderColor; 
             ctx.lineWidth = borderWidth; 
             ctx.beginPath();
@@ -1101,9 +1137,16 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             ctx.stroke();
         }
         
-        // 7. Desenha o BADGE (Carimbo)
+        // 7. Desenha o BADGE (Carimbo) com Sombra
         if (stampImage.complete && stampImage.naturalWidth > 0) {
             ctx.save();
+            
+            // Sombra no Badge para efeito "Carimbo/Adesivo"
+            ctx.shadowColor = "rgba(0,0,0,0.5)";
+            ctx.shadowBlur = 15;
+            ctx.shadowOffsetX = 5;
+            ctx.shadowOffsetY = 5;
+
             // Translada o canvas para o centro do badge
             ctx.translate(badgeX + badgeSize / 2, badgeY + badgeSize / 2);
             // Rotaciona
@@ -1112,24 +1155,34 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             ctx.drawImage(stampImage, -badgeSize / 2, -badgeSize / 2, badgeSize, badgeSize);
             ctx.restore(); // Restaura o estado (remove rotação e translação)
         
-            // 8. Desenha o TEXTO
+            // 8. Desenha o TEXTO (Com leve sombra para leitura)
             ctx.textAlign = 'left';
             ctx.textBaseline = 'top';
+            
+            // Sombra leve no texto
+            ctx.shadowColor = "rgba(255,255,255,0.8)"; // Glow branco para contraste
+            ctx.shadowBlur = 0;
+            ctx.shadowOffsetX = 2;
+            ctx.shadowOffsetY = 2;
 
             // Linha 1: "CHECK-IN REALIZADO" (TUDO VERDE)
             ctx.font = `bold ${fontSize1}pt 'Lora', serif`; 
             ctx.fillStyle = '#4CAF50'; // Cor VERDE (como solicitado)
             ctx.fillText('CHECK-IN REALIZADO', textX, textY);
             
+            // Reset sombra para texto normal
+            ctx.shadowColor = "transparent";
+
             // Linha 2: "PARQUE ESTADUAL..."
             const line2Y = textY + (fontSize1 * lineHeight);
             ctx.font = `bold ${fontSize2}pt 'Lora', serif`; 
-            ctx.fillStyle = '#555'; // Tom de cinza escuro
+            ctx.fillStyle = '#333'; // Tom de cinza escuro (quase preto para contraste)
             ctx.fillText(`PARQUE ESTADUAL ${parque.nome.toUpperCase()}`, textX, line2Y); 
 
             // Linha 3: "NOME DO BADGE"
             const line3Y = line2Y + (fontSize2 * lineHeight);
             ctx.font = `${fontSize2}pt 'Lora', serif`; // Sem bold
+            ctx.fillStyle = '#555';
             ctx.fillText(atividade.nome.toUpperCase(), textX, line3Y); 
         }
     };
