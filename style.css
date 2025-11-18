@@ -1196,4 +1196,37 @@ img {
         top: 45px; /* Ajuste para mobile */
         right: 20px;
     }
+
+    /* --- EFEITO GLOW AMARELO PARA ITENS DESBLOQUEADOS --- */
+.icone-premio.desbloqueado {
+    box-shadow: var(--sombra-neumorfismo-ativa), 0 0 15px 5px rgba(255, 215, 0, 0.4);
+    animation: glowPulse 2s ease-in-out infinite alternate;
 }
+
+.fauna-grid-item.desbloqueado {
+    box-shadow: var(--sombra-neumorfismo-ativa), 0 0 15px 5px rgba(255, 215, 0, 0.4);
+    animation: glowPulse 2s ease-in-out infinite alternate;
+}
+
+.activity-grid-item.desbloqueado {
+    box-shadow: var(--sombra-neumorfismo-ativa), 0 0 15px 5px rgba(255, 215, 0, 0.4);
+    animation: glowPulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes glowPulse {
+    from {
+        box-shadow: var(--sombra-neumorfismo-ativa), 0 0 15px 5px rgba(255, 215, 0, 0.4);
+    }
+    to {
+        box-shadow: var(--sombra-neumorfismo-ativa), 0 0 20px 8px rgba(255, 215, 0, 0.6);
+    }
+}
+
+.icone-premio.desbloqueado .badge-custom-img,
+.fauna-grid-item.desbloqueado img,
+.activity-grid-item.desbloqueado img {
+    filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.7));
+    transition: filter 0.3s ease-in-out;
+}
+}
+
