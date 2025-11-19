@@ -1073,49 +1073,45 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
     
     const ctx = canvasContext;
 
-    // Função interna para desenhar (garante carregamento de fontes e imagem de fundo)
     const performDraw = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // 1. FUNDO (IMAGEM TEMPLATE)
-        // Verifica se a imagem do template carregou, senão usa um fundo branco de segurança
+        // 1. FUNDO (TEMPLATE)
         if (passportTemplateImage.complete && passportTemplateImage.naturalWidth > 0) {
             ctx.drawImage(passportTemplateImage, 0, 0, canvas.width, canvas.height);
         } else {
-            ctx.fillStyle = '#f0f8f0'; // Fallback caso a imagem falhe
+            ctx.fillStyle = '#f0f8f0'; 
             ctx.fillRect(0, 0, canvas.width, canvas.height);
         }
 
-        // --- CONFIGURAÇÃO DO LAYOUT ---
+        // --- AJUSTES DE POSICIONAMENTO ---
         
-        // Ajuste de Dimensões para evitar sobreposição
-        // Reduzi a largura da foto para 620px (era 700px) para dar espaço ao texto
+        // Aumentei photoX de 80 para 140. 
+        // Isso empurra a foto para a DIREITA, preenchendo o espaço vazio.
+        const photoX = 140;  
         const photoWidth = 620;  
         const photoHeight = 900; 
-        const photoX = 80;  // Mais para a esquerda
-        const photoY = 450; // Posição vertical mantida
+        const photoY = 450; 
         
         // 2. FOTO DO USUÁRIO
-        // Sombra da moldura
+        // Sombra
         ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
         ctx.shadowBlur = 15;
         ctx.shadowOffsetX = 5;
         ctx.shadowOffsetY = 5;
         
-        // Moldura Branca (Borda)
+        // Moldura Branca
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(photoX - 15, photoY - 15, photoWidth + 30, photoHeight + 30);
         
-        ctx.shadowColor = 'transparent'; // Reseta sombra
+        ctx.shadowColor = 'transparent'; 
 
         if (userUploadedPhoto && userUploadedPhoto.complete && userUploadedPhoto.naturalWidth > 0) {
             ctx.save();
-            // Área de corte (clip) da foto
             ctx.beginPath();
             ctx.rect(photoX, photoY, photoWidth, photoHeight);
             ctx.clip();
             
-            // Lógica object-fit: cover
             const imgAspectRatio = userUploadedPhoto.naturalWidth / userUploadedPhoto.naturalHeight;
             const frameAspectRatio = photoWidth / photoHeight;
             let sx = 0, sy = 0, sWidth = userUploadedPhoto.naturalWidth, sHeight = userUploadedPhoto.naturalHeight;
@@ -1134,52 +1130,54 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             ctx.restore();
         }
 
-        // 3. TEXTO VERTICAL (LADO DIREITO DA FOTO)
+        // 3. TEXTO VERTICAL
         ctx.save();
         
-        // Ponto de origem: Canto inferior direito da foto + um espaço de respiro (50px)
-        // Isso garante que o texto comece DEPOIS da foto, não em cima dela
-        const textOriginX = photoX + photoWidth + 60; 
+        // AJUSTE CRÍTICO: Aumentei a margem entre a foto e o texto (+85px)
+        // Isso evita que a terceira linha (Nome da Atividade) caia em cima da foto
+        const textOriginX = photoX + photoWidth + 85; 
         const textOriginY = photoY + photoHeight;      
         
         ctx.translate(textOriginX, textOriginY);
-        ctx.rotate(-Math.PI / 2); // Rotaciona para vertical
+        ctx.rotate(-Math.PI / 2); // Rotação Vertical
         
         ctx.textAlign = 'left'; 
         ctx.textBaseline = 'middle';
 
-        // Espaçamento entre as linhas de texto
+        // Espaçamento entre linhas
         const lineSpacing = 55; 
 
-        // Linha 1: CHECK-IN REALIZADO (Verde) - Fonte reduzida para 40pt
+        // Linha 1: CHECK-IN (A mais distante da foto)
         ctx.font = 'bold 40pt "Bebas Neue", "Arial Black", sans-serif';
         ctx.fillStyle = '#4CAF50'; 
         ctx.fillText('CHECK-IN REALIZADO', 0, 0); 
 
-        // Linha 2: Nome do Parque - Fonte reduzida para 24pt
+        // Linha 2: Nome do Parque
         ctx.font = 'bold 24pt "Open Sans", sans-serif';
-        ctx.fillStyle = '#333333'; // Cinza escuro para contraste
+        ctx.fillStyle = '#333333'; 
         ctx.fillText(`PARQUE ESTADUAL ${parque.nome.toUpperCase()}`, 0, -lineSpacing);
 
-        // Linha 3: Nome da Atividade - Fonte 24pt
-        ctx.font = '24pt "Open Sans", sans-serif';
-        ctx.fillStyle = '#555555'; // Cinza médio
+        // Linha 3: Nome da Atividade (A mais próxima da foto)
+        // Reduzi a fonte para 20pt para garantir que não encoste na foto
+        ctx.font = '20pt "Open Sans", sans-serif';
+        ctx.fillStyle = '#555555'; 
+        // Adicionei um pequeno recuo no X (0, ...) para alinhar melhor visualmente
         ctx.fillText(atividade.nome.toUpperCase(), 0, -lineSpacing * 2);
         
         // Linha decorativa vertical
         ctx.beginPath();
         ctx.strokeStyle = '#4CAF50';
         ctx.lineWidth = 4;
-        ctx.moveTo(-20, 35); // Posição relativa à rotação
-        ctx.lineTo(canvas.height * 0.35, 35); 
+        // Ajustei a posição da linha decorativa para acompanhar o novo espaçamento
+        ctx.moveTo(-20, 45); 
+        ctx.lineTo(canvas.height * 0.35, 45); 
         ctx.stroke();
 
         ctx.restore(); 
 
-        // 4. BADGE/CARIMBO (Canto Superior Direito da Foto)
+        // 4. BADGE/CARIMBO
         if (stampImage.complete && stampImage.naturalWidth > 0) {
-            const badgeSize = 320; // Levemente menor para não invadir muito
-            // Posiciona na quina superior direita da foto
+            const badgeSize = 320; 
             const badgeX = photoX + photoWidth - (badgeSize * 0.5); 
             const badgeY = photoY - (badgeSize * 0.3); 
             
@@ -1191,18 +1189,13 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             ctx.drawImage(stampImage, -badgeSize / 2, -badgeSize / 2, badgeSize, badgeSize);
             ctx.restore();
         }
-
-        // 5. RODAPÉ
-        ctx.shadowColor = 'transparent';
-        ctx.font = 'italic 22pt "Lora", serif';
-        ctx.fillStyle = '#666666';
-        ctx.textAlign = 'center';
-        ctx.fillText('#TrilhasDeMinas • #TurismoMG', canvas.width / 2, canvas.height - 80);
+        
+        // (O CÓDIGO DO RODAPÉ FOI REMOVIDO AQUI)
     };
 
-    // Delay para garantir fontes e imagens
     setTimeout(performDraw, 500);
 }
+
 function downloadCanvasImage(parqueNome, atividadeNome) {
     if (!canvasContext || !document.getElementById('input-foto-badge').files.length) {
         alert('Nenhuma imagem para baixar. Por favor, selecione uma foto.');
@@ -1505,6 +1498,7 @@ function iniciarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
+
 
 
 
