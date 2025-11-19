@@ -1300,6 +1300,7 @@ img {
     to {
         box-shadow: var(--sombra-neumorfismo-ativa), 0 0 20px 8px rgba(255, 215, 0, 0.6);
     }
+    
 }
 
 .icone-premio.desbloqueado .badge-custom-img,
@@ -1308,6 +1309,30 @@ img {
     filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.7));
     transition: filter 0.3s ease-in-out;
 }
+}
+
+/* --- Rodapé de Créditos (Discreto) --- */
+.rodape-creditos {
+    margin-top: 40px;      /* Afasta dos botões dos parques */
+    margin-bottom: 60px;   /* Espaço extra no final para não colar na borda ou no prompt de instalação */
+    text-align: center;
+    width: 100%;
+    font-size: 0.75rem;    /* Fonte pequena (aprox 12px) */
+    color: #9aa0a6;        /* Cinza suave e discreto */
+    line-height: 1.5;      /* Espaçamento entre as linhas */
+    font-family: 'Open Sans', sans-serif;
+    opacity: 0.8;          /* Leve transparência para tirar o foco visual */
+    pointer-events: none;  /* Opcional: impede cliques acidentais, já que é só informativo */
+}
+
+.rodape-creditos p {
+    margin: 0;
+    padding: 0;
+}
+
+.rodape-creditos strong {
+    font-weight: 600;
+    color: #777; /* Um cinza levemente mais escuro para os nomes */
 }
 
 
