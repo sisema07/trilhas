@@ -583,92 +583,49 @@ header {
     transform: scale(1.2);
 }
 
-/* --- ÍCONES MODERNOS E ESTILIZADOS --- */
+/* --- ÍCONES SOCIAIS MODERNOS (SLIM) --- */
 .location-link-container {
     display: flex;
-    align-items: center;
-    justify-content: center; 
-    gap: 20px; /* Espaçamento reduzido para ícones maiores */
-    padding: 15px 20px;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    border-radius: 20px;
-    margin: 10px 20px;
-    box-shadow: var(--sombra-neumorfismo-externa);
+    justify-content: center;
+    gap: 15px; /* Espaçamento elegante */
+    padding: 15px 0;
+    margin: 10px 0;
+    background: transparent; /* Remove fundo cinza */
+    box-shadow: none; /* Remove sombra pesada do container */
 }
 
 .location-icon-link {
-    width: 50px;
-    height: 50px;
-    border-radius: 12px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%; /* Perfeitamente circular */
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.4rem;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 1.2rem;
     text-decoration: none !important;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    
+    /* Design Slim Unificado */
+    background-color: #fff; /* Fundo branco limpo */
+    color: var(--cor-principal); /* Todos verdes (cor da marca) */
+    border: 1px solid #e0e0e0; /* Borda sutil */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Sombra muito leve */
 }
 
-/* Efeito de brilho ao passar o mouse */
-.location-icon-link::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-    transition: left 0.5s;
-}
+/* Removemos as cores individuais (nth-child) para unificar */
 
-.location-icon-link:hover::before {
-    left: 100%;
-}
-
-/* Cores específicas com gradientes modernos */
-.location-icon-link:nth-child(1) { /* Maps */
-    background: linear-gradient(135deg, #4285F4 0%, #34A853 100%);
-    color: white;
-}
-.location-icon-link:nth-child(2) { /* Instagram */
-    background: linear-gradient(135deg, #E1306C 0%, #F77737 100%);
-    color: white;
-}
-.location-icon-link:nth-child(3) { /* YouTube */
-    background: linear-gradient(135deg, #FF0000 0%, #FF6B6B 100%);
-    color: white;
-}
-.location-icon-link:nth-child(4) { /* Site */
-    background: linear-gradient(135deg, #00BCD4 0%, #4DD0E1 100%);
-    color: white;
-}
-.location-icon-link:nth-child(5) { /* WhatsApp */
-    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-    color: white;
-}
-.location-icon-link:nth-child(6) { /* Telefone */
-    background: linear-gradient(135deg, #3f51b5 0%, #7986CB 100%);
-    color: white;
-}
-.location-icon-link:nth-child(7) { /* Email */
-    background: linear-gradient(135deg, #FF9800 0%, #FFB74D 100%);
-    color: white;
-}
-
-/* Efeitos de hover */
+/* Efeito Hover Moderno */
 .location-icon-link:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
-    border-color: rgba(255,255,255,0.8);
+    transform: translateY(-3px);
+    border-color: var(--cor-principal);
+    background-color: var(--cor-principal);
+    color: #fff; /* Inverte a cor no hover */
+    box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3); /* Glow verde suave */
 }
 
 .location-icon-link:active {
-    transform: translateY(-1px) scale(1.02);
+    transform: scale(0.95);
 }
-
 .separator {
     border: none;
     border-top: 1px solid #ccc;
@@ -1352,6 +1309,7 @@ img {
     transition: filter 0.3s ease-in-out;
 }
 }
+
 
 
 
