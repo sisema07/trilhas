@@ -665,11 +665,11 @@ function carregarProximaQuestao() {
     let optionsHtml = '';
     const alternativas = Array.isArray(questao.a) ? questao.a : [];
     
+    // --- CORREÇÃO AQUI ---
     alternativas.forEach((alternativa, index) => {
-        optionsHtml += `
-            optionsHtml += `<button class="quiz-option-btn" data-index="${index}" onclick="window.selectQuizOption(${index}, this)">${alternativa}</button>`;
-        `;
+        optionsHtml += `<button class="quiz-option-btn" data-index="${index}" onclick="window.selectQuizOption(${index}, this)">${alternativa}</button>`;
     });
+    // ---------------------
     
     area.style.opacity = '0';
     setTimeout(() => {
@@ -1558,6 +1558,7 @@ function iniciarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
+
 
 
 
