@@ -1073,48 +1073,44 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
     
     const ctx = canvasContext;
 
-    // Função interna para desenhar (garante carregamento de fontes)
+    // Função interna para desenhar (garante carregamento de fontes e imagem de fundo)
     const performDraw = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // 1. FUNDO (MANTIDO)
-        const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-        gradient.addColorStop(0, '#e8f5e8');
-        gradient.addColorStop(1, '#f0f8f0');
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        // Textura de papel
-        ctx.fillStyle = 'rgba(245, 245, 240, 0.3)';
-        for (let i = 0; i < canvas.width; i += 4) {
-            for (let j = 0; j < canvas.height; j += 4) {
-                if ((i + j) % 8 === 0) ctx.fillRect(i, j, 1, 1);
-            }
+        // 1. FUNDO (IMAGEM TEMPLATE)
+        // Verifica se a imagem do template carregou, senão usa um fundo branco de segurança
+        if (passportTemplateImage.complete && passportTemplateImage.naturalWidth > 0) {
+            ctx.drawImage(passportTemplateImage, 0, 0, canvas.width, canvas.height);
+        } else {
+            ctx.fillStyle = '#f0f8f0'; // Fallback caso a imagem falhe
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
         }
 
-        // --- CONFIGURAÇÃO DO LAYOUT VERTICAL ---
+        // --- CONFIGURAÇÃO DO LAYOUT ---
         
-        // Dimensões da Foto
-        const photoWidth = 700;  
-        const photoHeight = 950; 
-        const photoX = 100; // Margem esquerda
-        const photoY = 450; // Posição vertical
+        // Ajuste de Dimensões para evitar sobreposição
+        // Reduzi a largura da foto para 620px (era 700px) para dar espaço ao texto
+        const photoWidth = 620;  
+        const photoHeight = 900; 
+        const photoX = 80;  // Mais para a esquerda
+        const photoY = 450; // Posição vertical mantida
         
         // 2. FOTO DO USUÁRIO
-        // Moldura Branca
-        ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
+        // Sombra da moldura
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
         ctx.shadowBlur = 15;
         ctx.shadowOffsetX = 5;
         ctx.shadowOffsetY = 5;
+        
+        // Moldura Branca (Borda)
         ctx.fillStyle = '#ffffff';
-        // Borda um pouco maior para destacar
-        ctx.fillRect(photoX - 20, photoY - 20, photoWidth + 40, photoHeight + 40);
+        ctx.fillRect(photoX - 15, photoY - 15, photoWidth + 30, photoHeight + 30);
         
         ctx.shadowColor = 'transparent'; // Reseta sombra
 
         if (userUploadedPhoto && userUploadedPhoto.complete && userUploadedPhoto.naturalWidth > 0) {
             ctx.save();
-            // Área da foto (clip)
+            // Área de corte (clip) da foto
             ctx.beginPath();
             ctx.rect(photoX, photoY, photoWidth, photoHeight);
             ctx.clip();
@@ -1141,77 +1137,72 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         // 3. TEXTO VERTICAL (LADO DIREITO DA FOTO)
         ctx.save();
         
-        // Ponto de origem para o texto (Canto inferior direito da área da foto + margem)
-        const textOriginX = photoX + photoWidth + 100; // 100px à direita da foto
-        const textOriginY = photoY + photoHeight;      // Alinhado com o fundo da foto
+        // Ponto de origem: Canto inferior direito da foto + um espaço de respiro (50px)
+        // Isso garante que o texto comece DEPOIS da foto, não em cima dela
+        const textOriginX = photoX + photoWidth + 60; 
+        const textOriginY = photoY + photoHeight;      
         
-        // Move o "pincel" para lá
         ctx.translate(textOriginX, textOriginY);
+        ctx.rotate(-Math.PI / 2); // Rotaciona para vertical
         
-        // Rotaciona -90 graus (para escrever de baixo para cima)
-        ctx.rotate(-Math.PI / 2);
-        
-        // Configurações de Fonte
-        ctx.textAlign = 'left'; // Como rotacionamos, 'left' agora é 'bottom' visualmente
+        ctx.textAlign = 'left'; 
         ctx.textBaseline = 'middle';
 
-        // Linha 1: CHECK-IN REALIZADO (Verde)
-        ctx.font = 'bold 50pt "Bebas Neue", "Arial Black", sans-serif';
-        ctx.fillStyle = '#4CAF50'; 
-        ctx.fillText('CHECK-IN REALIZADO', 0, 0); // Escreve na coordenada 0,0 rotacionada
+        // Espaçamento entre as linhas de texto
+        const lineSpacing = 55; 
 
-        // Linha 2: Nome do Parque (Cinza Escuro)
-        // Offset Y (que agora é X visualmente devido à rotação) para a linha de cima
-        // Como rotacionamos, mover no eixo Y do contexto afeta a horizontal visual
-        const lineSpacing = 70; 
-        
-        ctx.font = 'bold 35pt "Open Sans", sans-serif';
-        ctx.fillStyle = '#555555';
+        // Linha 1: CHECK-IN REALIZADO (Verde) - Fonte reduzida para 40pt
+        ctx.font = 'bold 40pt "Bebas Neue", "Arial Black", sans-serif';
+        ctx.fillStyle = '#4CAF50'; 
+        ctx.fillText('CHECK-IN REALIZADO', 0, 0); 
+
+        // Linha 2: Nome do Parque - Fonte reduzida para 24pt
+        ctx.font = 'bold 24pt "Open Sans", sans-serif';
+        ctx.fillStyle = '#333333'; // Cinza escuro para contraste
         ctx.fillText(`PARQUE ESTADUAL ${parque.nome.toUpperCase()}`, 0, -lineSpacing);
 
-        // Linha 3: Nome da Atividade (Cinza mais claro)
-        ctx.font = '35pt "Open Sans", sans-serif';
-        ctx.fillStyle = '#777777';
+        // Linha 3: Nome da Atividade - Fonte 24pt
+        ctx.font = '24pt "Open Sans", sans-serif';
+        ctx.fillStyle = '#555555'; // Cinza médio
         ctx.fillText(atividade.nome.toUpperCase(), 0, -lineSpacing * 2);
         
         // Linha decorativa vertical
         ctx.beginPath();
         ctx.strokeStyle = '#4CAF50';
-        ctx.lineWidth = 5;
-        ctx.moveTo(-20, 40); // Um pouco abaixo do texto
-        ctx.lineTo(canvas.height * 0.4, 40); // Linha subindo
+        ctx.lineWidth = 4;
+        ctx.moveTo(-20, 35); // Posição relativa à rotação
+        ctx.lineTo(canvas.height * 0.35, 35); 
         ctx.stroke();
 
-        ctx.restore(); // Restaura a orientação normal para o resto (badge)
+        ctx.restore(); 
 
         // 4. BADGE/CARIMBO (Canto Superior Direito da Foto)
         if (stampImage.complete && stampImage.naturalWidth > 0) {
-            const badgeSize = 350; // Badge maior
-            // Posiciona na quina superior direita da foto, saindo um pouco
-            const badgeX = photoX + photoWidth - (badgeSize * 0.6); 
-            const badgeY = photoY - (badgeSize * 0.4); 
+            const badgeSize = 320; // Levemente menor para não invadir muito
+            // Posiciona na quina superior direita da foto
+            const badgeX = photoX + photoWidth - (badgeSize * 0.5); 
+            const badgeY = photoY - (badgeSize * 0.3); 
             
             ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
             ctx.shadowBlur = 10;
             ctx.save();
             ctx.translate(badgeX + badgeSize / 2, badgeY + badgeSize / 2);
-            ctx.rotate(15 * Math.PI / 180); // Leve rotação
+            ctx.rotate(15 * Math.PI / 180); 
             ctx.drawImage(stampImage, -badgeSize / 2, -badgeSize / 2, badgeSize, badgeSize);
             ctx.restore();
         }
 
         // 5. RODAPÉ
         ctx.shadowColor = 'transparent';
-        ctx.font = 'italic 24pt "Lora", serif';
-        ctx.fillStyle = '#888888';
+        ctx.font = 'italic 22pt "Lora", serif';
+        ctx.fillStyle = '#666666';
         ctx.textAlign = 'center';
         ctx.fillText('#TrilhasDeMinas • #TurismoMG', canvas.width / 2, canvas.height - 80);
     };
 
-    // Delay para garantir fontes
+    // Delay para garantir fontes e imagens
     setTimeout(performDraw, 500);
 }
-
 function downloadCanvasImage(parqueNome, atividadeNome) {
     if (!canvasContext || !document.getElementById('input-foto-badge').files.length) {
         alert('Nenhuma imagem para baixar. Por favor, selecione uma foto.');
@@ -1514,6 +1505,7 @@ function iniciarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
+
 
 
 
