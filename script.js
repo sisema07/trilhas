@@ -657,7 +657,7 @@ function carregarProximaQuestao() {
     
     alternativas.forEach((alternativa, index) => {
         optionsHtml += `
-            <button class="action-button quiz-option-btn" data-index="${index}" onclick="window.selectQuizOption(${index}, this)">${alternativa}</button>
+            optionsHtml += `<button class="quiz-option-btn" data-index="${index}" onclick="window.selectQuizOption(${index}, this)">${alternativa}</button>`;
         `;
     });
     
@@ -684,12 +684,12 @@ window.selectQuizOption = function(selectedIndex, buttonElement) {
     const isCorrect = selectedIndex === questao.correct;
     
     if (isCorrect) {
-        buttonElement.classList.add('active'); 
+        buttonElement.classList.add('correct');
         quizScore++;
     } else {
-        buttonElement.style.backgroundColor = '#f44336'; 
-        buttonElement.style.color = 'white';
-        document.querySelector(`.quiz-option-btn[data-index="${questao.correct}"]`)?.classList.add('active');
+        buttonElement.classList.add('incorrect');
+        // Destaca a resposta correta
+        document.querySelector(`.quiz-option-btn[data-index="${questao.correct}"]`)?.classList.add('correct');
     }
     
     setTimeout(() => {
@@ -1548,5 +1548,6 @@ function iniciarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
+
 
 
