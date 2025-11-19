@@ -1234,20 +1234,12 @@ img {
         right: 20px;
     }
 
-    /* --- EFEITO GLOW AMARELO PARA ITENS DESBLOQUEADOS --- */
-.icone-premio.desbloqueado {
-    box-shadow: var(--sombra-neumorfismo-ativa), 0 0 15px 5px rgba(255, 215, 0, 0.4);
-    animation: glowPulse 2s ease-in-out infinite alternate;
-}
-
-.fauna-grid-item.desbloqueado {
-    box-shadow: var(--sombra-neumorfismo-ativa), 0 0 15px 5px rgba(255, 215, 0, 0.4);
-    animation: glowPulse 2s ease-in-out infinite alternate;
-}
-
+/* --- EFEITO GLOW AMARELO APENAS NAS IMAGENS --- */
+.icone-premio.desbloqueado,
+.fauna-grid-item.desbloqueado,
 .activity-grid-item.desbloqueado {
-    box-shadow: var(--sombra-neumorfismo-ativa), 0 0 15px 5px rgba(255, 215, 0, 0.4);
-    animation: glowPulse 2s ease-in-out infinite alternate;
+    /* Remove o glow dos botões, mantém apenas sombra normal */
+    box-shadow: var(--sombra-neumorfismo-ativa);
 }
 
 @keyframes glowPulse {
@@ -1266,5 +1258,6 @@ img {
     transition: filter 0.3s ease-in-out;
 }
 }
+
 
 
