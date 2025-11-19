@@ -1087,19 +1087,19 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         // --- ÁREA DE CONFIGURAÇÃO (EDITE AQUI SE PRECISAR) ---
         
         // 1. Margem Esquerda (Distância da borda esquerda até a foto)
-        const photoX = 50;  
+        const photoX = 70;  
         
         // 2. Largura da Foto (Aumentei para preencher mais)
         const photoWidth = 720;  
         
         // 3. Posição Vertical (Distância do topo)
-        const photoY = 450; 
+        const photoY = 320; 
         
         // 4. Altura da Foto
         const photoHeight = 1280; 
 
         // 5. Margem de Segurança entre Foto e Texto (Aumente se o texto tocar na foto)
-        const gap = 180; 
+        const gap = 160; 
 
         // -----------------------------------------------------
         
@@ -1170,7 +1170,7 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         ctx.fillText(`PARQUE ESTADUAL ${parque.nome.toUpperCase()}`, 0, -lineSpacing);
 
         // LINHA 3: Nome da Atividade (Fica à direita da linha 2)
-        ctx.font = '20pt "Open Sans", sans-serif';
+        ctx.font = 'bold 20pt "Open Sans", sans-serif';
         ctx.fillStyle = '#555555'; 
         ctx.fillText(atividade.nome.toUpperCase(), 0, -lineSpacing * 2);
         
@@ -1187,7 +1187,7 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
 
         // 4. BADGE/CARIMBO (Ajustado para acompanhar a nova largura da foto)
         if (stampImage.complete && stampImage.naturalWidth > 0) {
-            const badgeSize = 320; 
+            const badgeSize = 380; 
             // Alinhado à direita da foto nova
             const badgeX = photoX + photoWidth - (badgeSize * 0.5); 
             const badgeY = photoY - (badgeSize * 0.3); 
@@ -1507,6 +1507,7 @@ function iniciarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
+
 
 
 
