@@ -1068,74 +1068,60 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
     if (!canvasContext) return;
 
     const canvas = canvasContext.canvas;
-    
-    // Define as dimensões HD 9:16 para stories
     canvas.width = 1080;
     canvas.height = 1920;
     
     const ctx = canvasContext;
 
-    // Função interna para desenhar
+    // Função interna para desenhar (garante carregamento de fontes)
     const performDraw = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // 1. FUNDO GRADIENTE MODERNO (substitui o template simples)
+        // 1. FUNDO (MANTIDO)
         const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
         gradient.addColorStop(0, '#e8f5e8');
         gradient.addColorStop(1, '#f0f8f0');
         ctx.fillStyle = gradient;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // 2. TEXTURA SUTIL DE PAPEL (efeito realista)
+        // Textura de papel
         ctx.fillStyle = 'rgba(245, 245, 240, 0.3)';
         for (let i = 0; i < canvas.width; i += 4) {
             for (let j = 0; j < canvas.height; j += 4) {
-                if ((i + j) % 8 === 0) {
-                    ctx.fillRect(i, j, 1, 1);
-                }
+                if ((i + j) % 8 === 0) ctx.fillRect(i, j, 1, 1);
             }
         }
 
-        // 3. FOTO DO USUÁRIO - Layout como na segunda imagem
-        const photoWidth = 650;  // Foto menor para caber texto ao lado
-        const photoHeight = 900; // Proporção mais alongada
-        const photoX = 100;      // Recuada da esquerda
-        const photoY = 400;      // Mais abaixo para caber badge acima
+        // --- CONFIGURAÇÃO DO LAYOUT VERTICAL ---
         
-        // Moldura da foto com efeito 3D
-        const framePadding = 15;
-        const frameWidth = photoWidth + (framePadding * 2);
-        const frameHeight = photoHeight + (framePadding * 2);
+        // Dimensões da Foto
+        const photoWidth = 700;  
+        const photoHeight = 950; 
+        const photoX = 100; // Margem esquerda
+        const photoY = 450; // Posição vertical
         
-        // Sombra da moldura
-        ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
-        ctx.shadowBlur = 20;
+        // 2. FOTO DO USUÁRIO
+        // Moldura Branca
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
+        ctx.shadowBlur = 15;
         ctx.shadowOffsetX = 5;
         ctx.shadowOffsetY = 5;
-        
-        // Moldura branca
         ctx.fillStyle = '#ffffff';
-        ctx.fillRect(photoX - framePadding, photoY - framePadding, frameWidth, frameHeight);
+        // Borda um pouco maior para destacar
+        ctx.fillRect(photoX - 20, photoY - 20, photoWidth + 40, photoHeight + 40);
         
-        // Remove sombra para o conteúdo interno
-        ctx.shadowColor = 'transparent';
-        ctx.shadowBlur = 0;
-        ctx.shadowOffsetX = 0;
-        ctx.shadowOffsetY = 0;
+        ctx.shadowColor = 'transparent'; // Reseta sombra
 
-        // Foto do usuário com cantos arredondados
         if (userUploadedPhoto && userUploadedPhoto.complete && userUploadedPhoto.naturalWidth > 0) {
             ctx.save();
-            
-            // Cantos arredondados
+            // Área da foto (clip)
             ctx.beginPath();
-            ctx.roundRect(photoX, photoY, photoWidth, photoHeight, 15);
+            ctx.rect(photoX, photoY, photoWidth, photoHeight);
             ctx.clip();
             
-            // Lógica "object-fit: cover" para a foto
+            // Lógica object-fit: cover
             const imgAspectRatio = userUploadedPhoto.naturalWidth / userUploadedPhoto.naturalHeight;
             const frameAspectRatio = photoWidth / photoHeight;
-            
             let sx = 0, sy = 0, sWidth = userUploadedPhoto.naturalWidth, sHeight = userUploadedPhoto.naturalHeight;
             
             if (imgAspectRatio > frameAspectRatio) {
@@ -1152,107 +1138,77 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             ctx.restore();
         }
 
-        // 4. BADGE/CARIMBO - Posição como na segunda imagem (quina superior)
+        // 3. TEXTO VERTICAL (LADO DIREITO DA FOTO)
+        ctx.save();
+        
+        // Ponto de origem para o texto (Canto inferior direito da área da foto + margem)
+        const textOriginX = photoX + photoWidth + 100; // 100px à direita da foto
+        const textOriginY = photoY + photoHeight;      // Alinhado com o fundo da foto
+        
+        // Move o "pincel" para lá
+        ctx.translate(textOriginX, textOriginY);
+        
+        // Rotaciona -90 graus (para escrever de baixo para cima)
+        ctx.rotate(-Math.PI / 2);
+        
+        // Configurações de Fonte
+        ctx.textAlign = 'left'; // Como rotacionamos, 'left' agora é 'bottom' visualmente
+        ctx.textBaseline = 'middle';
+
+        // Linha 1: CHECK-IN REALIZADO (Verde)
+        ctx.font = 'bold 50pt "Bebas Neue", "Arial Black", sans-serif';
+        ctx.fillStyle = '#4CAF50'; 
+        ctx.fillText('CHECK-IN REALIZADO', 0, 0); // Escreve na coordenada 0,0 rotacionada
+
+        // Linha 2: Nome do Parque (Cinza Escuro)
+        // Offset Y (que agora é X visualmente devido à rotação) para a linha de cima
+        // Como rotacionamos, mover no eixo Y do contexto afeta a horizontal visual
+        const lineSpacing = 70; 
+        
+        ctx.font = 'bold 35pt "Open Sans", sans-serif';
+        ctx.fillStyle = '#555555';
+        ctx.fillText(`PARQUE ESTADUAL ${parque.nome.toUpperCase()}`, 0, -lineSpacing);
+
+        // Linha 3: Nome da Atividade (Cinza mais claro)
+        ctx.font = '35pt "Open Sans", sans-serif';
+        ctx.fillStyle = '#777777';
+        ctx.fillText(atividade.nome.toUpperCase(), 0, -lineSpacing * 2);
+        
+        // Linha decorativa vertical
+        ctx.beginPath();
+        ctx.strokeStyle = '#4CAF50';
+        ctx.lineWidth = 5;
+        ctx.moveTo(-20, 40); // Um pouco abaixo do texto
+        ctx.lineTo(canvas.height * 0.4, 40); // Linha subindo
+        ctx.stroke();
+
+        ctx.restore(); // Restaura a orientação normal para o resto (badge)
+
+        // 4. BADGE/CARIMBO (Canto Superior Direito da Foto)
         if (stampImage.complete && stampImage.naturalWidth > 0) {
-            const badgeSize = 280; // Tamanho maior para destaque
-            const badgeX = photoX + photoWidth - (badgeSize * 0.7); // Sobrepondo a foto
-            const badgeY = photoY - (badgeSize * 0.3); // Acima da foto
+            const badgeSize = 350; // Badge maior
+            // Posiciona na quina superior direita da foto, saindo um pouco
+            const badgeX = photoX + photoWidth - (badgeSize * 0.6); 
+            const badgeY = photoY - (badgeSize * 0.4); 
             
-            // Efeito de sombra realista no badge
-            ctx.shadowColor = 'rgba(0, 0, 0, 0.4)';
-            ctx.shadowBlur = 15;
-            ctx.shadowOffsetX = 3;
-            ctx.shadowOffsetY = 3;
-            
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+            ctx.shadowBlur = 10;
             ctx.save();
-            // Rotação sutil para efeito colado
             ctx.translate(badgeX + badgeSize / 2, badgeY + badgeSize / 2);
-            ctx.rotate(-8 * Math.PI / 180); // Rotação leve
+            ctx.rotate(15 * Math.PI / 180); // Leve rotação
             ctx.drawImage(stampImage, -badgeSize / 2, -badgeSize / 2, badgeSize, badgeSize);
             ctx.restore();
-            
-            // Remove sombra
-            ctx.shadowColor = 'transparent';
-            ctx.shadowBlur = 0;
-            ctx.shadowOffsetX = 0;
-            ctx.shadowOffsetY = 0;
         }
 
-        // 5. TEXTO NA VERTICAL - Layout como na segunda imagem
-        const textX = photoX + photoWidth + 60; // Ao lado da foto
-        const textY = photoY + 100; // Alinhado com o topo da foto
-        
-        ctx.textAlign = 'left';
-        ctx.textBaseline = 'top';
-
-        // Linha 1: "CHECK-IN REALIZADO"
-        ctx.font = 'bold 42pt "Lora", serif';
-        ctx.fillStyle = '#2E7D32'; // Verde mais escuro e elegante
-        ctx.fillText('CHECK-IN', textX, textY);
-        ctx.fillText('REALIZADO', textX, textY + 60);
-
-        // Linha 2: Nome do Parque
-        const parkNameY = textY + 160;
-        ctx.font = 'bold 32pt "Lora", serif';
-        ctx.fillStyle = '#333333';
-        ctx.fillText('PARQUE', textX, parkNameY);
-        ctx.fillText('ESTADUAL', textX, parkNameY + 50);
-        
-        // Nome do parque (pode quebrar em duas linhas se necessário)
-        const parkName = parque.nome.toUpperCase();
-        ctx.fillText(parkName, textX, parkNameY + 110);
-
-        // Linha 3: Nome da Atividade/Badge
-        const activityY = parkNameY + 200;
-        ctx.font = '28pt "Lora", serif';
-        ctx.fillStyle = '#555555';
-        
-        // Quebra o nome da atividade se for muito longo
-        const activityName = atividade.nome.toUpperCase();
-        if (activityName.length > 15) {
-            const words = activityName.split(' ');
-            let currentLine = '';
-            let lineY = activityY;
-            
-            for (const word of words) {
-                const testLine = currentLine + word + ' ';
-                if (testLine.length > 12) {
-                    if (currentLine !== '') {
-                        ctx.fillText(currentLine, textX, lineY);
-                        lineY += 45;
-                    }
-                    currentLine = word + ' ';
-                } else {
-                    currentLine = testLine;
-                }
-            }
-            if (currentLine !== '') {
-                ctx.fillText(currentLine, textX, lineY);
-            }
-        } else {
-            ctx.fillText(activityName, textX, activityY);
-        }
-
-        // 6. RODAPÉ ELEGANTE
-        const footerY = canvas.height - 80;
+        // 5. RODAPÉ
+        ctx.shadowColor = 'transparent';
         ctx.font = 'italic 24pt "Lora", serif';
         ctx.fillStyle = '#888888';
         ctx.textAlign = 'center';
-        ctx.fillText('#TrilhasDeMinas • #TurismoMG', canvas.width / 2, footerY);
-
-        // 7. DETALHES DECORATIVOS
-        // Linha decorativa sutil
-        ctx.strokeStyle = '#4CAF50';
-        ctx.lineWidth = 2;
-        ctx.setLineDash([5, 5]);
-        ctx.beginPath();
-        ctx.moveTo(50, photoY - 50);
-        ctx.lineTo(photoX - 20, photoY - 50);
-        ctx.stroke();
-        ctx.setLineDash([]);
+        ctx.fillText('#TrilhasDeMinas • #TurismoMG', canvas.width / 2, canvas.height - 80);
     };
 
-    // Delay para carregamento de fontes
+    // Delay para garantir fontes
     setTimeout(performDraw, 500);
 }
 
@@ -1558,6 +1514,7 @@ function iniciarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
+
 
 
 
