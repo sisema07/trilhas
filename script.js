@@ -28,6 +28,16 @@ let quizScore = 0;
 // Bloquear menu de contexto (download/compartilhamento nativo)
 document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('contextmenu', function(e) {
+        // VERIFICAÇÃO MAIS ESPECÍFICA - evita bloquear elementos do vídeo
+        const isVideoElement = e.target.closest('#video-intro') || 
+                              e.target.tagName === 'VIDEO' || 
+                              e.target.id === 'intro-video-element';
+        
+        // PERMITE o menu de contexto para o vídeo
+        if (isVideoElement) {
+            return; // Não bloqueia, permite menu normal
+        }
+        
         // Verifica se o clique foi em uma imagem de badge ou fauna
         if (e.target.closest('.icone-premio') || 
             e.target.closest('.fauna-grid-item') || 
@@ -1548,6 +1558,7 @@ function iniciarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
+
 
 
 
