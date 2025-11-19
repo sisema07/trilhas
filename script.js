@@ -1087,19 +1087,19 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         // --- ÁREA DE CONFIGURAÇÃO (EDITE AQUI SE PRECISAR) ---
         
         // 1. Margem Esquerda (Distância da borda esquerda até a foto)
-        const photoX = 60;  
+        const photoX = 50;  
         
         // 2. Largura da Foto (Aumentei para preencher mais)
-        const photoWidth = 740;  
+        const photoWidth = 720;  
         
         // 3. Posição Vertical (Distância do topo)
         const photoY = 450; 
         
         // 4. Altura da Foto
-        const photoHeight = 900; 
+        const photoHeight = 1280; 
 
         // 5. Margem de Segurança entre Foto e Texto (Aumente se o texto tocar na foto)
-        const gap = 60; 
+        const gap = 180; 
 
         // -----------------------------------------------------
         
@@ -1507,6 +1507,7 @@ function iniciarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
+
 
 
 
