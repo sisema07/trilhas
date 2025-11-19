@@ -633,49 +633,53 @@ header {
     opacity: 0.5;
 }
 
-/* --- NOVOS BOTÕES CENTRALIZADOS E HARMÔNICOS --- */
+/* --- NOVOS BOTÕES CENTRALIZADOS (Ajuste Linha Única) --- */
 
-/* Container para agrupar e centralizar os botões */
 .action-buttons-container {
     display: flex;
-    justify-content: center; /* Centraliza horizontalmente */
+    justify-content: space-between; /* Distribui o espaço igualmente */
     align-items: center;
-    flex-wrap: wrap; /* Permite quebrar linha em telas pequenas */
-    gap: 12px; /* Espaço uniforme entre os botões */
+    flex-wrap: nowrap; /* [IMPORTANTE] Impede que os botões caiam para a linha de baixo */
+    gap: 5px; /* Espaço reduzido entre eles para caberem na tela */
     margin: 20px 0;
-    padding: 0 10px;
+    padding: 0 5px;
     width: 100%;
     box-sizing: border-box;
+    overflow-x: auto; /* Permite scroll lateral se a tela for minúscula (iphone SE), evita quebrar layout */
+    -webkit-overflow-scrolling: touch; /* Scroll suave no iOS */
 }
 
-/* Estilo dos Botões de Ação (Info, Fauna, Quiz, etc) */
+/* Remove a barra de rolagem visual dos botões, mas mantém a função */
+.action-buttons-container::-webkit-scrollbar {
+    display: none;
+}
+
 .action-button {
-    flex: 0 1 auto; /* Tamanho flexível, mas sem esticar demais */
-    min-width: 110px;
-    padding: 12px 24px;
-    background-color: #ffffff; /* Fundo Branco Limpo */
-    color: #555; /* Texto Cinza Elegante */
-    border: 1px solid #e0e0e0; /* Borda sutil */
-    border-radius: 50px; /* Formato de "Pílula" (arredondado) */
-    font-weight: 600;
-    font-size: 0.95rem;
+    flex: 1; /* Faz todos tentarem ter o mesmo tamanho */
+    min-width: auto; /* Remove largura mínima fixa para permitir encolher */
+    padding: 12px 4px; /* Padding lateral reduzido */
+    background-color: #ffffff;
+    color: #555;
+    border: 1px solid #e0e0e0;
+    border-radius: 50px;
+    font-weight: 700; /* Negrito para leitura melhor em tamanho menor */
+    font-size: 0.8rem; /* Fonte levemente menor para garantir que "Check-ins" caiba */
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05); /* Sombra leve */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     text-align: center;
-    text-transform: uppercase; /* Letras maiúsculas para modernidade */
-    letter-spacing: 0.5px;
-    position: relative;
-    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 0px; /* Espaçamento normal para economizar espaço */
+    white-space: nowrap; /* Garante que o texto do botão não quebre linha */
 }
 
-/* Ícones dentro dos botões */
 .action-button i {
-    margin-right: 8px;
-    color: var(--cor-principal); /* Ícone verde */
+    margin-right: 4px; /* Espaço menor entre ícone e texto */
+    color: var(--cor-principal);
+    font-size: 0.9rem;
 }
 
-/* Efeito Hover (Passar o mouse) */
+/* Hover e Active mantidos */
 .action-button:hover {
     background-color: #f9f9f9;
     transform: translateY(-2px);
@@ -683,7 +687,6 @@ header {
     border-color: var(--cor-principal);
 }
 
-/* Botão Ativo (Selecionado) */
 .action-button.active {
     background-color: var(--cor-principal);
     color: white;
@@ -693,7 +696,6 @@ header {
 .action-button.active i {
     color: white;
 }
-
 /* --- BOTÕES DO QUIZ (Centralizados) --- */
 
 .quiz-option-btn {
@@ -1334,6 +1336,7 @@ img {
     font-weight: 600;
     color: #777; /* Um cinza levemente mais escuro para os nomes */
 }
+
 
 
 
