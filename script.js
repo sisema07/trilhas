@@ -918,7 +918,7 @@ function carregarConteudoDinamico(parque, container, action) {
         case 'quiz':
             carregarConteudoQuiz(parque, container);
             break;
-        case 'activities':
+        case 'checkins':
             carregarConteudoAtividades(parque, container);
             break;
     }
@@ -1507,6 +1507,7 @@ function iniciarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
+
 
 
 
