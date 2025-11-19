@@ -1076,7 +1076,7 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
     const performDraw = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // 1. FUNDO (TEMPLATE)
+        // 1. FUNDO
         if (passportTemplateImage.complete && passportTemplateImage.naturalWidth > 0) {
             ctx.drawImage(passportTemplateImage, 0, 0, canvas.width, canvas.height);
         } else {
@@ -1084,17 +1084,28 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             ctx.fillRect(0, 0, canvas.width, canvas.height);
         }
 
-        // --- AJUSTES DE POSICIONAMENTO ---
+        // --- ÁREA DE CONFIGURAÇÃO (EDITE AQUI SE PRECISAR) ---
         
-        // Aumentei photoX de 80 para 140. 
-        // Isso empurra a foto para a DIREITA, preenchendo o espaço vazio.
-        const photoX = 140;  
-        const photoWidth = 620;  
-        const photoHeight = 900; 
+        // 1. Margem Esquerda (Distância da borda esquerda até a foto)
+        const photoX = 60;  
+        
+        // 2. Largura da Foto (Aumentei para preencher mais)
+        const photoWidth = 740;  
+        
+        // 3. Posição Vertical (Distância do topo)
         const photoY = 450; 
         
+        // 4. Altura da Foto
+        const photoHeight = 900; 
+
+        // 5. Margem de Segurança entre Foto e Texto (Aumente se o texto tocar na foto)
+        const gap = 60; 
+
+        // -----------------------------------------------------
+        
         // 2. FOTO DO USUÁRIO
-        // Sombra
+        
+        // Sombra da moldura
         ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
         ctx.shadowBlur = 15;
         ctx.shadowOffsetX = 5;
@@ -1112,6 +1123,7 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             ctx.rect(photoX, photoY, photoWidth, photoHeight);
             ctx.clip();
             
+            // Ajuste de imagem (cover)
             const imgAspectRatio = userUploadedPhoto.naturalWidth / userUploadedPhoto.naturalHeight;
             const frameAspectRatio = photoWidth / photoHeight;
             let sx = 0, sy = 0, sWidth = userUploadedPhoto.naturalWidth, sHeight = userUploadedPhoto.naturalHeight;
@@ -1133,51 +1145,50 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
         // 3. TEXTO VERTICAL
         ctx.save();
         
-        // AJUSTE CRÍTICO: Aumentei a margem entre a foto e o texto (+85px)
-        // Isso evita que a terceira linha (Nome da Atividade) caia em cima da foto
-        const textOriginX = photoX + photoWidth + 85; 
+        // O ponto de origem do texto é: Fim da foto + Gap
+        const textOriginX = photoX + photoWidth + gap; 
         const textOriginY = photoY + photoHeight;      
         
         ctx.translate(textOriginX, textOriginY);
-        ctx.rotate(-Math.PI / 2); // Rotação Vertical
+        ctx.rotate(-Math.PI / 2); // Rotaciona 90 graus anti-horário
         
         ctx.textAlign = 'left'; 
         ctx.textBaseline = 'middle';
 
-        // Espaçamento entre linhas
+        // Espaçamento entre as linhas de texto
         const lineSpacing = 55; 
 
-        // Linha 1: CHECK-IN (A mais distante da foto)
+        // LINHA 1: CHECK-IN (Esta linha fica exatamente na posição 'gap' definida acima)
         ctx.font = 'bold 40pt "Bebas Neue", "Arial Black", sans-serif';
         ctx.fillStyle = '#4CAF50'; 
         ctx.fillText('CHECK-IN REALIZADO', 0, 0); 
 
-        // Linha 2: Nome do Parque
+        // LINHA 2: Nome do Parque (Fica à direita da linha 1)
         ctx.font = 'bold 24pt "Open Sans", sans-serif';
         ctx.fillStyle = '#333333'; 
+        // O valor negativo (-55) move para a direita visualmente (afastando da foto)
         ctx.fillText(`PARQUE ESTADUAL ${parque.nome.toUpperCase()}`, 0, -lineSpacing);
 
-        // Linha 3: Nome da Atividade (A mais próxima da foto)
-        // Reduzi a fonte para 20pt para garantir que não encoste na foto
+        // LINHA 3: Nome da Atividade (Fica à direita da linha 2)
         ctx.font = '20pt "Open Sans", sans-serif';
         ctx.fillStyle = '#555555'; 
-        // Adicionei um pequeno recuo no X (0, ...) para alinhar melhor visualmente
         ctx.fillText(atividade.nome.toUpperCase(), 0, -lineSpacing * 2);
         
         // Linha decorativa vertical
         ctx.beginPath();
         ctx.strokeStyle = '#4CAF50';
         ctx.lineWidth = 4;
-        // Ajustei a posição da linha decorativa para acompanhar o novo espaçamento
+        // Desenha a linha abaixo do texto
         ctx.moveTo(-20, 45); 
         ctx.lineTo(canvas.height * 0.35, 45); 
         ctx.stroke();
 
         ctx.restore(); 
 
-        // 4. BADGE/CARIMBO
+        // 4. BADGE/CARIMBO (Ajustado para acompanhar a nova largura da foto)
         if (stampImage.complete && stampImage.naturalWidth > 0) {
             const badgeSize = 320; 
+            // Alinhado à direita da foto nova
             const badgeX = photoX + photoWidth - (badgeSize * 0.5); 
             const badgeY = photoY - (badgeSize * 0.3); 
             
@@ -1189,8 +1200,6 @@ function drawPassportImage(parque, atividade, userUploadedPhoto) {
             ctx.drawImage(stampImage, -badgeSize / 2, -badgeSize / 2, badgeSize, badgeSize);
             ctx.restore();
         }
-        
-        // (O CÓDIGO DO RODAPÉ FOI REMOVIDO AQUI)
     };
 
     setTimeout(performDraw, 500);
@@ -1498,6 +1507,7 @@ function iniciarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
+
 
 
 
