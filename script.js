@@ -1697,28 +1697,43 @@ function drawCertificateImage(rank, userPhoto) {
     ctx.fillText('Trilhas de Minas • Reconhecimento Oficial', canvas.width / 2, 1850);
 }
 
-// --- FUNÇÃO TEMPORÁRIA PARA TESTES ---
+// --- FUNÇÃO TEMPORÁRIA: MODO DEUS (LIBERA TUDO) ---
 window.ativarModoTeste = function() {
-    if (!confirm("Isso vai liberar 40 badges aleatórios para testar o Certificado. Continuar?")) return;
+    if (!confirm("ATENÇÃO: Isso vai liberar 100% dos badges (Atividades + Quizzes) para testar todos os certificados. Continuar?")) return;
 
     let contador = 0;
+
+    // 1. Libera todas as ATIVIDADES
     for (const parqueId in ATIVIDADES_PARQUES) {
+        if (!estadoUsuario[parqueId]) estadoUsuario[parqueId] = {};
+        
         ATIVIDADES_PARQUES[parqueId].forEach(ativ => {
-            // Libera até 40 badges (o suficiente para o nível 1 - 30%)
-            if (contador < 40 && ativ.id !== 'quiz') { 
-                if (!estadoUsuario[parqueId]) estadoUsuario[parqueId] = {};
+            // Evita duplicar se já tiver
+            if (!estadoUsuario[parqueId][ativ.id]) {
                 estadoUsuario[parqueId][ativ.id] = true;
                 contador++;
             }
         });
     }
+
+    // 2. Libera todos os QUIZZES
+    for (const parqueId in DETALHES_PARQUES) {
+        if (DETALHES_PARQUES[parqueId].quiz && DETALHES_PARQUES[parqueId].quiz.length > 0) {
+             if (!estadoUsuario[parqueId]) estadoUsuario[parqueId] = {};
+             
+             if (!estadoUsuario[parqueId]['quiz']) {
+                 estadoUsuario[parqueId]['quiz'] = true;
+                 contador++;
+             }
+        }
+    }
     
     salvarEstado();
-    alert(`Sucesso! ${contador} badges liberados.`);
+    alert(`Módo Deus Ativado! ${contador} novos badges liberados. Você atingiu 100%.`);
     
-    // Redireciona para a tela de prêmios para você ver o resultado
+    // Redireciona para ver os certificados
     window.location.hash = '#premiacao';
-    window.location.reload(); // Recarrega para garantir que tudo atualize
+    window.location.reload();
 }
 
 function iniciarApp() {
@@ -1741,6 +1756,7 @@ function iniciarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
+
 
 
 
