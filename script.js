@@ -24,6 +24,18 @@ let currentQuizData = null;
 let currentQuizIndex = 0;   
 let quizScore = 0;          
 
+// Configuração dos Ranks Globais
+const RANKS_GLOBAIS = [
+    { percent: 30, id: 'rank_30', nome: 'Explorador de Minas', img: 'badges/rank_30.png', desc: 'Você deu os primeiros passos nas montanhas!' },
+    { percent: 60, id: 'rank_60', nome: 'Andarilho Real', img: 'badges/rank_60.png', desc: 'Suas botas já conhecem a poeira da história.' },
+    { percent: 90, id: 'rank_90', nome: 'Guardião do Espinhaço', img: 'badges/rank_90.png', desc: 'As serras de Minas reverenciam sua jornada.' },
+    { percent: 100, id: 'rank_100', nome: 'Lenda das Gerais', img: 'badges/rank_100.png', desc: 'Você zerou Minas Gerais. Sua história será contada!' }
+];
+
+// Imagem do Certificado (Você precisará criar esta imagem!)
+let certificateTemplateImage = new Image();
+certificateTemplateImage.src = 'images/certificate_template.png';
+
 // --- BLOQUEIO DE DOWNLOAD/COMPARTILHAMENTO NATIVO ---
 // Bloquear menu de contexto (download/compartilhamento nativo)
 document.addEventListener('DOMContentLoaded', function() {
@@ -361,54 +373,96 @@ function getQuizzesConcluidos() {
     return concluidos;
 }
 
+function calcularProgressoGlobal() {
+    let totalPossivel = 0;
+    let totalConquistado = 0;
+
+    // 1. Conta Badges de Atividades Normais
+    for (const parqueId in ATIVIDADES_PARQUES) {
+        const atividades = ATIVIDADES_PARQUES[parqueId];
+        atividades.forEach(ativ => {
+            if (ativ.id !== 'quiz') { // Ignora quiz se ele estiver dentro da lista de atividades
+                totalPossivel++;
+                if (estadoUsuario[parqueId] && estadoUsuario[parqueId][ativ.id]) {
+                    totalConquistado++;
+                }
+            }
+        });
+    }
+
+    // 2. Conta Badges de Quiz (Se existirem na lógica)
+    for (const parqueId in DETALHES_PARQUES) {
+        if (DETALHES_PARQUES[parqueId].quiz && DETALHES_PARQUES[parqueId].quiz.length > 0) {
+            totalPossivel++;
+            if (estadoUsuario[parqueId] && estadoUsuario[parqueId]['quiz']) {
+                totalConquistado++;
+            }
+        }
+    }
+
+    if (totalPossivel === 0) return 0;
+    return (totalConquistado / totalPossivel) * 100;
+}
+
 function carregarPremios() {
     const listaPremios = document.getElementById('lista-icones-premios');
     if (!listaPremios) return;
 
     listaPremios.innerHTML = '';
+    
+    // --- 1. Ranks Globais (Metagame) ---
+    const progressoAtual = calcularProgressoGlobal();
+    
+    // Cria um cabeçalho visual para separar
+    const headerRanks = document.createElement('div');
+    headerRanks.style.gridColumn = "1 / -1";
+    headerRanks.innerHTML = `<h4 style="margin: 20px 0 10px; color: #555; text-align: left; border-bottom: 1px solid #eee;">Conquistas Globais (${Math.floor(progressoAtual)}%)</h4>`;
+    listaPremios.appendChild(headerRanks);
 
-    // --- Badge de Conhecimento Global ---
-    const totalQuizzes = getTotalQuizzes();
-    const quizzesConcluidos = getQuizzesConcluidos();
-    const progressoQuiz = (totalQuizzes > 0) ? (quizzesConcluidos / totalQuizzes) * 100 : 0;
-    const isQuizBadgeCompleto = (quizzesConcluidos === totalQuizzes) && (totalQuizzes > 0);
+    RANKS_GLOBAIS.forEach(rank => {
+        const desbloqueado = progressoAtual >= rank.percent;
+        
+        const card = document.createElement('div');
+        card.className = `icone-premio ${desbloqueado ? 'desbloqueado' : ''}`;
+        
+        // Usa uma imagem padrão se a do rank não existir ainda
+        const imgRank = rank.img; 
+        
+        card.innerHTML = `
+            <img src="${imgRank}" alt="${rank.nome}" class="badge-custom-img" onerror="this.src='images/default_stamp_fallback.png'">
+            <span style="font-weight:800; color:${desbloqueado ? '#d32f2f' : '#888'}">${rank.percent}%</span>
+            <span>${rank.nome}</span>
+        `;
+        
+        if (desbloqueado) {
+            // Ao clicar, vai para a rota de certificado
+            card.addEventListener('click', () => {
+                window.location.hash = `certificate-${rank.id}`;
+            });
+        }
+        
+        listaPremios.appendChild(card);
+    });
 
-    const cardQuiz = document.createElement('div');
-    cardQuiz.className = `icone-premio ${isQuizBadgeCompleto ? 'desbloqueado' : ''}`;
-    cardQuiz.id = 'badge-conhecimento-global'; 
-    
-    cardQuiz.innerHTML = `
-        <img src="badges/quiz-badge.png" alt="Conhecimento" class="badge-custom-img">
-        <span>Conhecimento</span>
-        <div id="badge-conhecimento-progresso" style="height: ${progressoQuiz}%;"></div>
-        <span id="badge-conhecimento-progresso-texto" style="display: ${progressoQuiz > 0 && !isQuizBadgeCompleto ? 'block' : 'none'};">
-            ${Math.round(progressoQuiz)}%
-        </span>
-    `;
-    
-    listaPremios.appendChild(cardQuiz);
-    
-    // --- Badges de CHECK-IN ---
+    // --- 2. Badges Normais dos Parques ---
+    const headerParques = document.createElement('div');
+    headerParques.style.gridColumn = "1 / -1";
+    headerParques.innerHTML = `<h4 style="margin: 20px 0 10px; color: #555; text-align: left; border-bottom: 1px solid #eee;">Badges de Parques</h4>`;
+    listaPremios.appendChild(headerParques);
+
+    // ... (O RESTO DO CÓDIGO ORIGINAL QUE CARREGA OS BADGES DOS PARQUES CONTINUA AQUI IGUAL) ...
+    // Copie o loop "for (const parqueId in ATIVIDADES_PARQUES)..." que você já tinha.
     for (const parqueId in ATIVIDADES_PARQUES) {
         const atividades = ATIVIDADES_PARQUES[parqueId];
-        
-        if (!estadoUsuario[parqueId]) {
-             estadoUsuario[parqueId] = {};
-        }
+        if (!estadoUsuario[parqueId]) estadoUsuario[parqueId] = {};
 
         atividades.forEach(atividade => {
             if (atividade.id === 'quiz') return; 
-
-            if (typeof estadoUsuario[parqueId][atividade.id] === 'undefined') {
-                estadoUsuario[parqueId][atividade.id] = false;
-            }
+            if (typeof estadoUsuario[parqueId][atividade.id] === 'undefined') estadoUsuario[parqueId][atividade.id] = false;
 
             const isConcluida = estadoUsuario[parqueId][atividade.id];
-
             const card = document.createElement('div');
             card.className = `icone-premio ${isConcluida ? 'desbloqueado' : ''}`;
-            card.dataset.parqueId = parqueId;
-            card.dataset.atividadeId = atividade.id;
             
             let badgeContent;
             if (atividade.imagem_png) {
@@ -417,19 +471,14 @@ function carregarPremios() {
                 badgeContent = `<i class="fas ${atividade.icone}"></i>`;
             }
             
-            card.innerHTML = `
-                ${badgeContent}
-                <span>${atividade.nome}</span>
-            `;
-            listaPremios.appendChild(card);
+            card.innerHTML = `${badgeContent}<span>${atividade.nome}</span>`;
             
             if (isConcluida) {
                  card.addEventListener('click', () => {
-                    const parqueIdClick = card.dataset.parqueId;
-                    const atividadeIdClick = card.dataset.atividadeId;
-                    window.location.hash = `upload-${parqueIdClick}-${atividadeIdClick}`;
+                    window.location.hash = `upload-${parqueId}-${atividade.id}`;
                  });
             }
+            listaPremios.appendChild(card);
         });
     }
     salvarEstado();
@@ -1332,6 +1381,11 @@ function lidarComHash() {
             return;
         }
     }
+    if (hash.startsWith('certificate-')) {
+        const rankId = hash.split('-')[1];
+        carregarAreaCertificado(rankId);
+        return;
+    }
     
     if (hash === 'premiacao') {
         carregarConteudoPremiacao();
@@ -1487,6 +1541,162 @@ async function inicializar() {
     }
 }
 
+function carregarAreaCertificado(rankId) {
+    fecharModais();
+    
+    const rank = RANKS_GLOBAIS.find(r => r.id === rankId);
+    if (!rank) return;
+
+    document.getElementById('conteudo-parque-detalhe').style.display = 'none';
+    document.getElementById('conteudo-premios').style.display = 'none';
+    
+    const areaEnvioFoto = document.getElementById('area-envio-foto');
+    areaEnvioFoto.style.display = 'block';
+    
+    // Muda o título
+    document.getElementById('secundaria-titulo').textContent = 'Certificado de Conquista';
+    
+    areaEnvioFoto.innerHTML = `
+        <h2 id="badge-upload-titulo" style="text-align: center; margin-bottom: 10px;">${rank.nome}</h2>
+        <p style="text-align: center; margin-bottom: 20px; font-style: italic;">"${rank.desc}"</p>
+        
+        <div class="upload-container">
+            <p>Selecione sua melhor foto de trilha para o certificado:</p>
+            <label for="input-foto-badge" class="file-upload-label"><i class="fas fa-upload"></i> Escolher Foto</label>
+            <input type="file" id="input-foto-badge" accept="image/*">
+            <span id="file-upload-filename" class="file-upload-filename">Nenhuma foto selecionada</span>
+            
+            <div id="output-image-preview" style="display: none; position: relative;">
+                <div class="upload-action-icons-container-top">
+                    <button id="btn-gerar-e-baixar-icon" class="upload-icon-btn" disabled><i class="fas fa-download"></i></button>
+                    <button id="btn-compartilhar-social-icon" class="upload-icon-btn" disabled><i class="fas fa-share-alt"></i></button>
+                </div>
+                <canvas id="passport-canvas" style="width: 100%; height: auto; border: 1px solid #ccc;"></canvas>
+            </div>
+        </div>
+    `;
+
+    const canvas = document.getElementById('passport-canvas');
+    canvasContext = canvas.getContext('2d');
+    
+    // Configuração dos botões (Cópia simplificada da lógica de upload anterior)
+    const inputFoto = document.getElementById('input-foto-badge');
+    const btnBaixar = document.getElementById('btn-gerar-e-baixar-icon');
+    const btnShare = document.getElementById('btn-compartilhar-social-icon');
+    
+    inputFoto.onchange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            document.getElementById('file-upload-filename').textContent = file.name;
+            const reader = new FileReader();
+            reader.onload = (evt) => {
+                userPhoto.src = evt.target.result;
+                userPhoto.onload = () => {
+                    document.getElementById('output-image-preview').style.display = 'block';
+                    // CHAMA A FUNÇÃO ESPECIAL DE DESENHO DE CERTIFICADO
+                    drawCertificateImage(rank, userPhoto);
+                    btnBaixar.disabled = false;
+                    btnShare.disabled = false;
+                };
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+    
+    // Eventos de clique para baixar/compartilhar (usando a lógica do canvas atual)
+    btnBaixar.onclick = () => {
+        const link = document.createElement('a');
+        link.download = `certificado_${rank.id}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    };
+}
+
+function drawCertificateImage(rank, userPhoto) {
+    if (!canvasContext) return;
+    const canvas = canvasContext.canvas;
+    const ctx = canvasContext;
+    
+    canvas.width = 1080;
+    canvas.height = 1920; // Mantemos formato Story para facilitar compartilhar
+
+    // 1. Fundo do Certificado
+    if (certificateTemplateImage.complete && certificateTemplateImage.naturalWidth > 0) {
+        ctx.drawImage(certificateTemplateImage, 0, 0, canvas.width, canvas.height);
+    } else {
+        // Fallback elegante: Fundo creme com borda dourada
+        ctx.fillStyle = '#fdfbf7';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.strokeStyle = '#daa520'; // Dourado
+        ctx.lineWidth = 20;
+        ctx.strokeRect(40, 40, canvas.width - 80, canvas.height - 80);
+    }
+
+    // 2. Foto do Usuário (Centralizada e redonda ou quadrada menor)
+    // Vamos fazer um círculo centralizado na parte superior
+    const photoSize = 600;
+    const photoX = (canvas.width - photoSize) / 2;
+    const photoY = 400;
+
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(canvas.width / 2, photoY + photoSize / 2, photoSize / 2, 0, Math.PI * 2);
+    ctx.clip();
+    
+    // Desenha foto (cover logic simplificada)
+    ctx.drawImage(userPhoto, photoX, photoY, photoSize, photoSize);
+    ctx.restore();
+    
+    // Moldura da foto
+    ctx.beginPath();
+    ctx.arc(canvas.width / 2, photoY + photoSize / 2, photoSize / 2, 0, Math.PI * 2);
+    ctx.lineWidth = 15;
+    ctx.strokeStyle = '#ffffff';
+    ctx.stroke();
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = '#daa520';
+    ctx.stroke();
+
+    // 3. Textos do Certificado
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#333';
+
+    // Título "CERTIFICADO"
+    ctx.font = 'bold 60pt "Bebas Neue", sans-serif';
+    ctx.fillStyle = '#daa520'; // Dourado
+    ctx.fillText('CERTIFICADO DE CONQUISTA', canvas.width / 2, 1150);
+
+    // Texto "Conferido a um explorador de"
+    ctx.font = 'italic 30pt "Lora", serif';
+    ctx.fillStyle = '#555';
+    ctx.fillText('Conferido por mérito ao atingir', canvas.width / 2, 1250);
+    
+    // Porcentagem
+    ctx.font = 'bold 80pt "Arial", sans-serif';
+    ctx.fillStyle = '#333';
+    ctx.fillText(`${rank.percent}%`, canvas.width / 2, 1380);
+    
+    // Texto "dos parques de Minas Gerais"
+    ctx.font = '30pt "Lora", serif';
+    ctx.fillStyle = '#555';
+    ctx.fillText('dos check-ins de Minas Gerais', canvas.width / 2, 1450);
+
+    // Nome do Rank (O Grande Título)
+    ctx.font = 'bold 55pt "Open Sans", sans-serif';
+    ctx.fillStyle = '#2e7d32'; // Verde nobre
+    ctx.fillText(rank.nome.toUpperCase(), canvas.width / 2, 1600);
+
+    // Selo ou Descrição
+    ctx.font = 'italic 24pt "Lora", serif';
+    ctx.fillStyle = '#777';
+    ctx.fillText(`"${rank.desc}"`, canvas.width / 2, 1700);
+
+    // Rodapé
+    ctx.font = '20pt "Open Sans", sans-serif';
+    ctx.fillStyle = '#999';
+    ctx.fillText('Trilhas de Minas • Reconhecimento Oficial', canvas.width / 2, 1850);
+}
+
 function iniciarApp() {
     document.getElementById('app-container').style.display = 'flex';
     document.querySelector('header').style.display = 'flex';
@@ -1507,6 +1717,7 @@ function iniciarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
+
 
 
 
