@@ -266,6 +266,18 @@ function resetInterval() {
 // --- FLUXO PRINCIPAL DE CHECK-IN (QR CODE) ---
 function processarCheckin(parqueId, atividadeId) {
     console.log(`Processando check-in: ${parqueId} - ${atividadeId}`);
+
+    if (parqueId === 'admin' && atividadeId === 'godmode') {
+        const areaDev = document.getElementById('area-secreta-dev');
+        if (areaDev) {
+            areaDev.style.display = 'block'; // Torna visível
+            alert('🕵️‍♂️ Acesso de Desenvolvedor Identificado!\n\nO botão "Modo Deus" apareceu no final da tela inicial.');
+            
+            // (Opcional) Salva no navegador para não precisar fazer isso toda vez que recarregar
+            localStorage.setItem('dev_mode_enabled', 'true');
+        }
+        return true;
+    }
     
     const atividadeExiste = ATIVIDADES_PARQUES[parqueId] && ATIVIDADES_PARQUES[parqueId].some(a => a.id === atividadeId);
 
@@ -1894,6 +1906,7 @@ function iniciarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
+
 
 
 
