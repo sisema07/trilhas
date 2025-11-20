@@ -834,64 +834,79 @@ header {
     padding: 0 10px;
 }
 
-/* --- ESTILOS DE GRID DE ATIVIDADES (3 colunas, apenas imagem e título) --- */
-#lista-atividades-dinamica {
+/* --- GRID RESPONSIVO (FAUNA E ATIVIDADES) --- */
+
+/* Container do Grid */
+#lista-atividades-dinamica, #fauna-grid-dinamica {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 Colunas */
-    gap: 10px;
+    /* MÁGICA DA RESPONSIVIDADE: 
+       Cria quantas colunas couberem, desde que cada uma tenha pelo menos 100px.
+       Isso evita que fique espremido em telas pequenas ou muito esticado em grandes. */
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); 
+    gap: 15px; /* Espaço entre os itens */
     margin-top: 20px;
-    padding: 0 10px;
+    padding: 10px 5px; /* Padding lateral pequeno */
+    width: 100%;
+    box-sizing: border-box;
 }
 
-/* Estilo do botão de Fauna/Atividade (PADRONIZADO COM OS BADGES) */
+/* Estilo dos Cartões (Badges e Fauna) */
 .fauna-grid-item, .activity-grid-item {
     background-color: var(--cor-fundo);
     border-radius: 15px;
-    aspect-ratio: 1 / 1; 
+    /* Removemos aspect-ratio fixo para permitir que cresça se o texto for grande */
+    min-height: 110px; 
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start; /* Alinha ao topo */
     align-items: center;
     text-align: center;
     box-shadow: var(--sombra-neumorfismo-externa);
     transition: all 0.2s ease-in-out;
     cursor: pointer;
-    padding: 5px;
-    min-height: 80px;
+    padding: 12px 8px; /* Mais espaço interno */
     box-sizing: border-box;
-    opacity: 0.5; /* PADRONIZAÇÃO: Opacidade reduzida para itens bloqueados */
+    opacity: 0.5;
     color: #888;
     font-style: italic;
+    height: 100%; /* Ocupa toda a altura da célula do grid */
 }
 
+/* Estilo Desbloqueado */
 .activity-grid-item.desbloqueado, .fauna-grid-item.desbloqueado {
-    /* PADRONIZAÇÃO: Estilo de Desbloqueado/Ativado (Sombra interna) */
     box-shadow: var(--sombra-neumorfismo-ativa);
     opacity: 1.0; 
-    color: var(--cor-texto); /* Texto escuro normal para itens desbloqueados */
+    color: var(--cor-texto); 
     font-style: normal;
 }
 
+/* Efeito de clique */
 .fauna-grid-item:active.desbloqueado, .activity-grid-item:active.desbloqueado {
-    /* Efeito de clique */
     box-shadow: var(--sombra-neumorfismo-card);
     transform: scale(0.98);
 }
 
-
+/* Imagens dentro do card */
 .fauna-grid-item img, .activity-grid-item img {
-    width: 60%; 
-    height: auto;
-    max-height: 60%;
+    width: 60px; /* Tamanho fixo para a imagem não variar muito */
+    height: 60px;
     object-fit: contain;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+    flex-shrink: 0; /* Impede que a imagem encolha se o texto for grande */
 }
 
+/* Texto dentro do card */
 .fauna-grid-item span, .activity-grid-item span {
-    font-size: 0.8rem;
+    font-size: 0.75rem; /* Fonte ligeiramente menor para caber melhor */
     font-weight: 600;
-    line-height: 1.1;
+    line-height: 1.2;
     color: inherit;
+    
+    /* Garante que palavras longas quebrem linha se necessário */
+    word-wrap: break-word; 
+    overflow-wrap: break-word;
+    hyphens: auto;
+    width: 100%;
 }
 
 
@@ -1338,6 +1353,7 @@ img {
     font-weight: 600;
     color: #777; /* Um cinza levemente mais escuro para os nomes */
 }
+
 
 
 
