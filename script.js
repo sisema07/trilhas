@@ -419,23 +419,23 @@ function carregarPremios() {
     headerRanks.innerHTML = `<h4 style="margin: 20px 0 10px; color: #555; text-align: left; border-bottom: 1px solid #eee;">Conquistas Globais (${Math.floor(progressoAtual)}%)</h4>`;
     listaPremios.appendChild(headerRanks);
 
-    RANKS_GLOBAIS.forEach(rank => {
+RANKS_GLOBAIS.forEach(rank => {
         const desbloqueado = progressoAtual >= rank.percent;
         
         const card = document.createElement('div');
         card.className = `icone-premio ${desbloqueado ? 'desbloqueado' : ''}`;
         
-        // Usa uma imagem padrão se a do rank não existir ainda
-        const imgRank = rank.img; 
-        
+        // CORREÇÃO DO PISCA-PISCA AQUI:
+        // 1. this.onerror=null: Impede que ele tente carregar de novo se falhar (quebra o loop)
+        // 2. this.src='logo.png': Usa sua logo se não achar a imagem do rank
         card.innerHTML = `
-            <img src="${imgRank}" alt="${rank.nome}" class="badge-custom-img" onerror="this.src='images/default_stamp_fallback.png'">
+            <img src="${rank.img}" alt="${rank.nome}" class="badge-custom-img" 
+                 onerror="this.onerror=null; this.src='logo.png'; this.style.filter='grayscale(100%) opacity(0.5)';">
             <span style="font-weight:800; color:${desbloqueado ? '#d32f2f' : '#888'}">${rank.percent}%</span>
             <span>${rank.nome}</span>
         `;
         
         if (desbloqueado) {
-            // Ao clicar, vai para a rota de certificado
             card.addEventListener('click', () => {
                 window.location.hash = `certificate-${rank.id}`;
             });
@@ -1717,6 +1717,7 @@ function iniciarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
+
 
 
 
