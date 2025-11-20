@@ -1697,6 +1697,30 @@ function drawCertificateImage(rank, userPhoto) {
     ctx.fillText('Trilhas de Minas • Reconhecimento Oficial', canvas.width / 2, 1850);
 }
 
+// --- FUNÇÃO TEMPORÁRIA PARA TESTES ---
+window.ativarModoTeste = function() {
+    if (!confirm("Isso vai liberar 40 badges aleatórios para testar o Certificado. Continuar?")) return;
+
+    let contador = 0;
+    for (const parqueId in ATIVIDADES_PARQUES) {
+        ATIVIDADES_PARQUES[parqueId].forEach(ativ => {
+            // Libera até 40 badges (o suficiente para o nível 1 - 30%)
+            if (contador < 40 && ativ.id !== 'quiz') { 
+                if (!estadoUsuario[parqueId]) estadoUsuario[parqueId] = {};
+                estadoUsuario[parqueId][ativ.id] = true;
+                contador++;
+            }
+        });
+    }
+    
+    salvarEstado();
+    alert(`Sucesso! ${contador} badges liberados.`);
+    
+    // Redireciona para a tela de prêmios para você ver o resultado
+    window.location.hash = '#premiacao';
+    window.location.reload(); // Recarrega para garantir que tudo atualize
+}
+
 function iniciarApp() {
     document.getElementById('app-container').style.display = 'flex';
     document.querySelector('header').style.display = 'flex';
@@ -1717,6 +1741,7 @@ function iniciarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
+
 
 
 
