@@ -1553,15 +1553,15 @@ function carregarAreaCertificado(rankId) {
     const areaEnvioFoto = document.getElementById('area-envio-foto');
     areaEnvioFoto.style.display = 'block';
     
-    // Muda o título
-    document.getElementById('secundaria-titulo').textContent = 'Certificado de Conquista';
+    document.getElementById('secundaria-titulo').textContent = 'Certificado Oficial';
     
     areaEnvioFoto.innerHTML = `
         <h2 id="badge-upload-titulo" style="text-align: center; margin-bottom: 10px;">${rank.nome}</h2>
         <p style="text-align: center; margin-bottom: 20px; font-style: italic;">"${rank.desc}"</p>
         
         <div class="upload-container">
-            <p>Selecione sua melhor foto de trilha para o certificado:</p>
+            <p>Selecione uma foto de rosto para o certificado:</p>
+            
             <label for="input-foto-badge" class="file-upload-label"><i class="fas fa-upload"></i> Escolher Foto</label>
             <input type="file" id="input-foto-badge" accept="image/*">
             <span id="file-upload-filename" class="file-upload-filename">Nenhuma foto selecionada</span>
@@ -1579,7 +1579,6 @@ function carregarAreaCertificado(rankId) {
     const canvas = document.getElementById('passport-canvas');
     canvasContext = canvas.getContext('2d');
     
-    // Configuração dos botões (Cópia simplificada da lógica de upload anterior)
     const inputFoto = document.getElementById('input-foto-badge');
     const btnBaixar = document.getElementById('btn-gerar-e-baixar-icon');
     const btnShare = document.getElementById('btn-compartilhar-social-icon');
@@ -1593,7 +1592,6 @@ function carregarAreaCertificado(rankId) {
                 userPhoto.src = evt.target.result;
                 userPhoto.onload = () => {
                     document.getElementById('output-image-preview').style.display = 'block';
-                    // CHAMA A FUNÇÃO ESPECIAL DE DESENHO DE CERTIFICADO
                     drawCertificateImage(rank, userPhoto);
                     btnBaixar.disabled = false;
                     btnShare.disabled = false;
@@ -1603,7 +1601,6 @@ function carregarAreaCertificado(rankId) {
         }
     };
     
-    // Eventos de clique para baixar/compartilhar (usando a lógica do canvas atual)
     btnBaixar.onclick = () => {
         const link = document.createElement('a');
         link.download = `certificado_${rank.id}.png`;
@@ -1618,83 +1615,224 @@ function drawCertificateImage(rank, userPhoto) {
     const ctx = canvasContext;
     
     canvas.width = 1080;
-    canvas.height = 1920; // Mantemos formato Story para facilitar compartilhar
+    canvas.height = 1920;
 
-    // 1. Fundo do Certificado
-    if (certificateTemplateImage.complete && certificateTemplateImage.naturalWidth > 0) {
-        ctx.drawImage(certificateTemplateImage, 0, 0, canvas.width, canvas.height);
+    // --- 1. CONFIGURAÇÃO DE ESTILO POR NÍVEL ---
+    let colors = {};
+    let patternComplexity = 1; // Define quão complexo é o desenho do fundo
+
+    if (rank.percent <= 30) {
+        // PRATA (Silver)
+        colors = {
+            bg: '#f8f9fa', // Fundo quase branco
+            primary: '#71717a', // Cinza escuro
+            secondary: '#d4d4d8', // Prata claro
+            accent: '#52525b', // Cinza chumbo
+            borderStyle: 'simple'
+        };
+        patternComplexity = 5; // Padrão mais simples
+    } else if (rank.percent <= 60) {
+        // BRONZE (Avermelhado)
+        colors = {
+            bg: '#fffaf5', // Creme avermelhado
+            primary: '#8B4513', // Marrom sela
+            secondary: '#e6ccb2', // Bronze pálido
+            accent: '#cd7f32', // Bronze puro
+            borderStyle: 'corner'
+        };
+        patternComplexity = 8;
+    } else if (rank.percent <= 90) {
+        // OURO (Dourado/Amarelo)
+        colors = {
+            bg: '#fffff0', // Ivory
+            primary: '#B8860B', // Dark Goldenrod
+            secondary: '#F0E68C', // Khaki
+            accent: '#FFD700', // Ouro
+            borderStyle: 'greek'
+        };
+        patternComplexity = 12;
     } else {
-        // Fallback elegante: Fundo creme com borda dourada
-        ctx.fillStyle = '#fdfbf7';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.strokeStyle = '#daa520'; // Dourado
-        ctx.lineWidth = 20;
-        ctx.strokeRect(40, 40, canvas.width - 80, canvas.height - 80);
+        // LENDA (100% - Mistura Harmônica)
+        colors = {
+            bg: '#fffefe',
+            primary: 'gradient', // Será tratado especial
+            secondary: '#e2e8f0',
+            accent: 'gradient',
+            borderStyle: 'master'
+        };
+        patternComplexity = 20; // Muito complexo
     }
 
-    // 2. Foto do Usuário (Centralizada e redonda ou quadrada menor)
-    // Vamos fazer um círculo centralizado na parte superior
-    const photoSize = 600;
-    const photoX = (canvas.width - photoSize) / 2;
-    const photoY = 400;
+    // Helper para Gradiente Mestre (Prata -> Bronze -> Ouro)
+    const createMasterGradient = (ctx, y1, y2) => {
+        const g = ctx.createLinearGradient(0, y1, canvas.width, y2);
+        g.addColorStop(0, '#71717a'); // Prata
+        g.addColorStop(0.5, '#cd7f32'); // Bronze
+        g.addColorStop(1, '#FFD700'); // Ouro
+        return g;
+    };
+
+    // Resolve a cor primária se for gradiente
+    let mainColorFill = colors.primary;
+    if (colors.primary === 'gradient') {
+        mainColorFill = createMasterGradient(ctx, 0, canvas.height);
+    }
+
+    // PREENCHE O FUNDO
+    ctx.fillStyle = colors.bg;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // --- 2. GUILLOCHE BACKGROUND (PADRÃO DE SEGURANÇA) ---
+    ctx.save();
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = colors.primary === 'gradient' ? 'rgba(0,0,0,0.1)' : colors.secondary;
+    
+    const cx = canvas.width / 2;
+    const cy = canvas.height / 2;
+    
+    // Desenha espirógrafo matemático
+    ctx.beginPath();
+    for (let i = 0; i < 300 * patternComplexity; i++) {
+        const angle = 0.1 * i;
+        // Fórmula matemática para curvas hipotrocoides (estilo nota de dinheiro)
+        const r = 500 + 300 * Math.sin(angle * (patternComplexity * 0.1)) * Math.cos(angle);
+        const x = cx + r * Math.cos(angle);
+        const y = cy + r * Math.sin(angle);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+    ctx.restore();
+
+    // --- 3. BORDAS DECORATIVAS (Progressivas) ---
+    ctx.save();
+    ctx.lineWidth = 15;
+    ctx.strokeStyle = mainColorFill;
+    
+    const margin = 40;
+    const w = canvas.width - (margin * 2);
+    const h = canvas.height - (margin * 2);
+
+    if (colors.borderStyle === 'simple') {
+        // Borda Dupla Simples (Prata)
+        ctx.strokeRect(margin, margin, w, h);
+        ctx.lineWidth = 4;
+        ctx.strokeRect(margin + 20, margin + 20, w - 40, h - 40);
+        
+    } else if (colors.borderStyle === 'corner') {
+        // Borda com Cantos Arredondados Decorados (Bronze)
+        ctx.beginPath();
+        ctx.roundRect(margin, margin, w, h, 80);
+        ctx.stroke();
+        // Cantos internos
+        ctx.lineWidth = 5;
+        ctx.beginPath();
+        ctx.roundRect(margin + 25, margin + 25, w - 50, h - 50, 60);
+        ctx.stroke();
+        
+    } else if (colors.borderStyle === 'greek') {
+        // Borda Estilo Grego/Clássico (Ouro)
+        ctx.strokeRect(margin, margin, w, h);
+        // Desenha detalhes nos cantos
+        ctx.fillStyle = mainColorFill;
+        const cornerSize = 100;
+        ctx.fillRect(margin, margin, cornerSize, 20); // Top Left H
+        ctx.fillRect(margin, margin, 20, cornerSize); // Top Left V
+        ctx.fillRect(canvas.width - margin - cornerSize, margin, cornerSize, 20); // Top Right
+        ctx.fillRect(canvas.width - margin - 20, margin, 20, cornerSize);
+        ctx.fillRect(margin, canvas.height - margin - 20, cornerSize, 20); // Bottom Left
+        ctx.fillRect(margin, canvas.height - margin - cornerSize, 20, cornerSize);
+        ctx.fillRect(canvas.width - margin - cornerSize, canvas.height - margin - 20, cornerSize, 20); // Bottom Right
+        ctx.fillRect(canvas.width - margin - 20, canvas.height - margin - cornerSize, 20, cornerSize);
+        
+    } else {
+        // Borda Mestra (Complexa e Colorida)
+        ctx.lineWidth = 25;
+        ctx.strokeRect(margin, margin, w, h);
+        
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = '#333'; // Contraste
+        ctx.strokeRect(margin + 30, margin + 30, w - 60, h - 60);
+        
+        // Ornatos
+        ctx.beginPath();
+        ctx.arc(cx, margin, 60, 0, Math.PI * 2); // Topo
+        ctx.arc(cx, canvas.height - margin, 60, 0, Math.PI * 2); // Base
+        ctx.fillStyle = mainColorFill;
+        ctx.fill();
+    }
+    ctx.restore();
+
+    // --- 4. TÍTULO DO RANK (NO TOPO) ---
+    ctx.textAlign = 'center';
+    ctx.fillStyle = mainColorFill;
+    
+    // Fonte Prestígio: Cinzel Decorative
+    ctx.font = 'bold 70pt "Cinzel Decorative", serif';
+    
+    // Quebra de linha se o nome for muito grande
+    const rankName = rank.nome.toUpperCase();
+    if (rankName.length > 15) {
+        const parts = rankName.split(' ');
+        const half = Math.ceil(parts.length / 2);
+        ctx.fillText(parts.slice(0, half).join(' '), cx, 250);
+        ctx.fillText(parts.slice(half).join(' '), cx, 340);
+    } else {
+        ctx.fillText(rankName, cx, 300);
+    }
+
+    // --- 5. FOTO DO USUÁRIO (Círculo com Borda do Nível) ---
+    const photoSize = 550;
+    const photoY = 450;
 
     ctx.save();
     ctx.beginPath();
-    ctx.arc(canvas.width / 2, photoY + photoSize / 2, photoSize / 2, 0, Math.PI * 2);
+    ctx.arc(cx, photoY + photoSize / 2, photoSize / 2, 0, Math.PI * 2);
     ctx.clip();
-    
-    // Desenha foto (cover logic simplificada)
-    ctx.drawImage(userPhoto, photoX, photoY, photoSize, photoSize);
+    ctx.drawImage(userPhoto, cx - photoSize/2, photoY, photoSize, photoSize);
     ctx.restore();
-    
-    // Moldura da foto
+
+    // Moldura da Foto
     ctx.beginPath();
-    ctx.arc(canvas.width / 2, photoY + photoSize / 2, photoSize / 2, 0, Math.PI * 2);
+    ctx.arc(cx, photoY + photoSize / 2, photoSize / 2, 0, Math.PI * 2);
     ctx.lineWidth = 15;
-    ctx.strokeStyle = '#ffffff';
-    ctx.stroke();
-    ctx.lineWidth = 5;
-    ctx.strokeStyle = '#daa520';
+    ctx.strokeStyle = mainColorFill;
     ctx.stroke();
 
-    // 3. Textos do Certificado
-    ctx.textAlign = 'center';
-    ctx.fillStyle = '#333';
-
-    // Título "CERTIFICADO"
-    ctx.font = 'bold 60pt "Bebas Neue", sans-serif';
-    ctx.fillStyle = '#daa520'; // Dourado
-    ctx.fillText('CERTIFICADO DE CONQUISTA', canvas.width / 2, 1150);
-
-    // Texto "Conferido a um explorador de"
-    ctx.font = 'italic 30pt "Lora", serif';
-    ctx.fillStyle = '#555';
-    ctx.fillText('Conferido por mérito ao atingir', canvas.width / 2, 1250);
+    // --- 6. TEXTOS INFERIORES (NOVO LAYOUT) ---
     
-    // Porcentagem
-    ctx.font = 'bold 80pt "Arial", sans-serif';
-    ctx.fillStyle = '#333';
-    ctx.fillText(`${rank.percent}%`, canvas.width / 2, 1380);
-    
-    // Texto "dos parques de Minas Gerais"
-    ctx.font = '30pt "Lora", serif';
+    // Texto Cursivo
+    ctx.font = '40pt "Pinyon Script", cursive';
     ctx.fillStyle = '#555';
-    ctx.fillText('dos check-ins de Minas Gerais', canvas.width / 2, 1450);
+    ctx.fillText('Certificado conferido pelo mérito de explorar', cx, 1150);
 
-    // Nome do Rank (O Grande Título)
-    ctx.font = 'bold 55pt "Open Sans", sans-serif';
-    ctx.fillStyle = '#2e7d32'; // Verde nobre
-    ctx.fillText(rank.nome.toUpperCase(), canvas.width / 2, 1600);
+    // Porcentagem Gigante
+    ctx.font = 'bold 180pt "Playfair Display", serif';
+    ctx.fillStyle = mainColorFill;
+    // Sombra leve no número para destacar
+    ctx.shadowColor = "rgba(0,0,0,0.2)";
+    ctx.shadowBlur = 10;
+    ctx.shadowOffsetX = 5;
+    ctx.shadowOffsetY = 5;
+    ctx.fillText(`${rank.percent}%`, cx, 1400);
+    
+    // Reseta sombra
+    ctx.shadowColor = "transparent";
 
-    // Selo ou Descrição
-    ctx.font = 'italic 24pt "Lora", serif';
+    // Subtítulo
+    ctx.font = 'italic 35pt "Playfair Display", serif';
+    ctx.fillStyle = '#333';
+    ctx.fillText('dos parques estaduais de Minas Gerais!', cx, 1550);
+
+    // Frase do Rank (Pequena descrição)
+    ctx.font = '22pt "Open Sans", sans-serif';
     ctx.fillStyle = '#777';
-    ctx.fillText(`"${rank.desc}"`, canvas.width / 2, 1700);
+    ctx.fillText(`"${rank.desc}"`, cx, 1700);
 
-    // Rodapé
-    ctx.font = '20pt "Open Sans", sans-serif';
-    ctx.fillStyle = '#999';
-    ctx.fillText('Trilhas de Minas • Reconhecimento Oficial', canvas.width / 2, 1850);
+    // Rodapé Oficial
+    ctx.font = '18pt "Open Sans", sans-serif';
+    ctx.fillStyle = '#aaa';
+    ctx.fillText('TRILHAS DE MINAS • RECONHECIMENTO OFICIAL', cx, 1820);
 }
 
 // --- FUNÇÃO TEMPORÁRIA: MODO DEUS (LIBERA TUDO) ---
@@ -1756,6 +1894,7 @@ function iniciarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
+
 
 
 
