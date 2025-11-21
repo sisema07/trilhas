@@ -81,14 +81,43 @@ body, html {
     overflow-y: auto;
 }
 
-/* --- Header: Imagem de Título --- */
+/* --- HEADER: ÁREA DO TÍTULO COM "CHÃO" --- */
 header {
     text-align: center;
-    padding: 10px 0 15px;
+    padding: 10px 0 25px; /* Aumentei um pouco o espaço embaixo para caber a sombra */
     max-height: 15vh; 
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative; /* Necessário para posicionar o chão */
+    z-index: 1;
+}
+
+/* O "CHÃO" (Sombra de Apoio) */
+header::after {
+    content: '';
+    position: absolute;
+    bottom: 10px; /* Posiciona logo abaixo do texto */
+    left: 50%;
+    transform: translateX(-50%); /* Centraliza */
+    
+    /* Tamanho da sombra */
+    width: 200px; 
+    height: 10px; 
+    
+    /* O efeito visual: um degradê oval que simula sombra no chão */
+    background: radial-gradient(ellipse at center, rgba(76, 175, 80, 0.3) 0%, transparent 70%);
+    
+    z-index: -1; /* Fica atrás do texto */
+    
+    /* Animação para surgir junto com o título */
+    animation: floorFadeIn 1.5s ease-out forwards;
+    opacity: 0;
+}
+
+@keyframes floorFadeIn {
+    0% { opacity: 0; transform: translateX(-50%) scale(0.5); }
+    100% { opacity: 1; transform: translateX(-50%) scale(1); }
 }
 
 /* --- HEADER: IMAGEM DE TÍTULO (DESIGN FINAL) --- */
@@ -1408,6 +1437,7 @@ img {
     font-weight: 600;
     color: #777; /* Um cinza levemente mais escuro para os nomes */
 }
+
 
 
 
