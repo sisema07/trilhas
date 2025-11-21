@@ -422,7 +422,7 @@ function carregarPremios() {
 
     listaPremios.innerHTML = '';
     
-    // --- 1. Ranks Globais (Metagame de Porcentagem) ---
+    // --- 1. Ranks Globais (Metagame) ---
     const progressoAtual = calcularProgressoGlobal();
     
     const headerRanks = document.createElement('div');
@@ -450,11 +450,10 @@ function carregarPremios() {
         listaPremios.appendChild(card);
     });
 
-    // --- 2. Badge Especial "Explorador Sábio" (Todos os Quizzes) ---
+    // --- 2. Badge Especial "Explorador Sábio" (Com Efeito de Preenchimento) ---
     let totalQuizzes = 0;
     let quizzesConcluidos = 0;
 
-    // Conta quantos quizzes existem e quantos foram feitos
     for (const pid in DETALHES_PARQUES) {
         if (DETALHES_PARQUES[pid].quiz && DETALHES_PARQUES[pid].quiz.length > 0) {
             totalQuizzes++;
@@ -464,28 +463,48 @@ function carregarPremios() {
         }
     }
 
-    // Só exibe o header se houver quizzes no sistema
     if (totalQuizzes > 0) {
-        const isSabioDesbloqueado = (totalQuizzes === quizzesConcluidos) && (totalQuizzes > 0);
+        const percentQuiz = (quizzesConcluidos / totalQuizzes) * 100;
+        const isSabioDesbloqueado = percentQuiz === 100;
         
         // Card do Explorador Sábio
         const cardSabio = document.createElement('div');
+        // Adicionei 'relative' para permitir posicionar as imagens sobrepostas
         cardSabio.className = `icone-premio ${isSabioDesbloqueado ? 'desbloqueado' : ''}`;
         
+        const imgSabio = "quizbadges/exploradorsabio.png";
+        
+        // Cálculo do recorte (100% é vazio, 0% é cheio)
+        const clipValue = 100 - percentQuiz; 
+
+        // HTML MÁGICO: Duas imagens sobrepostas
+        // 1. Imagem de fundo (Cinza e transparente)
+        // 2. Imagem de frente (Colorida e recortada pelo clip-path)
         cardSabio.innerHTML = `
-            <img src="quizbadges/exploradorsabio.png" alt="Explorador Sábio" class="badge-custom-img"
-                 onerror="this.onerror=null; this.src='logo.png'; this.style.filter='grayscale(100%) opacity(0.5)';">
+            <div style="position: relative; width: 70px; height: 70px; margin: 0 auto 5px;">
+                
+                <img src="${imgSabio}" style="width: 100%; height: 100%; object-fit: contain; filter: grayscale(100%); opacity: 0.2; position: absolute; left: 0; top: 0;" 
+                     onerror="this.src='logo.png';">
+                
+                <img src="${imgSabio}" style="width: 100%; height: 100%; object-fit: contain; position: absolute; left: 0; top: 0; clip-path: inset(${clipValue}% 0 0 0); transition: clip-path 1s ease-in-out;" 
+                     onerror="this.style.display='none';">
+            </div>
+            
             <span>Explorador Sábio</span>
+            <span style="font-size: 0.7rem; font-weight: bold; color: ${isSabioDesbloqueado ? 'var(--cor-principal)' : '#888'};">
+                ${Math.floor(percentQuiz)}%
+            </span>
         `;
         
-        // Se quiser que ele seja clicável para certificado ou share, adicione o evento aqui
-        // Por enquanto deixei apenas visual
+        // Se estiver 100%, libera o clique (para futuro certificado ou share)
+        if (isSabioDesbloqueado) {
+             // cardSabio.addEventListener('click', ... )
+        }
         
-        // Inserimos ele logo após os ranks ou em uma área de destaque
         listaPremios.appendChild(cardSabio);
     }
 
-    // --- 3. Badges de Parques (Atividades + Quizzes Individuais) ---
+    // --- 3. Badges de Parques ---
     const headerParques = document.createElement('div');
     headerParques.style.gridColumn = "1 / -1";
     headerParques.innerHTML = `<h4 style="margin: 20px 0 10px; color: #555; text-align: left; border-bottom: 1px solid #eee;">Badges de Parques</h4>`;
@@ -494,10 +513,9 @@ function carregarPremios() {
     for (const parqueId in ATIVIDADES_PARQUES) {
         if (!estadoUsuario[parqueId]) estadoUsuario[parqueId] = {};
 
-        // A. Badges de Atividades Normais
         const atividades = ATIVIDADES_PARQUES[parqueId];
         atividades.forEach(atividade => {
-            if (atividade.id === 'quiz') return; // Ignora se estiver listado (trataremos abaixo)
+            if (atividade.id === 'quiz') return; 
 
             if (typeof estadoUsuario[parqueId][atividade.id] === 'undefined') estadoUsuario[parqueId][atividade.id] = false;
 
@@ -522,15 +540,10 @@ function carregarPremios() {
             listaPremios.appendChild(card);
         });
 
-        // B. Badge do Quiz Específico deste Parque
-        // Verifica se este parque tem quiz configurado
         if (DETALHES_PARQUES[parqueId] && DETALHES_PARQUES[parqueId].quiz && DETALHES_PARQUES[parqueId].quiz.length > 0) {
             const quizFeito = estadoUsuario[parqueId]['quiz'] === true;
-            
             const cardQuiz = document.createElement('div');
             cardQuiz.className = `icone-premio ${quizFeito ? 'desbloqueado' : ''}`;
-            
-            // Nome do arquivo: quiz + id do parque + .png (ex: quizibitipoca.png)
             const quizImg = `quizbadges/quiz${parqueId}.png`;
             
             cardQuiz.innerHTML = `
@@ -538,9 +551,6 @@ function carregarPremios() {
                      onerror="this.onerror=null; this.src='badges/quiz-badge.png';"> 
                 <span>Quiz: ${DADOS_PARQUES.find(p => p.id === parqueId)?.nome || 'Parque'}</span>
             `;
-            
-            // Se quiser permitir compartilhar o badge do quiz, adicione o click aqui
-            // cardQuiz.addEventListener('click', ... )
             
             listaPremios.appendChild(cardQuiz);
         }
@@ -898,7 +908,7 @@ function carregarConteudoAtividades(parque, container) {
         html += '<p style="text-align: center; margin-top: 20px; grid-column: 1/-1;">Nenhuma atividade cadastrada para este parque.</p>';
     } else {
         atividades.forEach(atividade => {
-            if (atividade.id === 'quiz') return; // Quiz tratamos separado
+            if (atividade.id === 'quiz') return; 
 
             if (!estadoUsuario[parque.id]) estadoUsuario[parque.id] = {};
             
@@ -913,7 +923,6 @@ function carregarConteudoAtividades(parque, container) {
                 badgeContent = `<i class="fas ${atividade.icone}"></i>`;
             }
             
-            // Ação de clique apenas se desbloqueado
             const onClickAction = isConcluida ? `onclick="window.location.hash = 'upload-${parque.id}-${atividade.id}'"` : '';
 
             html += `
@@ -925,24 +934,18 @@ function carregarConteudoAtividades(parque, container) {
         });
     }
 
-    // 2. Badge do Quiz (Adicionado Dinamicamente)
-    // Verifica se o parque tem quiz
+    // 2. Badge do Quiz (Com nome Padronizado)
     if (DETALHES_PARQUES[parque.id] && DETALHES_PARQUES[parque.id].quiz && DETALHES_PARQUES[parque.id].quiz.length > 0) {
         const quizConcluido = estadoUsuario[parque.id] && estadoUsuario[parque.id]['quiz'];
         const classeQuiz = quizConcluido ? 'desbloqueado' : '';
-        
-        // Caminho da imagem do quiz
         const quizImgPath = `quizbadges/quiz${parque.id}.png`;
-        
-        // Se clicar no badge do quiz (seja bloqueado ou não), podemos levar para a aba do Quiz
-        // Ou se estiver desbloqueado, fazer outra coisa. 
-        // Aqui configurei para levar para a aba Quiz se não estiver feito, ou nada se já feito (apenas visual).
         const acaoQuiz = quizConcluido ? '' : `onclick="window.location.hash = '${parque.id}-quiz'"`;
 
+        // AQUI ESTÁ A MUDANÇA NO TÍTULO
         html += `
             <div class="activity-grid-item ${classeQuiz}" ${acaoQuiz} title="Complete o Quiz para desbloquear">
                 <img src="${quizImgPath}" alt="Badge Quiz" onerror="this.src='badges/quiz-badge.png';">
-                <span>Badge de Sábio</span> 
+                <span>Quiz: ${parque.nome}</span> 
             </div>
         `;
     }
@@ -1978,6 +1981,7 @@ function iniciarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
+
 
 
 
