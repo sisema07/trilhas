@@ -889,6 +889,7 @@ function finalizarQuiz() {
 function carregarConteudoAtividades(parque, container) {
     const atividades = ATIVIDADES_PARQUES[parque.id] || [];
     
+    // Cabeçalho em String (HTML)
     let html = `
         <div class="activity-instructions">
             <div class="instruction-text">
@@ -899,22 +900,26 @@ function carregarConteudoAtividades(parque, container) {
             </div>
         </div>
         <hr class="separator" style="margin: 15px 0;">
-        
-        <div id="lista-atividades-dinamica"> 
     `;
 
-    // 1. Badges Normais (QR Code)
+    // Cria elementos DOM para podermos adicionar eventos JS
+    const divLista = document.createElement('div');
+    divLista.id = 'lista-atividades-dinamica';
+
+    // 1. Badges Normais
     if (atividades.length === 0) {
-        html += '<p style="text-align: center; margin-top: 20px; grid-column: 1/-1;">Nenhuma atividade cadastrada para este parque.</p>';
+        divLista.innerHTML = '<p style="text-align: center; margin-top: 20px; grid-column: 1/-1;">Nenhuma atividade cadastrada.</p>';
     } else {
         atividades.forEach(atividade => {
             if (atividade.id === 'quiz') return; 
 
             if (!estadoUsuario[parque.id]) estadoUsuario[parque.id] = {};
-            
             const isConcluida = estadoUsuario[parque.id][atividade.id];
             const desbloqueado = isConcluida ? 'desbloqueado' : ''; 
-            const badgeId = `${parque.id}-${atividade.id}`;
+            
+            const card = document.createElement('div');
+            card.className = `activity-grid-item ${desbloqueado}`;
+            card.dataset.badgeId = `${parque.id}-${atividade.id}`;
             
             let badgeContent;
             if (atividade.imagem_png) {
@@ -923,35 +928,72 @@ function carregarConteudoAtividades(parque, container) {
                 badgeContent = `<i class="fas ${atividade.icone}"></i>`;
             }
             
-            const onClickAction = isConcluida ? `onclick="window.location.hash = 'upload-${parque.id}-${atividade.id}'"` : '';
+            card.innerHTML = `${badgeContent}<span>${atividade.nome}</span>`;
 
-            html += `
-                <div class="activity-grid-item ${desbloqueado}" data-badge-id="${badgeId}" ${onClickAction}>
-                    ${badgeContent}
-                    <span>${atividade.nome}</span> 
-                </div>
-            `;
+            if (isConcluida) {
+                // Clique: Compartilhar
+                card.addEventListener('click', () => {
+                    window.location.hash = `upload-${parque.id}-${atividade.id}`;
+                });
+
+                // Long Press: Baixar Imagem
+                if (atividade.imagem_png) {
+                    adicionarEventoLongPress(card, () => {
+                        abrirModalBadgePreview(parque.id, atividade.id);
+                    });
+                }
+            }
+            divLista.appendChild(card);
         });
     }
 
-    // 2. Badge do Quiz (Com nome Padronizado)
+    // 2. Badge do Quiz
     if (DETALHES_PARQUES[parque.id] && DETALHES_PARQUES[parque.id].quiz && DETALHES_PARQUES[parque.id].quiz.length > 0) {
         const quizConcluido = estadoUsuario[parque.id] && estadoUsuario[parque.id]['quiz'];
         const classeQuiz = quizConcluido ? 'desbloqueado' : '';
         const quizImgPath = `quizbadges/quiz${parque.id}.png`;
-        const acaoQuiz = quizConcluido ? '' : `onclick="window.location.hash = '${parque.id}-quiz'"`;
-
-        // AQUI ESTÁ A MUDANÇA NO TÍTULO
-        html += `
-            <div class="activity-grid-item ${classeQuiz}" ${acaoQuiz} title="Complete o Quiz para desbloquear">
-                <img src="${quizImgPath}" alt="Badge Quiz" onerror="this.src='badges/quiz-badge.png';">
-                <span>Quiz: ${parque.nome}</span> 
-            </div>
+        
+        const cardQuiz = document.createElement('div');
+        cardQuiz.className = `activity-grid-item ${classeQuiz}`;
+        cardQuiz.title = "Complete o Quiz para desbloquear";
+        cardQuiz.innerHTML = `
+            <img src="${quizImgPath}" alt="Badge Quiz" onerror="this.src='badges/quiz-badge.png';">
+            <span>Quiz: ${parque.nome}</span> 
         `;
+
+        if (quizConcluido) {
+            adicionarEventoLongPress(cardQuiz, () => {
+                abrirModalImagemSimples(`Quiz: ${parque.nome}`, quizImgPath, "Conquista de conhecimento.");
+            });
+        } else {
+            cardQuiz.addEventListener('click', () => {
+                window.location.hash = `${parque.id}-quiz`;
+            });
+        }
+        divLista.appendChild(cardQuiz);
     }
 
-    html += '</div>';
-    container.innerHTML = html; 
+    // MONTAGEM FINAL
+    container.innerHTML = ''; 
+    
+    // Converte a string do header em elemento real
+    const headerDiv = document.createElement('div');
+    headerDiv.innerHTML = html; 
+
+    // NOVO: Adiciona Long Press no Mascote do QR (que está dentro do header)
+    const mascoteQR = headerDiv.querySelector('.qr-mascote-container');
+    if (mascoteQR) {
+        adicionarEventoLongPress(mascoteQR, () => {
+            abrirModalImagemSimples("Mascote Explorador", "qr.png", "Sempre pronto para um novo check-in!");
+        });
+    }
+    
+    // Joga tudo na tela
+    while (headerDiv.firstChild) {
+        container.appendChild(headerDiv.firstChild);
+    }
+    container.appendChild(divLista);
+    
     salvarEstado();
 }
 
@@ -1522,10 +1564,19 @@ async function carregarDados() {
 function configurarBotaoIntro() {
     const btnIntro = document.getElementById('btn-intro-checkin');
     if (btnIntro) {
+        // Clique normal (Abre modal de texto)
         btnIntro.addEventListener('click', (e) => {
             e.preventDefault();
             window.abrirModalIntro();
         });
+
+        // NOVO: Segurar (Abre download da imagem do mascote)
+        const imgMascote = btnIntro.querySelector('img');
+        if (imgMascote) {
+            adicionarEventoLongPress(imgMascote, () => {
+                abrirModalImagemSimples("Mascote Oficial", "logo.png", "Seu guia nas Trilhas de Minas.");
+            });
+        }
     }
 }
 
@@ -1981,6 +2032,7 @@ function iniciarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
+
 
 
 
