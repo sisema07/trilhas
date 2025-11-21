@@ -1598,81 +1598,103 @@ function configurarNavegacao() {
 }
 
 async function inicializar() {
+    // 1. Verifica Modo Deus (Dev)
+    if (localStorage.getItem('dev_mode_enabled') === 'true') {
+        const areaDev = document.getElementById('area-secreta-dev');
+        if (areaDev) areaDev.style.display = 'block';
+    }
+
     try {
+        // 2. Carrega dados CRÍTICOS primeiro. Se falhar aqui, o app não funciona.
         await carregarDados();
         
-        document.getElementById('app-container').style.display = 'none';
-        
+        // 3. Configurações de sistema
         registrarServiceWorker();
         configurarFechamentoModais();
+        configurarNavegacao();
+        
+        // 4. Gera a interface (Botões) agora que temos dados
         carregarBotoesParques();
 
+        // 5. Lógica de Entrada (Vídeo ou Check-in Direto)
         const videoElement = document.getElementById('intro-video-element');
         const videoIntro = document.getElementById('video-intro');
         let checkinProcessado = false;
 
         const currentHash = window.location.hash;
+        
+        // Se abriu com link de check-in, processa imediatamente
         if (currentHash.startsWith('#checkin-')) {
             console.log('Check-in detectado na URL inicial:', currentHash);
             const parts = currentHash.substring(1).split('-');
             if (parts.length === 3) {
-                processarCheckin(parts[1], parts[2]); 
+                // Pequeno delay para garantir que a DOM renderizou
+                setTimeout(() => processarCheckin(parts[1], parts[2]), 100);
                 checkinProcessado = true;
             }
         }
-        
-        configurarNavegacao();
 
-        // LÓGICA DO VÍDEO CORRIGIDA PARA NÃO CONGELAR
-        if (localStorage.getItem('first_visit') !== 'false' && !checkinProcessado && videoElement && videoIntro) {
+        // Decisão: Mostrar Vídeo ou Abrir App Direto?
+        const jaVisitou = localStorage.getItem('first_visit') === 'false';
+        const deveMostrarVideo = !jaVisitou && !checkinProcessado && videoElement && videoIntro;
+
+        if (deveMostrarVideo) {
             localStorage.setItem('first_visit', 'false');
             videoIntro.style.display = 'flex';
-            videoElement.load();
-
-            const onVideoEnd = () => {
-                if (videoIntro.style.display === 'none') return; // Já foi tratado
+            
+            // Promessa de Play segura
+            const playPromise = videoElement.play();
+            
+            const finalizarVideo = () => {
                 videoIntro.classList.add('fade-out');
                 setTimeout(() => {
                     videoIntro.style.display = 'none';
-                    iniciarApp(); 
-                    lidarComHash(); 
+                    iniciarApp();
+                    lidarComHash(); // Processa navegação inicial
                 }, 1000);
             };
 
-            // Tenta tocar
-            const playPromise = videoElement.play();
             if (playPromise !== undefined) {
                 playPromise.then(() => {
-                    // Sucesso no autoplay
-                    videoElement.onended = onVideoEnd;
-                    // Fallback de segurança (5 segundos) caso 'onended' não dispare
-                    setTimeout(onVideoEnd, 5000); 
+                    // Vídeo rodando
+                    videoElement.onended = finalizarVideo;
+                    // Timeout de segurança (caso o vídeo trave)
+                    setTimeout(finalizarVideo, 6000); 
                 }).catch(error => {
-                    // Autoplay falhou (comum em browsers)
-                    console.warn('Autoplay impedido. Iniciando app diretamente.', error);
-                    onVideoEnd(); // Pula o vídeo
+                    console.warn('Autoplay bloqueado pelo navegador. Pulando intro.');
+                    finalizarVideo();
                 });
             } else {
-                 onVideoEnd(); // Caso playPromise não seja suportado
+                finalizarVideo();
             }
         } else {
+            // Pula vídeo
             if (videoIntro) videoIntro.style.display = 'none';
-            iniciarApp(); 
+            iniciarApp();
+            // Se não foi check-in direto, processa o hash normal (ex: abrir um parque)
             if (!checkinProcessado) {
-                lidarComHash(); 
+                lidarComHash();
             }
         }
         
     } catch (error) {
         console.error('Erro fatal na inicialização:', error);
-        document.getElementById('video-intro').style.display = 'none';
+        
+        // Tenta esconder o vídeo para mostrar o erro
+        const videoIntro = document.getElementById('video-intro');
+        if (videoIntro) videoIntro.style.display = 'none';
+        
         const appContainer = document.getElementById('app-container');
         if (appContainer) {
             appContainer.style.display = 'flex';
             appContainer.innerHTML = `
-                <div style="text-align: center; padding: 20px;">
-                    <p>Erro ao carregar o aplicativo. Recarregue a página.</p>
-                    <button onclick="location.reload()" class="action-button">Recarregar</button>
+                <div style="text-align: center; padding: 40px 20px; font-family: sans-serif;">
+                    <h2 style="color: #d32f2f;">Ops! Algo deu errado.</h2>
+                    <p style="color: #555;">Não foi possível carregar os dados dos parques.</p>
+                    <p style="font-size: 0.8rem; color: #999;">Detalhe: ${error.message}</p>
+                    <button onclick="location.reload()" class="action-button" style="margin-top: 20px;">Tentar Novamente</button>
+                    <br><br>
+                    <button onclick="localStorage.clear(); location.reload()" style="background:none; border:none; text-decoration:underline; color:#777; cursor:pointer;">Limpar Cache e Recarregar</button>
                 </div>
             `;
         }
@@ -2097,6 +2119,7 @@ function iniciarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
+
 
 
 
