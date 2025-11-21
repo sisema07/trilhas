@@ -1438,6 +1438,21 @@ img {
     color: #777; /* Um cinza levemente mais escuro para os nomes */
 }
 
+/* Bloqueia menu nativo ao segurar (Long Press) */
+.badge-custom-img, 
+.icone-premio img, 
+.activity-grid-item img, 
+.logo-parque-principal, 
+.qr-mascote-img,
+.win-gif-mascote { /* <--- GIF do Quiz protegido aqui */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: auto;
+}
 
 
 
