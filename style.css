@@ -156,11 +156,36 @@ header {
         gap: 8px;
     }
     
-    .botao-parque {
-        border-radius: 15px;
-        padding: 8px 6px;
-        min-height: 80px;
-    }
+/* --- BOTÃO DO PARQUE (VISIBILIDADE MELHORADA) --- */
+.botao-parque {
+    background-color: var(--cor-fundo);
+    border-radius: 15px;
+    min-height: 90px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 10px 8px;
+    
+    /* AJUSTE DE VISIBILIDADE: */
+    /* 1. Uma borda muito sutil para definir onde o botão termina */
+    border: 1px solid rgba(255, 255, 255, 0.6); 
+    
+    /* 2. Sombra manual um pouco mais forte que a variável padrão */
+    box-shadow: 6px 6px 14px rgba(163, 177, 198, 0.5), 
+                -6px -6px 14px rgba(255, 255, 255, 0.9);
+                
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--cor-texto);
+    position: relative;
+    overflow: hidden;
+    height: auto;
+    box-sizing: border-box;
+    flex: 1 0 auto;
+}
     
     .nome-parque {
         font-size: 0.75rem;
@@ -1383,6 +1408,7 @@ img {
     font-weight: 600;
     color: #777; /* Um cinza levemente mais escuro para os nomes */
 }
+
 
 
 
