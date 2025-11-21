@@ -422,24 +422,19 @@ function carregarPremios() {
 
     listaPremios.innerHTML = '';
     
-    // --- 1. Ranks Globais (Metagame) ---
+    // --- 1. Ranks Globais (Metagame de Porcentagem) ---
     const progressoAtual = calcularProgressoGlobal();
     
-    // Cria um cabeçalho visual para separar
     const headerRanks = document.createElement('div');
     headerRanks.style.gridColumn = "1 / -1";
     headerRanks.innerHTML = `<h4 style="margin: 20px 0 10px; color: #555; text-align: left; border-bottom: 1px solid #eee;">Conquistas Globais (${Math.floor(progressoAtual)}%)</h4>`;
     listaPremios.appendChild(headerRanks);
 
-RANKS_GLOBAIS.forEach(rank => {
+    RANKS_GLOBAIS.forEach(rank => {
         const desbloqueado = progressoAtual >= rank.percent;
-        
         const card = document.createElement('div');
         card.className = `icone-premio ${desbloqueado ? 'desbloqueado' : ''}`;
         
-        // CORREÇÃO DO PISCA-PISCA AQUI:
-        // 1. this.onerror=null: Impede que ele tente carregar de novo se falhar (quebra o loop)
-        // 2. this.src='logo.png': Usa sua logo se não achar a imagem do rank
         card.innerHTML = `
             <img src="${rank.img}" alt="${rank.nome}" class="badge-custom-img" 
                  onerror="this.onerror=null; this.src='logo.png'; this.style.filter='grayscale(100%) opacity(0.5)';">
@@ -452,24 +447,58 @@ RANKS_GLOBAIS.forEach(rank => {
                 window.location.hash = `certificate-${rank.id}`;
             });
         }
-        
         listaPremios.appendChild(card);
     });
 
-    // --- 2. Badges Normais dos Parques ---
+    // --- 2. Badge Especial "Explorador Sábio" (Todos os Quizzes) ---
+    let totalQuizzes = 0;
+    let quizzesConcluidos = 0;
+
+    // Conta quantos quizzes existem e quantos foram feitos
+    for (const pid in DETALHES_PARQUES) {
+        if (DETALHES_PARQUES[pid].quiz && DETALHES_PARQUES[pid].quiz.length > 0) {
+            totalQuizzes++;
+            if (estadoUsuario[pid] && estadoUsuario[pid]['quiz']) {
+                quizzesConcluidos++;
+            }
+        }
+    }
+
+    // Só exibe o header se houver quizzes no sistema
+    if (totalQuizzes > 0) {
+        const isSabioDesbloqueado = (totalQuizzes === quizzesConcluidos) && (totalQuizzes > 0);
+        
+        // Card do Explorador Sábio
+        const cardSabio = document.createElement('div');
+        cardSabio.className = `icone-premio ${isSabioDesbloqueado ? 'desbloqueado' : ''}`;
+        
+        cardSabio.innerHTML = `
+            <img src="quizbadges/exploradorsabio.png" alt="Explorador Sábio" class="badge-custom-img"
+                 onerror="this.onerror=null; this.src='logo.png'; this.style.filter='grayscale(100%) opacity(0.5)';">
+            <span>Explorador Sábio</span>
+        `;
+        
+        // Se quiser que ele seja clicável para certificado ou share, adicione o evento aqui
+        // Por enquanto deixei apenas visual
+        
+        // Inserimos ele logo após os ranks ou em uma área de destaque
+        listaPremios.appendChild(cardSabio);
+    }
+
+    // --- 3. Badges de Parques (Atividades + Quizzes Individuais) ---
     const headerParques = document.createElement('div');
     headerParques.style.gridColumn = "1 / -1";
     headerParques.innerHTML = `<h4 style="margin: 20px 0 10px; color: #555; text-align: left; border-bottom: 1px solid #eee;">Badges de Parques</h4>`;
     listaPremios.appendChild(headerParques);
 
-    // ... (O RESTO DO CÓDIGO ORIGINAL QUE CARREGA OS BADGES DOS PARQUES CONTINUA AQUI IGUAL) ...
-    // Copie o loop "for (const parqueId in ATIVIDADES_PARQUES)..." que você já tinha.
     for (const parqueId in ATIVIDADES_PARQUES) {
-        const atividades = ATIVIDADES_PARQUES[parqueId];
         if (!estadoUsuario[parqueId]) estadoUsuario[parqueId] = {};
 
+        // A. Badges de Atividades Normais
+        const atividades = ATIVIDADES_PARQUES[parqueId];
         atividades.forEach(atividade => {
-            if (atividade.id === 'quiz') return; 
+            if (atividade.id === 'quiz') return; // Ignora se estiver listado (trataremos abaixo)
+
             if (typeof estadoUsuario[parqueId][atividade.id] === 'undefined') estadoUsuario[parqueId][atividade.id] = false;
 
             const isConcluida = estadoUsuario[parqueId][atividade.id];
@@ -492,6 +521,29 @@ RANKS_GLOBAIS.forEach(rank => {
             }
             listaPremios.appendChild(card);
         });
+
+        // B. Badge do Quiz Específico deste Parque
+        // Verifica se este parque tem quiz configurado
+        if (DETALHES_PARQUES[parqueId] && DETALHES_PARQUES[parqueId].quiz && DETALHES_PARQUES[parqueId].quiz.length > 0) {
+            const quizFeito = estadoUsuario[parqueId]['quiz'] === true;
+            
+            const cardQuiz = document.createElement('div');
+            cardQuiz.className = `icone-premio ${quizFeito ? 'desbloqueado' : ''}`;
+            
+            // Nome do arquivo: quiz + id do parque + .png (ex: quizibitipoca.png)
+            const quizImg = `quizbadges/quiz${parqueId}.png`;
+            
+            cardQuiz.innerHTML = `
+                <img src="${quizImg}" alt="Quiz ${parqueId}" class="badge-custom-img"
+                     onerror="this.onerror=null; this.src='badges/quiz-badge.png';"> 
+                <span>Quiz: ${DADOS_PARQUES.find(p => p.id === parqueId)?.nome || 'Parque'}</span>
+            `;
+            
+            // Se quiser permitir compartilhar o badge do quiz, adicione o click aqui
+            // cardQuiz.addEventListener('click', ... )
+            
+            listaPremios.appendChild(cardQuiz);
+        }
     }
     salvarEstado();
 }
@@ -824,7 +876,6 @@ function finalizarQuiz() {
     }
 }
 
-// --- CARREGAMENTO DE ATIVIDADES ---
 function carregarConteudoAtividades(parque, container) {
     const atividades = ATIVIDADES_PARQUES[parque.id] || [];
     
@@ -842,17 +893,15 @@ function carregarConteudoAtividades(parque, container) {
         <div id="lista-atividades-dinamica"> 
     `;
 
+    // 1. Badges Normais (QR Code)
     if (atividades.length === 0) {
-        html += '<p style="text-align: center; margin-top: 20px;">Nenhuma atividade cadastrada para este parque.</p>';
+        html += '<p style="text-align: center; margin-top: 20px; grid-column: 1/-1;">Nenhuma atividade cadastrada para este parque.</p>';
     } else {
         atividades.forEach(atividade => {
-            if (atividade.id === 'quiz') return;
+            if (atividade.id === 'quiz') return; // Quiz tratamos separado
 
             if (!estadoUsuario[parque.id]) estadoUsuario[parque.id] = {};
-            if (typeof estadoUsuario[parque.id][atividade.id] === 'undefined') {
-                estadoUsuario[parqueId][atividade.id] = false;
-            }
-
+            
             const isConcluida = estadoUsuario[parque.id][atividade.id];
             const desbloqueado = isConcluida ? 'desbloqueado' : ''; 
             const badgeId = `${parque.id}-${atividade.id}`;
@@ -864,6 +913,7 @@ function carregarConteudoAtividades(parque, container) {
                 badgeContent = `<i class="fas ${atividade.icone}"></i>`;
             }
             
+            // Ação de clique apenas se desbloqueado
             const onClickAction = isConcluida ? `onclick="window.location.hash = 'upload-${parque.id}-${atividade.id}'"` : '';
 
             html += `
@@ -874,10 +924,32 @@ function carregarConteudoAtividades(parque, container) {
             `;
         });
     }
-    salvarEstado();
+
+    // 2. Badge do Quiz (Adicionado Dinamicamente)
+    // Verifica se o parque tem quiz
+    if (DETALHES_PARQUES[parque.id] && DETALHES_PARQUES[parque.id].quiz && DETALHES_PARQUES[parque.id].quiz.length > 0) {
+        const quizConcluido = estadoUsuario[parque.id] && estadoUsuario[parque.id]['quiz'];
+        const classeQuiz = quizConcluido ? 'desbloqueado' : '';
+        
+        // Caminho da imagem do quiz
+        const quizImgPath = `quizbadges/quiz${parque.id}.png`;
+        
+        // Se clicar no badge do quiz (seja bloqueado ou não), podemos levar para a aba do Quiz
+        // Ou se estiver desbloqueado, fazer outra coisa. 
+        // Aqui configurei para levar para a aba Quiz se não estiver feito, ou nada se já feito (apenas visual).
+        const acaoQuiz = quizConcluido ? '' : `onclick="window.location.hash = '${parque.id}-quiz'"`;
+
+        html += `
+            <div class="activity-grid-item ${classeQuiz}" ${acaoQuiz} title="Complete o Quiz para desbloquear">
+                <img src="${quizImgPath}" alt="Badge Quiz" onerror="this.src='badges/quiz-badge.png';">
+                <span>Badge de Sábio</span> 
+            </div>
+        `;
+    }
 
     html += '</div>';
     container.innerHTML = html; 
+    salvarEstado();
 }
 
 // --- CARREGAMENTO DE DETALHES DO PARQUE ---
@@ -1906,6 +1978,7 @@ function iniciarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
+
 
 
 
