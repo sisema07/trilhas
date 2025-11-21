@@ -2012,6 +2012,71 @@ window.ativarModoTeste = function() {
     window.location.reload();
 }
 
+// --- FUNÇÃO UTILITÁRIA: DETECTAR LONG PRESS (SEGURAR) ---
+function adicionarEventoLongPress(elemento, callback) {
+    let timer;
+
+    const startPress = (e) => {
+        // Prepara o timer de 800ms
+        timer = setTimeout(() => {
+            callback(); 
+            if (navigator.vibrate) navigator.vibrate(50); // Vibra se possível
+        }, 800);
+    };
+
+    const cancelPress = () => {
+        // Se soltou antes, cancela
+        if (timer) clearTimeout(timer);
+    };
+
+    // Adiciona os ouvintes para Celular (Touch) e PC (Mouse)
+    elemento.addEventListener("touchstart", startPress, { passive: true });
+    elemento.addEventListener("touchend", cancelPress);
+    elemento.addEventListener("touchmove", cancelPress);
+    
+    elemento.addEventListener("mousedown", startPress);
+    elemento.addEventListener("mouseup", cancelPress);
+    elemento.addEventListener("mouseleave", cancelPress);
+}
+
+// --- FUNÇÃO PARA ABRIR MODAL DE IMAGEM GENÉRICA (Ranks/Sábio) ---
+function abrirModalImagemSimples(titulo, caminhoImagem, descricao = '') {
+    const modal = document.getElementById('fauna-modal');
+    const modalBody = document.getElementById('fauna-modal-body');
+    if (!modal || !modalBody) return;
+
+    const fileName = titulo.toLowerCase().replace(/\s/g, '_') + '.png';
+
+    const downloadFunction = () => {
+        const link = document.createElement('a');
+        link.href = caminhoImagem;
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    modalBody.innerHTML = `
+        <h4>${titulo}</h4>
+        <img src="${caminhoImagem}" alt="${titulo}" style="max-width: 100%; height: auto; border-radius: 10px; margin-bottom: 15px;"
+             onerror="this.src='logo.png'">
+        
+        <a href="#" id="btn-generic-download" class="download-icon-fauna" title="Baixar imagem">
+            <i class="fas fa-arrow-down"></i>
+        </a>
+        
+        ${descricao ? `<p>${descricao}</p>` : ''}
+    `;
+
+    setTimeout(() => {
+        const btn = document.getElementById('btn-generic-download');
+        if (btn) btn.onclick = (e) => { e.preventDefault(); downloadFunction(); };
+    }, 100);
+    
+    modal.classList.add('open');
+    modal.style.display = 'flex';
+}
+
 function iniciarApp() {
     document.getElementById('app-container').style.display = 'flex';
     document.querySelector('header').style.display = 'flex';
@@ -2032,6 +2097,7 @@ function iniciarApp() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar);
+
 
 
 
